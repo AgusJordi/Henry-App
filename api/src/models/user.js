@@ -4,7 +4,7 @@ const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
 
-    const u = sequelize.define('user', {
+    const User = sequelize.define('user', {
 
         name: {
             type: DataTypes.TEXT,
