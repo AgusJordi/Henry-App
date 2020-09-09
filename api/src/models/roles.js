@@ -1,15 +1,15 @@
 const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-  const Feedback = sequelize.define("feedback", {
-    qualification: {
-      type: DataTypes.FLOAT,
+  const Role = sequelize.define("roles", {
+    name: {
+      type: DataTypes.STRING,
       allowNull: false,
     },
 
     description: {
       type: DataTypes.TEXT,
-      allowNull: false,
+      allowNull: true,
     },
   });
 };
