@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-  const Checkpoint = sequelize.define("checkpoint", {
+  sequelize.define("checkpoint", {
     name: {
       type: DataTypes.STRING,
       allowNull: false,

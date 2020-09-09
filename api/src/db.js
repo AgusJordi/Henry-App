@@ -1,7 +1,8 @@
- require('dotenv').config();
+require('dotenv').config();
 const { Sequelize } = require('sequelize');
 const fs = require('fs');
 const path = require('path');
+const { group } = require('console');
 const {
   DB_USER, DB_PASSWORD, DB_HOST,
 } = process.env;
@@ -32,12 +33,32 @@ sequelize.models = Object.fromEntries(capsEntries);
 // Para relacionarlos hacemos un destructuring
 
 /* const { Product } = sequelize.models; */
-const { User, Feedback } = sequelize.models;
-// Aca vendrian las relaciones
-// Product.hasMany(Reviews);
+const { User, Feedback, Checkpoint, Cohorte, Group, Student, Student_cp } = sequelize.models;
 
-User.hasMany(Feedback) //Tambien se puede usar belongsToMany
-Feedback.belongsTo(User)
+
+
+// Relaciones
+Feedback.belongsTo(User, { as: 'to' }); //deberia agregar columna to a Feedback OK
+Feedback.belongsTo(User, { as: 'from' }); //deberia agregar columna from a Feedback OK
+
+Student.belongsTo(User) //deberia agregar columna userId a Student OK
+Student.belongsTo(Cohorte) //deberia agregar columna cohorteId a Student OK
+Student.belongsTo(Group) //deberia agregar columna groupId a Student OK
+
+Cohorte.belongsTo(User, { as: 'instructor' }) //deberia agregar columna instructor a Cohorte OK
+Group.belongsTo(User, { as: 'PM' }) // deberia agregar columna PM a Group
+Group.belongsTo(Cohorte) // deberia agregar columna cohorteId a group
+
+Checkpoint.belongsToMany(Student, {
+  through: Student_cp
+});
+
+Student.belongsToMany(Checkpoint, {
+  through: Student_cp
+});
+
+//hasOne agrega a la derecha y belongTo a la izq
+
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');

@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-  const Feedback = sequelize.define("feedback", {
+  sequelize.define("feedback", {
     qualification: {
       type: DataTypes.FLOAT,
       allowNull: false,
@@ -11,5 +11,9 @@ module.exports = (sequelize) => {
       type: DataTypes.TEXT,
       allowNull: false,
     },
+
+    position: {
+      type: DataTypes.ENUM('instructor', 'PM', 'pair', 'TL')
+    }
   });
 };
