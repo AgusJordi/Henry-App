@@ -14,6 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 //npm install axios
 //npm install router
+//npm install --save redux
 
 
 import {useEffect} from "react";
