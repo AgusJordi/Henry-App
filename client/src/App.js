@@ -4,11 +4,13 @@ import login from './components/Login.jsx';
 import {Switch, Route, Link, Redirect} from 'react-router-dom';
 import axios from 'axios';
 
+
+
 function App() {
   return (
-  	<Switch>
+    <Switch> 	
      <Route path='/home' component={Home} />    
-     <Route exact path="/" component={login} /> 
+     <Route exact path="/" component={login} />
     </Switch>
     
     

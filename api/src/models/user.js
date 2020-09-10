@@ -5,25 +5,67 @@ module.exports = (sequelize) => {
     name: {
       type: DataTypes.TEXT,
       allowNull: false,
+      validate: {
+        is: {
+          args: ["^[a-zA-Z-,]+(\s{0,1}[a-zA-Z-, ])*$"],
+          msg: 'Campo name - Debe ser una palabra'
+        }
+      }
     },
 
     lastName: {
       type: DataTypes.TEXT,
       allowNull: false,
+      validate: {
+        is: {
+          args: ["^[a-zA-Z-,]+(\s{0,1}[a-zA-Z-, ])*$"],
+          msg: 'Campo apellido - Debe ser una palabra'
+        }
+      }
     },
 
     email: {
       type: DataTypes.TEXT,
       allowNull: false,
-      unique: true,
+      unique: {
+        args: true,
+        message: "Username must be unique.",
+      },
       validate: {
         isEmail: true,
       },
+
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
     },
 
-    password: {
+    city: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true
     },
+    province: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    country: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+
+    rol: {
+      type: DataTypes.ENUM('user', 'admin'),
+      defaultValue: 'user'
+    },
+
+    googleId: {
+      type: DataTypes.STRING
+    },
+
+    gitHubId: {
+      type: DataTypes.STRING
+    }
+
   });
 };
