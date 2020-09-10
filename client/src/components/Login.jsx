@@ -22,13 +22,14 @@ import { getAllUsers } from '../actions';
 import * as action from '../actions';
 import {NavLink} from "react-router-dom";
 import { useHistory } from 'react-router-dom';
+import portada from '../images/welcome.png'
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+      <Link color="inherit" href="https://www.soyhenry.com/">
+      www.soyhenry.com
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -41,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
     height: '100vh',
   },
   image: {
-    backgroundImage: 'url(https://source.unsplash.com/random)',
+    backgroundImage: `url(${portada})`,
     backgroundRepeat: 'no-repeat',
     backgroundColor:
       theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
@@ -88,11 +89,11 @@ console.log(all_users)// Probando state
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
+          <Avatar className={classes.avatar} >
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Iniciar Sesiòn
           </Typography>
           <form className={classes.form} noValidate>
             <TextField
@@ -101,7 +102,7 @@ console.log(all_users)// Probando state
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label="USUARIO"
               name="email"
               autoComplete="email"
               autoFocus
@@ -112,15 +113,12 @@ console.log(all_users)// Probando state
               required
               fullWidth
               name="password"
-              label="Password"
+              label="CONTRASEÑA"
               type="password"
               id="password"
               autoComplete="current-password"
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
+            
             <Button
               type="submit"
               fullWidth
@@ -128,17 +126,17 @@ console.log(all_users)// Probando state
               color="primary"
               className={classes.submit}
             >
-              Sign In
+              INGRESAR
             </Button>
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
-                  Forgot password?
+                  Olvidadaste tu contraseña?
                 </Link>
               </Grid>
               <Grid item>
                 <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                   Todavia no tenes cuenta? 
                 </Link>
               </Grid>
             </Grid>
