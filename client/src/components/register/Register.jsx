@@ -15,7 +15,8 @@ function Register() {
       borderRadius: '5px'
     };
   }
-
+  
+  
   const useStyles = makeStyles((theme) => ({
     paper: {
       position: 'absolute',
