@@ -7,10 +7,10 @@ module.exports = (sequelize) => {
       allowNull: false,
       validate: {
         is: {
-          args: ["^[a-zA-Z-,]+(\s{0,1}[a-zA-Z-, ])*$"],
-          msg: 'Campo name - Debe ser una palabra'
-        }
-      }
+          args: ["^[a-zA-Z-,]+(s{0,1}[a-zA-Z-, ])*$"],
+          msg: "Campo name - Debe ser una palabra",
+        },
+      },
     },
 
     lastName: {
@@ -18,10 +18,10 @@ module.exports = (sequelize) => {
       allowNull: false,
       validate: {
         is: {
-          args: ["^[a-zA-Z-,]+(\s{0,1}[a-zA-Z-, ])*$"],
-          msg: 'Campo apellido - Debe ser una palabra'
-        }
-      }
+          args: ["^[a-zA-Z-,]+(s{0,1}[a-zA-Z-, ])*$"],
+          msg: "Campo apellido - Debe ser una palabra",
+        },
+      },
     },
 
     email: {
@@ -29,43 +29,44 @@ module.exports = (sequelize) => {
       allowNull: false,
       unique: {
         args: true,
-        message: "Username must be unique.",
+        message: "Email must be unique.",
       },
       validate: {
         isEmail: true,
       },
+    },
 
-      password: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
 
     city: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: true,
     },
     province: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: true,
     },
     country: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: true,
     },
 
-    rol: {
-      type: DataTypes.ENUM('user', 'admin'),
-      defaultValue: 'user'
+    role: {
+      type: DataTypes.ENUM("user", "admin"),
+      defaultValue: "user",
     },
 
     googleId: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: true,
     },
 
     gitHubId: {
-      type: DataTypes.STRING
-    }
-
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   });
 };
