@@ -15,8 +15,6 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 //npm install axios
 //npm install router
 
-import Swal from 'sweetalert2'
-
 import { useEffect } from "react";
 import { connect } from "react-redux";
 import { getAllUsers, userLogIn } from "../actions";
