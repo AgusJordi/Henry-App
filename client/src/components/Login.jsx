@@ -12,18 +12,19 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-//npm install axios
-//npm install router
-//npm install --save redux
 
+import Swal from 'sweetalert2';
 
-import {useEffect} from "react";
+import {Switch, Route, Redirect} from 'react-router-dom';
+import {useEffect, useState } from "react";
 import { connect } from "react-redux"; 
-import { getAllUsers } from '../actions';
+import { getAllUsers, userLogIn } from '../actions';
 import * as action from '../actions';
 import {NavLink} from "react-router-dom";
 import { useHistory } from 'react-router-dom';
 import portada from '../images/welcome.png'
+import home from './home'
+
 
 function Copyright() {
   return (
@@ -69,18 +70,38 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Login({getAllUsers, all_users}) {
+function Login({getAllUsers, userLogIn, onlineUser, all_users}) {
+
+  const [input, setInput] = useState({username: "", password: ""});
+  const handleChange = (e) => {
+    setInput({
+      ...input,
+      [e.target.name]: e.target.value
+    });
+    
+  };
+
+
+  const handleSubmit = (e) => {
+    e.preventDefault();    
+    userLogIn(input);
+  };
+
 
    
 
   useEffect(() => {
     getAllUsers(589)//probando actions
+    
   },[])
 
-console.log(all_users)// Probando state
-   
+  if(onlineUser !== false){
 
-  const classes = useStyles();
+   window.location = './home'
+  } 
+
+
+ const classes = useStyles();
 
   return (     
      
@@ -96,27 +117,29 @@ console.log(all_users)// Probando state
           <Typography component="h1" variant="h5">
             Iniciar Sesiòn
           </Typography>
-          <form className={classes.form} noValidate>
+          <form onSubmit={handleSubmit} className={classes.form} noValidate>
             <TextField
               variant="outlined"
               margin="normal"
               required
               fullWidth
-              id="email"
+              id="username"
               label="USUARIO"
-              name="email"
+              name="username"
               autoComplete="email"
               autoFocus
+              onChange={handleChange}
             />
-            <TextField
+            <TextField             
+              onChange={handleChange}
+              id="password"
               variant="outlined"
               margin="normal"
               required
               fullWidth
               name="password"
               label="CONTRASEÑA"
-              type="password"
-              id="password"
+              type="password"              
               autoComplete="current-password"
             />
             
@@ -153,7 +176,8 @@ console.log(all_users)// Probando state
 
 const mapDispatchToProps = dispatch => {
   return {
-    getAllUsers: (number) => dispatch(getAllUsers(589))
+    getAllUsers: (number) => dispatch(getAllUsers(589)),
+    userLogIn: (input) => dispatch(userLogIn(input))
      
   }
 }
@@ -162,7 +186,8 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
   return {
 
-    all_users: state.all_users
+    all_users: state.all_users,
+    onlineUser: state.onlineUser
   }
 }
 
