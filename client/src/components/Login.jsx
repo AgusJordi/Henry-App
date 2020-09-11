@@ -17,7 +17,7 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 
 import { useEffect } from "react";
 import { connect } from "react-redux";
-import { getAllUsers } from "../actions";
+import { getAllUsers, userLogIn } from "../actions";
 import * as action from "../actions";
 import { NavLink } from "react-router-dom";
 import { useHistory } from "react-router-dom";
@@ -71,14 +71,38 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Login({ getAllUsers, all_users }) {
+function Login({getAllUsers, userLogIn, onlineUser, all_users}) {
+
+  const [input, setInput] = useState({username: "", password: ""});
+  const handleChange = (e) => {
+    setInput({
+      ...input,
+      [e.target.name]: e.target.value
+    });
+    
+  };
+
+
+  const handleSubmit = (e) => {
+    e.preventDefault();    
+    userLogIn(input);
+  };
+
+
+   
+
   useEffect(() => {
-    getAllUsers(589); //probando actions
-  }, []);
+    getAllUsers(589)//probando actions
+    
+  },[])
 
-  console.log(all_users); // Probando state
+  if(onlineUser !== false){
 
-  const classes = useStyles();
+   window.location = './home'
+  } 
+
+
+ const classes = useStyles();
 
   const [open, setOpen] = useState(false);
 
@@ -103,27 +127,29 @@ function Login({ getAllUsers, all_users }) {
           <Typography component="h1" variant="h5">
             Iniciar Sesiòn
           </Typography>
-          <form className={classes.form} noValidate>
+          <form onSubmit={handleSubmit} className={classes.form} noValidate>
             <TextField
               variant="outlined"
               margin="normal"
               required
               fullWidth
-              id="email"
+              id="username"
               label="USUARIO"
-              name="email"
+              name="username"
               autoComplete="email"
               autoFocus
+              onChange={handleChange}
             />
-            <TextField
+            <TextField             
+              onChange={handleChange}
+              id="password"
               variant="outlined"
               margin="normal"
               required
               fullWidth
               name="password"
               label="CONTRASEÑA"
-              type="password"
-              id="password"
+              type="password"              
               autoComplete="current-password"
             />
 
@@ -162,13 +188,18 @@ function Login({ getAllUsers, all_users }) {
 const mapDispatchToProps = (dispatch) => {
   return {
     getAllUsers: (number) => dispatch(getAllUsers(589)),
-  };
-};
+    userLogIn: (input) => dispatch(userLogIn(input))
+     
+  }
+}
+
 
 const mapStateToProps = (state) => {
   return {
-    all_users: state.all_users,
-  };
-};
+    all_users: state.all_users,  
+    onlineUser: state.onlineUser
+  }
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)
