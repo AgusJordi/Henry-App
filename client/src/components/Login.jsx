@@ -1,66 +1,69 @@
-import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Paper from '@material-ui/core/Paper';
-import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { useState } from "react";
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import TextField from "@material-ui/core/TextField";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import Link from "@material-ui/core/Link";
+import Paper from "@material-ui/core/Paper";
+import Box from "@material-ui/core/Box";
+import Grid from "@material-ui/core/Grid";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 //npm install axios
 //npm install router
 
-
-import {useEffect} from "react";
-import { connect } from "react-redux"; 
-import { getAllUsers } from '../actions';
-import * as action from '../actions';
-import {NavLink} from "react-router-dom";
-import { useHistory } from 'react-router-dom';
-import portada from '../images/welcome.png'
+import { useEffect } from "react";
+import { connect } from "react-redux";
+import { getAllUsers } from "../actions";
+import * as action from "../actions";
+import { NavLink } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import portada from "../images/welcome.png";
+import Register from "./Register";
+//IMPORTS PARA MODAL REGISTER
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
+      {"Copyright © "}
       <Link color="inherit" href="https://www.soyhenry.com/">
-      www.soyhenry.com
-      </Link>{' '}
+        www.soyhenry.com
+      </Link>{" "}
       {new Date().getFullYear()}
-      {'.'}
+      {"."}
     </Typography>
   );
 }
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: '100vh',
+    height: "100vh",
   },
   image: {
     backgroundImage: `url(${portada})`,
-    backgroundRepeat: 'no-repeat',
+    backgroundRepeat: "no-repeat",
     backgroundColor:
-      theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
+      theme.palette.type === "light"
+        ? theme.palette.grey[50]
+        : theme.palette.grey[900],
+    backgroundSize: "cover",
+    backgroundPosition: "center",
   },
   paper: {
     margin: theme.spacing(8, 4),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(1),
   },
   submit: {
@@ -68,28 +71,33 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Login({getAllUsers, all_users}) {
-
-   
-
+function Login({ getAllUsers, all_users }) {
   useEffect(() => {
-    getAllUsers(589)//probando actions
-  },[])
+    getAllUsers(589); //probando actions
+  }, []);
 
-console.log(all_users)// Probando state
-   
+  console.log(all_users); // Probando state
 
   const classes = useStyles();
 
-  return (     
-     
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
-      
+
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
-          <Avatar className={classes.avatar} >
+          <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
@@ -118,7 +126,7 @@ console.log(all_users)// Probando state
               id="password"
               autoComplete="current-password"
             />
-            
+
             <Button
               type="submit"
               fullWidth
@@ -135,9 +143,10 @@ console.log(all_users)// Probando state
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
-                   Todavia no tenes cuenta? 
+                <Link href="#" variant="body2" onClick={handleOpen}>
+                  Todavia no tenes cuenta?
                 </Link>
+                <Register open={open} onClose={handleClose} />
               </Grid>
             </Grid>
             <Box mt={5}>
@@ -150,20 +159,16 @@ console.log(all_users)// Probando state
   );
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    getAllUsers: (number) => dispatch(getAllUsers(589))
-     
-  }
-}
+    getAllUsers: (number) => dispatch(getAllUsers(589)),
+  };
+};
 
-
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
+    all_users: state.all_users,
+  };
+};
 
-    all_users: state.all_users
-  }
-}
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login)
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
