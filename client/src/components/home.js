@@ -1,8 +1,10 @@
 import React from 'react';
+import './home.css'
 
 function Home() {
   return (
-    <h1>hola desde Home</h1>
+    <div className='moverTodo'>
+    </div>
   );
 }
 
