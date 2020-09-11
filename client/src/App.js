@@ -6,6 +6,8 @@ import Profile from "./components/Profile.jsx";
 import { Route } from "react-router-dom";
 import Sidebar from "./components/sidebar";
 
+
+
 function App() {
   return (
     <div>
