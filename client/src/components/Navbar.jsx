@@ -4,6 +4,7 @@ import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import HelpIcon from '@material-ui/icons/Help';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import './Navbar.css'
+var lsName = localStorage.getItem('username')
 
 function Navbar() {
     return (
@@ -26,6 +27,7 @@ function Navbar() {
                     /></div>
     		<div className = "navbar_right">
     			<AccountCircleIcon />
+				<span style={{marginRight: "12px"}}>Bienvenido <small><b>{lsName}</b></small></span>
     		</div>
     	</div>
     	)

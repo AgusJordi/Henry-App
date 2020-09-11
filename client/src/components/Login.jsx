@@ -15,6 +15,8 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 //npm install axios
 //npm install router
 
+import Swal from 'sweetalert2'
+
 import { useEffect } from "react";
 import { connect } from "react-redux";
 import { getAllUsers, userLogIn } from "../actions";
@@ -71,7 +73,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Login({getAllUsers, userLogIn, onlineUser, all_users}) {
+function Login({getAllUsers, userLogIn, onlineUser, all_users}) {////INICIO del del coomponente
+
+  
 
   const [input, setInput] = useState({username: "", password: ""});
   const handleChange = (e) => {
@@ -86,7 +90,25 @@ function Login({getAllUsers, userLogIn, onlineUser, all_users}) {
   const handleSubmit = (e) => {
     e.preventDefault();    
     userLogIn(input);
+    
   };
+
+  if(onlineUser !== false && onlineUser !== 0){
+    console.log(' lo que traeel login ', onlineUser)
+    var username = onlineUser.username;
+    //var password = onlineUser.password;
+    localStorage.setItem('username', username)
+   window.location = './home'
+  } 
+  if(onlineUser === 0){
+    swal.fire({
+      title: "Good job!",
+      text: "You clicked the button!",
+      icon: "success",
+      button: "Aww yiss!",
+    });
+
+  }
 
 
    
@@ -96,10 +118,7 @@ function Login({getAllUsers, userLogIn, onlineUser, all_users}) {
     
   },[])
 
-  if(onlineUser !== false){
-
-   window.location = './home'
-  } 
+  
 
 
  const classes = useStyles();
