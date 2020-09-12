@@ -1,5 +1,6 @@
 import React from "react";
-import Home from "./components/home.jsx";
+import Home from "./components/home";
+import Carrousel from "./components/Carrousel.jsx";
 import Login from "./components/Login.jsx";
 import Navbar from "./components/Navbar.jsx";
 import Error404 from "./components/error404.jsx"
@@ -16,7 +17,7 @@ function App() {
     <div>      
       <Route path="/" component={Navbar} />
       <Route path="/" component={Sidebar} />
-      <Route exact path="/home" component={Home} />
+      <Route exact path="/home" component={Carrousel} />
       <Route exact path="/home/profile" component={Profile} />
       <Route path="/login" component={Login} /> 
       <Route path="/error" component={Error404} />
