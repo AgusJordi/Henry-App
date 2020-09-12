@@ -16,15 +16,15 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 //npm install router
 //npm install sweetalert2
 
+import { NavLink, Redirect } from "react-router-dom";
 import { useEffect } from "react";
 import { connect } from "react-redux";
 import { getAllUsers, userLogIn, onlineUserError } from "../actions";
 import * as action from "../actions";
-import { NavLink } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import portada from "../images/welcome.png";
 import Register from "./Register";
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2' 
 //IMPORTS PARA MODAL REGISTER
 
 function Copyright() {
@@ -75,7 +75,12 @@ const useStyles = makeStyles((theme) => ({
 
 function Login({getAllUsers, userLogIn, onlineUser, onlineUserError}) {////INICIO del del coomponente
 
-  
+  useEffect(() => {
+    getAllUsers(589)//probando actions
+    
+  },[])
+
+  const classes = useStyles();
   
 
   const [input, setInput] = useState({username: "", password: ""});
@@ -87,7 +92,7 @@ function Login({getAllUsers, userLogIn, onlineUser, onlineUserError}) {////INICI
     });
     
   };
-
+  const [open, setOpen] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();    
@@ -98,7 +103,8 @@ function Login({getAllUsers, userLogIn, onlineUser, onlineUserError}) {////INICI
     console.log(' lo que traeel login ', onlineUser)
     var username = onlineUser.username;    
     localStorage.setItem('username', username)
-   window.location = './home'
+    window.location = './home'
+   
   }  
 
   if(onlineUser === 0){
@@ -117,23 +123,10 @@ function Login({getAllUsers, userLogIn, onlineUser, onlineUserError}) {////INICI
     onlineUserError()
   }
   // console.log(onlineUser)
-
   
-
-  useEffect(() => {
-    getAllUsers(589)//probando actions
-    
-  },[])
-
-  
-
-
- const classes = useStyles();
-
-  const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
-    setOpen(true);
+   // setOpen(true);
   };
 
   const handleClose = () => {
