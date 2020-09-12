@@ -14,7 +14,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 //npm install axios
 //npm install router
-//npm install sweetalert --save
+//npm install sweetalert2
 
 import { useEffect } from "react";
 import { connect } from "react-redux";
