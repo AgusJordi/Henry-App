@@ -18,13 +18,13 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 
 import { useEffect } from "react";
 import { connect } from "react-redux";
-import { getAllUsers, userLogIn } from "../actions";
+import { getAllUsers, userLogIn, onlineUserError } from "../actions";
 import * as action from "../actions";
 import { NavLink } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import portada from "../images/welcome.png";
 import Register from "./Register";
-import swal from 'sweetalert';
+import Swal from 'sweetalert2'
 //IMPORTS PARA MODAL REGISTER
 
 function Copyright() {
@@ -73,18 +73,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Login({getAllUsers, userLogIn, onlineUser, all_users}) {////INICIO del del coomponente
-
-  if(onlineUser !== false && onlineUser !== 0){
-    console.log(' lo que traeel login ', onlineUser)
-    var username = onlineUser.username;
-    //var password = onlineUser.password;
-    localStorage.setItem('username', username)
-   window.location = './home'
-  } 
+function Login({getAllUsers, userLogIn, onlineUser, onlineUserError}) {////INICIO del del coomponente
 
   
- 
   
 
   const [input, setInput] = useState({username: "", password: ""});
@@ -100,10 +91,34 @@ function Login({getAllUsers, userLogIn, onlineUser, all_users}) {////INICIO del 
 
   const handleSubmit = (e) => {
     e.preventDefault();    
-    userLogIn(input);
+    userLogIn(input);    
 
-    
   };
+  if(onlineUser !== false && onlineUser !== 0){
+    console.log(' lo que traeel login ', onlineUser)
+    var username = onlineUser.username;    
+    localStorage.setItem('username', username)
+   window.location = './home'
+  }  
+
+  if(onlineUser === 0){
+
+    Swal.fire({
+      icon: 'warning',
+      title: 'Ups! Error en los datos',
+      text: 'Revisalos y volve a intentarlo!',
+      footer: '<a href>Perdiste tu clave ?</a>'
+    })
+    onlineUserError()
+
+  }
+
+  function backState(){
+    onlineUserError()
+  }
+  // console.log(onlineUser)
+
+  
 
   useEffect(() => {
     getAllUsers(589)//probando actions
@@ -126,6 +141,7 @@ function Login({getAllUsers, userLogIn, onlineUser, all_users}) {////INICIO del 
   };
 
   return (
+    
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
 
@@ -135,6 +151,8 @@ function Login({getAllUsers, userLogIn, onlineUser, all_users}) {////INICIO del 
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
           </Avatar>
+ 
+
           <Typography component="h1" variant="h5">
             Iniciar Sesiòn
           </Typography>
@@ -190,6 +208,7 @@ function Login({getAllUsers, userLogIn, onlineUser, all_users}) {////INICIO del 
               <Copyright />
             </Box>
           </form>
+          
         </div>
       </Grid>
     </Grid>
@@ -199,7 +218,8 @@ function Login({getAllUsers, userLogIn, onlineUser, all_users}) {////INICIO del 
 const mapDispatchToProps = (dispatch) => {
   return {
     getAllUsers: (number) => dispatch(getAllUsers(589)),
-    userLogIn: (input) => dispatch(userLogIn(input))
+    userLogIn: (input) => dispatch(userLogIn(input)),
+    onlineUserError: () => dispatch(onlineUserError())
      
   }
 }

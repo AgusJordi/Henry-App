@@ -1,9 +1,10 @@
 import React from "react";
-import Home from "./components/home";
-import login from "./components/Login.jsx";
+import Home from "./components/home.jsx";
+import Login from "./components/Login.jsx";
 import Navbar from "./components/Navbar.jsx";
+import Error404 from "./components/error404.jsx"
 import Profile from "./components/Profile.jsx";
-import { Route } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 import Sidebar from "./components/sidebar";
 
 var lsName = localStorage.getItem('username')
@@ -16,11 +17,20 @@ function App() {
       <Route path="/" component={Navbar} />
       <Route path="/" component={Sidebar} />
       <Route exact path="/home" component={Home} />
-      <Route exact path="/home/profile" component={Profile} />     
+      <Route exact path="/home/profile" component={Profile} />
+      <Route path="/login" component={Login} /> 
+      <Route path="/error" component={Error404} />
+          
+          
     </div>
   );
-  }else{
-    return ( <Route path="/login" component={login} /> )
+  }else{     
+    return ( 
+    <div>
+      <Route path="/error" component={Error404} />
+      <Route path="/login" component={Login} />
+    </div>
+     )    
   }
 }
 
