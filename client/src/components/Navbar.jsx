@@ -6,6 +6,9 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import './Navbar.css'
 var lsName = localStorage.getItem('username')
 
+
+
+
 function Navbar() {
     return (
     	<div className ="navbar">
@@ -27,7 +30,10 @@ function Navbar() {
                     /></div>
     		<div className = "navbar_right">
     			<AccountCircleIcon />
-				<span style={{marginRight: "12px"}}>Bienvenido <small><b>{lsName}</b></small></span>
+				<span style={{marginRight: "12px"}}>Bienvenido <small><b>
+					{lsName.charAt(0).toUpperCase() + lsName.slice(1)}
+
+					</b></small></span>
     		</div>
     	</div>
     	)

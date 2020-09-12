@@ -13,7 +13,7 @@ export function userLogIn(body){
      .then(data => {
        dispatch({
          type: USER_LOGIN,
-         payload: body.username === 'cesar' && body.password === '1234' ? body : 0
+         payload: body.username === 'martin' && body.password === '1234' ? body : 0
        })
      })
    }

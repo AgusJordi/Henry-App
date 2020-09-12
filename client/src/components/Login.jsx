@@ -14,6 +14,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 //npm install axios
 //npm install router
+//npm install sweetalert --save
 
 import { useEffect } from "react";
 import { connect } from "react-redux";
@@ -23,6 +24,7 @@ import { NavLink } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import portada from "../images/welcome.png";
 import Register from "./Register";
+import swal from 'sweetalert';
 //IMPORTS PARA MODAL REGISTER
 
 function Copyright() {
@@ -73,9 +75,20 @@ const useStyles = makeStyles((theme) => ({
 
 function Login({getAllUsers, userLogIn, onlineUser, all_users}) {////INICIO del del coomponente
 
+  if(onlineUser !== false && onlineUser !== 0){
+    console.log(' lo que traeel login ', onlineUser)
+    var username = onlineUser.username;
+    //var password = onlineUser.password;
+    localStorage.setItem('username', username)
+   window.location = './home'
+  } 
+
+  
+ 
   
 
   const [input, setInput] = useState({username: "", password: ""});
+
   const handleChange = (e) => {
     setInput({
       ...input,
@@ -88,28 +101,9 @@ function Login({getAllUsers, userLogIn, onlineUser, all_users}) {////INICIO del 
   const handleSubmit = (e) => {
     e.preventDefault();    
     userLogIn(input);
+
     
   };
-
-  if(onlineUser !== false && onlineUser !== 0){
-    console.log(' lo que traeel login ', onlineUser)
-    var username = onlineUser.username;
-    //var password = onlineUser.password;
-    localStorage.setItem('username', username)
-   window.location = './home'
-  } 
-  if(onlineUser === 0){
-    swal.fire({
-      title: "Good job!",
-      text: "You clicked the button!",
-      icon: "success",
-      button: "Aww yiss!",
-    });
-
-  }
-
-
-   
 
   useEffect(() => {
     getAllUsers(589)//probando actions
@@ -158,7 +152,7 @@ function Login({getAllUsers, userLogIn, onlineUser, all_users}) {////INICIO del 
               onChange={handleChange}
             />
             <TextField             
-              onChange={handleChange}
+             onChange={handleChange}
               id="password"
               variant="outlined"
               margin="normal"
