@@ -11,7 +11,9 @@ import Fade from '@material-ui/core/Fade';
 import Divider from '@material-ui/core/Divider';
 import martin from "../images/martinborchardt.png"
 import { makeStyles } from '@material-ui/core/styles';
+import { Redirect } from 'react-router-dom';
 
+var lsName = localStorage.getItem('username')
 
 export default function Navbar() {
 	
@@ -23,7 +25,8 @@ export default function Navbar() {
 	  };
 	
 	  const handleClose = () => {
-		setAnchorEl(null);
+		localStorage.removeItem('username')
+		window.location="./login"
 	  };
 	
 	  const useStyles = makeStyles((theme) => ({
@@ -53,6 +56,8 @@ export default function Navbar() {
 
 	  const classes = useStyles();
 
+	  
+
     return (
     	<div className ="navbar">
     		<div className = "navbar_left">
@@ -74,6 +79,7 @@ export default function Navbar() {
     		<div className = "navbar_right">
 				<Button aria-controls="fade-menu" aria-haspopup="true" onClick={handleClick}>
     			<AccountCircleIcon />
+				<span style={{marginRight: "12px"}}><small> Hola! <b>{lsName}</b></small></span>
 				</Button>
 				<Menu
 					display="inline"
@@ -93,8 +99,9 @@ export default function Navbar() {
 					<MenuItem onClick={handleClose}>Ver mi perfil</MenuItem>
 					<Divider light />
 					<MenuItem onClick={handleClose}>Cambiar contraseña</MenuItem>
-					<Divider light />
-					<MenuItem onClick={handleClose}>Cerrar sesión</MenuItem>
+					<Divider light />					 
+					<MenuItem onClick={handleClose}>Cerrar sesión</MenuItem>				 
+					
 				</Menu>
     		</div>
     	</div>

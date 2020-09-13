@@ -14,15 +14,17 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 //npm install axios
 //npm install router
+//npm install sweetalert2
 
+import { NavLink, Redirect } from "react-router-dom";
 import { useEffect } from "react";
 import { connect } from "react-redux";
-import { getAllUsers, userLogIn } from "../actions";
+import { getAllUsers, userLogIn, onlineUserError } from "../actions";
 import * as action from "../actions";
-import { NavLink } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import portada from "../images/welcome.png";
 import Register from "./Register";
+import Swal from 'sweetalert2' 
 //IMPORTS PARA MODAL REGISTER
 
 function Copyright() {
@@ -71,9 +73,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Login({getAllUsers, userLogIn, onlineUser, all_users}) {
+function Login({getAllUsers, userLogIn, onlineUser, onlineUserError}) {////INICIO del del coomponente
+
+  useEffect(() => {
+    getAllUsers(589)//probando actions
+    
+  },[])
+
+  const classes = useStyles();
+  
 
   const [input, setInput] = useState({username: "", password: ""});
+
   const handleChange = (e) => {
     setInput({
       ...input,
@@ -81,33 +92,41 @@ function Login({getAllUsers, userLogIn, onlineUser, all_users}) {
     });
     
   };
-
+  const [open, setOpen] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();    
-    userLogIn(input);
+    userLogIn(input);    
+
   };
-
-
+  if(onlineUser !== false && onlineUser !== 0){
+    console.log(' lo que traeel login ', onlineUser)
+    var username = onlineUser.username;    
+    localStorage.setItem('username', username)
+    window.location = './home'
    
+  }  
 
-  useEffect(() => {
-    getAllUsers(589)//probando actions
-    
-  },[])
+  if(onlineUser === 0){
 
-  if(onlineUser !== false){
+    Swal.fire({
+      icon: 'warning',
+      title: 'Ups! Error en los datos',
+      text: 'Revisalos y volve a intentarlo!',
+      footer: '<a href>Perdiste tu clave ?</a>'
+    })
+    onlineUserError()
 
-   window.location = './home'
-  } 
+  }
 
-
- const classes = useStyles();
-
-  const [open, setOpen] = useState(false);
+  function backState(){
+    onlineUserError()
+  }
+  // console.log(onlineUser)
+  
 
   const handleOpen = () => {
-    setOpen(true);
+   // setOpen(true);
   };
 
   const handleClose = () => {
@@ -115,6 +134,7 @@ function Login({getAllUsers, userLogIn, onlineUser, all_users}) {
   };
 
   return (
+    
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
 
@@ -124,6 +144,8 @@ function Login({getAllUsers, userLogIn, onlineUser, all_users}) {
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
           </Avatar>
+ 
+
           <Typography component="h1" variant="h5">
             Iniciar Sesiòn
           </Typography>
@@ -141,7 +163,7 @@ function Login({getAllUsers, userLogIn, onlineUser, all_users}) {
               onChange={handleChange}
             />
             <TextField             
-              onChange={handleChange}
+             onChange={handleChange}
               id="password"
               variant="outlined"
               margin="normal"
@@ -179,6 +201,7 @@ function Login({getAllUsers, userLogIn, onlineUser, all_users}) {
               <Copyright />
             </Box>
           </form>
+          
         </div>
       </Grid>
     </Grid>
@@ -188,7 +211,8 @@ function Login({getAllUsers, userLogIn, onlineUser, all_users}) {
 const mapDispatchToProps = (dispatch) => {
   return {
     getAllUsers: (number) => dispatch(getAllUsers(589)),
-    userLogIn: (input) => dispatch(userLogIn(input))
+    userLogIn: (input) => dispatch(userLogIn(input)),
+    onlineUserError: () => dispatch(onlineUserError())
      
   }
 }

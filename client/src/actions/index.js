@@ -3,21 +3,26 @@ import axios from "axios";
 
 export const USER_LOGIN = 'LOGIN_USER';
 export const GET_ALL_USERS = 'GET_ALL_USERS';
+export const ONLINE_USER_ERROR = 'ONLINE_USER_ERROR'
 
 
-export function userLogIn(body){  
- 
+export function userLogIn(body){ 
    return function(dispatch){
      return axios.post(`https://www.etnassoft.com/api/v1/get/?id=`)    
     .then(result => result.data)
      .then(data => {
        dispatch({
          type: USER_LOGIN,
-         payload: body.username === 'cesar' && body.password === '1234' ? true : false
+         payload: body.username === 'martin' && body.password === '1234' ? body : 0 
        })
      })
    }
  }
+ export function onlineUserError () {
+  return {
+    type: ONLINE_USER_ERROR
+  }
+}
 
 export function getAllUsers (idUser) {
     return function(dispatch) {

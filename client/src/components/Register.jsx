@@ -69,7 +69,7 @@ function Register(props) {
   const classesRegister = useStylesS();
   const [modalStyle] = useState(getModalStyle);
 
-  console.log("aca", open);
+  //console.log("aca", open);
   // HARDCODEO COSMICO
 
   const [users, setUsers] = useState([]);

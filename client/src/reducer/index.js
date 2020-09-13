@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_ALL_USERS, USER_LOGIN } from '../actions/index';
+import { GET_ALL_USERS, USER_LOGIN, ONLINE_USER_ERROR } from '../actions/index';
 //var ls = require('local-storage');
 
 const initialState = {
@@ -21,6 +21,12 @@ const reducer = (state = initialState, action) => {
         ...state,
         onlineUser: action.payload
       }
+      case ONLINE_USER_ERROR:
+      return {
+        ...state,
+        onlineUser: false
+      }
+      
 
     default:
       return state;
