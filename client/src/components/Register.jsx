@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { sizing } from "@material-ui/system";
 
 function Register(props) {
   const { open, onClose } = props;
@@ -21,9 +22,10 @@ function Register(props) {
   const useStylesS = makeStyles((theme) => ({
     paperRegister: {
       position: "absolute",
-      width: 400,
+      width: 350,
       backgroundColor: theme.palette.background.paper,
-      padding: theme.spacing(3),
+      padding: theme.spacing(1),
+      paddingBottom: 25,
       outline: "none",
       "&:focus": {
         boxShadow: "0 0 0 0.2rem #F5D553",
@@ -31,7 +33,6 @@ function Register(props) {
     },
     divFormRoot: {
       marginTop: "5px",
-      width: "100%",
       display: "flex",
       justifyContent: "center",
     },
@@ -63,6 +64,9 @@ function Register(props) {
     },
     inputCenterPh: {
       textAlign: "center",
+    },
+    formRoot: {
+      width: "100%",
     },
   }));
 
@@ -111,103 +115,99 @@ function Register(props) {
     >
       <div style={modalStyle} className={classesRegister.paperRegister}>
         <div className={classesRegister.formRoot}>
-          <h2 id="simple-modal-title">REGISTRARSE</h2>
+          <h2 id="simple-modal-title" align="center">
+            REGISTRARSE
+          </h2>
           <form>
             <div className={classesRegister.divFormRoot}>
-              <div>
-                <label htmlFor="firstName"></label>
-                <TextField
-                  id="firstName"
-                  type="text"
-                  required
-                  {...formik.getFieldProps("firstName")}
-                  error={formik.errors.firstName}
-                  label="Nombre"
-                  helperText={formik.errors.firstName}
-                  placeholder="Gerardo"
-                  variant="outlined"
-                />
-              </div>
+              <label htmlFor="firstName"></label>
+              <TextField
+                id="firstName"
+                type="text"
+                required
+                {...formik.getFieldProps("firstName")}
+                error={formik.errors.firstName}
+                label="Nombre"
+                helperText={formik.errors.firstName}
+                placeholder="Gerardo"
+                variant="outlined"
+                fullWidth
+              />
             </div>
             <div className={classesRegister.divFormRoot}>
-              <div>
-                <label htmlFor="lastName"></label>
-                <TextField
-                  id="lastName"
-                  type="text"
-                  required
-                  {...formik.getFieldProps("lastName")}
-                  error={formik.errors.lastName}
-                  label="Apellido"
-                  placeholder="Sofovich"
-                  helperText={formik.errors.lastName}
-                  variant="outlined"
-                />
-              </div>
+              <label htmlFor="lastName"></label>
+              <TextField
+                id="lastName"
+                type="text"
+                required
+                {...formik.getFieldProps("lastName")}
+                error={formik.errors.lastName}
+                label="Apellido"
+                placeholder="Sofovich"
+                helperText={formik.errors.lastName}
+                variant="outlined"
+                fullWidth
+              />
             </div>
             <div className={classesRegister.divFormRoot}>
-              <div>
-                <label htmlFor="city"></label>
-                <TextField
-                  id="city"
-                  type="text"
-                  required
-                  {...formik.getFieldProps("city")}
-                  error={formik.errors.city}
-                  label="Ciudad"
-                  placeholder="Buenos Aires"
-                  helperText={formik.errors.city}
-                  variant="outlined"
-                />
-              </div>
+              <label htmlFor="city"></label>
+              <TextField
+                id="city"
+                type="text"
+                required
+                {...formik.getFieldProps("city")}
+                error={formik.errors.city}
+                label="Ciudad"
+                placeholder="Buenos Aires"
+                helperText={formik.errors.city}
+                variant="outlined"
+                fullWidth
+              />
             </div>
             <div className={classesRegister.divFormRoot}>
-              <div>
-                <label htmlFor="province"></label>
-                <TextField
-                  id="province"
-                  type="text"
-                  required
-                  {...formik.getFieldProps("province")}
-                  error={formik.errors.province}
-                  label="Provincia"
-                  placeholder="Buenos Aires"
-                  helperText={formik.errors.province}
-                  variant="outlined"
-                />
-              </div>
+              <label htmlFor="province"></label>
+              <TextField
+                id="province"
+                type="text"
+                required
+                {...formik.getFieldProps("province")}
+                error={formik.errors.province}
+                label="Provincia"
+                placeholder="Buenos Aires"
+                helperText={formik.errors.province}
+                variant="outlined"
+                fullWidth
+              />
             </div>
             <div className={classesRegister.divFormRoot}>
-              <div>
-                <label htmlFor="country"></label>
-                <TextField
-                  id="country"
-                  type="text"
-                  required
-                  {...formik.getFieldProps("country")}
-                  error={formik.errors.country}
-                  label="Pais"
-                  placeholder="Argentina"
-                  helperText={formik.errors.country}
-                  variant="outlined"
-                />
-              </div>
+              <label htmlFor="country"></label>
+              <TextField
+                id="country"
+                type="text"
+                required
+                {...formik.getFieldProps("country")}
+                error={formik.errors.country}
+                label="Pais"
+                placeholder="Argentina"
+                helperText={formik.errors.country}
+                variant="outlined"
+                fullWidth
+              />
             </div>
             <div className={classesRegister.divFormRoot}>
-              <div>
-                <label htmlFor="email"></label>
-                <TextField
-                  id="email"
-                  type="email"
-                  required
-                  {...formik.getFieldProps("email")}
-                  error={formik.errors.email}
-                  label="Email"
-                  placeholder="gerardo@canal9.com"
-                  helperText={formik.errors.email}
-                  variant="outlined"
-                />
-              </div>
+              <label htmlFor="email"></label>
+              <TextField
+                id="email"
+                type="email"
+                required
+                {...formik.getFieldProps("email")}
+                error={formik.errors.email}
+                label="Email"
+                placeholder="gerardo@canal9.com"
+                helperText={formik.errors.email}
+                variant="outlined"
+                fullWidth
+              />
             </div>
             <div className={classesRegister.buttonRoot}>
               <Button
