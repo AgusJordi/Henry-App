@@ -14,15 +14,17 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 //npm install axios
 //npm install router
+//npm install sweetalert2
 
+import { NavLink, Redirect } from "react-router-dom";
 import { useEffect } from "react";
 import { connect } from "react-redux";
-import { getAllUsers } from "../actions";
+import { getAllUsers, userLogIn, onlineUserError } from "../actions";
 import * as action from "../actions";
-import { NavLink } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import portada from "../images/welcome.png";
 import Register from "./Register";
+import Swal from 'sweetalert2' 
 //IMPORTS PARA MODAL REGISTER
 
 function Copyright() {
@@ -71,19 +73,60 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Login({ getAllUsers, all_users }) {
-  useEffect(() => {
-    getAllUsers(589); //probando actions
-  }, []);
+function Login({getAllUsers, userLogIn, onlineUser, onlineUserError}) {////INICIO del del coomponente
 
-  console.log(all_users); // Probando state
+  useEffect(() => {
+    getAllUsers(589)//probando actions
+    
+  },[])
 
   const classes = useStyles();
+  
 
+  const [input, setInput] = useState({username: "", password: ""});
+
+  const handleChange = (e) => {
+    setInput({
+      ...input,
+      [e.target.name]: e.target.value
+    });
+    
+  };
   const [open, setOpen] = useState(false);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();    
+    userLogIn(input);    
+
+  };
+  if(onlineUser !== false && onlineUser !== 0){
+    console.log(' lo que traeel login ', onlineUser)
+    var username = onlineUser.username;    
+    localStorage.setItem('username', username)
+    window.location = './home'
+   
+  }  
+
+  if(onlineUser === 0){
+
+    Swal.fire({
+      icon: 'warning',
+      title: 'Ups! Error en los datos',
+      text: 'Revisalos y volve a intentarlo!',
+      footer: '<a href>Perdiste tu clave ?</a>'
+    })
+    onlineUserError()
+
+  }
+
+  function backState(){
+    onlineUserError()
+  }
+  // console.log(onlineUser)
+  
+
   const handleOpen = () => {
-    setOpen(true);
+   // setOpen(true);
   };
 
   const handleClose = () => {
@@ -91,6 +134,7 @@ function Login({ getAllUsers, all_users }) {
   };
 
   return (
+    
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
 
@@ -100,30 +144,34 @@ function Login({ getAllUsers, all_users }) {
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
           </Avatar>
+ 
+
           <Typography component="h1" variant="h5">
             Iniciar Sesiòn
           </Typography>
-          <form className={classes.form} noValidate>
+          <form onSubmit={handleSubmit} className={classes.form} noValidate>
             <TextField
               variant="outlined"
               margin="normal"
               required
               fullWidth
-              id="email"
+              id="username"
               label="USUARIO"
-              name="email"
+              name="username"
               autoComplete="email"
               autoFocus
+              onChange={handleChange}
             />
-            <TextField
+            <TextField             
+             onChange={handleChange}
+              id="password"
               variant="outlined"
               margin="normal"
               required
               fullWidth
               name="password"
               label="CONTRASEÑA"
-              type="password"
-              id="password"
+              type="password"              
               autoComplete="current-password"
             />
 
@@ -153,6 +201,7 @@ function Login({ getAllUsers, all_users }) {
               <Copyright />
             </Box>
           </form>
+          
         </div>
       </Grid>
     </Grid>
@@ -162,13 +211,19 @@ function Login({ getAllUsers, all_users }) {
 const mapDispatchToProps = (dispatch) => {
   return {
     getAllUsers: (number) => dispatch(getAllUsers(589)),
-  };
-};
+    userLogIn: (input) => dispatch(userLogIn(input)),
+    onlineUserError: () => dispatch(onlineUserError())
+     
+  }
+}
+
 
 const mapStateToProps = (state) => {
   return {
-    all_users: state.all_users,
-  };
-};
+    all_users: state.all_users,  
+    onlineUser: state.onlineUser
+  }
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)
