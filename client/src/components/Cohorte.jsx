@@ -1,4 +1,5 @@
 import React, { useState, useEffect, Fragment } from "react";
+
 import "./home.css";
 import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
@@ -21,14 +22,9 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 //
-function Cohorte() {
-  //hardcodeo
-  const [users, setUsers] = useState([]);
-  useEffect(async () => {
-    const res = await axios.get("https://jsonplaceholder.typicode.com/users");
-    setUsers(res.data);
-  }, []);
+function Cohorte(props) {
   //seteo cuadrado
+  const { users } = props;
   const useStyles = makeStyles((theme) => ({
     //box contenedora
     boxPrincipal: {
@@ -165,7 +161,6 @@ function Cohorte() {
   const [value, setValue] = React.useState(0);
   const [pm, setPm] = React.useState("");
   const [open, setOpen] = React.useState(false);
-
   const handleClose = () => {
     setOpen(false);
   };
@@ -178,6 +173,7 @@ function Cohorte() {
     setValue(newValue);
     setPm(event.target.value);
   };
+
   const classes = useStyles();
   return (
     <div>
@@ -207,19 +203,18 @@ function Cohorte() {
                 </Box>
               </Box>
               <Box>
-                <Box className={classes.styleTitelBodySide}>
-                  PM`S DEL COHORTE
-                </Box>
+                <Box className={classes.styleTitelBodySide}>PM`S</Box>
               </Box>
               <Box className={classes.infoSideBar}>
                 <Box className={classes.setTextBoxInfoSide}>
                   <List className={classes.listOne}>
                     {users.map((pm) => {
+                      let nombreCompleto = `${pm.name} ${pm.lastName}`;
                       return (
-                        <ul className={classes.ul}>
-                          <Box className={classes.styleTextUser}>{pm.name}</Box>
-                          <Box className={classes.styleTextUser}>{pm.name}</Box>
-                          <Box className={classes.styleTextUser}>{pm.name}</Box>
+                        <ul className={classes.ul} value={pm.id}>
+                          <Box className={classes.styleTextUser}>
+                            {nombreCompleto}
+                          </Box>
                         </ul>
                       );
                     })}
@@ -249,9 +244,11 @@ function Cohorte() {
                         <em>None</em>
                       </MenuItem>
                       {/* MAPEAR LISTA DE PMS Y DEVOLVER UN MENUITEM X CADA UNO */}
-                      <MenuItem value={12}>Sofi</MenuItem>
-                      <MenuItem value={20}>Franco</MenuItem>
-                      <MenuItem value={30}>Sarasa enrique Sarasa</MenuItem>
+                      {users.map((pm) => {
+                        let nombreCompleto = `${pm.name} ${pm.lastName}`;
+                        let id = pm.id;
+                        return <MenuItem value={id}>{nombreCompleto}</MenuItem>;
+                      })}
                     </Select>
                   </FormControl>
                 </Box>
@@ -260,16 +257,11 @@ function Cohorte() {
                 <Box className={classes.setTextBoxInfoInfo}>
                   <List className={classes.listOneInfo}>
                     {users.map((pm) => {
+                      let nombreCompleto = `${pm.name} ${pm.lastName}`;
                       return (
                         <ul className={classes.ul}>
                           <Box className={classes.styleTextUserInfo}>
-                            {pm.name}
-                          </Box>
-                          <Box className={classes.styleTextUserInfo}>
-                            {pm.name}
-                          </Box>
-                          <Box className={classes.styleTextUserInfo}>
-                            {pm.name}
+                            {nombreCompleto}
                           </Box>
                         </ul>
                       );

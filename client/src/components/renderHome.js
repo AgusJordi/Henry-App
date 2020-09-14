@@ -1,5 +1,6 @@
 import React, { useState, useEffect, Fragment } from "react";
 import "./home.css";
+import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import Tabs from "@material-ui/core/Tabs";
@@ -10,31 +11,22 @@ import axios from "axios";
 import Profile from "./Profile";
 import Cohorte from "./Cohorte";
 import Grid from "@material-ui/core/Grid";
+import { getAllUsers, getAllCohortes } from "../actions/index";
 
 function Home(props) {
   const { onSetSelect } = props;
-  console.log("desde home", onSetSelect);
-
-  //HARCODEO DE API
-  const [users, setUsers] = useState([]);
-  useEffect(async () => {
-    const res = await axios.get("https://jsonplaceholder.typicode.com/users");
-    setUsers(res.data);
+  const dispatch = useDispatch();
+  const allUsers = useSelector((state) => state.all_users);
+  const allCohortes = useSelector((state) => state.all_cohortes);
+  useEffect(() => {
+    dispatch(getAllUsers());
+    dispatch(getAllCohortes());
   }, []);
 
   function TabPanel(props) {
     //SETEO QUE DEVUELVE LOS INTEGRANTES DE UN GRUPO Y SU CARD
     const { children, value, index, ...other } = props;
-    console.log(
-      "children",
-      children,
-      "value",
-      value,
-      "index",
-      index,
-      "other",
-      other
-    );
+
     return (
       <div>
         {value === index && (
@@ -65,10 +57,13 @@ function Home(props) {
       display: "flex",
       justifyContent: "center",
     },
+    prueba: {
+      backgroundColor: "yellow",
+    },
   }));
 
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -86,28 +81,18 @@ function Home(props) {
               value={value}
               onChange={handleChange}
               aria-label="Vertical tabs example"
+              classes={{
+                indicator: classes.prueba,
+              }}
             >
               <h2 className={classes.tabTitel}>COHORTES</h2>
-              {users.map((alumno, index) => {
-                console.log(alumno);
-                return <Tab label={alumno.name} />;
-              })}
-              {users.map((alumno, index) => {
-                console.log(alumno);
-                return <Tab label={alumno.name} />;
-              })}
-              {users.map((alumno, index) => {
-                console.log(alumno);
-                return <Tab label={alumno.name} />;
-              })}
-              {users.map((alumno, index) => {
-                console.log(alumno);
-                return <Tab label={alumno.name} />;
+              {allCohortes.map((cohorte, index) => {
+                return <Tab label={cohorte.name} />;
               })}
             </Tabs>
           </Grid>
           <Grid xs={10} className={classes.cohorteRoot}>
-            <Cohorte />
+            <Cohorte users={allUsers} />
           </Grid>
         </Grid>
       </Grid>
@@ -122,22 +107,24 @@ function Home(props) {
               <Tabs
                 orientation="vertical"
                 variant="scrollable"
-                value={value}
+                value="false"
                 onChange={handleChange}
-                aria-label="Vertical tabs example"
+                classes={{
+                  indicator: classes.prueba,
+                }}
               >
                 <h2 className={classes.tabTitel}>INSTRUCTORES</h2>
-                {users.map((alumno, index) => {
-                  console.log(alumno);
-                  return <Tab label={alumno.name} />;
+                {allUsers.map((alumno, index) => {
+                  let nombreCompleto = `${alumno.name} ${alumno.lastName}`;
+                  return <Tab label={nombreCompleto} />;
                 })}
               </Tabs>
             </Grid>
             <Grid xs={10}>
-              {users.map((alumno, index) => {
+              {allUsers.map((alumno, index) => {
                 return (
                   <Fragment>
-                    <TabPanel value={value} index={index}>
+                    <TabPanel value={value} index={index + 1}>
                       <Profile user={alumno} />
                     </TabPanel>
                   </Fragment>
@@ -160,19 +147,22 @@ function Home(props) {
                 variant="scrollable"
                 value={value}
                 onChange={handleChange}
+                classes={{
+                  indicator: classes.prueba,
+                }}
               >
                 <h2 className={classes.tabTitel}>PM´S</h2>
-                {users.map((alumno, index) => {
-                  console.log(alumno);
-                  return <Tab label={alumno.name} />;
+                {allUsers.map((alumno, index) => {
+                  let nombreCompleto = `${alumno.name} ${alumno.lastName}`;
+                  return <Tab label={nombreCompleto} />;
                 })}
               </Tabs>
             </Grid>
             <Grid xs={10}>
-              {users.map((alumno, index) => {
+              {allUsers.map((alumno, index) => {
                 return (
                   <Fragment>
-                    <TabPanel value={value} index={index}>
+                    <TabPanel value={value} index={index + 1}>
                       <Profile user={alumno} />
                     </TabPanel>
                   </Fragment>
@@ -195,20 +185,22 @@ function Home(props) {
                 variant="scrollable"
                 value={value}
                 onChange={handleChange}
-                aria-label="Vertical tabs example"
+                classes={{
+                  indicator: classes.prueba,
+                }}
               >
                 <h2 className={classes.tabTitel}>ALUMNOS</h2>
-                {users.map((alumno, index) => {
-                  console.log(alumno);
-                  return <Tab label={alumno.name} />;
+                {allUsers.map((alumno, index) => {
+                  let nombreCompleto = `${alumno.name} ${alumno.lastName}`;
+                  return <Tab label={nombreCompleto} />;
                 })}
               </Tabs>
             </Grid>
             <Grid xs={10}>
-              {users.map((alumno, index) => {
+              {allUsers.map((alumno, index) => {
                 return (
                   <Fragment>
-                    <TabPanel value={value} index={index}>
+                    <TabPanel value={value} index={index + 1}>
                       <Profile user={alumno} />
                     </TabPanel>
                   </Fragment>
