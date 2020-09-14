@@ -1,7 +1,7 @@
 import React from 'react';
 import './home.css'
 
-function Home() {
+function Home() {  
   return (
     <div className='moverTodo'>
     </div>
