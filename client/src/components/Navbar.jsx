@@ -27,6 +27,7 @@ export default function Navbar() {
 	  const handleClose = () => {
 		localStorage.removeItem('username')
 		window.location="./login"
+		 
 	  };
 	
 	  const useStyles = makeStyles((theme) => ({

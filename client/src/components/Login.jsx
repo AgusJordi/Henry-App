@@ -15,8 +15,9 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 //npm install axios
 //npm install router
 //npm install sweetalert2
+//npm install jwt-decode
 
-import { NavLink, Redirect } from "react-router-dom";
+import { NavLink, Redirect, Route } from "react-router-dom";
 import { useEffect } from "react";
 import { connect } from "react-redux";
 import { getAllUsers, userLogIn, onlineUserError } from "../actions";
@@ -104,6 +105,8 @@ function Login({getAllUsers, userLogIn, onlineUser, onlineUserError}) {////INICI
     var username = onlineUser.username;    
     localStorage.setItem('username', username)
     window.location = './home'
+    //return <Redirect to='./' />
+     
    
   }  
 
