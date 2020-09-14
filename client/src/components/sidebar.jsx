@@ -1,4 +1,5 @@
 import React, { useState, Fragment } from "react";
+import {Link} from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import AppBar from "@material-ui/core/AppBar";
@@ -71,6 +72,7 @@ export default function ClippedDrawer() {
         <img className={classes.img} src={logo} alt="" />
         <Toolbar />
         <div className={classes.drawerContainer}>
+        <Link to = "crud">  <button>Herramientas</button> </Link>
           <List>
             {["Noticias", "Cohortes", "Instructores", "Pm´s", "Alumnos"].map(
               (text, index) => (
