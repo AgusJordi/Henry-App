@@ -12,6 +12,7 @@ import Divider from '@material-ui/core/Divider';
 import martin from "../images/martinborchardt.png"
 import { makeStyles } from '@material-ui/core/styles';
 import { Redirect } from 'react-router-dom';
+import Login from './Login'
 
 var lsName = localStorage.getItem('username')
 
@@ -27,6 +28,7 @@ export default function Navbar() {
 	  const handleClose = () => {
 		localStorage.removeItem('username')
 		window.location="./login"
+		 
 		 
 	  };
 	

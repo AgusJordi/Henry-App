@@ -104,9 +104,7 @@ function Login({getAllUsers, userLogIn, onlineUser, onlineUserError}) {////INICI
     console.log(' lo que traeel login ', onlineUser)
     var username = onlineUser.username;    
     localStorage.setItem('username', username)
-    window.location = './home'
-    //return <Redirect to='./' />
-     
+    window.location = './'
    
   }  
 
