@@ -1,8 +1,12 @@
 import React from "react";
 import "./Profile.css";
 import Container from "@material-ui/core/Container";
+import { useSelector, useDispatch } from "react-redux";
+import { getAllUsers } from "../actions/index";
 
-function Profile() {
+function Profile(props) {
+  const { user } = props;
+  console.log("pla", user);
   return (
     <div>
       <div className="padre">
@@ -16,12 +20,12 @@ function Profile() {
         <div className="hijouno">
           <h1>Cohorte: *7*</h1>
           <h1>Pm: Emi Checker</h1>
-          <h1>Nombre: Henry's</h1>
-          <h1>Apellido: IT</h1>
-          <h1>Email: 7@soyHenry.com</h1>
-          <h1>Ciudad: Henrylandia</h1>
-          <h1>Provincia: Donde todo es posible</h1>
-          <h1>Pais: IT</h1>
+          <h1>Nombre: {user.name}</h1>
+          <h1>Apellido: {user.lastName}</h1>
+          <h1>Email: {user.email}</h1>
+          <h1>Ciudad: {user.city}</h1>
+          <h1>Provincia: {user.province}</h1>
+          <h1>Pais: {user.country}</h1>
           <h1>Ubicacion: Internet</h1>
           <h1>Github: Androidpure</h1>
           <h1>Modulo: **HEnryApp**</h1>
