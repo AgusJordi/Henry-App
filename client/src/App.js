@@ -2,7 +2,6 @@ import React from "react";
 import Home from "./components/home";
 import Carrousel from "./components/Carrousel.jsx";
 import Login from "./components/Login.jsx";
-import AreaAdmin from "./components/Crud/AreaAdmin.jsx";
 import Navbar from "./components/Navbar.jsx";
 import Error404 from "./components/error404.jsx"
 import Profile from "./components/Profile.jsx";
@@ -40,7 +39,6 @@ function App() {
         <PvRoute path="/" component={Sidebar} />
         <PvRoute exact path="/home" component={Carrousel} />       
         <PvRoute exact path="/profile" component={Profile} />
-        <PvRoute exact path="/crud" component={AreaAdmin} />
            
         {isAutenticated() == false ? <Route exact path="/login" component={Login} /> : '' }
                   
