@@ -7,7 +7,7 @@ const studentRouter = require("./student");
 const feedbackRouter = require("./feedback");
 const checkpointRouter = require("./checkpoint");
 const searchRouter = require("./search");
-const cohorteRouter = "./cohorte";
+const cohorteRouter = require("./cohorte");
 
 // load each router on a route
 // i.e: router.use('/auth', authRouter);
