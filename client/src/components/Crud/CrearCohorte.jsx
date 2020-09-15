@@ -2,23 +2,22 @@ import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import swal from 'sweetalert';
+import {createCohorte} from '../../actions/index.js';
 
-
-// S9 : Crear Formulario para creación de Categorías
 
 function CrearCohorte() {
+  
   const [input, setInput] = useState({
     cohorte: '',
     instructor: '',
-    DateA: '',
-    DateB: '',
+    //DateA: '',
   });
-  const inputB = {
+
+  const [inputB, setInputB] = useState({
     cohorte: '',
     instructor: '',
-    DateA: '',
-    DateB: '',
-  };
+    //DateA: '',
+  });
 
   const handleInputChange = function (e) {
     setInput({
@@ -26,12 +25,24 @@ function CrearCohorte() {
       [e.target.name]: e.target.value
     });
   }
+
+  const handleCreateCohorte = function (e) {
+    /*setInput({
+      ...input,
+      [e.target.name]: e.target.value
+    });*/
+    e.preventDefault(); //A TENER EN CUENTA
+    console.log(input, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACA ESTOY EN COMPONENTE")
+    createCohorte(input);
+    /*Aca iria la alerta*/
+    setInputB(inputB);
+  }
   
 
   return (
     <div>
       <div>
-        <form /*Aca va el submitCrud*/>
+        <form onSubmit = {handleCreateCohorte} >
           <div>
             <TextField
               name='cohorte'
@@ -63,7 +74,7 @@ function CrearCohorte() {
               }}
               onChange = {handleInputChange}
             />
-            <TextField
+      {/*   <TextField
               name='DateA'
               type='text'
               id="standard-full-width"
@@ -77,23 +88,7 @@ function CrearCohorte() {
                 shrink: true,
               }}
               onChange = {handleInputChange}
-            />
-            <TextField
-              name='DateB'
-              type='text'
-              id="standard-full-width"
-              label="fecha de finalizacion"
-              style={{ margin: 8 }}
-              value={input.DateB}
-              placeholder="fecha de finalizacion"
-              fullWidth
-              margin="normal"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              onChange = {handleInputChange}
-            />
-
+            /> falta combinar el front*/}
             <div>
               <Button
                 type="submit"

@@ -11,5 +11,9 @@ module.exports = (sequelize) => {
             type: DataTypes.STRING,
             allowNull: true,
         }
+        /*date: {
+            type: DataTypes.DATEONLY,
+            allowNull: true,
+        } falta habilitar cuando tengamos el modelo en front*/ 
     });
 };
