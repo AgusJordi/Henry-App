@@ -23,9 +23,9 @@ server.post("/", (req, res, next) => {
 });
 
 server.delete("/:name", (req, res, next) => {
-  const checkName = req.params.name;
-  Cohorte.destroy({ where: { heckName: name } })
-    .then((num) => {
+  const name = req.params.name;
+  Cohorte.destroy({ where: { name: name } })
+    .then((num) => {  
       if (num > 0) {
         return res.send({ message: `Se elimino el Cohorte : ${checkName}` });
       }

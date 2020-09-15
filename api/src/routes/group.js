@@ -13,11 +13,11 @@ server.get('/', (req, res, next) => {
     .catch((error) => next(error));
 })
 
-server.post("/", (req, res, next) => {
-    const { name } = req.body;
-    Cohorte.create({ name })
-    .then((groups) => {
-        res.send(groups);
+server.post('/', (req, res, next) => {
+    const { name , description } = req.body;
+    Group.create({ name, description })
+    .then((group) => {
+        res.send(group);
     })
     .catch((error) => next(error));
 });
