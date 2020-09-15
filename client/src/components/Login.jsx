@@ -25,7 +25,7 @@ import * as action from "../actions";
 import { useHistory } from "react-router-dom";
 import portada from "../images/welcome.png";
 import Register from "./Register";
-import Swal from 'sweetalert2' 
+import Swal from "sweetalert2";
 //IMPORTS PARA MODAL REGISTER
 
 function Copyright() {
@@ -74,60 +74,54 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Login({getAllUsers, userLogIn, onlineUser, onlineUserError}) {////INICIO del del coomponente
+function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError }) {
+  ////INICIO del del coomponente
 
   useEffect(() => {
-    getAllUsers(589)//probando actions
-    
-  },[])
+    getAllUsers(589); //probando actions
+  }, []);
 
   const classes = useStyles();
-  
 
-  const [input, setInput] = useState({username: "", password: ""});
+  const [input, setInput] = useState({ username: "", password: "" });
 
   const handleChange = (e) => {
     setInput({
       ...input,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
-    
   };
   const [open, setOpen] = useState(false);
 
   const handleSubmit = (e) => {
-    e.preventDefault();    
-    userLogIn(input);    
-
+    e.preventDefault();
+    userLogIn(input);
   };
-  if(onlineUser !== false && onlineUser !== 0){
-    console.log(' lo que traeel login ', onlineUser)
-    var username = onlineUser.username;    
-    localStorage.setItem('username', username)
-    window.location = './'
-   
-  }  
-
-  if(onlineUser === 0){
-
-    Swal.fire({
-      icon: 'warning',
-      title: 'Ups! Error en los datos',
-      text: 'Revisalos y volve a intentarlo!',
-      footer: '<a href>Perdiste tu clave ?</a>'
-    })
-    onlineUserError()
-
+  if (onlineUser !== false && onlineUser !== 0) {
+    console.log(" lo que traeel login ", onlineUser);
+    var username = onlineUser.username;
+    localStorage.setItem("username", username);
+    window.location = "./home";
+    //return <Redirect to='./' />
   }
 
-  function backState(){
-    onlineUserError()
+  if (onlineUser === 0) {
+    Swal.fire({
+      icon: "warning",
+      title: "Ups! Error en los datos",
+      text: "Revisalos y volve a intentarlo!",
+      footer: "<a href>Perdiste tu clave ?</a>",
+    });
+    onlineUserError();
+  }
+
+  function backState() {
+    onlineUserError();
   }
   // console.log(onlineUser)
-  
 
   const handleOpen = () => {
-   // setOpen(true);
+    setOpen(true);
   };
 
   const handleClose = () => {
@@ -135,7 +129,6 @@ function Login({getAllUsers, userLogIn, onlineUser, onlineUserError}) {////INICI
   };
 
   return (
-    
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
 
@@ -145,7 +138,6 @@ function Login({getAllUsers, userLogIn, onlineUser, onlineUserError}) {////INICI
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
           </Avatar>
- 
 
           <Typography component="h1" variant="h5">
             Iniciar Sesiòn
@@ -163,8 +155,8 @@ function Login({getAllUsers, userLogIn, onlineUser, onlineUserError}) {////INICI
               autoFocus
               onChange={handleChange}
             />
-            <TextField             
-             onChange={handleChange}
+            <TextField
+              onChange={handleChange}
               id="password"
               variant="outlined"
               margin="normal"
@@ -172,7 +164,7 @@ function Login({getAllUsers, userLogIn, onlineUser, onlineUserError}) {////INICI
               fullWidth
               name="password"
               label="CONTRASEÑA"
-              type="password"              
+              type="password"
               autoComplete="current-password"
             />
 
@@ -202,7 +194,6 @@ function Login({getAllUsers, userLogIn, onlineUser, onlineUserError}) {////INICI
               <Copyright />
             </Box>
           </form>
-          
         </div>
       </Grid>
     </Grid>
@@ -213,18 +204,15 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getAllUsers: (number) => dispatch(getAllUsers(589)),
     userLogIn: (input) => dispatch(userLogIn(input)),
-    onlineUserError: () => dispatch(onlineUserError())
-     
-  }
-}
-
+    onlineUserError: () => dispatch(onlineUserError()),
+  };
+};
 
 const mapStateToProps = (state) => {
   return {
-    all_users: state.all_users,  
-    onlineUser: state.onlineUser
-  }
-}
+    all_users: state.all_users,
+    onlineUser: state.onlineUser,
+  };
+};
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login)
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
