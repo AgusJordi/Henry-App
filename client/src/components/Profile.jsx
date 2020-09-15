@@ -6,7 +6,7 @@ import { getAllUsers } from "../actions/index";
 
 function Profile(props) {
   const { user } = props;
-  console.log("pla", user);
+
   return (
     <div>
       <div className="padre">

@@ -98,7 +98,6 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError }) {
     userLogIn(input);
   };
   if (onlineUser !== false && onlineUser !== 0) {
-    console.log(" lo que traeel login ", onlineUser);
     var username = onlineUser.username;
     localStorage.setItem("username", username);
     window.location = "./home";
@@ -118,7 +117,6 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError }) {
   function backState() {
     onlineUserError();
   }
-  // console.log(onlineUser)
 
   const handleOpen = () => {
     setOpen(true);

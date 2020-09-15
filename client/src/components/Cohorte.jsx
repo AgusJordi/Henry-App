@@ -22,9 +22,12 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 //
+
 function Cohorte(props) {
   //seteo cuadrado
+
   const { users } = props;
+
   const useStyles = makeStyles((theme) => ({
     //box contenedora
     boxPrincipal: {
@@ -180,9 +183,7 @@ function Cohorte(props) {
       <Grid container>
         <Box xs={12} className={classes.boxPrincipal} boxShadow={2}>
           <Box className={classes.pruebaTitle}>
-            <Typography className={classes.setFontTitle}>
-              TITULO DE PRUEBA
-            </Typography>
+            <Typography className={classes.setFontTitle}>Tu Cohorte</Typography>
           </Box>
           <Box className={classes.setBody}>
             <Box className={classes.rootSideBar}>

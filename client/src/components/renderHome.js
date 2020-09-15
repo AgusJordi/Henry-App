@@ -13,9 +13,11 @@ import Cohorte from "./Cohorte";
 import AreaAdmin from "./Crud/AreaAdmin.jsx";
 import Grid from "@material-ui/core/Grid";
 import { getAllUsers, getAllCohortes } from "../actions/index";
+import Carrousel from "./Carrousel.jsx";
 
 function Home(props) {
   const { onSetSelect } = props;
+
   const dispatch = useDispatch();
   const allUsers = useSelector((state) => state.all_users);
   const allCohortes = useSelector((state) => state.all_cohortes);
@@ -38,6 +40,7 @@ function Home(props) {
       </div>
     );
   }
+
   const useStyles = makeStyles((theme) => ({
     rootList: {
       backgroundColor: theme.palette.background.paper,
@@ -65,9 +68,13 @@ function Home(props) {
 
   const classes = useStyles();
   const [value, setValue] = useState(0);
-
+  const [idCohorte, setIdCohorte] = useState();
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+
+  const saveCohorte = (value) => {
+    setIdCohorte(value);
   };
 
   //RENDERISA SEGUN QUE PIDE EL USER
@@ -88,7 +95,12 @@ function Home(props) {
             >
               <h2 className={classes.tabTitel}>COHORTES</h2>
               {allCohortes.map((cohorte, index) => {
-                return <Tab label={cohorte.name} />;
+                return (
+                  <Tab
+                    label={cohorte.name}
+                    onClick={() => saveCohorte(cohorte)}
+                  />
+                );
               })}
             </Tabs>
           </Grid>
@@ -224,6 +236,14 @@ function Home(props) {
       </div>
     );
   }
+  if (onSetSelect === "Noticias") {
+    return (
+      <div>
+        <Carrousel />
+      </div>
+    );
+  }
+
   return <div></div>;
 }
 
