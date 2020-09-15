@@ -72,9 +72,8 @@ export default function ClippedDrawer() {
         <img className={classes.img} src={logo} alt="" />
         <Toolbar />
         <div className={classes.drawerContainer}>
-        <Link to = "crud">  <button>Herramientas</button> </Link>
           <List>
-            {["Noticias", "Cohortes", "Instructores", "Pm´s", "Alumnos"].map(
+            {["Herramientas","Noticias", "Cohortes", "Instructores", "Pm´s", "Alumnos"].map(
               (text, index) => (
                 <ListItem button key={text}>
                   <ListItemText
