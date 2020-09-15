@@ -1,5 +1,5 @@
 const server = require("express").Router();
-const bcrypt = require("bcryptjs");
+//const bcrypt = require("bcryptjs");
 
 const { User } = require("../db.js");
 
@@ -32,12 +32,12 @@ server.post("/", (req, res, next) => {
   console.log(email, lastname, email, password);
 
   if (name && lastname && email && password) {
-    bcrypt.genSalt(10, (err, hash) => {
+    //bcrypt.genSalt(10, (err, hash) => {
       const newUser = {
         email: email,
         name: name,
         lastName: lastname,
-        password: hash,
+        password: password,
         role: role,
         city: city,
         province: province,
@@ -51,7 +51,7 @@ server.post("/", (req, res, next) => {
           //Mandamos el error al error endware
           next(error);
         });
-    });
+   // });
   } else {
     return res.send({ message: "Faltan campos obligatorios" });
   }
