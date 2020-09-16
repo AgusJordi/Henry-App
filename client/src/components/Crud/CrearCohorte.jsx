@@ -1,30 +1,30 @@
 import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import swal from 'sweetalert';
-import {createCohorte} from '../../actions/index.js';
-
+import swal from "sweetalert";
+import { FormControl } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import { createCohorte } from "../../actions/index.js";
 
 function CrearCohorte() {
-  
   const [input, setInput] = useState({
-    cohorte: '',
-    instructor: '',
+    cohorte: "",
+    instructor: "",
     //DateA: '',
   });
 
   const [inputB, setInputB] = useState({
-    cohorte: '',
-    instructor: '',
+    cohorte: "",
+    instructor: "",
     //DateA: '',
   });
 
   const handleInputChange = function (e) {
     setInput({
       ...input,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
-  }
+  };
 
   const handleCreateCohorte = function (e) {
     /*setInput({
@@ -32,21 +32,23 @@ function CrearCohorte() {
       [e.target.name]: e.target.value
     });*/
     e.preventDefault(); //A TENER EN CUENTA
-    console.log(input, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACA ESTOY EN COMPONENTE")
+    console.log(
+      input,
+      "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACA ESTOY EN COMPONENTE"
+    );
     createCohorte(input);
     /*Aca iria la alerta*/
     setInputB(inputB);
-  }
-  
+  };
 
   return (
     <div>
       <div>
-        <form onSubmit = {handleCreateCohorte} >
+        <form onSubmit={handleCreateCohorte}>
           <div>
             <TextField
-              name='cohorte'
-              type='text'
+              name="cohorte"
+              type="text"
               id="standard-full-width"
               label="Cohorte"
               style={{ margin: 8 }}
@@ -57,11 +59,11 @@ function CrearCohorte() {
               InputLabelProps={{
                 shrink: true,
               }}
-              onChange = {handleInputChange}
+              onChange={handleInputChange}
             />
             <TextField
-              name='instructor'
-              type='text'
+              name="instructor"
+              type="text"
               id="standard-full-width"
               label="nombre"
               style={{ margin: 8 }}
@@ -72,9 +74,9 @@ function CrearCohorte() {
               InputLabelProps={{
                 shrink: true,
               }}
-              onChange = {handleInputChange}
+              onChange={handleInputChange}
             />
-      {/*   <TextField
+            {/*   <TextField
               name='DateA'
               type='text'
               id="standard-full-width"
@@ -106,5 +108,4 @@ function CrearCohorte() {
     </div>
   );
 }
-
 export default CrearCohorte;

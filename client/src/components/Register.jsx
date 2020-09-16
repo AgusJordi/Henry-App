@@ -73,7 +73,6 @@ function Register(props) {
   const classesRegister = useStylesS();
   const [modalStyle] = useState(getModalStyle);
 
-  //console.log("aca", open);
   // HARDCODEO COSMICO
 
   const [users, setUsers] = useState([]);
@@ -87,10 +86,12 @@ function Register(props) {
       province: "",
       country: "",
       email: "",
+      password: "",
     },
     validationSchema: Yup.object({
       firstName: Yup.string().max(15, "Ingresa menos de 15 caracteres"),
       lastName: Yup.string().max(15, "Ingresa menos de 15 caracteres"),
+      password: Yup.string().max(15, "Ingresa menos de 15 caracteres"),
       city: Yup.string().max(15, "Ingresa menos de 15 caracteres"),
       province: Yup.string().max(15, "Ingresa menos de 15 caracteres"),
       country: Yup.string().max(15, "Ingresa menos de 15 caracteres"),
@@ -145,6 +146,21 @@ function Register(props) {
                 label="Apellido"
                 placeholder="Sofovich"
                 helperText={formik.errors.lastName}
+                variant="outlined"
+                fullWidth
+              />
+            </div>
+            <div>
+              <label htmlFor="lastName"></label>
+              <TextField
+                id="password"
+                type="password"
+                required
+                {...formik.getFieldProps("password")}
+                error={formik.errors.password}
+                label="Password"
+                placeholder="********"
+                helperText={formik.errors.password}
                 variant="outlined"
                 fullWidth
               />

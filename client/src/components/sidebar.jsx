@@ -1,5 +1,5 @@
 import React, { useState, Fragment } from "react";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import AppBar from "@material-ui/core/AppBar";
@@ -11,12 +11,14 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import logo from "../images/henry-logo.png";
 import RenderHome from "./renderHome";
+import Carrousel from "./Carrousel.jsx";
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
+    justifyContent: "center",
   },
   appBar: {
     zIndex: theme.zIndex.drawer - 1,
@@ -73,16 +75,21 @@ export default function ClippedDrawer() {
         <Toolbar />
         <div className={classes.drawerContainer}>
           <List>
-            {["Herramientas","Noticias", "Cohortes", "Instructores", "Pm´s", "Alumnos"].map(
-              (text, index) => (
-                <ListItem button key={text}>
-                  <ListItemText
-                    primary={text}
-                    onClick={() => onClickSelect({ text })}
-                  />
-                </ListItem>
-              )
-            )}
+            {[
+              "Herramientas",
+              "Noticias",
+              "Cohortes",
+              "Instructores",
+              "Pm´s",
+              "Alumnos",
+            ].map((text, index) => (
+              <ListItem button key={text}>
+                <ListItemText
+                  primary={text}
+                  onClick={() => onClickSelect({ text })}
+                />
+              </ListItem>
+            ))}
           </List>
           <Divider />
 
@@ -96,7 +103,7 @@ export default function ClippedDrawer() {
           </List> */}
         </div>
       </Drawer>
-      {click ? <RenderHome onSetSelect={buttonSet} /> : null}
+      {click ? <RenderHome onSetSelect={buttonSet} /> : <Carrousel />}
     </div>
   );
 }
