@@ -4,7 +4,7 @@ module.exports = (sequelize) => {
   const User = sequelize.define("user", {
     name: {
       type: DataTypes.TEXT,
-      allowNull: false,
+      allowNull: true,
       validate: {
         is: {
           args: ["^[a-zA-Z-,]+(s{0,1}[a-zA-Z-, ])*$"],
@@ -15,7 +15,7 @@ module.exports = (sequelize) => {
 
     lastName: {
       type: DataTypes.TEXT,
-      allowNull: false,
+      allowNull: true,
       validate: {
         is: {
           args: ["^[a-zA-Z-,]+(s{0,1}[a-zA-Z-, ])*$"],
@@ -38,7 +38,7 @@ module.exports = (sequelize) => {
 
     password: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
 
     city: {
@@ -54,9 +54,29 @@ module.exports = (sequelize) => {
       allowNull: true,
     },
 
-    role: {
-      type: DataTypes.ENUM("user", "admin"),
-      defaultValue: "user",
+    status: {
+      type: DataTypes.ENUM("habilitado", "inhabilitado", "eliminado"),
+      defaultValue: "inhabilitado",
+    },
+
+    student: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true
+    },
+
+    pm: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
+
+    instructor: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
+
+    admin: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
     },
 
     googleId: {
