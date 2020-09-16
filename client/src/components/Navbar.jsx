@@ -12,10 +12,22 @@ import Divider from "@material-ui/core/Divider";
 import martin from "../images/martinborchardt.png";
 import { makeStyles } from "@material-ui/core/styles";
 import { Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import { useEffect } from "react";
+import { getAllUsers, userLogIn, onlineUserError, onlineUser } from "../actions";
 
 var lsName = localStorage.getItem("username");
+console.log()
 
-export default function Navbar() {
+function Navbar({onlineUser, userLogIn}) {
+
+  useEffect(() => {
+    getAllUsers(589); //probando actions
+    userLogIn(onlineUser)
+  }, []);
+
+  console.log('EL ESTADODDDDD', onlineUser)
+  
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -81,6 +93,7 @@ export default function Navbar() {
             <small>
               {" "}
               Hola! <b>{lsName}</b>
+              
             </small>
           </span>
         </Button>
@@ -109,3 +122,23 @@ export default function Navbar() {
     </div>
   );
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getAllUsers: (number) => dispatch(getAllUsers(589)),
+    userLogIn: (input) => dispatch(userLogIn(input)),
+    onlineUserError: () => dispatch(onlineUserError()),
+  };
+};
+
+const mapStateToProps = (state) => {
+  return {
+    all_users: state.all_users,
+    onlineUser: state.onlineUser,
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
+
+
+  
