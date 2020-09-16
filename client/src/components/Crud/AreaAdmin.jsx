@@ -13,8 +13,6 @@ import Box from "@material-ui/core/Box";
 import "./AreaAdmin.css"
 
 
-// S8 : Crear Formulario para el CRUD de un Producto
-
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "30vw",
@@ -27,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function SimpleAccordion(props) {
+function AreaAdmin(props) {
   const classes = useStyles();
 
   return (
@@ -87,3 +85,5 @@ export default function SimpleAccordion(props) {
     </div>
   );
 }
+
+export default AreaAdmin;

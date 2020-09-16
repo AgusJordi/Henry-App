@@ -10,6 +10,7 @@ import Box from "@material-ui/core/Box";
 import axios from "axios";
 import Profile from "./Profile";
 import Cohorte from "./Cohorte";
+import AreaAdmin from "./Crud/AreaAdmin.jsx";
 import Grid from "@material-ui/core/Grid";
 import { getAllUsers, getAllCohortes } from "../actions/index";
 
@@ -207,6 +208,17 @@ function Home(props) {
                 );
               })}
             </Grid>
+          </Grid>
+        </Grid>
+      </div>
+    );
+  }
+  if (onSetSelect === "Herramientas") {
+    return (
+      <div>
+        <Grid container>
+          <Grid xs={12} container className={classes.tabPanel}>
+            <AreaAdmin />
           </Grid>
         </Grid>
       </div>
