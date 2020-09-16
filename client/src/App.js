@@ -1,13 +1,11 @@
-import React from "react";
-import Home from "./components/home";
+import React from "react"; 
 import Carrousel from "./components/Carrousel.jsx";
 import Login from "./components/Login.jsx";
-import Navbar from "./components/Navbar.jsx";
-import Error404 from "./components/error404.jsx"
+import Navbar from "./components/Navbar.jsx"; 
 import Profile from "./components/Profile.jsx";
-import {BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+import {BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import Sidebar from "./components/sidebar";
-import decode from "jwt-decode"
+ 
 
 
 
@@ -23,37 +21,32 @@ function App() {
     return false 
      
   }
-
   
-  const PvRoute  = (props)=>(
+  const PvRoute  = (props)=>(  
+    
     isAutenticated()
     ? <Route  {... props} />
     : <Redirect to= "./login" />
+
   )
   
+ 
   
   return (
-    <div>        
-        
+    <div>   
+        <Router>
         <PvRoute path="/" component={Navbar} />
         <PvRoute path="/" component={Sidebar} />
         <PvRoute exact path="/home" component={Carrousel} />       
         <PvRoute exact path="/profile" component={Profile} />
-           
+        {/* <PvRoute exact path="/crud" component={AreaAdmin} /> */}
+        </Router> 
         {isAutenticated() == false ? <Route exact path="/login" component={Login} /> : '' }
-                  
+             
       </div>
     )
+    
    
- 
-
-  // <div>
-  //       <Route exact path="/login" component={Login} /> 
-  //       <Route exact path="/error" component={Error404} />
-  // </div>
-   
-      
-     
    
 }
 

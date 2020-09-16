@@ -5,17 +5,16 @@ export const USER_LOGIN = "LOGIN_USER";
 export const GET_ALL_USERS = "GET_ALL_USERS";
 export const ONLINE_USER_ERROR = "ONLINE_USER_ERROR";
 export const GET_ALL_COHORTES = "GET_ALL_COHORTES";
+export const CREATE_COHORTE = "CREATE_COHORTE";
 
 export function userLogIn(body) {
   return function (dispatch) {
-    return axios
-      .post(`https://www.etnassoft.com/api/v1/get/?id=`)
+    return axios.post("http://localhost:4000/login",body)
       .then((result) => result.data)
       .then((data) => {
         dispatch({
           type: USER_LOGIN,
-          payload:
-            body.username === "martin" && body.password === "1234" ? body : 0,
+          payload: data == false ? 0 : data 
         });
       });
   };
@@ -52,4 +51,21 @@ export function getAllCohortes() {
         });
       });
   };
+}
+
+export function createCohorte(info) {
+  console.log(info, "ACA ESTOY EEEEEEEEEEEEEEEEEEEEEEEEEEEEN ACTIONS")
+    var url = "http://localhost:4000/cohorte";
+    axios({
+        method: "post",
+        url: url,
+        headers: {
+            "Content-Type": "application/json",
+        },
+        data: {
+          name: info.cohorte,
+          description: info.instructor,
+          //date: info.DateA
+        },
+    });
 }
