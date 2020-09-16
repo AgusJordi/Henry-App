@@ -40,6 +40,10 @@ function Navbar({onlineUser, userLogIn}) {
     window.location = "./login";
   };
 
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
+
   const useStyles = makeStyles((theme) => ({
     root: {
       display: "flex",
@@ -103,7 +107,7 @@ function Navbar({onlineUser, userLogIn}) {
           anchorEl={anchorEl}
           keepMounted
           open={open}
-          onClose={handleClose}
+          onClose={handleCloseMenu}
           TransitionComponent={Fade}
         >
           <div>
@@ -112,9 +116,9 @@ function Navbar({onlineUser, userLogIn}) {
             <p className={classes.cohorte}>Cohorte 2</p>
           </div>
           <Divider light />
-          <MenuItem onClick={handleClose}>Ver mi perfil</MenuItem>
+          <MenuItem onClick={""}>Ver mi perfil</MenuItem>
           <Divider light />
-          <MenuItem onClick={handleClose}>Cambiar contraseña</MenuItem>
+          <MenuItem onClick={""}>Cambiar contraseña</MenuItem>
           <Divider light />
           <MenuItem onClick={handleClose}>Cerrar sesión</MenuItem>
         </Menu>
