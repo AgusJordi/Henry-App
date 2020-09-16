@@ -31,26 +31,26 @@ server.post("/", (req, res, next) => {
   } = req.body;
   console.log(email, lastname, email, password);
 
-  if (name && lastname && email && password) {
+  if (name && lastname && email) {
     //bcrypt.genSalt(10, (err, hash) => {
-      const newUser = {
-        email: email,
-        name: name,
-        lastName: lastname,
-        password: password,
-        role: role,
-        city: city,
-        province: province,
-        country: country,
-      };
-      User.create(newUser)
-        .then((user) => {
-          return res.send(user.dataValues);
-        })
-        .catch((error) => {
-          //Mandamos el error al error endware
-          next(error);
-        });
+    const newUser = {
+      email: email,
+      name: name,
+      lastName: lastname,
+      password: password,
+      role: role,
+      city: city,
+      province: province,
+      country: country,
+    };
+    User.create(newUser)
+      .then((user) => {
+        return res.send(user.dataValues);
+      })
+      .catch((error) => {
+        //Mandamos el error al error endware
+        next(error);
+      });
     //});
   } else {
     return res.send({ message: "Faltan campos obligatorios" });

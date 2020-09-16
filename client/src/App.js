@@ -33,11 +33,11 @@ function App() {
         <PvRoute exact path="/profile" component={Profile} />
         {/* <PvRoute exact path="/crud" component={AreaAdmin} /> */}
       </Router>
-      {isAutenticated() == false ? (
+      {isAutenticated() === false ? (
         <Route exact path="/login" component={Login} />
       ) : (
-        ""
-      )}
+          ""
+        )}
     </div>
   );
 }

@@ -7,13 +7,9 @@ module.exports = (sequelize) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        description: {
-            type: DataTypes.STRING,
+        date: {
+            type: DataTypes.INTEGER,
             allowNull: true,
         }
-        /*date: {
-            type: DataTypes.DATEONLY,
-            allowNull: true,
-        } falta habilitar cuando tengamos el modelo en front*/ 
     });
 };
