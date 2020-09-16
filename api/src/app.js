@@ -12,15 +12,6 @@ var db = require("./db.js");
  
 console.log(db.User.name)
 
-//CORS
-// server.use(
-//   cors({
-//     origin: "http://localhost:3000",
-//     credentials: true,
-//   })
-// );
-
-  
 
 passport.use(new Strategy(
   {
