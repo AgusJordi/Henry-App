@@ -14,8 +14,9 @@ server.get("/", (req, res, next) => {
 });
 
 server.post("/", (req, res, next) => {
-  const { name, description } = req.body;
-  Cohorte.create({ name, description })
+  const { name, description } = req.body; //falta date
+  console.log(req.body, "SOY UN BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACK")
+  Cohorte.create({ name, description }) //falta date
     .then((cohorte) => {
       res.send(cohorte);
     })
