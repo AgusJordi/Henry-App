@@ -105,7 +105,7 @@ function Home(props) {
             </Tabs>
           </Grid>
           <Grid xs={10} className={classes.cohorteRoot}>
-            <Cohorte users={allUsers} />
+            <Cohorte users={allUsers} cohorte={allCohortes} />
           </Grid>
         </Grid>
       </Grid>

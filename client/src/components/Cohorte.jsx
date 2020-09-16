@@ -26,7 +26,7 @@ import Select from "@material-ui/core/Select";
 function Cohorte(props) {
   //seteo cuadrado
 
-  const { users } = props;
+  const { users, cohorte } = props;
 
   const useStyles = makeStyles((theme) => ({
     //box contenedora
