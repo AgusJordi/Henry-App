@@ -22,7 +22,6 @@ import { useEffect } from "react";
 import { connect } from "react-redux";
 import { getAllUsers, userLogIn, onlineUserError } from "../actions";
 import * as action from "../actions";
-import { useHistory } from "react-router-dom";
 import portada from "../images/welcome.png";
 import Register from "./Register";
 import Swal from "sweetalert2";
@@ -79,11 +78,12 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError }) {
 
   useEffect(() => {
     getAllUsers(589); //probando actions
+    //userLogIn(onlineUser)
   }, []);
 
   const classes = useStyles();
 
-  const [input, setInput] = useState({ username: "", password: "" });
+  const [input, setInput] = useState({ email: "", password: "" });
 
   const handleChange = (e) => {
     setInput({
@@ -98,10 +98,12 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError }) {
     userLogIn(input);
   };
   if (onlineUser !== false && onlineUser !== 0) {
-    var username = onlineUser.username;
-    localStorage.setItem("username", username);
+    console.log(" lo que traeel login ", onlineUser);
+
+    localStorage.setItem("idUser", onlineUser.id);
+    localStorage.setItem("lastName", onlineUser.lastName);
+    localStorage.setItem("username", onlineUser.name);
     window.location = "./home";
-    //return <Redirect to='./' />
   }
 
   if (onlineUser === 0) {
@@ -146,9 +148,9 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError }) {
               margin="normal"
               required
               fullWidth
-              id="username"
-              label="USUARIO"
-              name="username"
+              id="email"
+              label="EMAIL"
+              name="email"
               autoComplete="email"
               autoFocus
               onChange={handleChange}

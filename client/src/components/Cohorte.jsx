@@ -13,6 +13,7 @@ import Grid from "@material-ui/core/Grid";
 import { ThemeProvider } from "@material-ui/styles";
 import Icon from "@material-ui/core/Icon";
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
+import { connect } from "react-redux";
 
 //
 import List from "@material-ui/core/List";
@@ -278,4 +279,5 @@ function Cohorte(props) {
   );
 }
 
-export default Cohorte;
+ 
+export default connect()(Cohorte)

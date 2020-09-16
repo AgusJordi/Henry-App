@@ -3,14 +3,14 @@ import {
   GET_ALL_USERS,
   USER_LOGIN,
   ONLINE_USER_ERROR,
-  GET_ALL_COHORTES,
+  GET_ALL_COHORTES,   
 } from "../actions/index";
 //var ls = require('local-storage');
 
 const initialState = {
   all_users: [],
   all_cohortes: [],
-  onlineUser: false,
+  onlineUser: false
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -23,8 +23,9 @@ const reducer = (state = initialState, action) => {
     case USER_LOGIN:
       return {
         ...state,
-        onlineUser: action.payload,
-      };
+        onlineUser: action.payload
+      }
+
     case ONLINE_USER_ERROR:
       return {
         ...state,
