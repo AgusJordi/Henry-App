@@ -1,8 +1,9 @@
 
-import './Carrousel.css'
+import './Carrousel.css' 
 import Paper from '@material-ui/core/Paper';
 import React from 'react';
 import Carousel from 'react-material-ui-carousel'
+import { connect } from "react-redux";
  
 function Carrousel(props)
 {
@@ -66,4 +67,4 @@ function Item(props)
   
 
 
-export default Carrousel;
+export default connect()(Carrousel)

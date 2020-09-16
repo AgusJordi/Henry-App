@@ -4,69 +4,66 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const cors = require("cors");
-const bcrypt = require("bcryptjs");
-const passport = require("passport");
-const Strategy = require("passport-local").Strategy;
+const { User } = require("./db.js")
 const routes = require("./routes/index.js");
+const passport = require('passport');
+const Strategy = require('passport-local').Strategy;
+ 
+var db = require("./db.js");
+ 
+console.log(db.User.name)
 
-require("./db.js");
 
-const { User } = require("./db.js");
-
-const server = express();
-
-server.name = "API";
-
-//Estrategia LOCAL Passport
-passport.use(
-  new Strategy({ usernameField: "email", passwordField: "password" }, function (
-    username,
-    password,
-    done
-  ) {
-    //Buscamos si existe el usuario
-    User.findOne({ where: { email: username } })
-      .then((user) => {
+passport.use(new Strategy(
+  {
+  usernameField: 'email',
+  passwordField: 'password'
+  },
+  function(username, password, done, info) {
+    console.log('DBDBDBDBD', username, password )
+    db.User.findOne({ where: {email: username}})
+    
+      .then(user => {
         if (!user) {
-          return done(null, false, { message: "Usuario/Password Invalido" });
+          console.log("NO ENCUENTRA EL USUARIO")
+          return done(null, false);        }
+        if (password !== user.password) {//comparar con contraseña
+          console.log("NO PASA LA CONTRASEÑA")
+          return done(null, false);
         }
-        //Comparamos si password es igual
-        bcrypt.compare(password, user.password).then((res) => {
-          if (res) {
-            return done(null, user);
-          }
-          return done(null, false, { message: "Usuario/Password Invalido" });
-        });
+         
+        console.log("ENCUENTRA EL USUARIO", user.dataValues)
+        return done(null, user.dataValues);
       })
-      .catch((err) => {
+      .catch(err => {
         return done(err);
-      });
-  })
-);
+      })
+  }));
 
-//Serialize y deserialize
 
-passport.serializeUser(function (user, done) {
-  done(null, user.id);
-});
+  passport.serializeUser(function(user, done) {
+    done(null, user.id);
+  });
+  
+  passport.deserializeUser(function(id, done) {
+    db.User.findOne({ where: { id } })
+      .then(user => {
+        done(null, user.dataValues);
+      })
+      .catch(err => {
+        return done(err);
+      })
+  });
+  
+  const server = express();
+  
+  server.use(require('express-session')({
+    secret: 'secret',
+    resave: false,
+    saveUninitialized: false
+  }));
 
-passport.deserializeUser(function (id, done) {
-  User.findOne({ where: { id: id } })
-    .then((user) => {
-      done(null, user);
-    })
-    .catch((err) => {
-      return done(err);
-    });
-});
-
-//CORS
-server.use(
-  cors({
-    origin: "http://localhost:3000",
-    credentials: true,
-  })
-);
+  server.name = "API";
 
 server.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 server.use(bodyParser.json({ limit: "50mb" }));
@@ -79,21 +76,62 @@ server.use((req, res, next) => {
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept"
   );
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
   next();
 });
 
-server.use(
-  session({
-    secret: "top secret",
-    resave: false,
-    saveUninitialized: false,
-  })
-);
 server.use(passport.initialize());
 server.use(passport.session());
+
 server.use((req, res, next) => {
+  console.log("Session! ", req.session);
+  console.log("User!", req.user);
   next();
 });
+
+
+//server.use('/', ind)
+
+
+server.post("/login", (req, res, next) => { 
+  passport.authenticate("local", (err, user, info) => {
+    if (err) { return next(err); }    
+    if (!user) {
+      return res.send(user);
+      
+    }
+    req.logIn(user, (err) => {
+      if (err) {
+        return next(err);
+      }
+      return res.send(user)
+    });
+  })(req, res, next);
+})
+
+function isAuthenticated(req, res, next) {
+  if(req.isAuthenticated()){
+    next();
+  }
+  else{
+    res.send(false);
+  }
+}
+
+server.get("/logout", (req, res) => {
+req.logout();
+res.send("Ok!")
+});
+
+
+server.get("/login",
+isAuthenticated,
+(req, res) => {
+res.send(req.user)
+});
+
+////////////////////END./ EXPRESS ////////////////
+
 
 server.use("/", routes);
 
@@ -107,3 +145,4 @@ server.use((err, req, res, next) => {
 });
 
 module.exports = server;
+

@@ -21,10 +21,9 @@ import { NavLink, Redirect, Route } from "react-router-dom";
 import { useEffect } from "react";
 import { connect } from "react-redux";
 import { getAllUsers, userLogIn, onlineUserError } from "../actions";
-import * as action from "../actions";
-import { useHistory } from "react-router-dom";
+import * as action from "../actions"; 
 import portada from "../images/welcome.png";
-import Register from "./Register";
+import Register from "./Register"; 
 import Swal from "sweetalert2";
 //IMPORTS PARA MODAL REGISTER
 
@@ -77,13 +76,17 @@ const useStyles = makeStyles((theme) => ({
 function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError }) {
   ////INICIO del del coomponente
 
+
+   
+
   useEffect(() => {
     getAllUsers(589); //probando actions
+    //userLogIn(onlineUser)
   }, []);
 
   const classes = useStyles();
 
-  const [input, setInput] = useState({ username: "", password: "" });
+  const [input, setInput] = useState({ email: "", password: "" });
 
   const handleChange = (e) => {
     setInput({
@@ -99,10 +102,12 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError }) {
   };
   if (onlineUser !== false && onlineUser !== 0) {
     console.log(" lo que traeel login ", onlineUser);
-    var username = onlineUser.username;
-    localStorage.setItem("username", username);
+     
+    localStorage.setItem("idUser", onlineUser.id);
+    localStorage.setItem("lastName", onlineUser.lastName);
+    localStorage.setItem("username", onlineUser.name); 
     window.location = "./home";
-    //return <Redirect to='./' />
+   
   }
 
   if (onlineUser === 0) {
@@ -148,14 +153,14 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError }) {
               margin="normal"
               required
               fullWidth
-              id="username"
-              label="USUARIO"
-              name="username"
+              id="email"
+              label="EMAIL"
+              name="email"
               autoComplete="email"
               autoFocus
               onChange={handleChange}
             />
-            <TextField
+            <TextField 
               onChange={handleChange}
               id="password"
               variant="outlined"
