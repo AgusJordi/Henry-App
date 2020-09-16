@@ -3,8 +3,6 @@ const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
-const cors = require("cors");
-const { User } = require("./db.js")
 const routes = require("./routes/index.js");
 const passport = require('passport');
 const Strategy = require('passport-local').Strategy;
@@ -88,9 +86,7 @@ server.use((req, res, next) => {
   console.log("User!", req.user);
   next();
 });
-
-
-//server.use('/', ind)
+ 
 
 
 server.post("/login", (req, res, next) => { 

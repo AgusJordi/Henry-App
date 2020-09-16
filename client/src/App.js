@@ -5,9 +5,8 @@ import Navbar from "./components/Navbar.jsx";
 import Profile from "./components/Profile.jsx";
 import {BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import Sidebar from "./components/sidebar";
+
  
-
-
 
 
 function App() {   
@@ -21,6 +20,8 @@ function App() {
     return false 
      
   }
+
+   
   
   const PvRoute  = (props)=>(  
     
@@ -29,8 +30,9 @@ function App() {
     : <Redirect to= "./login" />
 
   )
-  
  
+   
+    
   
   return (
     <div>   
