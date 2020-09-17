@@ -14,20 +14,24 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { useEffect } from "react";
-import { getAllUsers, userLogIn, onlineUserError, onlineUser } from "../actions";
+import {
+  getAllUsers,
+  userLogIn,
+  onlineUserError,
+  onlineUser,
+} from "../actions";
 
 var lsName = localStorage.getItem("username");
-console.log()
+console.log();
 
-function Navbar({onlineUser, userLogIn}) {
-
+function Navbar({ onlineUser, userLogIn }) {
   useEffect(() => {
     getAllUsers(589); //probando actions
-    userLogIn(onlineUser)
+    userLogIn(onlineUser);
   }, []);
 
-  console.log('EL ESTADODDDDD', onlineUser)
-  
+  console.log("EL ESTADODDDDD", onlineUser);
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -66,6 +70,9 @@ function Navbar({onlineUser, userLogIn}) {
       marginTop: "2px",
       marginLeft: "15px",
     },
+    imgRoot: {
+      marginLeft: 10,
+    },
   }));
 
   const classes = useStyles();
@@ -84,6 +91,7 @@ function Navbar({onlineUser, userLogIn}) {
         <img
           src="https://emojis.wiki/emoji-pics/apple/rocket-apple.png"
           alt=""
+          className={classes.imgRoot}
         />
       </div>
       <div className="navbar_right">
@@ -97,7 +105,6 @@ function Navbar({onlineUser, userLogIn}) {
             <small>
               {" "}
               Hola! <b>{lsName}</b>
-              
             </small>
           </span>
         </Button>
@@ -143,6 +150,3 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
-
-
-  
