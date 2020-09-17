@@ -21,7 +21,7 @@ function Home(props) {
 
   const dispatch = useDispatch();
   const allUsers = useSelector((state) => state.all_users);
-  const allCohortes = useSelector((state) => state.all_cohortes);
+  const allCohortes = [];
   useEffect(() => {
     dispatch(getAllUsers());
     dispatch(getAllCohortes());
