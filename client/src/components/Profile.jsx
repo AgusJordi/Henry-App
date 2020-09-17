@@ -1,42 +1,87 @@
-import React from "react";
-import "./Profile.css";
-import Container from "@material-ui/core/Container";
-import { useSelector, useDispatch } from "react-redux";
-import { getAllUsers } from "../actions/index";
+import martin from "../images/martinborchardt.png";
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import Modal from '@material-ui/core/Modal';
 
-function Profile(props) {
+function rand() {
+  return Math.round(Math.random() * 20) - 10;
+}
+
+function getModalStyle() {
+  const top = 50 + rand();
+  const left = 50 + rand();
+  
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`,
+  };
+}
+
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    position: 'absolute',
+    width: 400,
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[5],
+    borderRadius: "20px",
+    padding: theme.spacing(2, 4, 3),
+    justifyContent: "center",
+    display: "flex",
+    outline: "none",
+  },
+  img: {
+    borderRadius: "30px",
+    width: "250px",
+    height: "250px",
+    margin: "auto",
+    boxShadow: theme.shadows[5],
+  },
+
+}));
+
+export default function Profile(props) {
   const { user } = props;
+  const classes = useStyles();
+  // getModalStyle is not a pure function, we roll the style only on the first render
+  const [modalStyle] = React.useState(getModalStyle);
+  const [open, setOpen] = React.useState(true);
+
+  // const handleOpen = () => {
+  //   setOpen(true);
+  // };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
 
   return (
-    <div>
-      <div className="padre">
-        <div>
-          <img
-            className="foto"
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcR1fxA9MKWMi0uLOqys3eK8Ez8DQIPVB3b3gQ&usqp=CAU"
-            alt=""
-          />
-        </div>
-        <div className="hijouno">
-          <h1>Cohorte: *7*</h1>
-          <h1>Pm: Emi Checker</h1>
-          <h1>Nombre: {user.name}</h1>
-          <h1>Apellido: {user.lastName}</h1>
-          <h1>Email: {user.email}</h1>
-          <h1>Ciudad: {user.city}</h1>
-          <h1>Provincia: {user.province}</h1>
-          <h1>Pais: {user.country}</h1>
-          <h1>Ubicacion: Internet</h1>
-          <h1>Github: Androidpure</h1>
-          <h1>Modulo: **HEnryApp**</h1>
-          <h1>Pair programming: Everyday....</h1>
-        </div>
-        <div className="hijodos">
-          <h1>Aca irian las estrellas del feedback</h1>
-        </div>
-      </div>
+    <div className={classes.father}>
+      {/* <button type="button" onClick={handleOpen}>
+        Open Modal
+      </button> */}
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+      >
+       
+          <div style={modalStyle} className={classes.paper}>
+          <div className={classes.div}>
+
+          <h1> {user.name} {user.lastName}</h1>
+          <img className={classes.img} src={martin}/>
+          <p>{user.province}, {user.country}</p>
+          <p>Email: {user.email}</p>
+          <p>Celular: 1540856398</p>
+          </div>
+      
+          {/* <h1>Github:{user.email}</h1> */}
+      {/* <Profile/> */}
+    </div>
+      </Modal>
     </div>
   );
 }
-
-export default Profile;
