@@ -1,7 +1,7 @@
 const server = require("express").Router();
 //const bcrypt = require("bcryptjs");
 
-const { User } = require("../db.js");
+const { User, Student } = require("../db.js");
 
 //Rutar obtener todos los usuarios
 
@@ -16,6 +16,25 @@ server.get("/", (req, res, next) => {
     })
     .catch((err) => next(err));
 });
+
+//Ruta para crear usuario y alumno solo con mail de forma masiva.
+server.post("/add", (req, res, next) => {
+  var mails = req.body.mails
+  console.log(req.body)
+  for (var i = 0; i < mails.length; i++) {
+    User.create({
+      email: mails[i]
+    })
+      .then(user => {
+        console.log(user)
+        Student.create({
+          userId: user.dataValues.id
+        })
+      })
+  }
+  res.send("Se creó usuario y alumno")
+})
+
 
 //Ruta crear usuario
 server.post("/", (req, res, next) => {
