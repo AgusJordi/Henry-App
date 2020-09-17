@@ -31,9 +31,9 @@ module.exports = (sequelize) => {
         args: true,
         message: "Email must be unique.",
       },
-      validate: {
-        isEmail: true,
-      },
+      /*  validate: {
+         isEmail: true,
+       }, */
     },
 
     password: {
