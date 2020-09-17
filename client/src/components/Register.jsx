@@ -100,6 +100,7 @@ function Register(props) {
     onSubmit: (values, { setSubmitting }) => {
       setUsers({ values });
       setSubmitting(false);
+      console.log("desde registro", values);
     },
   });
 

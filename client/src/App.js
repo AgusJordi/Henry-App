@@ -29,7 +29,7 @@ function App() {
       <Router>
         <PvRoute path="/" component={Navbar} />
         <PvRoute path="/" component={Sidebar} />
-        <PvRoute exact path="/home" component={Carrousel} />
+        {/* <PvRoute exact path="/home" component={Carrousel} /> */}
         <PvRoute exact path="/profile" component={Profile} />
         {/* <PvRoute exact path="/crud" component={AreaAdmin} /> */}
       </Router>

@@ -15,7 +15,7 @@ server.get("/", (req, res, next) => {
 
 server.post("/", (req, res, next) => {
   const { name, description } = req.body; //falta date
-  console.log(req.body, "SOY UN BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACK")
+  console.log(req.body, "SOY UN BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACK");
   Cohorte.create({ name, description }) //falta date
     .then((cohorte) => {
       res.send(cohorte);
@@ -23,15 +23,15 @@ server.post("/", (req, res, next) => {
     .catch((error) => next(error));
 });
 
-server.delete("/:name", (req, res, next) => {
-  const name = req.params.name;
-  Cohorte.destroy({ where: { name: name } })
-    .then((num) => {  
+server.delete("/:id", (req, res, next) => {
+  const idCohorte = req.params.id;
+  Cohorte.destroy({ where: { id: idCohorte } })
+    .then((num) => {
       if (num > 0) {
-        return res.send({ message: `Se elimino el Cohorte : ${checkName}` });
+        return res.send({ message: `Se elimino el Cohorte : ${idCohorte}` });
       }
       return res.send({
-        message: `No se pudo eliminar el Cohorte: ${checkName}`,
+        message: `No se pudo eliminar el Cohorte: ${idCohorte}`,
       });
     })
     .catch((err) => next(err));

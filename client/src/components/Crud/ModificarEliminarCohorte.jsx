@@ -20,6 +20,9 @@ const useStyles = makeStyles({
   table: {
     minWidth: 650,
   },
+  fecha: {
+    marginLeft: 10,
+  },
 });
 function ModificarEliminarCohorte() {
   const [input, setInput] = useState({
@@ -105,23 +108,26 @@ function ModificarEliminarCohorte() {
                     onChange={handleInputChange}
                   />
                   <TextField
-                    autoFocus
                     name="DateA"
-                    margin="dense"
+                    id="standard-full-width"
                     label="Fecha de inicio"
-                    type="text"
-                    fullWidth
-                    value={input.DateA}
+                    type="date"
+                    defaultValue="2019-05-01"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
                     onChange={handleInputChange}
                   />
                   <TextField
-                    autoFocus
                     name="DateB"
-                    margin="dense"
-                    label="Fecha de finalización"
-                    type="text"
-                    fullWidth
-                    value={input.DateB}
+                    id="standard-full-width"
+                    label="Fecha de inicio"
+                    type="date"
+                    defaultValue="2019-05-01"
+                    className={classes.fecha}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
                     onChange={handleInputChange}
                   />
                 </DialogContent>
