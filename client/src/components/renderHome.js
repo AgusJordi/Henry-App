@@ -11,6 +11,7 @@ import axios from "axios";
 import Profile from "./Profile";
 import Cohorte from "./Cohorte";
 import AreaAdmin from "./Crud/AreaAdmin.jsx";
+import PairProgramming from "./Users/PairProgramming.jsx";
 import Grid from "@material-ui/core/Grid";
 import { getAllUsers, getAllCohortes } from "../actions/index";
 import Carrousel from "./Carrousel.jsx";
@@ -240,6 +241,17 @@ function Home(props) {
     return (
       <div>
         <Carrousel />
+      </div>
+    );
+  }
+  if (onSetSelect === "PairProgramming") {
+    return (
+      <div>
+        <Grid container>
+          <Grid xs={12} container className={classes.tabPanel}>
+            <PairProgramming />
+          </Grid>
+        </Grid>
       </div>
     );
   }
