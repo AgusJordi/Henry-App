@@ -1,0 +1,41 @@
+.box{
+	margin-top: 3%;
+	margin-left: 7%;
+	width: 90%;
+	text-align: left;
+	height: 80%;
+}
+.boxt{
+	display: flex; 
+	vertical-align: middle;
+	background-color: black;
+	color: white
+}
+.boxs {
+	display: flex;
+	width: 100%;
+	height: 90%;
+	word-wrap: break-word;
+	text-align: center;
+}
+.boxl {
+	float: left;
+	vertical-align: middle;
+	width: 100%;
+	height: 100%;
+	background-color: rgb(249, 231, 159);	
+	overflow: auto;
+}
+.boxtitulo{
+	width: 100%;
+	background-color: rgb(247, 220, 111);
+}
+.boxr {
+	display: flex;
+	justify-content: space-evenly;
+	margin-top: 5%;
+	align-items: stretch;
+	width: 100%;
+	background-color: rgb(247, 220, 111);
+	overflow: auto;
+	}
