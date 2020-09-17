@@ -47,6 +47,11 @@ server.post("/", (req, res, next) => {
     province,
     country,
     role,
+    admin,
+    status,
+    student,
+    instructor,
+    pm
   } = req.body;
   console.log(email, lastname, email, password);
 
@@ -61,6 +66,11 @@ server.post("/", (req, res, next) => {
       city: city,
       province: province,
       country: country,
+      admin: admin,
+      status: status,
+      student: student,
+      instructor: instructor,
+      pm: pm
     };
     User.create(newUser)
       .then((user) => {
