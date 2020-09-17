@@ -28,6 +28,7 @@ server.post("/add", (req, res, next) => {
     })
       .then(user => {
         console.log(user)
+        mailer.enviar_mail("Henry", user.dataValues.email)
         Student.create({
           userId: user.dataValues.id
         })
@@ -77,7 +78,7 @@ server.post("/", (req, res, next) => {
       .then((user) => {
         mailer.enviar_mail(newUser.name, newUser.email)
         return res.send(user.dataValues);
-        
+
       })
       .catch((error) => {
         //Mandamos el error al error endware

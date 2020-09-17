@@ -2,9 +2,9 @@
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 
-const gmailEmail = 'cesars.pro@gmail.com';
-const gmailPassword = '29850521crs';
- 
+const gmailEmail = 'henry.appg7@gmail.com';
+const gmailPassword = 'soyhenryg7';
+
 //Link para habilitar credenciales delcorreode GMAIL:
 // https://myaccount.google.com/lesssecureapps
 
