@@ -88,9 +88,7 @@ server.use((req, res, next) => {
   console.log("User!", req.user);
   next();
 });
-
-
-//server.use('/', ind)
+ 
 
 
 server.post("/login", (req, res, next) => { 

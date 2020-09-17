@@ -1,5 +1,6 @@
 const server = require("express").Router();
 //const bcrypt = require("bcryptjs");
+const mailer = require("../../templates/Registro.js")
 
 const { User, Student } = require("../db.js");
 
@@ -74,7 +75,9 @@ server.post("/", (req, res, next) => {
     };
     User.create(newUser)
       .then((user) => {
+        mailer.enviar_mail(newUser.name, newUser.email)
         return res.send(user.dataValues);
+        
       })
       .catch((error) => {
         //Mandamos el error al error endware
@@ -147,5 +150,6 @@ server.put("/:id", async (req, res, next) => {
     next(error);
   }
 });
+
 
 module.exports = server;
