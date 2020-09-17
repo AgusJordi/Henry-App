@@ -16,7 +16,13 @@ server.post("/", (req, res, next) => {
 
 //consultar por todos los alumnos
 server.get("/", (req, res, next) => {
-  Student.findAll()
+  Student.findAll({
+    include: [
+      {
+        model: User,
+      },
+    ],
+  })
     .then((student) => {
       console.log(student);
       if (student && student.length === 0) {
@@ -32,7 +38,12 @@ server.get('/:id', (req, res, next) => {
   Student.findAll({
     where: {
       id: req.params.id
-    }
+    },
+    include: [
+      {
+        model: User,
+      },
+    ],
   })
     .then(studentFound => {
       res.json(studentFound);

@@ -21,9 +21,9 @@ import { NavLink, Redirect, Route } from "react-router-dom";
 import { useEffect } from "react";
 import { connect } from "react-redux";
 import { getAllUsers, userLogIn, onlineUserError } from "../actions";
-import * as action from "../actions"; 
+import * as action from "../actions";
 import portada from "../images/welcome.png";
-import Register from "./Register"; 
+import Register from "./Register";
 import Swal from "sweetalert2";
 //IMPORTS PARA MODAL REGISTER
 
@@ -76,9 +76,6 @@ const useStyles = makeStyles((theme) => ({
 function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError }) {
   ////INICIO del del coomponente
 
-
-   
-
   useEffect(() => {
     getAllUsers(589); //probando actions
     //userLogIn(onlineUser)
@@ -102,12 +99,11 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError }) {
   };
   if (onlineUser !== false && onlineUser !== 0) {
     console.log(" lo que traeel login ", onlineUser);
-     
+
     localStorage.setItem("idUser", onlineUser.id);
     localStorage.setItem("lastName", onlineUser.lastName);
-    localStorage.setItem("username", onlineUser.name); 
+    localStorage.setItem("username", onlineUser.name);
     window.location = "./home";
-   
   }
 
   if (onlineUser === 0) {
@@ -123,7 +119,6 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError }) {
   function backState() {
     onlineUserError();
   }
-  // console.log(onlineUser)
 
   const handleOpen = () => {
     setOpen(true);
@@ -160,7 +155,7 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError }) {
               autoFocus
               onChange={handleChange}
             />
-            <TextField 
+            <TextField
               onChange={handleChange}
               id="password"
               variant="outlined"

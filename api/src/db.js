@@ -48,7 +48,8 @@ Student.belongsTo(Cohorte) //deberia agregar columna cohorteId a Student OK
 Student.belongsTo(Group) //deberia agregar columna groupId a Student OK
 
 Cohorte.belongsTo(User, { as: 'instructor' }) //deberia agregar columna instructor a Cohorte OK
-Group.belongsTo(User, { as: 'PM' }) // deberia agregar columna PM a Group
+Group.belongsTo(User, { as: 'PM1' }) // deberia agregar columna PM a Group
+Group.belongsTo(User, { as: 'PM2' }) // deberia agregar columna PM a Group
 Group.belongsTo(Cohorte) // deberia agregar columna cohorteId a group
 
 // User.belongsTo(Group, { as :'PM',foreignKey: 'Pm_groupID' }) REVISAR RELACION

@@ -14,8 +14,7 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import swal from 'sweetalert';
-
+import swal from "sweetalert";
 
 const useStyles = makeStyles({
   table: {
@@ -31,16 +30,16 @@ function ModificarEliminarAlumno() {
     group: "",
     pairProgramming: "",
   });
-  
+
   const [open, setOpen] = useState(false);
-  
+
   const handleInputChange = function (e) {
     setInput({
       ...input,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
-  }
-  
+  };
+
   const handleOpen = () => {
     setOpen(true);
   };
@@ -50,7 +49,7 @@ function ModificarEliminarAlumno() {
   };
 
   const classes = useStyles();
-  
+
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="customized table">
@@ -66,136 +65,132 @@ function ModificarEliminarAlumno() {
           </TableRow>
         </TableHead>
         <TableBody>
-          
           {/*se debe hacer el map
           {props.categorias.categorias.map((row) => (
             <TableRow key={row.name}>
-          */}  <TableRow >
-           
-              <TableCell align="center">Juan</TableCell>
-              <TableCell align="center" >Gomez </TableCell>
-              <TableCell align="center">Buenos Aires</TableCell>
-              <TableCell align="center">1er Cohorte</TableCell>
-              <TableCell align="center" >A</TableCell>
-              <TableCell align="center">B</TableCell>
-              <TableCell align="center">             
-                <ButtonGroup
-                  disableElevation
-                  variant="contained"
-                  color="primary"
+          */}{" "}
+          <TableRow>
+            <TableCell align="center">Juan</TableCell>
+            <TableCell align="center">Gomez </TableCell>
+            <TableCell align="center">Buenos Aires</TableCell>
+            <TableCell align="center">1er Cohorte</TableCell>
+            <TableCell align="center">A</TableCell>
+            <TableCell align="center">B</TableCell>
+            <TableCell align="center">
+              <ButtonGroup disableElevation variant="contained" color="primary">
+                <Button
+                  size="small"
+                  onClick={() => handleOpen()} /*onClick con la props*/
                 >
-                  <Button size="small" onClick={() => handleOpen()}/*onClick con la props*/>
-                    Editar
-                  </Button>
-                  </ButtonGroup>
-                  <Dialog
-                    open={open}
-                    aria-labelledby="form-dialog-title"
-                  >
-                    <DialogTitle id="form-dialog-title">
-                      Modificar Usuario
-                    </DialogTitle>
-                    <DialogContent>
-                      <TextField
-                        autoFocus
-                        name="name"
-                        margin="dense"
-                        label="Nombre"
-                        type="text"
-                        fullWidth
-                        value={input.name}
-                        onChange={handleInputChange}
-                      />
-                      <TextField
-                        autoFocus
-                        name="lastname"
-                        margin="dense"
-                        label="Apellido"
-                        type="text"
-                        fullWidth
-                        value={input.lastname}
-                        onChange={handleInputChange}
-                      />
-                      <TextField
-                        autoFocus
-                        name="description"
-                        margin="dense"
-                        label="Descripcion"
-                        type="text"
-                        fullWidth
-                        value={input.description}
-                        onChange={handleInputChange}
-                      />
-                      <TextField
-                        autoFocus
-                        name="cohorte"
-                        margin="dense"
-                        label="Cohorte"
-                        type="text"
-                        fullWidth
-                        value={input.cohorte}
-                        onChange={handleInputChange}
-                      /><TextField
-                        autoFocus
-                        name="group"
-                        margin="dense"
-                        label="Grupo"
-                        type="text"
-                        fullWidth
-                        value={input.group}
-                        onChange={handleInputChange}
-                      /><TextField
-                        autoFocus
-                        name="pairProgramming"
-                        margin="dense"
-                        label="Pair Programming"
-                        type="text"
-                        fullWidth
-                        value={input.pairProgramming}
-                        onChange={handleInputChange}
-                      />
-                    </DialogContent>
-                    <div style={{ margin: 8 }}>
-                      <DialogActions >
-                        <Button color="primary" onClick={() => handleClose()}>
-                          Cerrar
-                      </Button>
-                        <Button
-                          type="submit"
-                          /*el onclick de actualizar debe ir con el actions*/
-                          color="primary"
-                        >
-                          Modificar
-                      </Button>
-                      </DialogActions>
-                    </div>
-                  </Dialog>
-                  <ButtonGroup
-                  disableElevation
-                  variant="contained"
-                  color="secondary"
+                  Editar
+                </Button>
+              </ButtonGroup>
+              <Dialog open={open} aria-labelledby="form-dialog-title">
+                <DialogTitle id="form-dialog-title">
+                  Modificar Usuario
+                </DialogTitle>
+                <DialogContent>
+                  <TextField
+                    autoFocus
+                    name="name"
+                    margin="dense"
+                    label="Nombre"
+                    type="text"
+                    fullWidth
+                    value={input.name}
+                    onChange={handleInputChange}
+                  />
+                  <TextField
+                    autoFocus
+                    name="lastname"
+                    margin="dense"
+                    label="Apellido"
+                    type="text"
+                    fullWidth
+                    value={input.lastname}
+                    onChange={handleInputChange}
+                  />
+                  <TextField
+                    autoFocus
+                    name="description"
+                    margin="dense"
+                    label="Descripcion"
+                    type="text"
+                    fullWidth
+                    value={input.description}
+                    onChange={handleInputChange}
+                  />
+                  <TextField
+                    autoFocus
+                    name="cohorte"
+                    margin="dense"
+                    label="Cohorte"
+                    type="text"
+                    fullWidth
+                    value={input.cohorte}
+                    onChange={handleInputChange}
+                  />
+                  <TextField
+                    autoFocus
+                    name="group"
+                    margin="dense"
+                    label="Grupo"
+                    type="text"
+                    fullWidth
+                    value={input.group}
+                    onChange={handleInputChange}
+                  />
+                  <TextField
+                    autoFocus
+                    name="pairProgramming"
+                    margin="dense"
+                    label="Pair Programming"
+                    type="text"
+                    fullWidth
+                    value={input.pairProgramming}
+                    onChange={handleInputChange}
+                  />
+                </DialogContent>
+                <div style={{ margin: 8 }}>
+                  <DialogActions>
+                    <Button color="primary" onClick={() => handleClose()}>
+                      Cerrar
+                    </Button>
+                    <Button
+                      type="submit"
+                      /*el onclick de actualizar debe ir con el actions*/
+                      color="primary"
+                    >
+                      Modificar
+                    </Button>
+                  </DialogActions>
+                </div>
+              </Dialog>
+              <ButtonGroup
+                disableElevation
+                variant="contained"
+                color="secondary"
+              >
+                <Button
+                  size="small" /* El onclick debe ir con el actions para no perderse*/
                 >
-                  <Button size="small" /* El onclick debe ir con el actions para no perderse*/>
-                    Eliminar
-                  </Button>
-                  </ButtonGroup>
-                 <ButtonGroup
-                  disableElevation
-                  variant="contained"
-                  color="primary"
+                  Eliminar
+                </Button>
+              </ButtonGroup>
+              <ButtonGroup disableElevation variant="contained" color="primary">
+                <Button
+                  size="small" /* El onclick debe ir con el actions para no perderse*/
                 >
-                  <Button size="small" /* El onclick debe ir con el actions para no perderse*/>
-                    Aprobar
-                  </Button>
-                </ButtonGroup>
-              </TableCell>
-            </TableRow>
+                  Aprobar
+                </Button>
+              </ButtonGroup>
+            </TableCell>
+          </TableRow>
           {/*Aca se debe cerrar el  map)}}*/}
         </TableBody>
       </Table>
     </TableContainer>
   );
 }
-
 
 export default ModificarEliminarAlumno;

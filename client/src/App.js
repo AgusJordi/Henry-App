@@ -1,49 +1,40 @@
-import React from "react"; 
+import React from "react";
 import Carrousel from "./components/Carrousel.jsx";
 import Login from "./components/Login.jsx";
-import Navbar from "./components/Navbar.jsx"; 
+import Navbar from "./components/Navbar.jsx";
 import Profile from "./components/Profile.jsx";
-import {BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import Sidebar from "./components/sidebar";
 
- 
+function App() {
+  const isAutenticated = () => {
+    const token = localStorage.getItem("username");
 
-
-function App() {   
-
-  const isAutenticated = ()=> {
-    const token = localStorage.getItem('username')
-     
-    if(token){
-      return true
+    if (token) {
+      return true;
     }
-    return false 
-     
-  }
+    return false;
+  };
 
-   
-  
-  const PvRoute  = (props)=>(  
-    
-    isAutenticated()
-    ? <Route  {... props} />
-    : <Redirect to= "./login" />
+  const PvRoute = (props) =>
+    isAutenticated() ? <Route {...props} /> : <Redirect to="./login" />;
 
-  )
- 
-   
-    
-  
   return (
-    <div>   
-        <Router>
+    <div>
+      <Router>
         <PvRoute path="/" component={Navbar} />
         <PvRoute path="/" component={Sidebar} />
-        <PvRoute exact path="/home" component={Carrousel} />       
+        <PvRoute exact path="/home" component={Carrousel} />
         <PvRoute exact path="/profile" component={Profile} />
         {/* <PvRoute exact path="/crud" component={AreaAdmin} /> */}
-        </Router> 
         {isAutenticated() == false ? <Route exact path="/login" component={Login} /> : '' }
+        </Router> 
+        
              
       </div>
     )
