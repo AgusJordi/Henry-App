@@ -34,6 +34,7 @@ this.enviar_mail = (pnombre, pemail) => {
                 <tr bgcolor="#fff">
                     <td style="text-align:center">
                         <p style="color: #000">¡Estamos esperando tu registro!</p>
+                        <a href="http://localhost:3000/login"> Ingresá a Henry App </a>
                     </td>
                 </tr>
             </table>
