@@ -8,7 +8,7 @@ module.exports = (sequelize) => {
             allowNull: false,
         },
         date: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.DATEONLY,
             allowNull: true,
         }
     });
