@@ -119,6 +119,8 @@ const useStyles = makeStyles((theme) => ({
     getIdUser(idUser)
   }, []);
 
+  
+
   const handleChange = (event) => {
     setChecked(event.target.checked);
   };
@@ -157,18 +159,18 @@ const useStyles = makeStyles((theme) => ({
         autoFocus
         name="name"
         margin="dense"
-        label="Nombre"
+        label=""
         type="text"
-        value={input.name}
+        value={id_user.name}
         onChange={handleInputChange}
       />
       <TextField
         autoFocus
         name="apellido"
         margin="dense"
-        label="apellido"
+        label=""
         type="text"
-        value={input.lastname}
+        value={id_user.lastName}
         onChange={handleInputChange}
       />
       </div>
@@ -177,18 +179,18 @@ const useStyles = makeStyles((theme) => ({
         autoFocus
         name="name"
         margin="dense"
-        label="Ciudad"
+        label=""
         type="text"
-        value={input.name}
+        value={id_user.city}
         onChange={handleInputChange}
       />
       <TextField
         autoFocus
         name="apellido"
         margin="dense"
-        label="Provincia"
+        label=" "
         type="text"
-        value={input.lastname}
+        value={id_user.province}
         onChange={handleInputChange}
       />
       </div>
@@ -197,9 +199,9 @@ const useStyles = makeStyles((theme) => ({
         autoFocus
         name="name"
         margin="dense"
-        label="Pais"
+        label=" "
         type="text"
-        value={input.name}
+        value={id_user.country}
         onChange={handleInputChange}
       />
       </div>
@@ -216,18 +218,18 @@ const useStyles = makeStyles((theme) => ({
         autoFocus
         name="name"
         margin="dense"
-        label="Cuenta de Google"
+        label=" "
         type="text"
-        value={input.name}
+        value={id_user.googleId}
         onChange={handleInputChange}
       />
       <TextField
         autoFocus
         name="name"
         margin="dense"
-        label="Cuenta de Github"
+        label=" "
         type="text"
-        value={input.name}
+        value={id_user.githugId}
         onChange={handleInputChange}
       />
       </div>
