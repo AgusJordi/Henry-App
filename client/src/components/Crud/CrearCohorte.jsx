@@ -9,7 +9,7 @@ import Chip from "./chip.jsx"
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 
-function CrearCohorte() {
+function CrearCohorte(props) {
   const [input, setInput] = useState({
     cohorte: "",
     instructorId: "",
@@ -102,11 +102,14 @@ function CrearCohorte() {
                     name: 'instructorId',
                     id: 'instructor-native-simple',
                   }}
-                >
-                  <option aria-label="None" value="" />
+                ><option aria-label="None" value="" />
+                  {props.instructores.map((instructor=>
+                    <option value={instructor.id}>{instructor.name+" "+instructor.lastName}</option>
+                    ))}
+                  {/* <option aria-label="None" value="" />
                   <option value={1}>1</option>
                   <option value={2}>2</option>
-                  <option value={3}>3</option>
+                  <option value={3}>3</option> */}
                 </Select>
               </FormControl>
 
