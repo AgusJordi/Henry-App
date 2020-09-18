@@ -6,11 +6,13 @@ import { FormControl } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { createCohorte } from "../../actions/index.js";
 import Chip from "./chip.jsx"
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
 
 function CrearCohorte() {
   const [input, setInput] = useState({
     cohorte: "",
-    instructor: "",
+    instructorId: "",
     DateA: '',
     });
   
@@ -45,6 +47,16 @@ function CrearCohorte() {
     setInputB(inputB);
   };
 
+  const useStyles = makeStyles((theme) => ({
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: 120,
+    },
+  }));
+
+  const classes = useStyles();
+
+
   return (
     <div>
       <div>
@@ -65,7 +77,7 @@ function CrearCohorte() {
               }}
               onChange={handleInputChange}
             />
-            <TextField
+            {/* <TextField
               name="instructor"
               type="text"
               id="standard-full-width"
@@ -79,7 +91,25 @@ function CrearCohorte() {
                 shrink: true,
               }}
               onChange={handleInputChange}
-            />
+            /> */}
+              <FormControl className={classes.formControl}>
+                <InputLabel htmlFor="instructor-native-simple">Instructor</InputLabel>
+                <Select
+                  native
+                  value={input.instructorId}
+                  onChange={handleInputChange}
+                  inputProps={{
+                    name: 'instructorId',
+                    id: 'instructor-native-simple',
+                  }}
+                >
+                  <option aria-label="None" value="" />
+                  <option value={1}>1</option>
+                  <option value={2}>2</option>
+                  <option value={3}>3</option>
+                </Select>
+              </FormControl>
+
               <TextField
               name='DateA'
               type='date'
@@ -95,30 +125,11 @@ function CrearCohorte() {
               }}
               onChange = {handleInputChange}
             /> 
-  
 
-        <Chip 
-        onChange={setEmails}
-        // seteando={setEmails}
-        />
-        <br/>
-        
-    
-              {/* <TextField
-              name='students'
-              type='text'
-              id="standard-full-width"
-              label="Alumnos del cohorte"
-              style={{ margin: 8 }}
-              value={input.students} 
-              placeholder="Ingresar alumnos"
-              fullWidth
-              margin="normal"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              onChange = {handleInputChange}
-            />  */}
+              <Chip 
+              onChange={setEmails}
+            />
+  
             <div>
               <br/>
               <Button
