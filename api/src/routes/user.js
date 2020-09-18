@@ -123,15 +123,28 @@ server.delete("/:id", (req, res, next) => {
 });
 
 //Actualizar Usuarios (Solo algunos campos)
-server.put("/:id", async (req, res, next) => {
-  const { name, lastName, city, province, country, role } = req.body;
-  const userId = req.params.id;
+server.put("/:email", async (req, res, next) => {
+  const {
+    name,
+    lastName,
+    city,
+    province,
+    country,
+    password,
+    email,
+    student,
+    pm,
+    instructor,
+    admin,
+    googleId,
+    gitHubId } = req.body;
+  const correo = req.params.email;
   try {
     //Valido que el usuario exista
-    const user = await User.findOne({ where: { id: userId } });
+    const user = await User.findOne({ where: { email: correo } });
     if (!user) {
       return res.send({
-        message: `No se encontro el usuario con ID: ${userId}`,
+        message: `No se encontro el usuario con el email: ${correo}`,
       });
     }
 
@@ -142,7 +155,15 @@ server.put("/:id", async (req, res, next) => {
       city: city,
       province: province,
       country: country,
-      role: role,
+      password: password,
+      email: email,
+      status: "habilitado",
+      student: student,
+      pm: pm,
+      instructor: instructor,
+      admin: admin,
+      googleId: googleId,
+      gitHubId: gitHubId
     });
 
     //envio el usuario actualizado
