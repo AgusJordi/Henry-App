@@ -4,13 +4,15 @@ import {
   USER_LOGIN,
   ONLINE_USER_ERROR,
   GET_ALL_COHORTES,   
+  GET_ID_USER,
 } from "../actions/index";
 //var ls = require('local-storage');
 
 const initialState = {
   all_users: [],
   all_cohortes: [],
-  onlineUser: false
+  onlineUser: false,
+  id_user: [],
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -18,6 +20,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         all_users: action.payload,
+      };
+    case GET_ID_USER:
+      return {
+        ...state,
+        id_user: action.payload,
       };
 
     case USER_LOGIN:
