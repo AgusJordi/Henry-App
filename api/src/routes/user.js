@@ -18,6 +18,32 @@ server.get("/", (req, res, next) => {
     .catch((err) => next(err));
 });
 
+//Ruta para obtener los users q sean instructores
+server.get("/instructor", (req, res, next) => {
+  User.findAll({
+    where: {
+      instructor: true
+    }
+  })
+    .then(inst => {
+      res.send(inst)
+    })
+    .catch(next);
+})
+
+//Ruta para obtener los users q sean pm's
+server.get("/pms", (req, res, next) => {
+  User.findAll({
+    where: {
+      pm: true
+    }
+  })
+    .then(pm => {
+      res.send(pm)
+    })
+    .catch(next);
+})
+
 //Ruta para crear usuario y alumno solo con mail de forma masiva.
 server.post("/add", (req, res, next) => {
   var mails = req.body.mails
