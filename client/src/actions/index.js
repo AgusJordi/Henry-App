@@ -6,6 +6,7 @@ export const GET_ALL_USERS = "GET_ALL_USERS";
 export const ONLINE_USER_ERROR = "ONLINE_USER_ERROR";
 export const GET_ALL_COHORTES = "GET_ALL_COHORTES";
 export const CREATE_COHORTE = "CREATE_COHORTE";
+export const GET_ID_USER = "GET_ID_USER";
 
 export function userLogIn(body) {
   return function (dispatch) {
@@ -69,4 +70,20 @@ export function createCohorte(info) {
 
         },
     });
+}
+
+export function getIdUser(id) {
+  console.log(id,"QUE RECIBO EN ACTIOOOOON")
+  return function (dispatch) {
+    return axios
+      .get(`http://localhost:4000/users/${id}`)
+      .then((result) => result.data)
+      .then((data) => {
+        dispatch({
+          type: GET_ID_USER,
+          payload: data,
+        });
+        console.log(data,"AAAAAAAAAAAAAAAAAAAAAAAAAsi esta data")
+      });
+  };
 }

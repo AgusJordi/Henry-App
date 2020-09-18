@@ -1,10 +1,13 @@
 import martin from "../images/martinborchardt.png";
-import React, { useState }from 'react';
+import React, { useState, useEffect }from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Typography from '@material-ui/core/Typography';
 import Checkbox from '@material-ui/core/Checkbox';
 import TextField from "@material-ui/core/TextField";
+import { getAllUsers, userLogIn, onlineUserError, getIdUser } from "../actions";
+import { connect } from "react-redux";
+
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -95,8 +98,8 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
- function EditProfile(props) {
-  const { user } = props;
+ function EditProfile({getIdUser, id_user}) {
+  //const { onlineUser } = props;
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(true);
@@ -109,6 +112,12 @@ const useStyles = makeStyles((theme) => ({
     group: "",
     pairProgramming: "",
   });
+
+  var idUser = localStorage.getItem("idUser");
+
+  useEffect(() => {
+    getIdUser(idUser)
+  }, []);
 
   const handleChange = (event) => {
     setChecked(event.target.checked);
@@ -129,9 +138,6 @@ const useStyles = makeStyles((theme) => ({
   return (
     <React.Fragment>
     <div className={classes.father}>
-      {/* <button type="button" onClick={handleOpen}>
-        Open Modal
-      </button> */}
       <Modal
         open={open}
         onClose={handleClose}
@@ -146,14 +152,6 @@ const useStyles = makeStyles((theme) => ({
       </div>
 
       <div>
-      {/*<div  className = {classes.inputP}>
-      <Typography variant="h6" component="h6">
-      Nombre
-      </Typography>
-      <Typography variant="h6" component="h6">
-      Apellido
-      </Typography>
-      </div>*/}
       <div className = {classes.inputP}>
         <TextField
         autoFocus
@@ -174,14 +172,6 @@ const useStyles = makeStyles((theme) => ({
         onChange={handleInputChange}
       />
       </div>
-      {/*<div className = {classes.inputP}>
-      <Typography variant="h6" component="h6">
-      Ciudad
-      </Typography>
-      <Typography variant="h6" component="h6">
-      Provincia
-      </Typography>
-      </div>*/}
       <div className = {classes.inputP}>
         <TextField
         autoFocus
@@ -202,10 +192,6 @@ const useStyles = makeStyles((theme) => ({
         onChange={handleInputChange}
       />
       </div>
-      {/*<div className = {classes.inputP}>
-      <Typography variant="h6" component="h6">
-      Pais
-      </Typography>*/}
       <div className={classes.inputP}>
       <TextField
         autoFocus
@@ -225,14 +211,6 @@ const useStyles = makeStyles((theme) => ({
       </div>
 
       <div>
-      {/*<div  className = {classes.inputP}>
-      <Typography variant="h6" component="h6">
-      Cuenta de Google
-      </Typography>
-      <Typography variant="h6" component="h6">
-      Cuenta de Github
-      </Typography>
-      </div>*/}
       <div className = {classes.inputP}>
         <TextField
         autoFocus
@@ -253,14 +231,6 @@ const useStyles = makeStyles((theme) => ({
         onChange={handleInputChange}
       />
       </div>
-      {/*<div className = {classes.inputP}>
-      <Typography variant="h6" component="h6">
-      N° celular
-      </Typography>
-      <Typography variant="h6" component="h6">
-      Provincia
-      </Typography>
-      </div>*/}
       <div className = {classes.inputP}>
         <TextField
         autoFocus
@@ -281,10 +251,6 @@ const useStyles = makeStyles((theme) => ({
         onChange={handleInputChange}
       />
       </div>
-      {/*<div className = {classes.inputP}>
-      <Typography variant="h6" component="h6">
-      Linkedin
-      </Typography>*/}
       <div className = {classes.check}>
       <Checkbox
         defaultChecked
@@ -311,26 +277,23 @@ const useStyles = makeStyles((theme) => ({
       </div>
       </div>
 
-
       </div>
-       
-      </Modal>
+     </Modal>
     </div>
     </React.Fragment>
   );
 }
 
-          {/*
-          <div className={classes.div}>
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getIdUser: (idUser) => dispatch(getIdUser(idUser)),
+  };
+};
 
-          <h1> Martin</h1>
-          <img className={classes.img} src={martin}/>
-          <p>Buenos Aires, Argentina</p>
-          <p>Email: @gmail.com</p>
-          <p>Celular: 1540856398</p>
-          </div>
-      
-          <h1>Github:{user.email}</h1>
-      <Profile/>
-    */}
-export default EditProfile;
+const mapStateToProps = (state) => {
+  return {
+    id_user: state.id_user
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditProfile);
