@@ -8,6 +8,7 @@ export const GET_ALL_COHORTES = "GET_ALL_COHORTES";
 export const CREATE_COHORTE = "CREATE_COHORTE";
 export const GET_ID_USER = "GET_ID_USER";
 export const CREATE_USERS_STUDENTS = "CREATE_USERS_STUDENTS";
+export const GET_ALL_INSTRUCTORS = "GET_ALL_INSTRUCTORS";
 
 export function userLogIn(body) {
   return function (dispatch) {
@@ -86,6 +87,20 @@ export function getIdUser(id) {
           payload: data,
         });
         console.log(data, "AAAAAAAAAAAAAAAAAAAAAAAAAsi esta data")
+      });
+  };
+}
+
+export function getAllInstructors() {
+  return function (dispatch) {
+    return axios
+      .get("http://localhost:4000/users/instructor")
+      .then((result) => result.data)
+      .then((data) => {
+        dispatch({
+          type: GET_ALL_INSTRUCTORS,
+          payload: data,
+        });
       });
   };
 }

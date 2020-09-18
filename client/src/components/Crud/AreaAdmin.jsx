@@ -49,7 +49,7 @@ function AreaAdmin(props) {
           <Typography className={classes.heading}>Crear Cohorte</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <CrearCohorte />
+          <CrearCohorte instructores={props.instructores}/>
         </AccordionDetails>
       </Accordion>
       <Accordion>

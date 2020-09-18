@@ -1,6 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import Button from "@material-ui/core/Button";
 import "./chip.css";
 
 export default class Chip extends React.Component {
@@ -11,7 +9,6 @@ export default class Chip extends React.Component {
     error: null
   };
 
- 
   handleKeyDown = evt => {
     if (["Enter", "Tab", ","].includes(evt.key)) {
       evt.preventDefault();
@@ -22,15 +19,10 @@ export default class Chip extends React.Component {
         this.setState({
           items: [...this.state.items, this.state.value],
           value: ""
-        });
-      }
-      this.props.onChange (this.state.items)
+        }, ()=> this.props.onChange (this.state.items));
+      }  
     }
   };
-
-  // sendEmails = () => {
-  //   this.props.seteando(this.state.items)
-  // }
 
   handleChange = evt => {
     this.setState({
@@ -43,8 +35,7 @@ export default class Chip extends React.Component {
   handleDelete = item => {
     this.setState({
       items: this.state.items.filter(i => i !== item)
-    });
-    this.props.onChange (this.state.items)
+    },()=> this.props.onChange (this.state.items));
   };
 
   handlePaste = evt => {
@@ -58,9 +49,8 @@ export default class Chip extends React.Component {
 
       this.setState({
         items: [...this.state.items, ...toBeAdded]
-      });
+      },()=> this.props.onChange (this.state.items));
     }
-    this.props.onChange (this.state.items)
   };
 
   isValid(email) {
@@ -93,7 +83,7 @@ export default class Chip extends React.Component {
 
   render() {
     return (
-      <>
+      <><div id="chips">
         {this.state.items.map(item => (
           <div className="tag-item" key={item}>
             {item}
@@ -106,11 +96,11 @@ export default class Chip extends React.Component {
             </button>
           </div>
         ))}
+      </div>
 
         <input
           className={"input " + (this.state.error && " has-error")}
           value={this.state.value}
-          label= "Alumnos del cohorte"
           placeholder="Emails de los alumnos (podes copiar y pegar)"
           onKeyDown={this.handleKeyDown}
           onChange={this.handleChange}
@@ -118,19 +108,6 @@ export default class Chip extends React.Component {
         />
 
         {this.state.error && <p className="error">{this.state.error}</p>}
-                  {/* <div>
-                  <br/>
-                  <Button
-                  onClick={this.sendEmails}
-                    type="submit"
-                    variant="contained"
-                    align="left"
-                    size="medium"
-                    color="primary"
-                  >
-                    AGREGAR COHORTE
-                  </Button>
-                </div> */}
       </>
     );
   }

@@ -13,7 +13,7 @@ import Cohorte from "./Cohorte";
 import AreaAdmin from "./Crud/AreaAdmin.jsx";
 import PairProgramming from "./users/PairProgramming.jsx";
 import Grid from "@material-ui/core/Grid";
-import { getAllUsers, getAllCohortes } from "../actions/index";
+import { getAllUsers, getAllCohortes, getAllInstructors } from "../actions/index";
 import Carrousel from "./Carrousel.jsx";
 
 function Home(props) {
@@ -21,10 +21,12 @@ function Home(props) {
 
   const dispatch = useDispatch();
   const allUsers = useSelector((state) => state.all_users);
+  const allInstructors = useSelector((state) => state.all_instructors);
   const allCohortes = [];
   useEffect(() => {
     dispatch(getAllUsers());
     dispatch(getAllCohortes());
+    dispatch(getAllInstructors());
   }, []);
 
   function TabPanel(props) {
@@ -231,7 +233,7 @@ function Home(props) {
       <div>
         <Grid container>
           <Grid xs={12} container className={classes.tabPanel}>
-            <AreaAdmin />
+            <AreaAdmin instructores={allInstructors}/>
           </Grid>
         </Grid>
       </div>
