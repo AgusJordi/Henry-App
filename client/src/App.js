@@ -3,6 +3,7 @@ import Carrousel from "./components/Carrousel.jsx";
 import Login from "./components/Login.jsx";
 import Navbar from "./components/Navbar.jsx";
 import Profile from "./components/Profile.jsx";
+import EditProfile from "./components/EditProfile.jsx";
 import {
   BrowserRouter as Router,
   Switch,
@@ -31,16 +32,16 @@ function App() {
         <PvRoute path="/" component={Sidebar} />
 
         <PvRoute exact path="/profile" component={Profile} />
-        {/* <PvRoute exact path="/crud" component={AreaAdmin} /> */}
-        {isAutenticated() == false ? <Route exact path="/login" component={Login} /> : '' }
-        </Router> 
-        
-             
-      </div>
-    )
-    
-   
-   
+
+        <PvRoute exact path="/editprofile" component={EditProfile} /> {/*Ruta provisoria señor*/}
+      </Router>
+      {isAutenticated() === false ? (
+        <Route exact path="/login" component={Login} />
+      ) : (
+        ""
+      )}
+    </div>
+  );
 }
 
 export default App;
