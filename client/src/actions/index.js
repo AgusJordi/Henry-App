@@ -64,8 +64,9 @@ export function createCohorte(info) {
         },
         data: {
           name: info.cohorte,
-          description: info.instructor,
-          //date: info.DateA
+          // description: info.instructor,
+          date: info.DateA,
+
         },
     });
 }
