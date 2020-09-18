@@ -180,7 +180,7 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError }) {
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
-                  Olvidadaste tu contraseña?
+                  Olvidaste tu contraseña?
                 </Link>
               </Grid>
               <Grid item>

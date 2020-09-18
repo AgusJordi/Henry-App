@@ -14,9 +14,9 @@ server.get("/", (req, res, next) => {
 });
 
 server.post("/", (req, res, next) => {
-  const { name, description } = req.body; //falta date
+  const { name, date, instructorId } = req.body; //falta date
   console.log(req.body, "SOY UN BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACK")
-  Cohorte.create({ name, description }) //falta date
+  Cohorte.create({ name, date, instructorId }) //falta date
     .then((cohorte) => {
       res.send(cohorte);
     })
@@ -26,7 +26,7 @@ server.post("/", (req, res, next) => {
 server.delete("/:name", (req, res, next) => {
   const name = req.params.name;
   Cohorte.destroy({ where: { name: name } })
-    .then((num) => {  
+    .then((num) => {
       if (num > 0) {
         return res.send({ message: `Se elimino el Cohorte : ${checkName}` });
       }
