@@ -4,7 +4,7 @@ import TextField from "@material-ui/core/TextField";
 import swal from "sweetalert";
 import { FormControl } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { createCohorte } from "../../actions/index.js";
+import { createCohorte, createUsersStudents } from "../../actions/index.js";
 import Chip from "./chip.jsx"
 
 function CrearCohorte() {
@@ -12,14 +12,14 @@ function CrearCohorte() {
     cohorte: "",
     instructor: "",
     DateA: '',
-    });
-  
-    const [emails, setEmails] = useState ([])
+  });
+
+  const [emails, setEmails] = useState([])
 
   const [inputB, setInputB] = useState({
     cohorte: "",
     instructor: "",
-    //DateA: '',
+    DateA: '',
   });
 
   const handleInputChange = function (e) {
@@ -37,11 +37,16 @@ function CrearCohorte() {
     });*/
     e.preventDefault(); //A TENER EN CUENTA
     console.log(
+      emails,
       input,
-      "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACA ESTOY EN COMPONENTE"
+      "ACA ESTOY EN COMPONENTE"
     );
-    createCohorte(input);
-    /*Aca iria la alerta*/
+    createCohorte(input, emails);
+    swal({
+      text: "Se creó el Cohorte" + input.cohorte,
+      icon: "success",
+      timer: "3000",
+    });
     setInputB(inputB);
   };
 
@@ -51,10 +56,12 @@ function CrearCohorte() {
         <form onSubmit={handleCreateCohorte}>
           <div>
             <TextField
+              required
               name="cohorte"
               type="text"
               id="standard-full-width"
-              label="Cohorte"
+              label="Nombre Cohorte"
+              helperText="Ej: FT03"
               style={{ margin: 8 }}
               placeholder="Ingrese nombre de cohorte"
               fullWidth
@@ -80,7 +87,7 @@ function CrearCohorte() {
               }}
               onChange={handleInputChange}
             />
-              <TextField
+            <TextField
               name='DateA'
               type='date'
               id="standard-full-width"
@@ -93,18 +100,18 @@ function CrearCohorte() {
               InputLabelProps={{
                 shrink: true,
               }}
-              onChange = {handleInputChange}
-            /> 
-  
+              onChange={handleInputChange}
+            />
 
-        <Chip 
-        onChange={setEmails}
-        // seteando={setEmails}
-        />
-        <br/>
-        
-    
-              {/* <TextField
+
+            <Chip
+              onChange={setEmails}
+            // seteando={setEmails}
+            />
+            <br />
+
+
+            {/* <TextField
               name='students'
               type='text'
               id="standard-full-width"
@@ -120,7 +127,7 @@ function CrearCohorte() {
               onChange = {handleInputChange}
             />  */}
             <div>
-              <br/>
+              <br />
               <Button
                 type="submit"
                 variant="contained"
