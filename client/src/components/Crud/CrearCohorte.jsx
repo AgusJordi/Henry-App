@@ -5,13 +5,16 @@ import swal from "sweetalert";
 import { FormControl } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { createCohorte } from "../../actions/index.js";
+import Chip from "./chip.jsx"
 
 function CrearCohorte() {
   const [input, setInput] = useState({
     cohorte: "",
     instructor: "",
-    //DateA: '',
-  });
+    DateA: '',
+    });
+  
+    const [emails, setEmails] = useState ([])
 
   const [inputB, setInputB] = useState({
     cohorte: "",
@@ -25,6 +28,7 @@ function CrearCohorte() {
       [e.target.name]: e.target.value,
     });
   };
+
 
   const handleCreateCohorte = function (e) {
     /*setInput({
@@ -65,7 +69,7 @@ function CrearCohorte() {
               name="instructor"
               type="text"
               id="standard-full-width"
-              label="nombre"
+              label="Instructor"
               style={{ margin: 8 }}
               value={input.instructor}
               placeholder="instructor"
@@ -76,9 +80,9 @@ function CrearCohorte() {
               }}
               onChange={handleInputChange}
             />
-            {/*   <TextField
+              <TextField
               name='DateA'
-              type='text'
+              type='date'
               id="standard-full-width"
               label="Fecha de inicio"
               style={{ margin: 8 }}
@@ -90,8 +94,33 @@ function CrearCohorte() {
                 shrink: true,
               }}
               onChange = {handleInputChange}
-            /> falta combinar el front*/}
+            /> 
+  
+
+        <Chip 
+        onChange={setEmails}
+        // seteando={setEmails}
+        />
+        <br/>
+        
+    
+              {/* <TextField
+              name='students'
+              type='text'
+              id="standard-full-width"
+              label="Alumnos del cohorte"
+              style={{ margin: 8 }}
+              value={input.students} 
+              placeholder="Ingresar alumnos"
+              fullWidth
+              margin="normal"
+              InputLabelProps={{
+                shrink: true,
+              }}
+              onChange = {handleInputChange}
+            />  */}
             <div>
+              <br/>
               <Button
                 type="submit"
                 variant="contained"

@@ -1,5 +1,6 @@
 const server = require("express").Router();
 //const bcrypt = require("bcryptjs");
+const mailer = require("../../templates/Registro.js")
 
 const { User, Student } = require("../db.js");
 
@@ -27,6 +28,7 @@ server.post("/add", (req, res, next) => {
     })
       .then(user => {
         console.log(user)
+        mailer.enviar_mail("Henry", user.dataValues.email)
         Student.create({
           userId: user.dataValues.id
         })
@@ -74,7 +76,9 @@ server.post("/", (req, res, next) => {
     };
     User.create(newUser)
       .then((user) => {
+        mailer.enviar_mail(newUser.name, newUser.email)
         return res.send(user.dataValues);
+
       })
       .catch((error) => {
         //Mandamos el error al error endware
@@ -119,15 +123,28 @@ server.delete("/:id", (req, res, next) => {
 });
 
 //Actualizar Usuarios (Solo algunos campos)
-server.put("/:id", async (req, res, next) => {
-  const { name, lastName, city, province, country, role } = req.body;
-  const userId = req.params.id;
+server.put("/:email", async (req, res, next) => {
+  const {
+    name,
+    lastName,
+    city,
+    province,
+    country,
+    password,
+    email,
+    student,
+    pm,
+    instructor,
+    admin,
+    googleId,
+    gitHubId } = req.body;
+  const correo = req.params.email;
   try {
     //Valido que el usuario exista
-    const user = await User.findOne({ where: { id: userId } });
+    const user = await User.findOne({ where: { email: correo } });
     if (!user) {
       return res.send({
-        message: `No se encontro el usuario con ID: ${userId}`,
+        message: `No se encontro el usuario con el email: ${correo}`,
       });
     }
 
@@ -138,7 +155,15 @@ server.put("/:id", async (req, res, next) => {
       city: city,
       province: province,
       country: country,
-      role: role,
+      password: password,
+      email: email,
+      status: "habilitado",
+      student: student,
+      pm: pm,
+      instructor: instructor,
+      admin: admin,
+      googleId: googleId,
+      gitHubId: gitHubId
     });
 
     //envio el usuario actualizado
@@ -147,5 +172,6 @@ server.put("/:id", async (req, res, next) => {
     next(error);
   }
 });
+
 
 module.exports = server;
