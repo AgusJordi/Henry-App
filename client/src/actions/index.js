@@ -7,6 +7,7 @@ export const ONLINE_USER_ERROR = "ONLINE_USER_ERROR";
 export const GET_ALL_COHORTES = "GET_ALL_COHORTES";
 export const CREATE_COHORTE = "CREATE_COHORTE";
 export const GET_ID_USER = "GET_ID_USER";
+export const GET_ALL_INSTRUCTORS = "GET_ALL_INSTRUCTORS";
 
 export function userLogIn(body) {
   return function (dispatch) {
@@ -65,8 +66,9 @@ export function createCohorte(info) {
         },
         data: {
           name: info.cohorte,
-          description: info.instructor,
-          //date: info.DateA
+          instructorId: info.instructorId,
+          date: info.DateA,
+
         },
     });
 }
@@ -83,6 +85,20 @@ export function getIdUser(id) {
           payload: data,
         });
         console.log(data,"AAAAAAAAAAAAAAAAAAAAAAAAAsi esta data")
+      });
+  };
+}
+
+export function getAllInstructors() {
+  return function (dispatch) {
+    return axios
+      .get("http://localhost:4000/users/instructor")
+      .then((result) => result.data)
+      .then((data) => {
+        dispatch({
+          type: GET_ALL_INSTRUCTORS,
+          payload: data,
+        });
       });
   };
 }
