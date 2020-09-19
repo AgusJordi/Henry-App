@@ -32,11 +32,9 @@
 }
 .boxr {
 	display: flex;
-	justify-content: space-evenly;
-	margin-top: 2%;
+	justify-content: space-around;
 	align-items: stretch;
 	width: 100%;
 	background-color: rgb(247, 220, 111);
-	overflow: auto;
 	border: 1px solid grey;
 	}
