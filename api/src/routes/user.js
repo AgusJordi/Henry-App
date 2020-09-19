@@ -2,7 +2,7 @@ const server = require("express").Router();
 //const bcrypt = require("bcryptjs");
 const mailer = require("../../templates/Registro.js")
 
-const { User, Student } = require("../db.js");
+const { User, Student, Cohorte } = require("../db.js");
 
 //Rutar obtener todos los usuarios
 
@@ -46,20 +46,26 @@ server.get("/pms", (req, res, next) => {
 
 //Ruta para crear usuario y alumno solo con mail de forma masiva.
 server.post("/add", (req, res, next) => {
-  var mails = req.body.mails
-  console.log(req.body)
-  for (var i = 0; i < mails.length; i++) {
-    User.create({
-      email: mails[i]
-    })
-      .then(user => {
-        console.log(user)
-        mailer.enviar_mail("Henry", user.dataValues.email)
-        Student.create({
-          userId: user.dataValues.id
+  const { name, date, instructorId } = req.body.cohorte;
+  var mails = req.body.emails
+  console.log("BODY POST MASS", req.body)
+  Cohorte.create({ name, date, instructorId })
+    .then(cohorte => {
+      for (var i = 0; i < mails.length; i++) {
+        User.create({
+          email: mails[i]
         })
-      })
-  }
+          .then(user => {
+            console.log(user)
+            mailer.enviar_mail("Henry", user.dataValues.email)
+            Student.create({
+              userId: user.dataValues.id,
+              cohorteId: cohorte.dataValues.id
+            })
+          })
+      }
+    })
+
   res.send("Se creó usuario y alumno")
 })
 
