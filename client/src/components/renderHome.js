@@ -67,6 +67,12 @@ function Home(props) {
     prueba: {
       backgroundColor: "yellow",
     },
+    gridContainer:{
+      position: "fixed",
+      top: "60px",
+      left: "240px",
+      maxWidth: "fit-content"
+    }
   }));
 
   const classes = useStyles();
@@ -83,7 +89,7 @@ function Home(props) {
   //RENDERISA SEGUN QUE PIDE EL USER
   if (onSetSelect === "Cohortes") {
     return (
-      <Grid container>
+      <Grid container className={classes.gridContainer}>
         <Grid xs={12} container className={classes.tabPanel}>
           <Grid xs={2} className={classes.tabs}>
             <Tabs
@@ -96,7 +102,7 @@ function Home(props) {
                 indicator: classes.prueba,
               }}
             >
-              <h2 className={classes.tabTitel}>COHORTES</h2>
+              <h3 className={classes.tabTitel}>COHORTES</h3>
               {allCohortes.map((cohorte, index) => {
                 return (
                   <Tab
@@ -117,7 +123,7 @@ function Home(props) {
   if (onSetSelect === "Instructores") {
     return (
       <div>
-        <Grid container>
+        <Grid container className={classes.gridContainer}>
           <Grid xs={12} container className={classes.tabPanel}>
             <Grid xs={2} className={classes.tabs}>
               <Tabs
@@ -129,7 +135,7 @@ function Home(props) {
                   indicator: classes.prueba,
                 }}
               >
-                <h2 className={classes.tabTitel}>INSTRUCTORES</h2>
+                <h3 className={classes.tabTitel}>INSTRUCTORES</h3>
                 {allUsers.map((alumno, index) => {
                   let nombreCompleto = `${alumno.name} ${alumno.lastName}`;
                   return <Tab label={nombreCompleto} />;
@@ -155,7 +161,7 @@ function Home(props) {
   if (onSetSelect === "Pm´s") {
     return (
       <div>
-        <Grid container>
+        <Grid container className={classes.gridContainer}>
           <Grid xs={12} container className={classes.tabPanel}>
             <Grid xs={2} className={classes.tabs}>
               <Tabs
@@ -167,7 +173,7 @@ function Home(props) {
                   indicator: classes.prueba,
                 }}
               >
-                <h2 className={classes.tabTitel}>PM´S</h2>
+                <h3 className={classes.tabTitel}>PM´S</h3>
                 {allUsers.map((alumno, index) => {
                   let nombreCompleto = `${alumno.name} ${alumno.lastName}`;
                   return <Tab label={nombreCompleto} />;
@@ -193,7 +199,7 @@ function Home(props) {
   if (onSetSelect === "Alumnos") {
     return (
       <div>
-        <Grid container>
+        <Grid container className={classes.gridContainer}>
           <Grid xs={12} container className={classes.tabPanel}>
             <Grid xs={2} className={classes.tabs}>
               <Tabs
@@ -205,7 +211,7 @@ function Home(props) {
                   indicator: classes.prueba,
                 }}
               >
-                <h2 className={classes.tabTitel}>ALUMNOS</h2>
+                <h3 className={classes.tabTitel}>ALUMNOS</h3>
                 {allUsers.map((alumno, index) => {
                   let nombreCompleto = `${alumno.name} ${alumno.lastName}`;
                   return <Tab label={nombreCompleto} />;
@@ -231,7 +237,7 @@ function Home(props) {
   if (onSetSelect === "Herramientas") {
     return (
       <div>
-        <Grid container>
+        <Grid container className={classes.gridContainer}>
           <Grid xs={12} container className={classes.tabPanel}>
             <AreaAdmin instructores={allInstructors}/>
           </Grid>
@@ -242,14 +248,14 @@ function Home(props) {
   if (onSetSelect === "Noticias") {
     return (
       <div>
-        <Carrousel />
+        <Carrousel className={classes.gridContainer}/>
       </div>
     );
   }
   if (onSetSelect === "PairProgramming") {
     return (
       <div>
-        <Grid container>
+        <Grid container className={classes.gridContainer}>
           <Grid xs={12} container className={classes.tabPanel}>
             <PairProgramming />
           </Grid>
