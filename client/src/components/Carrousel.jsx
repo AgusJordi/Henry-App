@@ -39,11 +39,14 @@ function Carrousel(props)
     ]
  
     return (
+        <div className="contenedor">
+            
         <Carousel>
             {
                 items.map( (item, i) => <Item key={i} item={item} /> )
             }
         </Carousel>
+        </div>
     )
 }
  
