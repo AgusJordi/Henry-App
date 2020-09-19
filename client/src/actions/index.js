@@ -80,7 +80,6 @@ export function createCohorte(info, emails) {
 }
 
 export function getIdUser(id) {
-  console.log(id, "QUE RECIBO EN ACTIOOOOON")
   return function (dispatch) {
     return axios
       .get(`http://localhost:4000/users/${id}`)
@@ -90,7 +89,6 @@ export function getIdUser(id) {
           type: GET_ID_USER,
           payload: data,
         });
-        console.log(data, "AAAAAAAAAAAAAAAAAAAAAAAAAsi esta data")
       });
   };
 }
@@ -107,4 +105,17 @@ export function getAllInstructors() {
         });
       });
   };
+}
+
+export function modifiedUser(id,data) {
+  console.log(data,"SOY UNA DAAAAAAAAAAAAATA")
+  var url = `http://localhost:4000/users/myprofile/${id}`;
+  axios({
+    method: "put",
+    url: url,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: data
+  });
 }

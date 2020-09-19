@@ -205,5 +205,38 @@ server.put("/:email", async (req, res, next) => {
   }
 });
 
+/*server.put('/:id', (req, res, next) => {
+  var productoUp = req.body
+
+  Product.findOne({
+    where: {
+      id: req.body.id
+    }
+  }).then(prodEncontrado => {
+    prodEncontrado.update(productoUp)
+      .then(nuevoPro => {
+        nuevoPro.save()
+        res.status(200)
+        res.json(nuevoPro)
+      })
+  })
+})
+*/
+server.put("/myprofile/:id", async (req, res, next) => {
+  const id = req.params.id;
+  const userUp = req.body;
+  User.findOne({
+    where: {
+      id: req.params.id
+    }
+  }).then(user => {
+    user.update(userUp)
+      .then(usuario => {
+        usuario.save()
+        res.status(200)
+        res.json(usuario)
+      }).catch(err => next(err))
+});
+});
 
 module.exports = server;
