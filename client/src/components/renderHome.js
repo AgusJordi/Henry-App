@@ -13,7 +13,11 @@ import Cohorte from "./Cohorte";
 import AreaAdmin from "./Crud/AreaAdmin.jsx";
 import PairProgramming from "./users/PairProgramming.jsx";
 import Grid from "@material-ui/core/Grid";
-import { getAllUsers, getAllCohortes, getAllInstructors } from "../actions/index";
+import {
+  getAllUsers,
+  getAllCohortes,
+  getAllInstructors,
+} from "../actions/index";
 import Carrousel from "./Carrousel.jsx";
 
 function Home(props) {
@@ -23,6 +27,7 @@ function Home(props) {
   const allUsers = useSelector((state) => state.all_users);
   const allInstructors = useSelector((state) => state.all_instructors);
   const allCohortes = [];
+
   useEffect(() => {
     dispatch(getAllUsers());
     dispatch(getAllCohortes());
@@ -97,18 +102,26 @@ function Home(props) {
               }}
             >
               <h2 className={classes.tabTitel}>COHORTES</h2>
-              {allCohortes.map((cohorte, index) => {
-                return (
-                  <Tab
-                    label={cohorte.name}
-                    onClick={() => saveCohorte(cohorte)}
-                  />
-                );
-              })}
+              {allCohortes.length === 0 ? (
+                <Tab label="No hay cohortes" />
+              ) : (
+                allCohortes.map((cohorte, index) => {
+                  return (
+                    <Tab
+                      label={cohorte.name}
+                      onClick={() => saveCohorte(cohorte)}
+                    />
+                  );
+                })
+              )}
             </Tabs>
           </Grid>
           <Grid xs={10} className={classes.cohorteRoot}>
-            <Cohorte users={allUsers} cohorte={allCohortes} />
+            {allCohortes.length === 0 ? (
+              <Cohorte users={allUsers} cohorte={false} />
+            ) : (
+              <Cohorte users={allUsers} cohorte={allCohortes} />
+            )}
           </Grid>
         </Grid>
       </Grid>
@@ -233,7 +246,7 @@ function Home(props) {
       <div>
         <Grid container>
           <Grid xs={12} container className={classes.tabPanel}>
-            <AreaAdmin instructores={allInstructors}/>
+            <AreaAdmin instructores={allInstructors} />
           </Grid>
         </Grid>
       </div>
@@ -251,7 +264,7 @@ function Home(props) {
       <div>
         <Grid container>
           <Grid xs={12} container className={classes.tabPanel}>
-            <PairProgramming />
+            <PairProgramming users={allUsers} />
           </Grid>
         </Grid>
       </div>
