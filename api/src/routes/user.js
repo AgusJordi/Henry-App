@@ -46,7 +46,7 @@ server.get("/pms", (req, res, next) => {
 
 //Ruta para crear usuario y alumno solo con mail de forma masiva.
 server.post("/add", (req, res, next) => {
-  const { name, date, instructorId } = req.body.info;
+  const { name, date, instructorId } = req.body.cohorte;
   var mails = req.body.emails
   console.log("BODY POST MASS", req.body)
   Cohorte.create({ name, date, instructorId })

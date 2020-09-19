@@ -44,12 +44,13 @@ function CrearCohorte(props) {
       "ACA ESTOY EN COMPONENTE"
     );
     createCohorte(input, emails);
+    setInputB(inputB);
     swal({
       text: "Se creó el Cohorte" + input.cohorte,
       icon: "success",
       timer: "3000",
     });
-    setInputB(inputB);
+
   };
 
   const useStyles = makeStyles((theme) => ({

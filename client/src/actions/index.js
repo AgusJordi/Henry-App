@@ -66,7 +66,11 @@ export function createCohorte(info, emails) {
       "Content-Type": "application/json",
     },
     data: {
-      info, emails
+      cohorte: {
+        name: info.cohorte,
+        instructorId: info.instructorId,
+        date: info.DateA
+      }, emails
       /*   name: info.cohorte,
         instructorId: info.instructor,
         date: info.DateA */
