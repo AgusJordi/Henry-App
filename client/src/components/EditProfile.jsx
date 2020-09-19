@@ -5,24 +5,22 @@ import Modal from '@material-ui/core/Modal';
 import Typography from '@material-ui/core/Typography';
 import Checkbox from '@material-ui/core/Checkbox';
 import TextField from "@material-ui/core/TextField";
-import { getAllUsers, userLogIn, onlineUserError, getIdUser } from "../actions";
+import { modifiedUser, getIdUser } from "../actions";
 import { connect } from "react-redux";
 
 
-function rand() {
-  return Math.round(Math.random() * 20) - 10;
-}
+
 
 function getModalStyle() {
-  const top = 40 + rand();
-  const left = 40 + rand();
+  const top = 20
+  const left = 20
   
   return {
     top: `${top}%`,
     left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
   };
 }
+
 
 const useStyles = makeStyles((theme) => ({
   padre: {
@@ -97,7 +95,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 }));
-
+                      //Action    //estado inicial
  function EditProfile({getIdUser, id_user}) {
   //const { onlineUser } = props;
   const classes = useStyles();
@@ -106,20 +104,20 @@ const useStyles = makeStyles((theme) => ({
   const [checked, setChecked] = React.useState(true);
   const [input, setInput] = useState({
     name: "",
-    lastname: "",
-    description: "",
-    cohorte: "",
-    group: "",
-    pairProgramming: "",
+    lastName: "",
+    city: "",
+    province: "",
+    country: "",
+    googleId: "",
+    gitHubId: "",    
   });
 
   var idUser = localStorage.getItem("idUser");
 
   useEffect(() => {
+    setInput(id_user)
     getIdUser(idUser)
   }, []);
-
-  
 
   const handleChange = (event) => {
     setChecked(event.target.checked);
@@ -131,6 +129,12 @@ const useStyles = makeStyles((theme) => ({
       [e.target.name]: e.target.value,
     });
   };
+
+    const handlemodifiedUser = (e) => {
+      e.preventDefault();
+      modifiedUser(idUser,input)
+      window.location.reload()
+  }
 
   const handleClose = () => {
     setOpen(false);
@@ -146,6 +150,7 @@ const useStyles = makeStyles((theme) => ({
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >
+      <form onSubmit={handlemodifiedUser}>
       <div style={modalStyle} className={classes.padre}>
       <div className={classes.titulo}>
       <Typography variant="h4" component="h4">
@@ -159,50 +164,55 @@ const useStyles = makeStyles((theme) => ({
         autoFocus
         name="name"
         margin="dense"
-        label=""
+        label="nombre"
+        placeholder = {id_user.name}
         type="text"
-        value={id_user.name}
+        value={input.name}
         onChange={handleInputChange}
       />
       <TextField
         autoFocus
-        name="apellido"
+        name="lastName"
         margin="dense"
-        label=""
+        label = "Apellido"
+        placeholder={id_user.lastName}
         type="text"
-        value={id_user.lastName}
-        onChange={handleInputChange}
+        value={input.lastName}
+        onChange={handleInputChange}  
       />
       </div>
       <div className = {classes.inputP}>
         <TextField
         autoFocus
-        name="name"
+        name="city"
         margin="dense"
-        label=""
+        label="Ciudad"
+        placeholder={id_user.city}
         type="text"
-        value={id_user.city}
-        onChange={handleInputChange}
+        value={input.city}
+        onChange={handleInputChange} 
       />
       <TextField
         autoFocus
-        name="apellido"
+        name="province"
         margin="dense"
-        label=" "
+        label = "Provincia"
+        placeholder={id_user.province}
         type="text"
-        value={id_user.province}
-        onChange={handleInputChange}
+        value={input.province}
+        onChange={handleInputChange} 
       />
       </div>
       <div className={classes.inputP}>
       <TextField
         autoFocus
-        name="name"
+        name="country"
         margin="dense"
-        label=" "
+        label= "Pais"
+        placeholder = {id_user.country}
         type="text"
-        value={id_user.country}
-        onChange={handleInputChange}
+        value={input.country}
+        onChange={handleInputChange}  
       />
       </div>
       </div>
@@ -216,25 +226,27 @@ const useStyles = makeStyles((theme) => ({
       <div className = {classes.inputP}>
         <TextField
         autoFocus
-        name="name"
+        name="googleId"
         margin="dense"
-        label=" "
+        label="GoogleId"
+        placeholder= {id_user.googleId}
         type="text"
-        value={id_user.googleId}
-        onChange={handleInputChange}
+        value={input.googleId}
+        onChange={handleInputChange} 
       />
       <TextField
         autoFocus
-        name="name"
+        name="gitHubId"
         margin="dense"
-        label=" "
+        label="GitHubId"
+        placeholder={id_user.gitHubId}
         type="text"
-        value={id_user.githugId}
+        value={input.gitHubId}
         onChange={handleInputChange}
       />
       </div>
       <div className = {classes.inputP}>
-        <TextField
+        {/*<TextField
         autoFocus
         name="name"
         margin="dense"
@@ -251,15 +263,15 @@ const useStyles = makeStyles((theme) => ({
         type="text"
         value={input.name}
         onChange={handleInputChange}
-      />
+      />*/}
       </div>
-      <div className = {classes.check}>
+      {/*<div className = {classes.check}>
       <Checkbox
         defaultChecked
         color="default"
         inputProps={{ 'aria-label': 'checkbox with default color' }}
       /> <p>Mostrar mi número</p>
-      </div>
+      </div>*/}
       </div>
 
       <div className = {classes.perfil}>
@@ -274,12 +286,13 @@ const useStyles = makeStyles((theme) => ({
         Eliminar imagen
       </a>
       <div className = {classes.botones}>
-      <button className = {classes.botones1}>Cancelar</button>
+      <button onClick = {handleClose} className = {classes.botones1}>Cancelar</button>
       <button className = {classes.botones2}>Guardar cambios</button>
       </div>
       </div>
 
       </div>
+      </form>
      </Modal>
     </div>
     </React.Fragment>
@@ -289,6 +302,7 @@ const useStyles = makeStyles((theme) => ({
 const mapDispatchToProps = (dispatch) => {
   return {
     getIdUser: (idUser) => dispatch(getIdUser(idUser)),
+    modifiedUser: (input) => dispatch(modifiedUser(input)),
   };
 };
 

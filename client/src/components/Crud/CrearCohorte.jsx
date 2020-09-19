@@ -4,7 +4,7 @@ import TextField from "@material-ui/core/TextField";
 import swal from "sweetalert";
 import { FormControl } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { createCohorte } from "../../actions/index.js";
+import { createCohorte, createUsersStudents } from "../../actions/index.js";
 import Chip from "./chip.jsx"
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
@@ -14,14 +14,14 @@ function CrearCohorte(props) {
     cohorte: "",
     instructorId: "",
     DateA: '',
-    });
-  
-    const [emails, setEmails] = useState ([])
+  });
+
+  const [emails, setEmails] = useState([])
 
   const [inputB, setInputB] = useState({
     cohorte: "",
     instructor: "",
-    //DateA: '',
+    DateA: '',
   });
 
   const handleInputChange = function (e) {
@@ -39,12 +39,18 @@ function CrearCohorte(props) {
     });*/
     e.preventDefault(); //A TENER EN CUENTA
     console.log(
+      emails,
       input,
-      "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACA ESTOY EN COMPONENTE"
+      "ACA ESTOY EN COMPONENTE"
     );
-    createCohorte(input);
-    /*Aca iria la alerta*/
+    createCohorte(input, emails);
     setInputB(inputB);
+    swal({
+      text: "Se creó el Cohorte" + input.cohorte,
+      icon: "success",
+      timer: "3000",
+    });
+
   };
 
   const useStyles = makeStyles((theme) => ({
@@ -63,10 +69,12 @@ function CrearCohorte(props) {
         <form onSubmit={handleCreateCohorte}>
           <div>
             <TextField
+              required
               name="cohorte"
               type="text"
               id="standard-full-width"
-              label="Cohorte"
+              label="Nombre Cohorte"
+              helperText="Ej: FT03"
               style={{ margin: 8 }}
               placeholder="Ingrese nombre de cohorte"
               fullWidth
@@ -92,28 +100,28 @@ function CrearCohorte(props) {
               }}
               onChange={handleInputChange}
             /> */}
-              <FormControl className={classes.formControl}>
-                <InputLabel htmlFor="instructor-native-simple">Instructor</InputLabel>
-                <Select
-                  native
-                  value={input.instructorId}
-                  onChange={handleInputChange}
-                  inputProps={{
-                    name: 'instructorId',
-                    id: 'instructor-native-simple',
-                  }}
-                ><option aria-label="None" value="" />
-                  {props.instructores.map((instructor=>
-                    <option value={instructor.id}>{instructor.name+" "+instructor.lastName}</option>
-                    ))}
-                  {/* <option aria-label="None" value="" />
+            <FormControl className={classes.formControl}>
+              <InputLabel htmlFor="instructor-native-simple">Instructor</InputLabel>
+              <Select
+                native
+                value={input.instructorId}
+                onChange={handleInputChange}
+                inputProps={{
+                  name: 'instructorId',
+                  id: 'instructor-native-simple',
+                }}
+              ><option aria-label="None" value="" />
+                {props.instructores.map((instructor =>
+                  <option value={instructor.id}>{instructor.name + " " + instructor.lastName}</option>
+                ))}
+                {/* <option aria-label="None" value="" />
                   <option value={1}>1</option>
                   <option value={2}>2</option>
                   <option value={3}>3</option> */}
-                </Select>
-              </FormControl>
+              </Select>
+            </FormControl>
 
-              <TextField
+            <TextField
               name='DateA'
               type='date'
               id="standard-full-width"
@@ -126,15 +134,15 @@ function CrearCohorte(props) {
               InputLabelProps={{
                 shrink: true,
               }}
-              onChange = {handleInputChange}
-            /> 
+              onChange={handleInputChange}
+            />
 
-              <Chip 
+            <Chip
               onChange={setEmails}
             />
-  
+
             <div>
-              <br/>
+              <br />
               <Button
                 type="submit"
                 variant="contained"
