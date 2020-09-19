@@ -7,14 +7,6 @@
   line-height: 1.7;
 }
 
-body {
-  background-color: #eaeaea;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-}
-
 .wrapper {
   background-color: white;
   width: 400px;
