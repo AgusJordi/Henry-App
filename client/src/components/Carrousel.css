@@ -31,6 +31,23 @@
   }
 
   .box{
-    width: 800px;
-    height: 328px;
+    display: flex;
+    justify-content: center;
+    max-width: auto;
+    /* width: 800px;
+    height: 328px; */
+  }
+
+  .contenedor{
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    left: 230px;
+    top:70px;
+  }
+
+  .color{
+    display: flex;
+
+    justify-content: center;
   }
