@@ -167,6 +167,7 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegist
   const handleSubmitR = function(e) {
    e.preventDefault()      
    userRegister(inputR)
+   handleClose()
    return 
   }
 
@@ -388,7 +389,8 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegist
               <Button
                 type="submit"
                 variant="contained"
-                className={classesRegister.rootButton}                
+                className={classesRegister.rootButton} 
+                              
               >
                 Registrarse
               </Button>
