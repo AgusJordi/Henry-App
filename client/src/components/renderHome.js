@@ -13,7 +13,11 @@ import Cohorte from "./Cohorte";
 import AreaAdmin from "./Crud/AreaAdmin.jsx";
 import PairProgramming from "./users/PairProgramming.jsx";
 import Grid from "@material-ui/core/Grid";
-import { getAllUsers, getAllCohortes, getAllInstructors } from "../actions/index";
+import {
+  getAllUsers,
+  getAllCohortes,
+  getAllInstructors,
+} from "../actions/index";
 import Carrousel from "./Carrousel.jsx";
 
 function Home(props) {
@@ -23,6 +27,7 @@ function Home(props) {
   const allUsers = useSelector((state) => state.all_users);
   const allInstructors = useSelector((state) => state.all_instructors);
   const allCohortes = [];
+
   useEffect(() => {
     dispatch(getAllUsers());
     dispatch(getAllCohortes());
@@ -67,6 +72,12 @@ function Home(props) {
     prueba: {
       backgroundColor: "yellow",
     },
+    gridContainer:{
+      position: "fixed",
+      top: "60px",
+      left: "240px",
+      maxWidth: "fit-content"
+    }
   }));
 
   const classes = useStyles();
@@ -83,7 +94,7 @@ function Home(props) {
   //RENDERISA SEGUN QUE PIDE EL USER
   if (onSetSelect === "Cohortes") {
     return (
-      <Grid container>
+      <Grid container className={classes.gridContainer}>
         <Grid xs={12} container className={classes.tabPanel}>
           <Grid xs={2} className={classes.tabs}>
             <Tabs
@@ -96,7 +107,22 @@ function Home(props) {
                 indicator: classes.prueba,
               }}
             >
+<<<<<<< HEAD
               <h2 className={classes.tabTitel}>COHORTES</h2>
+              {allCohortes.length === 0 ? (
+                <Tab label="No hay cohortes" />
+              ) : (
+                allCohortes.map((cohorte, index) => {
+                  return (
+                    <Tab
+                      label={cohorte.name}
+                      onClick={() => saveCohorte(cohorte)}
+                    />
+                  );
+                })
+              )}
+=======
+              <h3 className={classes.tabTitel}>COHORTES</h3>
               {allCohortes.map((cohorte, index) => {
                 return (
                   <Tab
@@ -105,10 +131,15 @@ function Home(props) {
                   />
                 );
               })}
+>>>>>>> master
             </Tabs>
           </Grid>
           <Grid xs={10} className={classes.cohorteRoot}>
-            <Cohorte users={allUsers} cohorte={allCohortes} />
+            {allCohortes.length === 0 ? (
+              <Cohorte users={allUsers} cohorte={false} />
+            ) : (
+              <Cohorte users={allUsers} cohorte={allCohortes} />
+            )}
           </Grid>
         </Grid>
       </Grid>
@@ -117,7 +148,7 @@ function Home(props) {
   if (onSetSelect === "Instructores") {
     return (
       <div>
-        <Grid container>
+        <Grid container className={classes.gridContainer}>
           <Grid xs={12} container className={classes.tabPanel}>
             <Grid xs={2} className={classes.tabs}>
               <Tabs
@@ -129,7 +160,7 @@ function Home(props) {
                   indicator: classes.prueba,
                 }}
               >
-                <h2 className={classes.tabTitel}>INSTRUCTORES</h2>
+                <h3 className={classes.tabTitel}>INSTRUCTORES</h3>
                 {allUsers.map((alumno, index) => {
                   let nombreCompleto = `${alumno.name} ${alumno.lastName}`;
                   return <Tab label={nombreCompleto} />;
@@ -155,7 +186,7 @@ function Home(props) {
   if (onSetSelect === "Pm´s") {
     return (
       <div>
-        <Grid container>
+        <Grid container className={classes.gridContainer}>
           <Grid xs={12} container className={classes.tabPanel}>
             <Grid xs={2} className={classes.tabs}>
               <Tabs
@@ -167,7 +198,7 @@ function Home(props) {
                   indicator: classes.prueba,
                 }}
               >
-                <h2 className={classes.tabTitel}>PM´S</h2>
+                <h3 className={classes.tabTitel}>PM´S</h3>
                 {allUsers.map((alumno, index) => {
                   let nombreCompleto = `${alumno.name} ${alumno.lastName}`;
                   return <Tab label={nombreCompleto} />;
@@ -193,7 +224,7 @@ function Home(props) {
   if (onSetSelect === "Alumnos") {
     return (
       <div>
-        <Grid container>
+        <Grid container className={classes.gridContainer}>
           <Grid xs={12} container className={classes.tabPanel}>
             <Grid xs={2} className={classes.tabs}>
               <Tabs
@@ -205,7 +236,7 @@ function Home(props) {
                   indicator: classes.prueba,
                 }}
               >
-                <h2 className={classes.tabTitel}>ALUMNOS</h2>
+                <h3 className={classes.tabTitel}>ALUMNOS</h3>
                 {allUsers.map((alumno, index) => {
                   let nombreCompleto = `${alumno.name} ${alumno.lastName}`;
                   return <Tab label={nombreCompleto} />;
@@ -231,9 +262,9 @@ function Home(props) {
   if (onSetSelect === "Herramientas") {
     return (
       <div>
-        <Grid container>
+        <Grid container className={classes.gridContainer}>
           <Grid xs={12} container className={classes.tabPanel}>
-            <AreaAdmin instructores={allInstructors}/>
+            <AreaAdmin instructores={allInstructors} />
           </Grid>
         </Grid>
       </div>
@@ -242,16 +273,16 @@ function Home(props) {
   if (onSetSelect === "Noticias") {
     return (
       <div>
-        <Carrousel />
+        <Carrousel className={classes.gridContainer}/>
       </div>
     );
   }
   if (onSetSelect === "PairProgramming") {
     return (
       <div>
-        <Grid container>
+        <Grid container className={classes.gridContainer}>
           <Grid xs={12} container className={classes.tabPanel}>
-            <PairProgramming />
+            <PairProgramming users={allUsers} />
           </Grid>
         </Grid>
       </div>

@@ -1,17 +1,9 @@
 import React, { useState, useEffect, Fragment } from "react";
-
 import "./home.css";
-import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
-import { shadows } from "@material-ui/system";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import axios from "axios";
 import Grid from "@material-ui/core/Grid";
-import { ThemeProvider } from "@material-ui/styles";
-import Icon from "@material-ui/core/Icon";
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 import { connect } from "react-redux";
 
@@ -28,7 +20,7 @@ function Cohorte(props) {
   //seteo cuadrado
 
   const { users, cohorte } = props;
-
+  console.log("sese", cohorte);
   const useStyles = makeStyles((theme) => ({
     //box contenedora
     boxPrincipal: {
@@ -179,6 +171,17 @@ function Cohorte(props) {
   };
 
   const classes = useStyles();
+  if (!cohorte) {
+    return (
+      <div>
+        <Box className={classes.pruebaTitle}>
+          <Typography className={classes.setFontTitle}>
+            No hay cohortes existentes
+          </Typography>
+        </Box>
+      </div>
+    );
+  }
   return (
     <div>
       <Grid container>
@@ -210,16 +213,20 @@ function Cohorte(props) {
               <Box className={classes.infoSideBar}>
                 <Box className={classes.setTextBoxInfoSide}>
                   <List className={classes.listOne}>
-                    {users.map((pm) => {
-                      let nombreCompleto = `${pm.name} ${pm.lastName}`;
-                      return (
-                        <ul className={classes.ul} value={pm.id}>
-                          <Box className={classes.styleTextUser}>
-                            {nombreCompleto}
-                          </Box>
-                        </ul>
-                      );
-                    })}
+                    {users.message ? (
+                      <h1>{users.message}</h1>
+                    ) : (
+                      users.map((pm) => {
+                        let nombreCompleto = `${pm.name} ${pm.lastName}`;
+                        return (
+                          <ul className={classes.ul} value={pm.id}>
+                            <Box className={classes.styleTextUser}>
+                              {nombreCompleto}
+                            </Box>
+                          </ul>
+                        );
+                      })
+                    )}
                   </List>
                 </Box>
               </Box>
@@ -246,11 +253,17 @@ function Cohorte(props) {
                         <em>None</em>
                       </MenuItem>
                       {/* MAPEAR LISTA DE PMS Y DEVOLVER UN MENUITEM X CADA UNO */}
-                      {users.map((pm) => {
-                        let nombreCompleto = `${pm.name} ${pm.lastName}`;
-                        let id = pm.id;
-                        return <MenuItem value={id}>{nombreCompleto}</MenuItem>;
-                      })}
+                      {users.message ? (
+                        <p>{users.message}</p>
+                      ) : (
+                        users.map((pm) => {
+                          let nombreCompleto = `${pm.name} ${pm.lastName}`;
+                          let id = pm.id;
+                          return (
+                            <MenuItem value={id}>{nombreCompleto}</MenuItem>
+                          );
+                        })
+                      )}
                     </Select>
                   </FormControl>
                 </Box>
@@ -258,16 +271,20 @@ function Cohorte(props) {
               <Box className={classes.bodyInfo}>
                 <Box className={classes.setTextBoxInfoInfo}>
                   <List className={classes.listOneInfo}>
-                    {users.map((pm) => {
-                      let nombreCompleto = `${pm.name} ${pm.lastName}`;
-                      return (
-                        <ul className={classes.ul}>
-                          <Box className={classes.styleTextUserInfo}>
-                            {nombreCompleto}
-                          </Box>
-                        </ul>
-                      );
-                    })}
+                    {users.message ? (
+                      <h1>{users.message}</h1>
+                    ) : (
+                      users.map((pm) => {
+                        let nombreCompleto = `${pm.name} ${pm.lastName}`;
+                        return (
+                          <ul className={classes.ul} value={pm.id}>
+                            <Box className={classes.styleTextUser}>
+                              {nombreCompleto}
+                            </Box>
+                          </ul>
+                        );
+                      })
+                    )}
                   </List>
                 </Box>
               </Box>
@@ -279,5 +296,4 @@ function Cohorte(props) {
   );
 }
 
- 
-export default connect()(Cohorte)
+export default connect()(Cohorte);

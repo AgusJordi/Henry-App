@@ -53,6 +53,7 @@ function Navbar({ onlineUser, userLogIn }) {
   const useStyles = makeStyles((theme) => ({
     root: {
       display: "flex",
+  
     },
     img: {
       display: "block",
@@ -75,6 +76,12 @@ function Navbar({ onlineUser, userLogIn }) {
     imgRoot: {
       marginLeft: 10,
     },
+    fontAwesome: {
+      fontFamily: "Helvetica, Roboto, FontAwesome", 
+      fontSize: "15px",
+      padding: "5px",
+      outline: "none"
+    }
   }));
 
   const classes = useStyles();
@@ -82,12 +89,13 @@ function Navbar({ onlineUser, userLogIn }) {
   return (
     <div className="navbar">
       <div className="navbar_left">
-        <HelpIcon />
-        <AccessTimeIcon />
+        <HelpIcon fontSize="large"/>
+        <AccessTimeIcon fontSize="large"/>
       </div>
-      <div className="navbar_search">
-        <SearchIcon />
-        <input className="navbar_search" placeholder="Buscar en Henry" />
+      <div className="navbar_search" id="esto">
+        {/* <SearchIcon fontSize="large"/> */}
+        <input type="text" placeholder="&#xF002; Buscar en Henry" className={classes.fontAwesome}/>
+        {/* <input className="navbar_search" placeholder="Buscar en Henry" /> */}
       </div>
       <div>
         <img
@@ -102,12 +110,12 @@ function Navbar({ onlineUser, userLogIn }) {
           aria-haspopup="true"
           onClick={handleClick}
         >
-          <AccountCircleIcon />
-          <span style={{ marginRight: "12px" }}>
-            <small>
+          <AccountCircleIcon fontSize="large"/>
+          <span style={{ marginLeft: "10px" }}>
+            <large>
               {" "}
               Hola! <b>{lsName}</b>
-            </small>
+            </large>
           </span>
         </Button>
         <Menu
@@ -126,6 +134,8 @@ function Navbar({ onlineUser, userLogIn }) {
           </div>
           <Divider light />
           <MenuItem onClick={""}>Ver mi perfil</MenuItem>
+          <Divider light />
+          <MenuItem onClick={""}>Editar mi perfil</MenuItem>
           <Divider light />
           <MenuItem onClick={""}>Cambiar contraseña</MenuItem>
           <Divider light />
