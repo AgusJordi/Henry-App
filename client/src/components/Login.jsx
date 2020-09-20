@@ -12,18 +12,22 @@ import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
+
+import Modal from "@material-ui/core/Modal";
+import { Formik, Form, ErrorMessage, Field, useFormik } from "formik";
+import * as Yup from "yup";
+
 //npm install axios
 //npm install router
 //npm install sweetalert2
 //npm install jwt-decode
 
-import { NavLink, Redirect, Route } from "react-router-dom";
+import { NavLink, Redirect, Route, useHistory } from "react-router-dom";
 import { useEffect } from "react";
 import { connect } from "react-redux";
-import { getAllUsers, userLogIn, onlineUserError } from "../actions";
-import * as action from "../actions";
+import { getAllUsers, userLogIn, onlineUserError, userRegister } from "../actions";
 import portada from "../images/welcome.png";
-import Register from "./Register";
+//import Register from "./Register";
 import Swal from "sweetalert2";
 //IMPORTS PARA MODAL REGISTER
 
@@ -73,13 +77,127 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError }) {
+function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegister }) {
   ////INICIO del del coomponente
 
   useEffect(() => {
     getAllUsers(589); //probando actions
     //userLogIn(onlineUser)
   }, []);
+
+
+  ////////////////////////////////////DEL MODAL/////////////////////////////////////
+
+   
+
+  function getModalStyle() {
+    return {
+      display: "flex",
+      flexWrap: "wrap",
+      justifyContent: "center",
+      borderRadius: "5px",
+    };
+  }
+
+  const useStylesS = makeStyles((theme) => ({
+    paperRegister: {
+      position: "absolute",
+      width: 350,
+      backgroundColor: theme.palette.background.paper,
+      padding: theme.spacing(1),
+      paddingBottom: 25,
+      outline: "none",
+      "&:focus": {
+        boxShadow: "0 0 0 0.2rem #F5D553",
+      },
+    },
+    divFormRoot: {
+      marginTop: "5px",
+      display: "flex",
+      justifyContent: "center",
+    },
+    rootButton: {
+      marginRight: "10px",
+      backgroundColor: "#57D47A",
+      color: "white",
+      "&:hover": {
+        backgroundColor: "#45EB55",
+        boxShadow: "none",
+      },
+      "&:active": {
+        boxShadow: "none",
+        backgroundColor: "#45EB55",
+      },
+      "&:focus": {
+        boxShadow: "0 0 0 0.2rem #57D433",
+      },
+    },
+    formRoot: {
+      display: "flex",
+      flexWrap: "wrap",
+      justifyContent: "center",
+    },
+    buttonRoot: {
+      display: "flex",
+      justifyContent: "space-evenly",
+      marginTop: "5px",
+    },
+    inputCenterPh: {
+      textAlign: "center",
+    },
+    formRoot: {
+      width: "100%",
+    },
+  }));
+
+  const classesRegister = useStylesS();
+  const [modalStyle] = useState(getModalStyle);
+  const [inputR, setInputR] = useState({})
+
+  const handleInputChangeR = function(e) {
+    setInputR({
+      ...inputR,
+      [e.target.name]: e.target.value
+    });
+  
+  }
+  
+
+   
+  const handleSubmitR = function(e) {
+   e.preventDefault()      
+   userRegister(inputR)
+   return 
+  }
+
+  // HARDCODEO COSMICO
+
+  const [users, setUsers] = useState([]);
+
+  // SETEO FORM
+  const formik = useFormik({
+    initialValues: {
+      firstName: "",
+      lastName: "",
+      city: "",
+      province: "",
+      country: "",
+      email: "",
+      password: "",
+    },
+    validationSchema: Yup.object({
+      firstName: Yup.string().max(15, "Ingresa menos de 15 caracteres"),
+      lastName: Yup.string().max(15, "Ingresa menos de 15 caracteres"),
+      password: Yup.string().max(15, "Ingresa menos de 15 caracteres"),
+      city: Yup.string().max(15, "Ingresa menos de 15 caracteres"),
+      province: Yup.string().max(15, "Ingresa menos de 15 caracteres"),
+      country: Yup.string().max(15, "Ingresa menos de 15 caracteres"),
+      email: Yup.string().email("Email invalido"),
+    }),
+    
+  });
+
+  ////////////// End del Modal ///////////
 
   const classes = useStyles();
 
@@ -92,10 +210,15 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError }) {
     });
   };
   const [open, setOpen] = useState(false);
+  
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault();    
     userLogIn(input);
+
+    
+
+     
   };
   if (onlineUser !== false && onlineUser !== 0) {
     console.log(" lo que traeel login ", onlineUser);
@@ -127,9 +250,158 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError }) {
   const handleClose = () => {
     setOpen(false);
   };
+  
 
   return (
+    
     <Grid container component="main" className={classes.root}>
+      <Modal    
+      open={open}
+      aria-labelledby="simple-modal-title"
+      aria-describedby="simple-modal-description"
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <div style={modalStyle} className={classesRegister.paperRegister}>
+        <div className={classesRegister.formRoot}>
+          <h2 id="simple-modal-title" align="center">
+            REGISTRARSE
+          </h2>
+          <form onSubmit={handleSubmitR} >
+            <div className={classesRegister.divFormRoot}>
+              <label htmlFor="firstName"></label>
+              <TextField
+              // onChange={handleInputChangeR}
+              // name='firstName'
+              //   id="firstName"
+              //   type="text"
+              //   required
+              //   {...formik.getFieldProps("firstName")}
+              //   error={formik.errors.firstName}
+              //   label="Nombre"
+              //   helperText={formik.errors.firstName}
+              //   placeholder="Gerardo"
+              //   variant="outlined"
+              //   fullWidth
+              variant="outlined"               
+              required
+              fullWidth
+              id="firstNameR"
+              label="Nombre"                            
+              name="firstNameR"
+              autoComplete="nombre"
+              autoFocus
+              onChange={handleInputChangeR}
+              />
+            </div>
+            <div className={classesRegister.divFormRoot}>
+              <label htmlFor="lastName"></label>
+              <TextField
+              onChange={handleInputChangeR}
+              name="lastNameR"
+                id="lastNameR"
+                type="text"
+                required                 
+                label="Apellido"
+                autoComplete="Apellido"
+                placeholder="Sofovich"
+                helperText={formik.errors.lastName}
+                variant="outlined"
+                fullWidth                              
+                
+              />
+            </div>
+            <div className={classesRegister.divFormRoot}>
+              <label htmlFor="lastName"></label>
+              <TextField
+              onChange={handleInputChangeR}
+                id="passwordR"
+                name="passwordR"
+                type="password"
+                required                
+                label="Password"
+                placeholder="********"               
+                variant="outlined"
+                fullWidth
+              />
+            </div>
+            <div className={classesRegister.divFormRoot}>
+              <label htmlFor="city"></label>
+              <TextField
+              onChange={handleInputChangeR}
+                id="cityR"
+                name="cityR"
+                type="text"
+                required                
+                label="Ciudad"
+                placeholder="Buenos Aires"                
+                variant="outlined"
+                fullWidth
+              />
+            </div>
+            <div className={classesRegister.divFormRoot}>
+              <label htmlFor="province"></label>
+              <TextField
+              onChange={handleInputChangeR}
+                id="provinceR"
+                name="provinceR"
+                type="text"
+                required                
+                label="Provincia"
+                placeholder="Buenos Aires"                
+                variant="outlined"
+                fullWidth
+              />
+            </div>
+            <div className={classesRegister.divFormRoot}>
+              <label htmlFor="country"></label>
+              <TextField
+              onChange={handleInputChangeR}
+                id="countryR"
+                name="countryR"
+                type="text"
+                required                
+                label="Pais"
+                placeholder="Argentina"                
+                variant="outlined"
+                fullWidth
+              />
+            </div>
+            <div className={classesRegister.divFormRoot}>
+              <label htmlFor="email"></label>
+              <TextField
+              onChange={handleInputChangeR}
+                id="emailR"
+                name="emailR"
+                type="email"
+                required                
+                label="Email"
+                placeholder="tuemailderegistro@canal9.com"               
+                variant="outlined"
+                fullWidth
+              />
+            </div>
+            <div className={classesRegister.buttonRoot}>
+              <Button
+                type="submit"
+                variant="contained"
+                className={classesRegister.rootButton}                
+              >
+                Registrarse
+              </Button>
+              <Button onClick={handleClose} variant="contained" color="secondary">
+                Cerrar
+              </Button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </Modal>
+
+    
       <CssBaseline />
 
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
@@ -187,7 +459,7 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError }) {
                 <Link href="#" variant="body2" onClick={handleOpen}>
                   Todavia no tenes cuenta?
                 </Link>
-                <Register open={open} onClose={handleClose} />
+                <Link href="#" variant="body2" open={open} />
               </Grid>
             </Grid>
             <Box mt={5}>
@@ -197,14 +469,18 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError }) {
         </div>
       </Grid>
     </Grid>
+    
+    
   );
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    userRegister: (inputR) => dispatch(userRegister(inputR)),
     getAllUsers: (number) => dispatch(getAllUsers(589)),
     userLogIn: (input) => dispatch(userLogIn(input)),
-    onlineUserError: () => dispatch(onlineUserError()),
+    onlineUserError: () => dispatch(onlineUserError())
+    
   };
 };
 

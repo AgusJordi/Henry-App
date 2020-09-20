@@ -2,13 +2,18 @@ import React, { useState } from "react";
 import Modal from "@material-ui/core/Modal";
 import { Formik, Form, ErrorMessage, Field, useFormik } from "formik";
 import * as Yup from "yup";
+import { connect } from "react-redux";
+import { getAllUsers, userLogIn, onlineUserError } from "../actions";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { sizing } from "@material-ui/system";
 
+
 function Register(props) {
   const { open, onClose } = props;
+
+  
 
   function getModalStyle() {
     return {
@@ -72,6 +77,25 @@ function Register(props) {
 
   const classesRegister = useStylesS();
   const [modalStyle] = useState(getModalStyle);
+  const [inputR, setInputR] = useState([])
+
+  const handleInputChangeR = function(e) {
+    setInputR({
+      ...inputR,
+      [e.target.name]: e.target.value
+    });
+  
+  }
+  
+
+   
+  const handleSubmitR = function(e) {
+   e.preventDefault() 
+ 
+  
+
+   
+  }
 
   // HARDCODEO COSMICO
 
@@ -104,7 +128,7 @@ function Register(props) {
   });
 
   return (
-    <Modal
+    <Modal    
       open={open}
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
@@ -119,30 +143,42 @@ function Register(props) {
           <h2 id="simple-modal-title" align="center">
             REGISTRARSE
           </h2>
-          <form>
+          <form >
             <div className={classesRegister.divFormRoot}>
               <label htmlFor="firstName"></label>
               <TextField
-                id="firstName"
-                type="text"
-                required
-                {...formik.getFieldProps("firstName")}
-                error={formik.errors.firstName}
-                label="Nombre"
-                helperText={formik.errors.firstName}
-                placeholder="Gerardo"
-                variant="outlined"
-                fullWidth
+              // onChange={handleInputChangeR}
+              // name='firstName'
+              //   id="firstName"
+              //   type="text"
+              //   required
+              //   {...formik.getFieldProps("firstName")}
+              //   error={formik.errors.firstName}
+              //   label="Nombre"
+              //   helperText={formik.errors.firstName}
+              //   placeholder="Gerardo"
+              //   variant="outlined"
+              //   fullWidth
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="firstName"
+              label="Nombre"                            
+              name="firstName"
+              autoComplete="email"
+              autoFocus
+              onChange={handleInputChangeR}
               />
             </div>
             <div className={classesRegister.divFormRoot}>
               <label htmlFor="lastName"></label>
               <TextField
+              onChange={handleInputChangeR}
+              name="lastName"
                 id="lastName"
                 type="text"
-                required
-                {...formik.getFieldProps("lastName")}
-                error={formik.errors.lastName}
+                required                 
                 label="Apellido"
                 placeholder="Sofovich"
                 helperText={formik.errors.lastName}
@@ -153,14 +189,13 @@ function Register(props) {
             <div>
               <label htmlFor="lastName"></label>
               <TextField
+              onChange={handleInputChangeR}
                 id="password"
+                name="password"
                 type="password"
-                required
-                {...formik.getFieldProps("password")}
-                error={formik.errors.password}
+                required                
                 label="Password"
-                placeholder="********"
-                helperText={formik.errors.password}
+                placeholder="********"               
                 variant="outlined"
                 fullWidth
               />
@@ -168,14 +203,13 @@ function Register(props) {
             <div className={classesRegister.divFormRoot}>
               <label htmlFor="city"></label>
               <TextField
+              onChange={handleInputChangeR}
                 id="city"
+                name="city"
                 type="text"
-                required
-                {...formik.getFieldProps("city")}
-                error={formik.errors.city}
+                required                
                 label="Ciudad"
-                placeholder="Buenos Aires"
-                helperText={formik.errors.city}
+                placeholder="Buenos Aires"                
                 variant="outlined"
                 fullWidth
               />
@@ -183,14 +217,13 @@ function Register(props) {
             <div className={classesRegister.divFormRoot}>
               <label htmlFor="province"></label>
               <TextField
+              onChange={handleInputChangeR}
                 id="province"
+                name="province"
                 type="text"
-                required
-                {...formik.getFieldProps("province")}
-                error={formik.errors.province}
+                required                
                 label="Provincia"
-                placeholder="Buenos Aires"
-                helperText={formik.errors.province}
+                placeholder="Buenos Aires"                
                 variant="outlined"
                 fullWidth
               />
@@ -198,14 +231,13 @@ function Register(props) {
             <div className={classesRegister.divFormRoot}>
               <label htmlFor="country"></label>
               <TextField
+              onChange={handleInputChangeR}
                 id="country"
+                name="country"
                 type="text"
-                required
-                {...formik.getFieldProps("country")}
-                error={formik.errors.country}
+                required                
                 label="Pais"
-                placeholder="Argentina"
-                helperText={formik.errors.country}
+                placeholder="Argentina"                
                 variant="outlined"
                 fullWidth
               />
@@ -213,14 +245,13 @@ function Register(props) {
             <div className={classesRegister.divFormRoot}>
               <label htmlFor="email"></label>
               <TextField
+              onChange={handleInputChangeR}
                 id="email"
+                name="email"
                 type="email"
-                required
-                {...formik.getFieldProps("email")}
-                error={formik.errors.email}
+                required                
                 label="Email"
-                placeholder="gerardo@canal9.com"
-                helperText={formik.errors.email}
+                placeholder="tuemailderegistro@canal9.com"               
                 variant="outlined"
                 fullWidth
               />
@@ -230,6 +261,7 @@ function Register(props) {
                 type="submit"
                 variant="contained"
                 className={classesRegister.rootButton}
+                onClick={handleSubmitR}
               >
                 Registrarse
               </Button>
@@ -243,5 +275,18 @@ function Register(props) {
     </Modal>
   );
 }
+const mapDispatchToProps = (dispatch) => {
+  return {
+    //userRegister: (inputR) => dispatch(userRegister(inputR)),
+    
+  };
+};
+const mapStateToProps = (state) => {
+  return {
+    all_users: state.all_users,
+    onlineUser: state.onlineUser,
+  };
+};
 
-export default Register;
+
+export default connect(mapStateToProps, mapDispatchToProps, null)(Register);

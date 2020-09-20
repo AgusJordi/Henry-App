@@ -5,7 +5,8 @@ import {
   ONLINE_USER_ERROR,
   GET_ALL_COHORTES,   
   GET_ID_USER,
-  GET_ALL_INSTRUCTORS
+  GET_ALL_INSTRUCTORS,
+  //USER_REGISTER
 } from "../actions/index";
 //var ls = require('local-storage');
 
@@ -40,6 +41,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         onlineUser: false,
       };
+      // case USER_REGISTER:
+      // return {
+      //   ...state,
+      //   onlineUser: false,
+      // };
 
     case GET_ALL_COHORTES:
       return {

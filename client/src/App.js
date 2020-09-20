@@ -30,16 +30,17 @@ function App() {
       <Router>
         <PvRoute path="/" component={Navbar} />
         <PvRoute path="/" component={Sidebar} />
-
         <PvRoute exact path="/profile" component={Profile} />
-
         <PvRoute exact path="/editprofile" component={EditProfile} /> {/*Ruta provisoria señor*/}
-      </Router>
+      
       {isAutenticated() === false ? (
         <Route exact path="/login" component={Login} />
+        
       ) : (
         ""
       )}
+      
+      </Router>
     </div>
   );
 }

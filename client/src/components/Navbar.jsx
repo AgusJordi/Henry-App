@@ -40,6 +40,8 @@ function Navbar({ onlineUser, userLogIn }) {
   };
 
   const handleClose = () => {
+    localStorage.removeItem("idUser");
+    localStorage.removeItem("lastName");
     localStorage.removeItem("username");
     window.location = "./login";
   };

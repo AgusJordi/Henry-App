@@ -9,6 +9,7 @@ export const CREATE_COHORTE = "CREATE_COHORTE";
 export const GET_ID_USER = "GET_ID_USER";
 export const CREATE_USERS_STUDENTS = "CREATE_USERS_STUDENTS";
 export const GET_ALL_INSTRUCTORS = "GET_ALL_INSTRUCTORS";
+export const USER_REGISTER = "USER_REGISTER";
 
 export function userLogIn(body) {
   return function (dispatch) {
@@ -118,4 +119,29 @@ export function modifiedUser(id,data) {
     },
     data: data
   });
+}
+
+export function userRegister (body) {
+  
+  var registro= {
+    name: body.firstNameR,
+    lastname: body.lastNameR,
+    city: body.cityR,
+    province: body.provinceR,
+    country: body.countryR,
+    email: body.emailR,
+    password: body.passwordR
+  }
+  console.log('El REGISTERRRRRR', registro)
+  return function(dispatch) {
+    return axios.post("http://localhost:4000/users/", registro)
+      .then(result => result.data)
+      .then(data => {
+        dispatch({
+          type: USER_REGISTER,
+          payload: data
+        })
+        console.log(' Devuelve el datataaaa',data)
+      })
+  }
 }
