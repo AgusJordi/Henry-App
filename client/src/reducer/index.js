@@ -6,7 +6,9 @@ import {
   GET_ALL_COHORTES,   
   GET_ID_USER,
   GET_ALL_INSTRUCTORS,
-  //USER_REGISTER
+  USER_REGISTER,
+  USER_REGISTER_ERROR
+   
 } from "../actions/index";
 //var ls = require('local-storage');
 
@@ -16,6 +18,8 @@ const initialState = {
   onlineUser: false,
   id_user: [],
   all_instructors: [],
+  register: 0
+
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -40,12 +44,17 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         onlineUser: false,
+      }; 
+      case USER_REGISTER:
+      return {
+        ...state,
+        register: registro(action.payload)
       };
-      // case USER_REGISTER:
-      // return {
-      //   ...state,
-      //   onlineUser: false,
-      // };
+      case USER_REGISTER_ERROR:
+      return {
+        ...state,
+        register: 0,
+      };        
 
     case GET_ALL_COHORTES:
       return {
@@ -64,12 +73,15 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-// function reducerlogin(data){///Login devuelvo falce si no devuelve data
-//   if(data){
-//     return data
-//   }else {
-//     return false
-//   }
-// }
+function registro(data){
+  if(data === false){
+    return false
+  }else if(data === null){
+    return 'null'
+  }else{
+    return true
+  }
+
+}
 
 export default reducer;

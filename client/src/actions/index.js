@@ -10,6 +10,7 @@ export const GET_ID_USER = "GET_ID_USER";
 export const CREATE_USERS_STUDENTS = "CREATE_USERS_STUDENTS";
 export const GET_ALL_INSTRUCTORS = "GET_ALL_INSTRUCTORS";
 export const USER_REGISTER = "USER_REGISTER";
+export const USER_REGISTER_ERROR = "USER_REGISTER_ERROR"
 
 export function userLogIn(body) {
   return function (dispatch) {
@@ -37,7 +38,7 @@ export function getAllUsers() {
       .then((data) => {
         dispatch({
           type: GET_ALL_USERS,
-          payload: data,
+          payload: data
         });
       });
   };
@@ -132,16 +133,23 @@ export function userRegister (body) {
     email: body.emailR,
     password: body.passwordR
   }
-  console.log('El REGISTERRRRRR', registro)
+  
   return function(dispatch) {
-    return axios.post("http://localhost:4000/users/", registro)
+    return axios.put(`http://localhost:4000/users/`, registro )
       .then(result => result.data)
       .then(data => {
         dispatch({
           type: USER_REGISTER,
-          payload: data
+          payload: data  
         })
-        console.log(' Devuelve el datataaaa',data)
+        console.log("QUE trae el data", data)
       })
   }
 }
+
+export function userRegisterError() {
+  return {
+    type: USER_REGISTER_ERROR,
+  };
+}
+

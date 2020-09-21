@@ -107,21 +107,6 @@ function Home(props) {
                 indicator: classes.prueba,
               }}
             >
-<<<<<<< HEAD
-              <h2 className={classes.tabTitel}>COHORTES</h2>
-              {allCohortes.length === 0 ? (
-                <Tab label="No hay cohortes" />
-              ) : (
-                allCohortes.map((cohorte, index) => {
-                  return (
-                    <Tab
-                      label={cohorte.name}
-                      onClick={() => saveCohorte(cohorte)}
-                    />
-                  );
-                })
-              )}
-=======
               <h3 className={classes.tabTitel}>COHORTES</h3>
               {allCohortes.map((cohorte, index) => {
                 return (
@@ -131,7 +116,6 @@ function Home(props) {
                   />
                 );
               })}
->>>>>>> master
             </Tabs>
           </Grid>
           <Grid xs={10} className={classes.cohorteRoot}>

@@ -25,7 +25,7 @@ import * as Yup from "yup";
 import { NavLink, Redirect, Route, useHistory } from "react-router-dom";
 import { useEffect } from "react";
 import { connect } from "react-redux";
-import { getAllUsers, userLogIn, onlineUserError, userRegister } from "../actions";
+import { getAllUsers, userLogIn, onlineUserError, userRegister, userRegisterError } from "../actions";
 import portada from "../images/welcome.png";
 //import Register from "./Register";
 import Swal from "sweetalert2";
@@ -77,12 +77,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegister }) {
+function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegister, register, userRegisterError }) {
   ////INICIO del del coomponente
 
   useEffect(() => {
     getAllUsers(589); //probando actions
-    //userLogIn(onlineUser)
+    
   }, []);
 
 
@@ -162,14 +162,94 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegist
   
   }
   
-
    
   const handleSubmitR = function(e) {
    e.preventDefault()      
    userRegister(inputR)
    handleClose()
-   return 
+
   }
+  console.log('El REGISTERRRRR ', register)
+  if(register === 'null'){
+    Swal.fire({
+      icon: 'warning',
+      title: 'Ups...',
+      text: 'Ese Email ya fue usado por otro usuario!',
+      footer: '<span>Soy Henry</span>'
+    })
+    userRegisterError();
+  }
+  if(register === false ){
+    
+    Swal.fire({
+      icon: 'warning',
+      title: 'Ups...',
+      text: 'Debes usuar el E-email con en que inscribiste al Challenge de Henry!',
+      footer: '<span>Soy Henry</span>'
+    })
+      userRegisterError();
+      
+  }
+  if(register === true){
+
+     
+    Swal.fire({
+      title: 'Usuario creado con Exito!',
+      text: "Bienvenido a Henry",
+      icon: 'success',
+      showCancelButton: false,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Ingresar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        let timerInterval
+    Swal.fire({
+      title: 'Ingresando',
+      html: '<b></b>',
+      timer: 2000,
+      timerProgressBar: true,
+      onBeforeOpen: () => {
+        Swal.showLoading()
+        timerInterval = setInterval(() => {
+          const content = Swal.getContent()
+          if (content) {
+            const b = content.querySelector('b')
+            if (b) {
+              b.textContent = Swal.getTimerLeft()
+              var credentials = {
+                email: inputR.emailR,
+                password: inputR.passwordR
+              }
+              userLogIn(credentials)                    
+              
+            }
+          }
+        }, 100)
+      },
+      onClose: () => {
+        clearInterval(timerInterval)
+      }
+    }).then((result) => {
+      /* Read more about handling dismissals below */
+      if (result.dismiss === Swal.DismissReason.timer) {
+        console.log('El CONTADOR')         
+         
+      }
+    })
+      }
+      localStorage.setItem("idUser", onlineUser.id);
+      localStorage.setItem("lastName", onlineUser.lastName);
+      localStorage.setItem("username", onlineUser.name);              
+      userRegisterError();
+      window.location = "./home";
+    })
+    
+    
+
+  }
+   
+  
 
   // HARDCODEO COSMICO
 
@@ -217,12 +297,9 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegist
     e.preventDefault();    
     userLogIn(input);
 
-    
-
-     
   };
   if (onlineUser !== false && onlineUser !== 0) {
-    console.log(" lo que traeel login ", onlineUser);
+    
 
     localStorage.setItem("idUser", onlineUser.id);
     localStorage.setItem("lastName", onlineUser.lastName);
@@ -479,9 +556,11 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegist
 const mapDispatchToProps = (dispatch) => {
   return {
     userRegister: (inputR) => dispatch(userRegister(inputR)),
+    userRegisterError: () => dispatch(userRegisterError()),
     getAllUsers: (number) => dispatch(getAllUsers(589)),
     userLogIn: (input) => dispatch(userLogIn(input)),
     onlineUserError: () => dispatch(onlineUserError())
+    
     
   };
 };
@@ -490,6 +569,7 @@ const mapStateToProps = (state) => {
   return {
     all_users: state.all_users,
     onlineUser: state.onlineUser,
+    register: state.register
   };
 };
 
