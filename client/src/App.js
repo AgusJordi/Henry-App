@@ -28,7 +28,6 @@ function App(props) {
   useEffect(() => {
     props.getIdUser(idUser)
   }, []);
-  console.log(idUser)
 
 
   const PvRoute = (props) =>
