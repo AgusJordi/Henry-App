@@ -14,6 +14,7 @@ import { connect } from "react-redux";
 import { useEffect } from "react";
 import Profile from "./Profile";
 import EditProfile from "./EditProfile";
+import ModifiedPassword from "./ModifiedPassword.jsx";
 
 import {
   getAllUsers,
@@ -35,6 +36,7 @@ function Navbar({ onlineUser, userLogIn, getIdUser, id_user }) {
   const open = Boolean(anchorEl);
   const [showPerfil, setshowPerfil]=React.useState(false)
   const [showPerfilUpdate, setshowPerfilUpdate]=React.useState(false)
+  const [showPerfilPassword, setshowPerfilPassword]=React.useState(false)
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -56,6 +58,12 @@ function Navbar({ onlineUser, userLogIn, getIdUser, id_user }) {
     const handleOpenEditProfile = () =>{
     setshowPerfilUpdate(true)
     setshowPerfil(false)
+  }
+
+    const handleOpenPassword = () =>{
+    setshowPerfilPassword(true)
+    setshowPerfil(false)
+    setshowPerfilUpdate(false)
   }
   const useStyles = makeStyles((theme) => ({
     root: {
@@ -142,12 +150,13 @@ function Navbar({ onlineUser, userLogIn, getIdUser, id_user }) {
           <Divider light />
           <MenuItem onClick={handleOpenEditProfile}>Editar mi perfil</MenuItem>
           <Divider light />
-          <MenuItem onClick={""}>Cambiar contraseña</MenuItem>
+          <MenuItem onClick={handleOpenPassword}>Cambiar contraseña</MenuItem>
           <Divider light />
           <MenuItem onClick={handleClose}>Cerrar sesión</MenuItem>
         </Menu>
         {showPerfil===true? (<Profile show={setshowPerfil} user={id_user}/>): ""}
         {showPerfilUpdate===true? (<EditProfile show={setshowPerfilUpdate}/>): ""}
+        {showPerfilPassword===true? (<ModifiedPassword show={setshowPerfilPassword}/>): ""}
       </div>
     </div>
   );
