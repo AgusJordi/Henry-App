@@ -24,13 +24,19 @@ function getModalStyle() {
 
 const useStyles = makeStyles((theme) => ({
   padre: {
-    position: 'relative',
     width: 800,
     height: 500,
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[1],
     borderRadius: "20px",
     padding: theme.spacing(2, 4, 3),
+    outline: "none",
+    position: "fixed"
+  },
+  form:{
+    outline:"none",
+    width: 800,
+    height: 500,
   },
   titulo:{
     justifyContent: "center",
@@ -96,7 +102,7 @@ const useStyles = makeStyles((theme) => ({
 
 }));
                       //Action    //estado inicial
- function EditProfile({getIdUser, id_user}) {
+ function EditProfile({getIdUser, id_user, show}) {
   //const { onlineUser } = props;
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
@@ -116,7 +122,7 @@ const useStyles = makeStyles((theme) => ({
 
   useEffect(() => {
     setInput(id_user)
-    getIdUser(idUser)
+    // getIdUser(idUser)
   }, []);
 
   const handleChange = (event) => {
@@ -138,6 +144,7 @@ const useStyles = makeStyles((theme) => ({
 
   const handleClose = () => {
     setOpen(false);
+    show(false)
   };
 
 
@@ -150,7 +157,7 @@ const useStyles = makeStyles((theme) => ({
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >
-      <form onSubmit={handlemodifiedUser}>
+      <form className={classes.form} onSubmit={handlemodifiedUser}>
       <div style={modalStyle} className={classes.padre}>
       <div className={classes.titulo}>
       <Typography variant="h4" component="h4">
