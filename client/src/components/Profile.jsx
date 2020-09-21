@@ -46,6 +46,19 @@ export default function Profile(props) {
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
 
+  const [open, setOpen] = React.useState(true);
+
+  // const handleOpen = () => {
+  //   setOpen(true);
+  // };
+
+  const handleClose = () => {
+    setOpen(false);
+    props.show(false)
+  };
+
+
+
   return (
     <div className={classes.father}>
       {/* <button type="button" onClick={handleOpen}>

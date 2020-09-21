@@ -5,23 +5,23 @@ import swal from "sweetalert";
 import { FormControl } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { createCohorte, createUsersStudents } from "../../actions/index.js";
-import Chip from "./chip.jsx"
-import InputLabel from '@material-ui/core/InputLabel';
-import Select from '@material-ui/core/Select';
+import Chip from "./chip.jsx";
+import InputLabel from "@material-ui/core/InputLabel";
+import Select from "@material-ui/core/Select";
 
 function CrearCohorte(props) {
   const [input, setInput] = useState({
     cohorte: "",
     instructorId: "",
-    DateA: '',
+    DateA: "",
   });
 
-  const [emails, setEmails] = useState([])
+  const [emails, setEmails] = useState([]);
 
   const [inputB, setInputB] = useState({
     cohorte: "",
     instructor: "",
-    DateA: '',
+    DateA: "",
   });
 
   const handleInputChange = function (e) {
@@ -31,18 +31,13 @@ function CrearCohorte(props) {
     });
   };
 
-
   const handleCreateCohorte = function (e) {
     /*setInput({
       ...input,
       [e.target.name]: e.target.value
     });*/
     e.preventDefault(); //A TENER EN CUENTA
-    console.log(
-      emails,
-      input,
-      "ACA ESTOY EN COMPONENTE"
-    );
+    console.log(emails, input, "ACA ESTOY EN COMPONENTE");
     createCohorte(input, emails);
     setInputB(inputB);
     swal({
@@ -50,7 +45,6 @@ function CrearCohorte(props) {
       icon: "success",
       timer: "3000",
     });
-
   };
 
   const useStyles = makeStyles((theme) => ({
@@ -61,7 +55,6 @@ function CrearCohorte(props) {
   }));
 
   const classes = useStyles();
-
 
   return (
     <div>
@@ -101,18 +94,23 @@ function CrearCohorte(props) {
               onChange={handleInputChange}
             /> */}
             <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="instructor-native-simple">Instructor</InputLabel>
+              <InputLabel htmlFor="instructor-native-simple">
+                Instructor
+              </InputLabel>
               <Select
                 native
                 value={input.instructorId}
                 onChange={handleInputChange}
                 inputProps={{
-                  name: 'instructorId',
-                  id: 'instructor-native-simple',
+                  name: "instructorId",
+                  id: "instructor-native-simple",
                 }}
-              ><option aria-label="None" value="" />
-                {props.instructores.map((instructor =>
-                  <option value={instructor.id}>{instructor.name + " " + instructor.lastName}</option>
+              >
+                <option aria-label="None" value="" />
+                {props.instructores.map((instructor) => (
+                  <option value={instructor.id}>
+                    {instructor.name + " " + instructor.lastName}
+                  </option>
                 ))}
                 {/* <option aria-label="None" value="" />
                   <option value={1}>1</option>
@@ -122,8 +120,8 @@ function CrearCohorte(props) {
             </FormControl>
 
             <TextField
-              name='DateA'
-              type='date'
+              name="DateA"
+              type="date"
               id="standard-full-width"
               label="Fecha de inicio"
               style={{ margin: 8 }}
@@ -137,9 +135,7 @@ function CrearCohorte(props) {
               onChange={handleInputChange}
             />
 
-            <Chip
-              onChange={setEmails}
-            />
+            <Chip onChange={setEmails} />
 
             <div>
               <br />

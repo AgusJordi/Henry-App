@@ -23,6 +23,7 @@ import { getAllCohortes } from "../actions";
 function Cohorte(props) {
   //seteo cuadrado
 
+
   const { users, cohorte, students, idCohorte, cohorteName } = props;
 
   const cohorteStudents = [];
@@ -49,6 +50,7 @@ function Cohorte(props) {
       }
     });
   }
+
 
   const useStyles = makeStyles((theme) => ({
     //box contenedora
@@ -213,6 +215,7 @@ function Cohorte(props) {
   };
 
   const classes = useStyles();
+
   if (cohorteName === undefined) {
     return (
       <div>
@@ -254,10 +257,12 @@ function Cohorte(props) {
                       ALUMNOS PENDIENTES: {`  ${studentsPendientes.length}`}
                     </Typography>
                   </Box>
+
                 </Box>
                 <Box>
                   <Box className={classes.styleTitelBodySide}>PM`S</Box>
                 </Box>
+
                 <Box className={classes.infoSideBar}>
                   <Box className={classes.setTextBoxInfoSide}>
                     <ButtonGroup className={classes.listOne}>
@@ -305,11 +310,11 @@ function Cohorte(props) {
                         </MenuItem>
                         {/* MAPEAR LISTA DE PMS Y DEVOLVER UN MENUITEM X CADA UNO */}
                         {cohortePms.map((pm) => {
-                          let nombreCompleto = `${pm.user.name} ${pm.user.lastName}`;
                           let id = pm.id;
                           return (
                             <MenuItem value={id}>{nombreCompleto}</MenuItem>
                           );
+
                         })}
                       </Select>
                     </FormControl>
@@ -339,6 +344,7 @@ function Cohorte(props) {
                       )}
                     </ButtonGroup>
                   </Box>
+
                 </Box>
               </Box>
             </Box>

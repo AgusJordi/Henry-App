@@ -17,7 +17,9 @@ import {
   getAllUsers,
   getAllCohortes,
   getAllInstructors,
+
   getAllStudents,
+
 } from "../actions/index";
 import Carrousel from "./Carrousel.jsx";
 
@@ -27,9 +29,11 @@ function Home(props) {
   const dispatch = useDispatch();
   const allUsers = useSelector((state) => state.all_users);
   const allInstructors = useSelector((state) => state.all_instructors);
+
   const allCohortes = useSelector((state) => state.all_cohortes);
   const allStudents = useSelector((state) => state.all_students);
   const instructoresList = [];
+
   useEffect(() => {
     dispatch(getAllUsers());
     dispatch(getAllCohortes());
@@ -127,7 +131,9 @@ function Home(props) {
                 indicator: classes.prueba,
               }}
             >
-              <h2 className={classes.tabTitel}>COHORTES</h2>
+
+              <h3 className={classes.tabTitel}>COHORTES</h3>
+
               {allCohortes.length === 0 ? (
                 <Tab label="No hay cohortes" />
               ) : (
@@ -146,6 +152,7 @@ function Home(props) {
             {allCohortes.length === 0 ? (
               <Cohorte users={allUsers} cohorte={false} />
             ) : (
+
               <Cohorte
                 users={allUsers}
                 cohorte={allCohortes}
@@ -153,6 +160,7 @@ function Home(props) {
                 students={allStudents}
                 idCohorte={idCohorte}
               />
+
             )}
           </Grid>
         </Grid>
