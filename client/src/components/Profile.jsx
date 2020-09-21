@@ -53,6 +53,7 @@ export default function Profile(props) {
 
   const handleClose = () => {
     setOpen(false);
+    props.show(false)
   };
 
 
