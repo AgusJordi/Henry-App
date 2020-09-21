@@ -29,12 +29,21 @@ function Home(props) {
   const allInstructors = useSelector((state) => state.all_instructors);
   const allCohortes = useSelector((state) => state.all_cohortes);
   const allStudents = useSelector((state) => state.all_students);
+  const instructoresList = [];
   useEffect(() => {
     dispatch(getAllUsers());
     dispatch(getAllCohortes());
     dispatch(getAllInstructors());
     dispatch(getAllStudents());
   }, []);
+
+  if (allUsers) {
+    allUsers.map((alumno) => {
+      if (alumno.instructor === true) {
+        instructoresList.push(alumno);
+      }
+    });
+  }
 
   function TabPanel(props) {
     //SETEO QUE DEVUELVE LOS INTEGRANTES DE UN GRUPO Y SU CARD
@@ -166,7 +175,7 @@ function Home(props) {
                 }}
               >
                 <h3 className={classes.tabTitel}>INSTRUCTORES</h3>
-                {allUsers.map((alumno, index) => {
+                {instructoresList.map((alumno, index) => {
                   let nombreCompleto = `${alumno.name} ${alumno.lastName}`;
                   return (
                     <Tab label={nombreCompleto} onClick={handleOpenModal} />
@@ -175,7 +184,7 @@ function Home(props) {
               </Tabs>
             </Grid>
             <Grid xs={10}>
-              {allUsers.map((alumno, index) => {
+              {instructoresList.map((alumno, index) => {
                 return (
                   <Fragment>
                     <TabPanel value={value} index={index + 1}>
