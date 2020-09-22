@@ -108,25 +108,42 @@ export default function ModalUsers(props) {
     let q = input;
 
     users = users.filter(function (user) {
+      if(user.name!==null||user.lastName!==null){
       return (
         user.name.toLowerCase().indexOf(q) !== -1 ||
         user.lastName.toLowerCase().indexOf(q) !== -1
       ); // returns true or false
+      }
+      else return false
     });
     setFiltrados(users);
   };
 
   const listaFiltrados = filtrados.map((user) => {
-    return (
-      <div className={classes.divs}>
-        <img className={classes.img} src={martin} />
-        <h3 className={classes.h3} onClick={() => handleOpenModal(user)}>
-          {" "}
-          {user.name + " " + user.lastName}
-        </h3>
-      </div>
-    );
+    if(user.name!==null||user.lastName!==null){
+
+      return (
+        <div className={classes.divs}>
+          <img className={classes.img} src={martin} />
+          <h3 className={classes.h3} onClick={() => handleOpenModal(user)}>
+            {" "}
+            {user.name + " " + user.lastName}
+          </h3>
+        </div>
+      );
+
+    }
   });
+  
+  const contarActivos = (miembros) => {
+    var suma=0
+    for (let i = 0 ; i<miembros.length; i++){
+      if (miembros[i].name!==null || miembros[i].lastName!==null ){
+        suma= suma+1
+      }
+    }
+    return suma 
+  }
 
   return (
     <div className={classes.father}>
@@ -139,7 +156,7 @@ export default function ModalUsers(props) {
       >
         <div style={modalStyle} className={classes.paper}>
           <div className={classes.div}>
-            <h1> {miembros.length} miembros en Cohorte 2 </h1>
+            <h1> {contarActivos(miembros)} miembros en Cohorte 2 </h1>
             <div className={classes.input}>
               <input
                 type="text"
