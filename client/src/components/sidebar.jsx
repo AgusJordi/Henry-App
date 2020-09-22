@@ -80,9 +80,8 @@ export default function ClippedDrawer() {
               "Noticias",
               "Cohortes",
               "Instructores",
-              "Pm´s",
-              "Alumnos",
-              "PairProgramming"
+
+              "PairProgramming",
             ].map((text, index) => (
               <ListItem button key={text}>
                 <ListItemText
