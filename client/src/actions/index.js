@@ -109,8 +109,7 @@ export function getAllInstructors() {
   };
 }
 
-export function modifiedUser(id, data) {
-  console.log(data, "SOY UNA DAAAAAAAAAAAAATA");
+export function modifiedUser(id,data) {
   var url = `http://localhost:4000/users/myprofile/${id}`;
   axios({
     method: "put",
@@ -119,6 +118,19 @@ export function modifiedUser(id, data) {
       "Content-Type": "application/json",
     },
     data: data,
+  });
+}
+
+export function modifiedPassword(id,data) {
+  console.log(data,"SOY UNA DAAAAAAAAAAAAATA")
+  var url = `http://localhost:4000/users/${id}/passwordReset`;
+  axios({
+    method: "put",
+    url: url,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: data
   });
 }
 
