@@ -34,7 +34,7 @@ function AreaAdmin(props) {
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <Typography className={classes.heading}>Alumno</Typography>
+          <Typography className={classes.heading}>Users</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <ModificarEliminarAlumno />
@@ -49,7 +49,7 @@ function AreaAdmin(props) {
           <Typography className={classes.heading}>Crear Cohorte</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <CrearCohorte instructores={props.instructores}/>
+          <CrearCohorte instructores={props.instructores} />
         </AccordionDetails>
       </Accordion>
       <Accordion>

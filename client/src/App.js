@@ -26,11 +26,9 @@ function App(props) {
   };
 
   const idUser = localStorage.getItem("idUser");
+
   useEffect(() => {
     props.getIdUser(idUser);
-    props.getAllUsers();
-  }, []);
-  useEffect(() => {
     props.getAllUsers();
   }, []);
 

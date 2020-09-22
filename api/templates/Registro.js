@@ -1,26 +1,26 @@
-'use strict'
-const nodemailer = require('nodemailer');
-require('dotenv').config();
+"use strict";
+const nodemailer = require("nodemailer");
+require("dotenv").config();
 
-const gmailEmail = 'henry.appg7@gmail.com';
-const gmailPassword = 'soyhenryg7';
+const gmailEmail = "henry.appg7@gmail.com";
+const gmailPassword = "soyhenryg7";
 
 //Link para habilitar credenciales delcorreode GMAIL:
 // https://myaccount.google.com/lesssecureapps
 
 this.enviar_mail = (pnombre, pemail) => {
-    let transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: gmailEmail,
-            pass: gmailPassword
-        }
-    });
-    let mail_options = {
-        from: 'Henry-App',
-        to: pemail,
-        subject: 'Bienvenido a Henry-App',
-        html: `
+  let transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: gmailEmail,
+      pass: gmailPassword,
+    },
+  });
+  let mail_options = {
+    from: "Henry-App",
+    to: pemail,
+    subject: "Bienvenido a Henry-App",
+    html: `
 
             <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office" style="width:100%;font-family:arial, 'helvetica neue', helvetica, sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;padding:0;Margin:0">
@@ -133,7 +133,7 @@ td .es-button-border-5:hover {
                   <td align="center" valign="top" style="padding:0;Margin:0;width:560px"> 
                    <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
                      <tr class="es-visible-simple-html-only" style="border-collapse:collapse"> 
-                      <td align="center" style="padding:0;Margin:0;font-size:0px"><a target="_blank" href="https://localhost:3000" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:14px;text-decoration:none;color:#FFFFFF"><img class="adapt-img" src="https://i.ibb.co/z2w66DM/cabezal-email.png" alt style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic" width="560" height="93"></a></td> 
+                      <td align="center" style="padding:0;Margin:0;font-size:0px"><a target="_blank" href="http://localhost:3000" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:14px;text-decoration:none;color:#FFFFFF"><img class="adapt-img" src="https://i.ibb.co/z2w66DM/cabezal-email.png" alt style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic" width="560" height="93"></a></td> 
                      </tr> 
                    </table></td> 
                  </tr> 
@@ -178,7 +178,7 @@ td .es-button-border-5:hover {
                   <td align="left" style="padding:0;Margin:0;width:270px"> 
                    <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-position:center top" role="presentation"> 
                      <tr style="border-collapse:collapse"> 
-                      <td align="center" style="Margin:0;padding-top:5px;padding-bottom:10px;padding-left:10px;padding-right:10px"><span class="es-button-border es-button-border-3" style="border-style:solid;border-color:#2CB543;background:#000000;border-width:0px;display:inline-block;border-radius:10px;width:auto"><a href="https://localhost:3000" class="es-button es-button-2" target="_blank" style="mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:22px;color:#FFFFFF;border-style:solid;border-color:#000000;border-width:10px 20px;display:inline-block;background:#000000;border-radius:10px;font-weight:bold;font-style:normal;line-height:26px;width:auto;text-align:center"> 
+                      <td align="center" style="Margin:0;padding-top:5px;padding-bottom:10px;padding-left:10px;padding-right:10px"><span class="es-button-border es-button-border-3" style="border-style:solid;border-color:#2CB543;background:#000000;border-width:0px;display:inline-block;border-radius:10px;width:auto"><a href="http://localhost:3000" class="es-button es-button-2" target="_blank" style="mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:22px;color:#FFFFFF;border-style:solid;border-color:#000000;border-width:10px 20px;display:inline-block;background:#000000;border-radius:10px;font-weight:bold;font-style:normal;line-height:26px;width:auto;text-align:center"> 
                          <!--[if !mso]><!-- --><img src="https://www.soyhenry.com/static/rocket-176b443ed273a2a5a6f5cb11d6d33605.png" alt="icon" width="55" style="display:inline-block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic;vertical-align:middle;margin-right:10px" align="absmiddle" height="55"> 
                          <!--<![endif]-->APLICAR</a></span></td> 
                      </tr> 
@@ -281,7 +281,7 @@ td .es-button-border-5:hover {
                   <td align="left" style="padding:0;Margin:0;width:600px"> 
                    <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
                      <tr style="border-collapse:collapse"> 
-                      <td align="center" class="es-m-txt-c" style="padding:0;Margin:0;padding-top:10px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:18px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:27px;color:#FFFFFF">Aprovecho para compartirte una <em><a target="_blank" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:18px;text-decoration:underline;color:#10CFE2" href="https://localhost:3000">ENTREVISTA </a>&nbsp;</em>y un <em><a target="_blank" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:18px;text-decoration:underline;color:#10CFE2" href="https://localhost:3000">ARTICULO </a>que </em>explica un poco más lo que hacemos.<br>Nos vemos mañana, ABRAZO!<br><br></p></td> 
+                      <td align="center" class="es-m-txt-c" style="padding:0;Margin:0;padding-top:10px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:18px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:27px;color:#FFFFFF">Aprovecho para compartirte una <em><a target="_blank" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:18px;text-decoration:underline;color:#10CFE2" href="http://localhost:3000">ENTREVISTA </a>&nbsp;</em>y un <em><a target="_blank" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:18px;text-decoration:underline;color:#10CFE2" href="http://localhost:3000">ARTICULO </a>que </em>explica un poco más lo que hacemos.<br>Nos vemos mañana, ABRAZO!<br><br></p></td> 
                      </tr> 
                    </table></td> 
                  </tr> 
@@ -356,14 +356,14 @@ td .es-button-border-5:hover {
  </body>
 </html>
 
-        `
-    };
-    transporter.sendMail(mail_options, (error, info) => {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('El correo se envío correctamente ' + info.response);
-        }
-    });
+        `,
+  };
+  transporter.sendMail(mail_options, (error, info) => {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("El correo se envío correctamente " + info.response);
+    }
+  });
 };
 module.export = this;

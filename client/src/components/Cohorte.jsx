@@ -28,7 +28,7 @@ function Cohorte(props) {
   const cohorteStudents = [];
   const cohortePms = [];
   const studentsPendientes = [];
-  console.log("sarasa", cohortePms);
+  console.log("sarasa", studentsPendientes);
   if (students) {
     students.map((student) => {
       console.log("1", student);
@@ -250,9 +250,7 @@ function Cohorte(props) {
                     <Typography variant="h5">
                       FECHA DE INICIO: 06/01/20
                     </Typography>
-                    <Typography variant="h5">
-                      FECHA DE FINALIZACION: 06/01/20
-                    </Typography>
+
                     <Typography variant="h5">
                       CANTIDAD DE ALUMNOS:{`  ${cohorteStudents.length}`}
                     </Typography>
