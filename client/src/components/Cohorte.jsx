@@ -28,8 +28,13 @@ function Cohorte(props) {
   const cohorteStudents = [];
   const cohortePms = [];
   const studentsPendientes = [];
+  console.log("sarasa", cohortePms);
   if (students) {
     students.map((student) => {
+      console.log("1", student);
+      if (student.user === null) {
+        return studentsPendientes.push(student);
+      }
       if (
         idCohorte === student.cohorteId &&
         student.user.status === "habilitado"
@@ -307,7 +312,7 @@ function Cohorte(props) {
                         </MenuItem>
                         {/* MAPEAR LISTA DE PMS Y DEVOLVER UN MENUITEM X CADA UNO */}
                         {cohortePms.map((pm) => {
-                          let nombreCompleto = `${pm.name} ${pm.lastName}`;
+                          let nombreCompleto = `${pm.user.name} ${pm.user.lastName}`;
                           let id = pm.id;
                           return (
                             <MenuItem value={id}>{nombreCompleto}</MenuItem>

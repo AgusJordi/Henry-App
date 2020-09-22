@@ -17,9 +17,7 @@ import {
   getAllUsers,
   getAllCohortes,
   getAllInstructors,
-
   getAllStudents,
-
 } from "../actions/index";
 import Carrousel from "./Carrousel.jsx";
 
@@ -131,7 +129,6 @@ function Home(props) {
                 indicator: classes.prueba,
               }}
             >
-
               <h3 className={classes.tabTitel}>COHORTES</h3>
 
               {allCohortes.length === 0 ? (
@@ -152,7 +149,6 @@ function Home(props) {
             {allCohortes.length === 0 ? (
               <Cohorte users={allUsers} cohorte={false} />
             ) : (
-
               <Cohorte
                 users={allUsers}
                 cohorte={allCohortes}
@@ -160,7 +156,6 @@ function Home(props) {
                 students={allStudents}
                 idCohorte={idCohorte}
               />
-
             )}
           </Grid>
         </Grid>
