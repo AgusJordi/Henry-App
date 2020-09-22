@@ -14,7 +14,6 @@ import AreaAdmin from "./Crud/AreaAdmin.jsx";
 import PairProgramming from "./users/PairProgramming.jsx";
 import Grid from "@material-ui/core/Grid";
 import {
-  getAllUsers,
   getAllCohortes,
   getAllInstructors,
   getAllStudents,
@@ -33,7 +32,6 @@ function Home(props) {
   const instructoresList = [];
 
   useEffect(() => {
-    dispatch(getAllUsers());
     dispatch(getAllCohortes());
     dispatch(getAllInstructors());
     dispatch(getAllStudents());

@@ -28,7 +28,10 @@ function App(props) {
   const idUser = localStorage.getItem("idUser");
   useEffect(() => {
     props.getIdUser(idUser);
-    // props.getAllUsers();
+    props.getAllUsers();
+  }, []);
+  useEffect(() => {
+    props.getAllUsers();
   }, []);
 
   const PvRoute = (props) =>
@@ -45,7 +48,7 @@ function App(props) {
         <PvRoute
           exact
           path="/modal"
-          render={() => <ModalUsers />} //users={props.all_users}
+          render={() => <ModalUsers users={props.all_users} />}
         />
       </Router>
       {isAutenticated() === false ? (
@@ -60,14 +63,14 @@ function App(props) {
 const mapDispatchToProps = (dispatch) => {
   return {
     getIdUser: (idUser) => dispatch(getIdUser(idUser)),
-    //getAllUsers: () => dispatch(getAllUsers()),
+    getAllUsers: () => dispatch(getAllUsers()),
   };
 };
 
 const mapStateToProps = (state) => {
   return {
     id_user: state.id_user,
-    // all_users: state.all_users,
+    all_users: state.all_users,
   };
 };
 
