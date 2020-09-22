@@ -3,9 +3,10 @@ import {
   GET_ALL_USERS,
   USER_LOGIN,
   ONLINE_USER_ERROR,
-  GET_ALL_COHORTES,   
+  GET_ALL_COHORTES,
   GET_ID_USER,
-  GET_ALL_INSTRUCTORS
+  GET_ALL_INSTRUCTORS,
+  GET_ALL_STUDENTS,
 } from "../actions/index";
 //var ls = require('local-storage');
 
@@ -15,6 +16,7 @@ const initialState = {
   onlineUser: false,
   id_user: [],
   all_instructors: [],
+  all_students: [],
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -32,8 +34,8 @@ const reducer = (state = initialState, action) => {
     case USER_LOGIN:
       return {
         ...state,
-        onlineUser: action.payload
-      }
+        onlineUser: action.payload,
+      };
 
     case ONLINE_USER_ERROR:
       return {
@@ -47,12 +49,17 @@ const reducer = (state = initialState, action) => {
         all_cohortes: action.payload,
       };
 
-      case GET_ALL_INSTRUCTORS:
-        return {
-          ...state,
-          all_instructors: action.payload
-        }
-        
+    case GET_ALL_INSTRUCTORS:
+      return {
+        ...state,
+        all_instructors: action.payload,
+      };
+    case GET_ALL_STUDENTS:
+      return {
+        ...state,
+        all_students: action.payload,
+      };
+
     default:
       return state;
   }

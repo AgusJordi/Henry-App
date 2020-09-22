@@ -205,23 +205,6 @@ server.put("/:email", async (req, res, next) => {
   }
 });
 
-/*server.put('/:id', (req, res, next) => {
-  var productoUp = req.body
-
-  Product.findOne({
-    where: {
-      id: req.body.id
-    }
-  }).then(prodEncontrado => {
-    prodEncontrado.update(productoUp)
-      .then(nuevoPro => {
-        nuevoPro.save()
-        res.status(200)
-        res.json(nuevoPro)
-      })
-  })
-})
-*/
 server.put("/myprofile/:id", async (req, res, next) => {
   const id = req.params.id;
   const userUp = req.body;
@@ -238,5 +221,23 @@ server.put("/myprofile/:id", async (req, res, next) => {
       }).catch(err => next(err))
 });
 });
+
+server.put('/:id/passwordReset', (req, res, next) => {
+  const { id } = req.params;
+  const { password } =req.body;
+  //const salt = crypto.randomBytes(64).toString('hex') Va a servir cuando las rutas esten encryptadas
+  //const password = crypto.pbkdf2Sync(req.body.password, salt, 10000, 64, 'sha512').toString('base64')
+
+User.findByPk(id)
+    .then((user) => {
+      if (user) {
+        user.password = password
+  //      user.salt = salt
+        return user.save()
+      }
+    }).then((user) => {
+      res.status(200).send(user);
+    }).catch(err => next(err))
+})
 
 module.exports = server;
