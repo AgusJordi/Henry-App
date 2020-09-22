@@ -28,10 +28,9 @@ function Cohorte(props) {
   const cohorteStudents = [];
   const cohortePms = [];
   const studentsPendientes = [];
-  console.log("sarasa", studentsPendientes);
+  console.log("sarasa", students);
   if (students) {
     students.map((student) => {
-      console.log("1", student);
       if (student.user === null) {
         return studentsPendientes.push(student);
       }
