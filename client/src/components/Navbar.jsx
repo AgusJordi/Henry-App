@@ -165,7 +165,6 @@ function Navbar({ onlineUser, userLogIn, getIdUser, id_user }) {
           state={showPerfil}
           close={handleClseProfile}
         />
-        )
         {showPerfilUpdate === true ? (
           <EditProfile show={setshowPerfilUpdate} />
         ) : (

@@ -26,7 +26,6 @@ function Home(props) {
   const dispatch = useDispatch();
   const allUsers = useSelector((state) => state.all_users);
   const allInstructors = useSelector((state) => state.all_instructors);
-
   const allCohortes = useSelector((state) => state.all_cohortes);
   const allStudents = useSelector((state) => state.all_students);
   const instructoresList = [];
@@ -85,6 +84,7 @@ function Home(props) {
     },
     gridContainer: {
       position: "fixed",
+      overflow: "auto",
       top: "60px",
       left: "240px",
       maxWidth: "fit-content",
