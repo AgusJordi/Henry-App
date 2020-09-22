@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, Fragment } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import Table from "@material-ui/core/Table";
 import { makeStyles } from "@material-ui/core/styles";
 import TableBody from "@material-ui/core/TableBody";
@@ -14,13 +15,13 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import swal from "sweetalert";
 
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
   },
 });
+
 function ModificarEliminarAlumno() {
   const [input, setInput] = useState({
     name: "",
@@ -31,6 +32,9 @@ function ModificarEliminarAlumno() {
     pairProgramming: "",
   });
 
+  const allUsers = useSelector((state) => state.all_users);
+
+  console.log(allUsers, "desde users");
   const [open, setOpen] = useState(false);
 
   const handleInputChange = function (e) {
@@ -55,9 +59,7 @@ function ModificarEliminarAlumno() {
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <TableCell align="center">nombre</TableCell>
-            <TableCell align="center">Apellido</TableCell>
-            <TableCell align="center">Descripcion</TableCell>
+            <TableCell align="center">Email</TableCell>
             <TableCell align="center">Cohorte</TableCell>
             <TableCell align="center">Grupo</TableCell>
             <TableCell align="center">Pair Programming</TableCell>
@@ -69,123 +71,129 @@ function ModificarEliminarAlumno() {
           {props.categorias.categorias.map((row) => (
             <TableRow key={row.name}>
           */}{" "}
-          <TableRow>
-            <TableCell align="center">Juan</TableCell>
-            <TableCell align="center">Gomez </TableCell>
-            <TableCell align="center">Buenos Aires</TableCell>
-            <TableCell align="center">1er Cohorte</TableCell>
-            <TableCell align="center">A</TableCell>
-            <TableCell align="center">B</TableCell>
-            <TableCell align="center">
-              <ButtonGroup disableElevation variant="contained" color="primary">
-                <Button
-                  size="small"
-                  onClick={() => handleOpen()} /*onClick con la props*/
-                >
-                  Editar
-                </Button>
-              </ButtonGroup>
-              <Dialog open={open} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">
-                  Modificar Usuario
-                </DialogTitle>
-                <DialogContent>
-                  <TextField
-                    autoFocus
-                    name="name"
-                    margin="dense"
-                    label="Nombre"
-                    type="text"
-                    fullWidth
-                    value={input.name}
-                    onChange={handleInputChange}
-                  />
-                  <TextField
-                    autoFocus
-                    name="lastname"
-                    margin="dense"
-                    label="Apellido"
-                    type="text"
-                    fullWidth
-                    value={input.lastname}
-                    onChange={handleInputChange}
-                  />
-                  <TextField
-                    autoFocus
-                    name="description"
-                    margin="dense"
-                    label="Descripcion"
-                    type="text"
-                    fullWidth
-                    value={input.description}
-                    onChange={handleInputChange}
-                  />
-                  <TextField
-                    autoFocus
-                    name="cohorte"
-                    margin="dense"
-                    label="Cohorte"
-                    type="text"
-                    fullWidth
-                    value={input.cohorte}
-                    onChange={handleInputChange}
-                  />
-                  <TextField
-                    autoFocus
-                    name="group"
-                    margin="dense"
-                    label="Grupo"
-                    type="text"
-                    fullWidth
-                    value={input.group}
-                    onChange={handleInputChange}
-                  />
-                  <TextField
-                    autoFocus
-                    name="pairProgramming"
-                    margin="dense"
-                    label="Pair Programming"
-                    type="text"
-                    fullWidth
-                    value={input.pairProgramming}
-                    onChange={handleInputChange}
-                  />
-                </DialogContent>
-                <div style={{ margin: 8 }}>
-                  <DialogActions>
-                    <Button color="primary" onClick={() => handleClose()}>
-                      Cerrar
-                    </Button>
-                    <Button
-                      type="submit"
-                      /*el onclick de actualizar debe ir con el actions*/
+          {allUsers.map((user) => {
+            return (
+              <Fragment>
+                <TableRow key={user.id}>
+                  <TableCell align="center">{user.email}</TableCell>
+                  <TableCell align="center">poner select</TableCell>
+                  <TableCell align="center">poner select</TableCell>
+                  <TableCell align="center">poner select</TableCell>
+                  <TableCell align="center">
+                    <ButtonGroup
+                      disableElevation
+                      variant="contained"
                       color="primary"
                     >
-                      Modificar
-                    </Button>
-                  </DialogActions>
-                </div>
-              </Dialog>
-              <ButtonGroup
-                disableElevation
-                variant="contained"
-                color="secondary"
-              >
-                <Button
-                  size="small" /* El onclick debe ir con el actions para no perderse*/
-                >
-                  Eliminar
-                </Button>
-              </ButtonGroup>
-              <ButtonGroup disableElevation variant="contained" color="primary">
-                <Button
-                  size="small" /* El onclick debe ir con el actions para no perderse*/
-                >
-                  Aprobar
-                </Button>
-              </ButtonGroup>
-            </TableCell>
-          </TableRow>
+                      <Button
+                        size="small"
+                        onClick={() => handleOpen()} /*onClick con la props*/
+                      >
+                        Editar
+                      </Button>
+                    </ButtonGroup>
+                    <Dialog open={open} aria-labelledby="form-dialog-title">
+                      <DialogTitle id="form-dialog-title">
+                        Modificar Usuario
+                      </DialogTitle>
+                      <DialogContent>
+                        <TextField
+                          autoFocus
+                          name="name"
+                          margin="dense"
+                          label="Nombre"
+                          type="text"
+                          fullWidth
+                          value={user.name}
+                          onChange={handleInputChange}
+                        />
+                        <TextField
+                          autoFocus
+                          name="lastname"
+                          margin="dense"
+                          label="Apellido"
+                          type="text"
+                          fullWidth
+                          value={user.lastName}
+                          onChange={handleInputChange}
+                        />
+                        <TextField
+                          autoFocus
+                          name="description"
+                          margin="dense"
+                          label="Descripcion"
+                          type="text"
+                          fullWidth
+                          value={input.description}
+                          onChange={handleInputChange}
+                        />
+                        <TextField
+                          autoFocus
+                          name="cohorte"
+                          margin="dense"
+                          label="Cohorte"
+                          type="text"
+                          fullWidth
+                          value={input.cohorte}
+                          onChange={handleInputChange}
+                        />
+                        <TextField
+                          autoFocus
+                          name="group"
+                          margin="dense"
+                          label="Grupo"
+                          type="text"
+                          fullWidth
+                          value={input.group}
+                          onChange={handleInputChange}
+                        />
+                        <TextField
+                          autoFocus
+                          name="pairProgramming"
+                          margin="dense"
+                          label="Pair Programming"
+                          type="text"
+                          fullWidth
+                          value={input.pairProgramming}
+                          onChange={handleInputChange}
+                        />
+                      </DialogContent>
+                      <div style={{ margin: 8 }}>
+                        <DialogActions>
+                          <Button color="primary" onClick={() => handleClose()}>
+                            Cerrar
+                          </Button>
+                          <Button
+                            type="submit"
+                            /*el onclick de actualizar debe ir con el actions*/
+                            color="primary"
+                          >
+                            Modificar
+                          </Button>
+                        </DialogActions>
+                      </div>
+                    </Dialog>
+                    <ButtonGroup
+                      disableElevation
+                      variant="contained"
+                      color="secondary"
+                    >
+                      <Button
+                        size="small" /* El onclick debe ir con el actions para no perderse*/
+                      >
+                        Eliminar
+                      </Button>
+                    </ButtonGroup>
+                    <ButtonGroup
+                      disableElevation
+                      variant="contained"
+                      color="primary"
+                    ></ButtonGroup>
+                  </TableCell>
+                </TableRow>
+              </Fragment>
+            );
+          })}
           {/*Aca se debe cerrar el  map)}}*/}
         </TableBody>
       </Table>
