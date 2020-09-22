@@ -5,7 +5,8 @@ import Login from "./components/Login.jsx";
 import Navbar from "./components/Navbar.jsx";
 import Profile from "./components/Profile.jsx";
 import EditProfile from "./components/EditProfile.jsx"
-import { getIdUser } from "./actions";
+import ModalUsers from "./components/modalUsers.jsx"
+import { getIdUser, getAllUsers } from "./actions";
 import {
   BrowserRouter as Router,
   Switch,
@@ -27,6 +28,7 @@ function App(props) {
   const idUser = localStorage.getItem("idUser");
   useEffect(() => {
     props.getIdUser(idUser)
+    props.getAllUsers()
   }, []);
 
 
@@ -42,6 +44,7 @@ function App(props) {
         <PvRoute exact path="/profile" component={Profile} />
 
         <PvRoute exact path="/editprofile" component={EditProfile} /> {/*Ruta provisoria señor*/}
+        <PvRoute exact path="/modal" render={()=><ModalUsers users={props.all_users}/>} />
       </Router>
       {isAutenticated() === false ? (
         <Route exact path="/login" component={Login} />
@@ -55,12 +58,14 @@ function App(props) {
 const mapDispatchToProps = (dispatch) => {
   return {
     getIdUser: (idUser) => dispatch(getIdUser(idUser)),
+    getAllUsers: () =>dispatch(getAllUsers()),
   };
 };
 
 const mapStateToProps = (state) => {
   return {
-    id_user: state.id_user
+    id_user: state.id_user,
+    all_users: state.all_users,
   };
 };
 
