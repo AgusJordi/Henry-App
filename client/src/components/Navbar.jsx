@@ -31,12 +31,11 @@ function Navbar({ onlineUser, userLogIn, getIdUser, id_user }) {
     userLogIn(onlineUser);
   }, []);
 
-
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-  const [showPerfil, setshowPerfil]=React.useState(false)
-  const [showPerfilUpdate, setshowPerfilUpdate]=React.useState(false)
-  const [showPerfilPassword, setshowPerfilPassword]=React.useState(false)
+  const [showPerfil, setshowPerfil] = React.useState(false);
+  const [showPerfilUpdate, setshowPerfilUpdate] = React.useState(false);
+  const [showPerfilPassword, setshowPerfilPassword] = React.useState(false);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -51,24 +50,24 @@ function Navbar({ onlineUser, userLogIn, getIdUser, id_user }) {
     setAnchorEl(null);
   };
 
-  const handleOpenProfile = () =>{
-    setshowPerfil(true)
-    setshowPerfilUpdate(false)
-  }
-    const handleOpenEditProfile = () =>{
-    setshowPerfilUpdate(true)
-    setshowPerfil(false)
-  }
-
-    const handleOpenPassword = () =>{
-    setshowPerfilPassword(true)
-    setshowPerfil(false)
-    setshowPerfilUpdate(false)
-  }
+  const handleOpenProfile = () => {
+    setshowPerfil(true);
+    setshowPerfilUpdate(false);
+  };
+  const handleOpenEditProfile = () => {
+    setshowPerfilUpdate(true);
+  };
+  const handleClseProfile = () => {
+    setshowPerfil(false);
+  };
+  const handleOpenPassword = () => {
+    setshowPerfilPassword(true);
+    setshowPerfil(false);
+    setshowPerfilUpdate(false);
+  };
   const useStyles = makeStyles((theme) => ({
     root: {
       display: "flex",
-  
     },
     img: {
       display: "block",
@@ -92,11 +91,11 @@ function Navbar({ onlineUser, userLogIn, getIdUser, id_user }) {
       marginLeft: 10,
     },
     fontAwesome: {
-      fontFamily: "Helvetica, Roboto, FontAwesome", 
+      fontFamily: "Helvetica, Roboto, FontAwesome",
       fontSize: "15px",
       padding: "5px",
-      outline: "none"
-    }
+      outline: "none",
+    },
   }));
 
   const classes = useStyles();
@@ -104,11 +103,15 @@ function Navbar({ onlineUser, userLogIn, getIdUser, id_user }) {
   return (
     <div className="navbar">
       <div className="navbar_left">
-        <HelpIcon fontSize="large"/>
-        <AccessTimeIcon fontSize="large"/>
+        <HelpIcon fontSize="large" />
+        <AccessTimeIcon fontSize="large" />
       </div>
       <div className="navbar_search" id="esto">
-        <input type="text" placeholder="&#xF002; Buscar en Henry" className={classes.fontAwesome}/>
+        <input
+          type="text"
+          placeholder="&#xF002; Buscar en Henry"
+          className={classes.fontAwesome}
+        />
       </div>
       <div>
         <img
@@ -123,7 +126,7 @@ function Navbar({ onlineUser, userLogIn, getIdUser, id_user }) {
           aria-haspopup="true"
           onClick={handleClick}
         >
-          <AccountCircleIcon fontSize="large"/>
+          <AccountCircleIcon fontSize="large" />
           <span style={{ marginLeft: "10px" }}>
             <large>
               {" "}
@@ -142,7 +145,9 @@ function Navbar({ onlineUser, userLogIn, getIdUser, id_user }) {
         >
           <div>
             <img className={classes.img} alt="Martin" src={martin} />
-            <p className={classes.name}>{id_user.name} {id_user.lastName}</p>
+            <p className={classes.name}>
+              {id_user.name} {id_user.lastName}
+            </p>
             <p className={classes.cohorte}>Cohorte 2</p>
           </div>
           <Divider light />
@@ -154,9 +159,23 @@ function Navbar({ onlineUser, userLogIn, getIdUser, id_user }) {
           <Divider light />
           <MenuItem onClick={handleClose}>Cerrar sesión</MenuItem>
         </Menu>
-        {showPerfil===true? (<Profile show={setshowPerfil} user={id_user}/>): ""}
-        {showPerfilUpdate===true? (<EditProfile show={setshowPerfilUpdate}/>): ""}
-        {showPerfilPassword===true? (<ModifiedPassword show={setshowPerfilPassword}/>): ""}
+        <Profile
+          show={setshowPerfil}
+          user={id_user}
+          state={showPerfil}
+          close={handleClseProfile}
+        />
+        )
+        {showPerfilUpdate === true ? (
+          <EditProfile show={setshowPerfilUpdate} />
+        ) : (
+          ""
+        )}
+        {showPerfilPassword === true ? (
+          <ModifiedPassword show={setshowPerfilPassword} />
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );
