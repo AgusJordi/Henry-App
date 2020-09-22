@@ -34,8 +34,12 @@ function Home(props) {
     dispatch(getAllCohortes());
     dispatch(getAllInstructors());
     dispatch(getAllStudents());
+    console.log("aca", allCohortes);
   }, []);
-
+  let prueba = false;
+  if (allCohortes.length > 0) {
+    prueba = true;
+  }
   if (allUsers) {
     allUsers.map((alumno) => {
       if (alumno.instructor === true) {
@@ -129,7 +133,7 @@ function Home(props) {
             >
               <h3 className={classes.tabTitel}>COHORTES</h3>
 
-              {allCohortes.length === 0 ? (
+              {prueba === false ? (
                 <Tab label="No hay cohortes" />
               ) : (
                 allCohortes.map((cohorte, index) => {
