@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { modifiedCohorte } from "../../actions/index.js";
+import axios from "axios";
 import Table from "@material-ui/core/Table";
 import { makeStyles } from "@material-ui/core/styles";
 import TableBody from "@material-ui/core/TableBody";
@@ -23,13 +25,27 @@ const useStyles = makeStyles({
 });
 function ModificarEliminarCohorte() {
   const [input, setInput] = useState({
+    id: 0,
     cohorte: "",
     instructor: "",
     DateA: "",
-    DateB: "",
   });
 
   const [open, setOpen] = useState(false);
+  const [state, setState] = useState({
+    cohortes: [],
+  })
+
+  useEffect(() => {
+    fetch('http://localhost:4000/cohorte')
+      .then(response => response.json())
+      .then(cohortes => {
+        setState({
+          ...state,
+          cohortes: cohortes
+        })
+      });
+  }, [])
 
   const handleInputChange = function (e) {
     setInput({
@@ -37,6 +53,10 @@ function ModificarEliminarCohorte() {
       [e.target.name]: e.target.value,
     });
   };
+  const handlemodifiedCohorte = () => {
+    /*     e.preventDefault(); */
+    modifiedCohorte(input)
+  }
 
   const handleOpen = () => {
     setOpen(true);
@@ -48,6 +68,21 @@ function ModificarEliminarCohorte() {
 
   const classes = useStyles();
 
+  /*   const previousValues = (id) => {
+      axios.get(`http://localhost:4000/cohorte/${id}`)
+        .then(res => {
+          const c = res.data;
+          console.log(c[0].name)
+          setInput({
+            id: c[0].id,
+            cohorte: c[0].name,
+            instructor: c[0].instructor,
+            DateA: c[0].date,
+          })
+          console.log(input)
+        })
+    } */
+
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="customized table">
@@ -56,114 +91,114 @@ function ModificarEliminarCohorte() {
             <TableCell align="center">Cohorte</TableCell>
             <TableCell align="center">Instructor</TableCell>
             <TableCell align="center">Fecha de inicio</TableCell>
-            <TableCell align="center">Fecha de finalización</TableCell>
             <TableCell align="center">Opciones</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {/*se debe hacer el map
-          {props.categorias.categorias.map((row) => (
-            <TableRow key={row.name}>
-          */}{" "}
-          <TableRow>
-            <TableCell align="center">Webft03</TableCell>
-            <TableCell align="center">Franco</TableCell>
-            <TableCell align="center">Junio</TableCell>
-            <TableCell align="center">Octubre</TableCell>
-            <TableCell align="center">
-              <ButtonGroup disableElevation variant="contained" color="primary">
-                <Button
-                  size="small"
-                  onClick={() => handleOpen()} /*onClick con la props*/
-                >
-                  Editar
-                </Button>
-              </ButtonGroup>
-              <Dialog open={open} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">
-                  Modificar Cohorte
-                </DialogTitle>
-                <DialogContent>
-                  <TextField
-                    autoFocus
-                    name="cohorte"
-                    margin="dense"
-                    label="Cohorte"
-                    type="text"
-                    fullWidth
-                    value={input.cohorte}
-                    onChange={handleInputChange}
-                  />
-                  <TextField
-                    autoFocus
-                    name="instructor"
-                    margin="dense"
-                    label="Instructor"
-                    type="text"
-                    fullWidth
-                    value={input.instructor}
-                    onChange={handleInputChange}
-                  />
-                  <TextField
-                    autoFocus
-                    name="DateA"
-                    margin="dense"
-                    label="Fecha de inicio"
-                    type="text"
-                    fullWidth
-                    value={input.DateA}
-                    onChange={handleInputChange}
-                  />
-                  <TextField
-                    autoFocus
-                    name="DateB"
-                    margin="dense"
-                    label="Fecha de finalización"
-                    type="text"
-                    fullWidth
-                    value={input.DateB}
-                    onChange={handleInputChange}
-                  />
-                </DialogContent>
-                <div style={{ margin: 8 }}>
-                  <DialogActions>
-                    <Button color="primary" onClick={() => handleClose()}>
-                      Cerrar
-                    </Button>
+          {state.cohortes && state.cohortes.map(ch => {
+            return (
+              <TableRow key={ch.id}>
+                <TableCell align="center">{ch.name}</TableCell>
+                <TableCell align="center">{ch.instructor.name}</TableCell>
+                <TableCell align="center">{ch.date}</TableCell>
+                <TableCell align="center">
+                  <ButtonGroup disableElevation variant="contained" color="primary">
                     <Button
-                      type="submit"
-                      /*el onclick de actualizar debe ir con el actions*/
-                      color="primary"
+                      size="small"
+                      onClick={() => {
+                        /* console.log(input) */
+                        /* previousValues(ch.id) */
+                        handleOpen()
+                        /* console.log(input) */
+                      }} /*onClick con la props*/
                     >
-                      Modificar
+                      Editar
                     </Button>
-                  </DialogActions>
-                </div>
-              </Dialog>
-              <ButtonGroup
-                disableElevation
-                variant="contained"
-                color="secondary"
-              >
-                <Button
-                  size="small" /* El onclick debe ir con el actions para no perderse*/
-                >
-                  Eliminar
+                  </ButtonGroup>
+                  <Dialog open={open} aria-labelledby="form-dialog-title">
+
+                    <DialogTitle id="form-dialog-title">
+                      Modificar Cohorte
+                    </DialogTitle>
+                    <form onSubmit={(e) => handlemodifiedCohorte}>
+                      <DialogContent>
+                        <TextField
+                          autoFocus
+                          name="ID"
+                          margin="dense"
+                          label="ID"
+                          type="text"
+                          fullWidth
+                          value={ch.id}
+                          onChange={handleInputChange}
+                        />
+                        <TextField
+                          autoFocus
+                          name="cohorte"
+                          margin="dense"
+                          label="Nombre Cohorte"
+                          type="text"
+                          fullWidth
+                          value={input.cohorte}
+                          onChange={handleInputChange}
+                        />
+                        <TextField
+                          autoFocus
+                          name="instructor"
+                          margin="dense"
+                          label="Instructor"
+                          type="text"
+                          fullWidth
+                          value={input.instructor}
+                          onChange={handleInputChange}
+                        />
+                        <TextField
+                          autoFocus
+                          name="DateA"
+                          margin="dense"
+                          label="Fecha de inicio"
+                          type="text"
+                          fullWidth
+                          value={input.DateA}
+                          onChange={handleInputChange}
+                        />
+
+                      </DialogContent>
+                      <div style={{ margin: 8 }}>
+                        <DialogActions>
+                          <Button color="primary" onClick={() => handleClose()}>
+                            Cerrar
+                        </Button>
+                          <Button
+                            color="primary"
+                          >
+                            Modificar
+                        </Button>
+                        </DialogActions>
+                      </div>
+                    </form>
+                  </Dialog>
+
+                  <ButtonGroup
+                    disableElevation
+                    variant="contained"
+                    color="secondary"
+                  >
+                    <Button
+                      size="small" /* El onclick debe ir con el actions para no perderse*/
+                    >
+                      Eliminar
                 </Button>
-              </ButtonGroup>
-              <ButtonGroup disableElevation variant="contained" color="primary">
-                <Button
-                  size="small" /* El onclick debe ir con el actions para no perderse*/
-                >
-                  Aprobar
-                </Button>
-              </ButtonGroup>
-            </TableCell>
-          </TableRow>
-          {/*Aca se debe cerrar el  map)}}*/}
+                  </ButtonGroup>
+
+                </TableCell>
+              </TableRow>
+            )
+          })}
+
         </TableBody>
       </Table>
-    </TableContainer>
+    </TableContainer >
   );
 }
 
