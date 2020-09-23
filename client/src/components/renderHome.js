@@ -34,7 +34,6 @@ function Home(props) {
     dispatch(getAllCohortes());
     dispatch(getAllInstructors());
     dispatch(getAllStudents());
-    console.log("aca", allCohortes);
   }, []);
   let prueba = false;
   if (allCohortes.length > 0) {

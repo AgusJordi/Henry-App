@@ -66,20 +66,6 @@ function AreaAdmin(props) {
           <ModificarEliminarCohorte />
         </AccordionDetails>
       </Accordion>
-      <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        >
-          <Typography className={classes.heading}>
-            Modificar/Eliminar Instructor/Pm
-          </Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <ModificarEliminarInstructorPm />
-        </AccordionDetails>
-      </Accordion>
     </div>
   );
 }
