@@ -1,9 +1,18 @@
 const server = require("express").Router();
 
-const { Cohorte } = require("../db.js");
+const { Cohorte, User } = require("../db.js");
 
 server.get("/", (req, res, next) => {
-  Cohorte.findAll()
+  Cohorte.findAll({
+    order: [["id", "ASC"]],
+    include: [
+      {
+        model: User,
+        as: "instructor",
+        attributes: ['name']
+      }
+    ]
+  })
     .then((cohortes) => {
       if (cohortes.length === 0) {
         return res.send({ message: "No se han creado cohortes" });
@@ -13,9 +22,28 @@ server.get("/", (req, res, next) => {
     .catch((error) => next(error));
 });
 
+server.get('/:id', (req, res, next) => {
+  Cohorte.findAll({
+    where: {
+      id: req.params.id
+    },
+    include: [
+      {
+        model: User,
+        as: "instructor",
+        attributes: ['name']
+      }
+    ]
+  })
+    .then(chFound => {
+      res.json(chFound);
+    })
+    .catch(next)
+})
+
 server.post("/", (req, res, next) => {
   const { name, date, instructorId } = req.body; //falta date
-  console.log(req.body, "SOY UN BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACK")
+  console.log(req.body, "SOY UN BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACK");
   Cohorte.create({ name, date, instructorId }) //falta date
     .then((cohorte) => {
       res.send(cohorte);
@@ -23,34 +51,41 @@ server.post("/", (req, res, next) => {
     .catch((error) => next(error));
 });
 
-server.delete("/:name", (req, res, next) => {
-  const name = req.params.name;
-  Cohorte.destroy({ where: { name: name } })
+server.delete("/:id", (req, res, next) => {
+  const id = req.params.id;
+  Cohorte.destroy({ where: { id: id } })
     .then((num) => {
       if (num > 0) {
-        return res.send({ message: `Se elimino el Cohorte : ${checkName}` });
+        return res.send({ message: `Se elimino el Cohorte : ${id}` });
       }
       return res.send({
-        message: `No se pudo eliminar el Cohorte: ${checkName}`,
+        message: `No se pudo eliminar el Cohorte: ${id}`,
       });
     })
     .catch((err) => next(err));
 });
 
-server.put("/:name", async (req, res, next) => {
-  const nameCohorte = req.params.name;
-  const { name, description } = req.body;
+server.put("/:id", async (req, res, next) => {
+  const idCohorte = req.params.id;
+  console.log(req.body)
+  const { name, instructorId, date } = req.body;
 
   try {
-    const cohorte = await Cohorte.findOne({ where: { name: nameCohorte } });
+    const cohorte = await Cohorte.findOne(
+      {
+        where: {
+          id: idCohorte
+        }
+      });
     if (!cohorte) {
       return res.send({
-        message: `No se encontro el Cohorte: ${nameCohorte}`,
+        message: `No se encontro el Cohorte: ${idCohorte}`,
       });
     }
     const cohorteUpdate = await cohorte.update({
       name: name,
-      description: description,
+      instructorId: instructorId,
+      date: date
     });
     return res.send(cohorteUpdate);
   } catch (error) {

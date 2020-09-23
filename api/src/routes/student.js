@@ -24,7 +24,7 @@ server.get("/", (req, res, next) => {
     ],
   })
     .then((student) => {
-      console.log(student);
+      /* console.log(student); */
       if (student && student.length === 0) {
         return res.send({ message: "No hay usuarios" });
       }

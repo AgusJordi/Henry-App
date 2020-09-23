@@ -21,6 +21,7 @@ server.get("/", (req, res, next) => {
 //Ruta para obtener los users q sean instructores
 server.get("/instructor", (req, res, next) => {
   User.findAll({
+    order: [["id", "ASC"]],
     where: {
       instructor: true
     }
@@ -155,10 +156,10 @@ server.delete("/:id", (req, res, next) => {
 });
 
 //Actualizar Usuarios (Solo algunos campos)
-server.put("/:email", async (req, res, next) => {
+server.put("/", async (req, res, next) => {
   const {
     name,
-    lastName,
+    lastname,
     city,
     province,
     country,
@@ -170,20 +171,32 @@ server.put("/:email", async (req, res, next) => {
     admin,
     googleId,
     gitHubId } = req.body;
-  const correo = req.params.email;
+  const correo = req.body.email;
+  
+  
   try {
     //Valido que el usuario exista
     const user = await User.findOne({ where: { email: correo } });
-    if (!user) {
-      return res.send({
-        message: `No se encontro el usuario con el email: ${correo}`,
-      });
-    }
+    const  libre = await  User.findOne( { where: { email: correo, status: 'inhabilitado'} });
+    const   ocupado = await  User.findOne( { where: { email: correo, status: 'habilitado'} });
 
+     
+     if(ocupado){
+      console.log('El MAIL ESTA OCUPADO', ocupado) 
+      return res.send('null')//SI no existe el eamil
+    
+     }
+     
+    
+    if (!user ) {
+      return res.send(false)//SI no existe el eamil
+    }
+     
+    
     //actualizo el usuario con los campos enviados por body (si alguno no existe no lo actualiza)
     const updated = await user.update({
       name: name,
-      lastName: lastName,
+      lastName: lastname,
       city: city,
       province: province,
       country: country,
@@ -219,20 +232,20 @@ server.put("/myprofile/:id", async (req, res, next) => {
         res.status(200)
         res.json(usuario)
       }).catch(err => next(err))
-});
+  });
 });
 
 server.put('/:id/passwordReset', (req, res, next) => {
   const { id } = req.params;
-  const { password } =req.body;
+  const { password } = req.body;
   //const salt = crypto.randomBytes(64).toString('hex') Va a servir cuando las rutas esten encryptadas
   //const password = crypto.pbkdf2Sync(req.body.password, salt, 10000, 64, 'sha512').toString('base64')
 
-User.findByPk(id)
+  User.findByPk(id)
     .then((user) => {
       if (user) {
         user.password = password
-  //      user.salt = salt
+        //      user.salt = salt
         return user.save()
       }
     }).then((user) => {
