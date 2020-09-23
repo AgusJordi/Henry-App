@@ -1,18 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import Carrousel from "./components/Carrousel.jsx";
 import Login from "./components/Login.jsx";
 import Navbar from "./components/Navbar.jsx";
 import Profile from "./components/Profile.jsx";
 import EditProfile from "./components/EditProfile.jsx";
 import ModalUsers from "./components/modalUsers.jsx";
 import { getIdUser, getAllUsers } from "./actions";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import Sidebar from "./components/sidebar";
 
 function App(props) {
@@ -51,12 +45,9 @@ function App(props) {
       </Router>
       {isAutenticated() === false ? (
         <Route exact path="/login" component={Login} />
-        
       ) : (
         ""
       )}
-      
-       
     </div>
   );
 }

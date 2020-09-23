@@ -8,11 +8,10 @@ export const GET_ALL_COHORTES = "GET_ALL_COHORTES";
 export const CREATE_COHORTE = "CREATE_COHORTE";
 export const GET_ID_USER = "GET_ID_USER";
 export const CREATE_USERS_STUDENTS = "CREATE_USERS_STUDENTS";
-export const GET_ALL_INSTRUCTORS = "GET_ALL_INSTRUCTORS"; 
+export const GET_ALL_INSTRUCTORS = "GET_ALL_INSTRUCTORS";
 export const USER_REGISTER = "USER_REGISTER";
-export const USER_REGISTER_ERROR = "USER_REGISTER_ERROR"; 
+export const USER_REGISTER_ERROR = "USER_REGISTER_ERROR";
 export const GET_ALL_STUDENTS = "GET_ALL_STUDENTS";
- 
 
 export function userLogIn(body) {
   return function (dispatch) {
@@ -22,7 +21,7 @@ export function userLogIn(body) {
       .then((data) => {
         dispatch({
           type: USER_LOGIN,
-          payload: data == false ? 0 : data,
+          payload: data === false ? 0 : data,
         });
       });
   };
@@ -41,7 +40,7 @@ export function getAllUsers() {
       .then((data) => {
         dispatch({
           type: GET_ALL_USERS,
-          payload: data
+          payload: data,
         });
       });
   };
@@ -112,9 +111,8 @@ export function getAllInstructors() {
   };
 }
 
-
 export function modifiedUser(id, data) {
-  console.log(data, "SOY UNA DAAAAAAAAAAAAATA")
+  console.log(data, "SOY UNA DAAAAAAAAAAAAATA");
   var url = `http://localhost:4000/users/myprofile/${id}`;
   axios({
     method: "put",
@@ -127,7 +125,7 @@ export function modifiedUser(id, data) {
 }
 
 export function modifiedPassword(id, data) {
-  console.log(data, "SOY UNA DAAAAAAAAAAAAATA")
+  console.log(data, "SOY UNA DAAAAAAAAAAAAATA");
   var url = `http://localhost:4000/users/${id}/passwordReset`;
   axios({
     method: "put",
@@ -135,36 +133,35 @@ export function modifiedPassword(id, data) {
     headers: {
       "Content-Type": "application/json",
     },
-    data: data
+    data: data,
   });
 }
 
- 
-export function userRegister (body) {
-  
-  var registro= {
+export function userRegister(body) {
+  var registro = {
     name: body.firstNameR,
     lastname: body.lastNameR,
     city: body.cityR,
     province: body.provinceR,
     country: body.countryR,
     email: body.emailR,
-    password: body.passwordR
-  }
+    password: body.passwordR,
+  };
 
   //console.log('LE MANDO al Action',registro)
-  
-  return function(dispatch) {
-    return axios.put(`http://localhost:4000/users/`, registro )
-      .then(result => result.data)
-      .then(data => {
+
+  return function (dispatch) {
+    return axios
+      .put(`http://localhost:4000/users/`, registro)
+      .then((result) => result.data)
+      .then((data) => {
         dispatch({
           type: USER_REGISTER,
-          payload: data  
-        })
+          payload: data,
+        });
         //console.log("QUE trae el data", data)
-      })
-  }
+      });
+  };
 }
 
 export function userRegisterError() {
@@ -172,9 +169,9 @@ export function userRegisterError() {
     type: USER_REGISTER_ERROR,
   };
 }
- 
+
 export function modifiedCohorte(cohorte) {
-  console.log(cohorte, "SOY COHORTE")
+  console.log(cohorte, "SOY COHORTE");
   var url = `http://localhost:4000/cohorte/${cohorte.id}`;
   axios({
     method: "put",
@@ -186,7 +183,7 @@ export function modifiedCohorte(cohorte) {
       name: cohorte.cohorte,
       instructorId: cohorte.instructor,
       date: cohorte.DateA,
-    }
+    },
   });
 }
 
@@ -201,7 +198,5 @@ export function getAllStudents() {
           payload: data,
         });
       });
- 
   };
 }
-

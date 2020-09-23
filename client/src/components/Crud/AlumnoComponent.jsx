@@ -14,11 +14,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Switch from "@material-ui/core/Switch";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormControl from "@material-ui/core/FormControl";
 //select
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
 
 import { getAllCohortes, getAllStudents } from "../../actions/index";
 function AlumnoComponent(props) {
@@ -37,26 +33,7 @@ function AlumnoComponent(props) {
   if (allCohortes.length > 0) {
     prueba = true;
   }
-  //busco el cohorte id del user
-  // let cohorteUser = null;
-  // if (user) {
-  //   allStudents.map((student) => {
-  //     if (student.user.id === user.id) {
-  //       cohorteUser = student.cohorteId;
-  //       console.log(
-  //         "holi",
-  //         student.user.id,
-  //         "chau",
-  //         user.id,
-  //         "cohorte",
-  //         student.cohorteId,
-  //         "userCohorte",
-  //         cohorteUser
-  //       );
-  //     }
-  //   });
-  // }
-  //open, closeFunc, openFunc
+
   const [input, setInput] = useState({
     name: `${user.name}`,
     lastName: `${user.lastName}`,
@@ -101,11 +78,10 @@ function AlumnoComponent(props) {
   }));
   const classes = useStyles();
 
-  console.log("desde componente", allStudents);
   return (
     <Fragment>
       <TableRow key={user.id}>
-        <TableCell align="center">{user.email}</TableCell>
+        {/* <TableCell align="center">{user.email}</TableCell>
         <TableCell>
           <Select
             labelId="selectCohorte"
@@ -117,7 +93,7 @@ function AlumnoComponent(props) {
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
-            {/* MAPEAR LISTA DE cohortes Y DEVOLVER UN MENUITEM X CADA UNO */}
+            
             {prueba ? (
               allCohortes.map((cohorte) => {
                 let id = cohorte.id;
@@ -141,10 +117,9 @@ function AlumnoComponent(props) {
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
-            {/* MAPEAR LISTA DE cohortes Y DEVOLVER UN MENUITEM X CADA UNO */}
             {prueba ? (
               allCohortes.map((cohorte) => {
-                let id = cohorte.id;
+                let id = cohorte.id + 1;
                 return <MenuItem value={id}>{cohorte.name}</MenuItem>;
               })
             ) : (
@@ -165,10 +140,9 @@ function AlumnoComponent(props) {
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
-            {/* MAPEAR LISTA DE cohortes Y DEVOLVER UN MENUITEM X CADA UNO */}
             {prueba ? (
               allCohortes.map((cohorte) => {
-                let id = cohorte.id;
+                let id = cohorte.id + 2;
                 return <MenuItem value={id}>{cohorte.name}</MenuItem>;
               })
             ) : (
@@ -177,7 +151,7 @@ function AlumnoComponent(props) {
               </MenuItem>
             )}
           </Select>
-        </TableCell>
+        </TableCell> */}
         <TableCell align="center">
           <ButtonGroup disableElevation variant="contained" color="primary">
             <Button size="small" onClick={handleOpen} /*onClick con la props*/>

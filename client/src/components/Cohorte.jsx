@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState } from "react";
 import "./home.css";
 import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
@@ -11,13 +11,13 @@ import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 
 //
-import List from "@material-ui/core/List";
+
 //select
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import { getAllCohortes } from "../actions";
+
 //
 
 function Cohorte(props) {
@@ -127,10 +127,6 @@ function Cohorte(props) {
       display: "flex",
 
       flexDirection: "column",
-    },
-    ul: {
-      backgroundColor: "inherit",
-      padding: 0,
     },
     styleTextUser: {
       borderBottom: `1px solid ${theme.palette.divider}`,

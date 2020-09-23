@@ -7,9 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ModificarEliminarAlumno from "./ModificarEliminarAlumno.jsx";
 import ModificarEliminarCohorte from "./ModificarEliminarCohorte.jsx";
-import ModificarEliminarInstructorPm from "./ModificarEliminarInstructorPm.jsx";
 import CrearCohorte from "./CrearCohorte.jsx";
-import Box from "@material-ui/core/Box";
 import "./AreaAdmin.css";
 
 const useStyles = makeStyles((theme) => ({
