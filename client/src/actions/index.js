@@ -10,6 +10,10 @@ export const GET_ID_USER = "GET_ID_USER";
 export const CREATE_USERS_STUDENTS = "CREATE_USERS_STUDENTS";
 export const GET_ALL_INSTRUCTORS = "GET_ALL_INSTRUCTORS";
 export const GET_ALL_STUDENTS = "GET_ALL_STUDENTS";
+export const GET_ALL_PMS = "GET_ALL_PMS";
+export const GET_ALUMNOS_FROM_COHORTE = "GET_ALUMNOS_FROM_COHORTE";
+
+
 
 export function userLogIn(body) {
   return function (dispatch) {
@@ -109,6 +113,20 @@ export function getAllInstructors() {
   };
 }
 
+export function getAllPms() {
+  return function (dispatch) {
+    return axios
+      .get("http://localhost:4000/users/pms")
+      .then((result) => result.data)
+      .then((data) => {
+        dispatch({
+          type: GET_ALL_PMS,
+          payload: data,
+        });
+      });
+  };
+}
+
 export function modifiedUser(id,data) {
   var url = `http://localhost:4000/users/myprofile/${id}`;
   axios({
@@ -142,6 +160,20 @@ export function getAllStudents() {
       .then((data) => {
         dispatch({
           type: GET_ALL_STUDENTS,
+          payload: data,
+        });
+      });
+  };
+}
+
+export function getAlumnosFromCohorte(id) {
+  return function (dispatch) {
+    return axios
+      .get(`http://localhost:4000/students/cohorte/${id}`)
+      .then((result) => result.data)
+      .then((data) => {
+        dispatch({
+          type: GET_ALUMNOS_FROM_COHORTE,
           payload: data,
         });
       });

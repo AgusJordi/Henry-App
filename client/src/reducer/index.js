@@ -7,6 +7,8 @@ import {
   GET_ID_USER,
   GET_ALL_INSTRUCTORS,
   GET_ALL_STUDENTS,
+  GET_ALL_PMS,
+  GET_ALUMNOS_FROM_COHORTE,
 } from "../actions/index";
 //var ls = require('local-storage');
 
@@ -17,6 +19,8 @@ const initialState = {
   id_user: [],
   all_instructors: [],
   all_students: [],
+  all_pms:[],
+  students_from_cohorte:[],
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -54,10 +58,23 @@ const reducer = (state = initialState, action) => {
         ...state,
         all_instructors: action.payload,
       };
+
     case GET_ALL_STUDENTS:
       return {
         ...state,
         all_students: action.payload,
+      };
+
+    case GET_ALL_PMS:
+      return {
+        ...state,
+        all_pms: action.payload,
+      };
+
+    case GET_ALUMNOS_FROM_COHORTE:
+      return {
+        ...state,
+        students_from_cohorte: action.payload,
       };
 
     default:
