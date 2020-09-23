@@ -4,6 +4,7 @@ const { Cohorte, User } = require("../db.js");
 
 server.get("/", (req, res, next) => {
   Cohorte.findAll({
+    order: [["id", "ASC"]],
     include: [
       {
         model: User,
@@ -65,14 +66,15 @@ server.delete("/:id", (req, res, next) => {
 });
 
 server.put("/:id", async (req, res, next) => {
-  const idCohorte = req.params.name;
+  const idCohorte = req.params.id;
+  console.log(req.body)
   const { name, instructorId, date } = req.body;
 
   try {
     const cohorte = await Cohorte.findOne(
       {
         where: {
-          name: idCohorte
+          id: idCohorte
         }
       });
     if (!cohorte) {
