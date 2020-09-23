@@ -42,6 +42,8 @@ function Navbar({ onlineUser, userLogIn, getIdUser, id_user }) {
   };
 
   const handleClose = () => {
+    localStorage.removeItem("idUser");
+    localStorage.removeItem("lastName");
     localStorage.removeItem("username");
     window.location = "./login";
   };

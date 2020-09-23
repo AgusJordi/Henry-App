@@ -155,10 +155,10 @@ server.delete("/:id", (req, res, next) => {
 });
 
 //Actualizar Usuarios (Solo algunos campos)
-server.put("/:email", async (req, res, next) => {
+server.put("/", async (req, res, next) => {
   const {
     name,
-    lastName,
+    lastname,
     city,
     province,
     country,
@@ -170,20 +170,32 @@ server.put("/:email", async (req, res, next) => {
     admin,
     googleId,
     gitHubId } = req.body;
-  const correo = req.params.email;
+  const correo = req.body.email;
+  
+  
   try {
     //Valido que el usuario exista
     const user = await User.findOne({ where: { email: correo } });
-    if (!user) {
-      return res.send({
-        message: `No se encontro el usuario con el email: ${correo}`,
-      });
-    }
+    const  libre = await  User.findOne( { where: { email: correo, status: 'inhabilitado'} });
+    const   ocupado = await  User.findOne( { where: { email: correo, status: 'habilitado'} });
 
+     
+     if(ocupado){
+      console.log('El MAIL ESTA OCUPADO', ocupado) 
+      return res.send('null')//SI no existe el eamil
+    
+     }
+     
+    
+    if (!user ) {
+      return res.send(false)//SI no existe el eamil
+    }
+     
+    
     //actualizo el usuario con los campos enviados por body (si alguno no existe no lo actualiza)
     const updated = await user.update({
       name: name,
-      lastName: lastName,
+      lastName: lastname,
       city: city,
       province: province,
       country: country,
