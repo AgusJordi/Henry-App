@@ -182,7 +182,11 @@ export function modifiedCohorte(cohorte) {
     headers: {
       "Content-Type": "application/json",
     },
-    data: cohorte
+    data: {
+      name: cohorte.cohorte,
+      instructorId: cohorte.instructor,
+      date: cohorte.DateA,
+    }
   });
 }
 
