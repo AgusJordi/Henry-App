@@ -17,6 +17,7 @@ import {
   getAllCohortes,
   getAllInstructors,
   getAllStudents,
+  getAllPms,
 } from "../actions/index";
 import Carrousel from "./Carrousel.jsx";
 
@@ -28,13 +29,16 @@ function Home(props) {
   const allInstructors = useSelector((state) => state.all_instructors);
   const allCohortes = useSelector((state) => state.all_cohortes);
   const allStudents = useSelector((state) => state.all_students);
+  const allPms = useSelector((state) => state.all_pms);
   const instructoresList = [];
 
-  useEffect(() => {
-    dispatch(getAllCohortes());
-    dispatch(getAllInstructors());
-    dispatch(getAllStudents());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getAllCohortes());
+  //   dispatch(getAllStudents());
+  //   dispatch(getAllInstructors());
+  //   dispatch(getAllPms());
+  // }, []);
+  //LOS DISPATCH SE HACEN DESDE APP AHORA
 
   if (allUsers) {
     allUsers.map((alumno) => {
@@ -209,7 +213,8 @@ function Home(props) {
       <div>
         <Grid container className={classes.gridContainer}>
           <Grid xs={12} container className={classes.tabPanel}>
-            <AreaAdmin instructores={allInstructors} />
+            {console.log(allInstructors)}
+            <AreaAdmin instructores={allInstructors} pms={allPms} />
           </Grid>
         </Grid>
       </div>
