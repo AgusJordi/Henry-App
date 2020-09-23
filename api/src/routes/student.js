@@ -59,7 +59,10 @@ server.get("/cohorte/:id", (req, res) => {
     },
     include: [
       {
-        model: Cohorte,
+        model: User, attributes: ["name", "lastName", "email"]
+      },
+      {
+        model: Cohorte, attributes: ["name"]
       },
     ],
   })
