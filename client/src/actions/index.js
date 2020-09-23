@@ -133,6 +133,8 @@ export function userRegister (body) {
     email: body.emailR,
     password: body.passwordR
   }
+
+  //console.log('LE MANDO al Action',registro)
   
   return function(dispatch) {
     return axios.put(`http://localhost:4000/users/`, registro )
@@ -142,7 +144,7 @@ export function userRegister (body) {
           type: USER_REGISTER,
           payload: data  
         })
-        console.log("QUE trae el data", data)
+        //console.log("QUE trae el data", data)
       })
   }
 }

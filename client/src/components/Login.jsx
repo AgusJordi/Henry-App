@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -13,9 +13,12 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 
+
+ 
 import Modal from "@material-ui/core/Modal";
-import { Formik, Form, ErrorMessage, Field, useFormik } from "formik";
+import { useFormik, Formik, Form, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
+import { sizing } from "@material-ui/system";
 
 //npm install axios
 //npm install router
@@ -152,47 +155,73 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegist
 
   const classesRegister = useStylesS();
   const [modalStyle] = useState(getModalStyle);
-  const [inputR, setInputR] = useState({})
 
-  const handleInputChangeR = function(e) {
-    setInputR({
-      ...inputR,
-      [e.target.name]: e.target.value
-    });
-  
-  }
-  
    
-  const handleSubmitR = function(e) {
-   e.preventDefault()      
-   userRegister(inputR)
-   handleClose()
+  //////// VALIDACION DEL REGISTRO CON FORMIK ////
+   
+   
+  const formik = useFormik({
+    initialValues:{
+      firstNameR: '',
+      lastNameR: '',
+      passwordR: '',
+      cityR: '',
+      provinceR: '',
+      countryR: '',
+      emailR: ''
 
-  }
-  console.log('El REGISTERRRRR ', register)
+    },
+    
+    validationSchema: Yup.object({
+
+      firstNameR: Yup.string().required("El Nombre no puede quedar vacio"),
+      countryR: Yup.string().required("El Pais no puede quedar vacio"),
+      lastNameR: Yup.string().required("El Apellido no puede quedar vacio"),
+      cityR: Yup.string().required("La Ciudad no puede quedar vacio"),
+      provinceR: Yup.string().required("La Provincia no puede quedar vacio"),
+      emailR: Yup.string().email('Esto no es un Email').required("El Email no puede quedar vacio"),
+      passwordR: Yup.string().required("El Password no puede quedar vacio")
+
+    }),
+    
+    onSubmit:(formData)=>{
+      console.log('el Form DATAAAAA',formData); 
+      global.datos = formData;
+      userRegister(formData)
+      handleClose()
+      
+    },
+  })
+
+  console.log('El REGISTERRRRR ', global.datos)
+  console.log('El EStado USERRR ', onlineUser)
+
+   
   if(register === 'null'){
+     
     Swal.fire({
       icon: 'warning',
-      title: 'Ups...',
+      title: 'Ups... EMAIL DUPLICADO!',
       text: 'Ese Email ya fue usado por otro usuario!',
       footer: '<span>Soy Henry</span>'
     })
+    
     userRegisterError();
   }
   if(register === false ){
     
     Swal.fire({
       icon: 'warning',
-      title: 'Ups...',
+      title: 'Ups... EMAIL NO VALIDO!',
       text: 'Debes usuar el E-email con en que inscribiste al Challenge de Henry!',
       footer: '<span>Soy Henry</span>'
     })
       userRegisterError();
       
   }
-  if(register === true){
 
-     
+   
+  if(register === true){
     Swal.fire({
       title: 'Usuario creado con Exito!',
       text: "Bienvenido a Henry",
@@ -203,11 +232,11 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegist
       confirmButtonText: 'Ingresar'
     }).then((result) => {
       if (result.isConfirmed) {
-        let timerInterval
+    let timerInterval
     Swal.fire({
-      title: 'Ingresando',
+      title: 'Ingresando ...',
       html: '<b></b>',
-      timer: 2000,
+      timer: 4000,
       timerProgressBar: true,
       onBeforeOpen: () => {
         Swal.showLoading()
@@ -216,11 +245,12 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegist
           if (content) {
             const b = content.querySelector('b')
             if (b) {
-              b.textContent = Swal.getTimerLeft()
-              var credentials = {
-                email: inputR.emailR,
-                password: inputR.passwordR
+
+              var credentials={
+                email: global.datos.emailR,
+                password: global.datos.passwordR
               }
+              
               userLogIn(credentials)                    
               
             }
@@ -230,53 +260,20 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegist
       onClose: () => {
         clearInterval(timerInterval)
       }
-    }).then((result) => {
-      /* Read more about handling dismissals below */
-      if (result.dismiss === Swal.DismissReason.timer) {
-        console.log('El CONTADOR')         
-         
-      }
-    })
+    }) 
       }
       localStorage.setItem("idUser", onlineUser.id);
       localStorage.setItem("lastName", onlineUser.lastName);
       localStorage.setItem("username", onlineUser.name);              
       userRegisterError();
-      window.location = "./home";
+      //window.location = "./home";
     })
     
     
 
   }
-   
+ 
   
-
-  // HARDCODEO COSMICO
-
-  const [users, setUsers] = useState([]);
-
-  // SETEO FORM
-  const formik = useFormik({
-    initialValues: {
-      firstName: "",
-      lastName: "",
-      city: "",
-      province: "",
-      country: "",
-      email: "",
-      password: "",
-    },
-    validationSchema: Yup.object({
-      firstName: Yup.string().max(15, "Ingresa menos de 15 caracteres"),
-      lastName: Yup.string().max(15, "Ingresa menos de 15 caracteres"),
-      password: Yup.string().max(15, "Ingresa menos de 15 caracteres"),
-      city: Yup.string().max(15, "Ingresa menos de 15 caracteres"),
-      province: Yup.string().max(15, "Ingresa menos de 15 caracteres"),
-      country: Yup.string().max(15, "Ingresa menos de 15 caracteres"),
-      email: Yup.string().email("Email invalido"),
-    }),
-    
-  });
 
   ////////////// End del Modal ///////////
 
@@ -317,9 +314,7 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegist
     onlineUserError();
   }
 
-  function backState() {
-    onlineUserError();
-  }
+  
 
   const handleOpen = () => {
     setOpen(true);
@@ -328,11 +323,14 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegist
   const handleClose = () => {
     setOpen(false);
   };
-  
-
+   
   return (
+
+    
     
     <Grid container component="main" className={classes.root}>
+
+
       <Modal    
       open={open}
       aria-labelledby="simple-modal-title"
@@ -348,22 +346,12 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegist
           <h2 id="simple-modal-title" align="center">
             REGISTRARSE
           </h2>
-          <form onSubmit={handleSubmitR} >
+            
+         
+          <form onSubmit={formik.handleSubmit} >
             <div className={classesRegister.divFormRoot}>
               <label htmlFor="firstName"></label>
-              <TextField
-              // onChange={handleInputChangeR}
-              // name='firstName'
-              //   id="firstName"
-              //   type="text"
-              //   required
-              //   {...formik.getFieldProps("firstName")}
-              //   error={formik.errors.firstName}
-              //   label="Nombre"
-              //   helperText={formik.errors.firstName}
-              //   placeholder="Gerardo"
-              //   variant="outlined"
-              //   fullWidth
+              <TextField                         
               variant="outlined"               
               required
               fullWidth
@@ -372,30 +360,29 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegist
               name="firstNameR"
               autoComplete="nombre"
               autoFocus
-              onChange={handleInputChangeR}
+              onChange={formik.handleChange} error={formik.errors.firstNameR} helperText={formik.errors.firstNameR}        
+              
+              
               />
             </div>
             <div className={classesRegister.divFormRoot}>
               <label htmlFor="lastName"></label>
-              <TextField
-              onChange={handleInputChangeR}
+              <TextField              
               name="lastNameR"
                 id="lastNameR"
                 type="text"
                 required                 
                 label="Apellido"
                 autoComplete="Apellido"
-                placeholder="Sofovich"
-                helperText={formik.errors.lastName}
+                placeholder="Sofovich"                
                 variant="outlined"
                 fullWidth                              
-                
+                onChange={formik.handleChange} error={formik.errors.lastNameR} helperText={formik.errors.lastNameR}
               />
             </div>
             <div className={classesRegister.divFormRoot}>
               <label htmlFor="lastName"></label>
-              <TextField
-              onChange={handleInputChangeR}
+              <TextField              
                 id="passwordR"
                 name="passwordR"
                 type="password"
@@ -404,12 +391,14 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegist
                 placeholder="********"               
                 variant="outlined"
                 fullWidth
+                onChange={formik.handleChange} error={formik.errors.passwordR} helperText={formik.errors.passwordR}
+                 
+                
               />
             </div>
             <div className={classesRegister.divFormRoot}>
               <label htmlFor="city"></label>
-              <TextField
-              onChange={handleInputChangeR}
+              <TextField              
                 id="cityR"
                 name="cityR"
                 type="text"
@@ -418,12 +407,12 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegist
                 placeholder="Buenos Aires"                
                 variant="outlined"
                 fullWidth
+                onChange={formik.handleChange} error={formik.errors.cityR} helperText={formik.errors.cityR}
               />
             </div>
             <div className={classesRegister.divFormRoot}>
               <label htmlFor="province"></label>
-              <TextField
-              onChange={handleInputChangeR}
+              <TextField              
                 id="provinceR"
                 name="provinceR"
                 type="text"
@@ -432,12 +421,12 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegist
                 placeholder="Buenos Aires"                
                 variant="outlined"
                 fullWidth
+                onChange={formik.handleChange} error={formik.errors.provinceR} helperText={formik.errors.provinceR}
               />
             </div>
             <div className={classesRegister.divFormRoot}>
               <label htmlFor="country"></label>
-              <TextField
-              onChange={handleInputChangeR}
+              <TextField              
                 id="countryR"
                 name="countryR"
                 type="text"
@@ -446,12 +435,12 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegist
                 placeholder="Argentina"                
                 variant="outlined"
                 fullWidth
+                onChange={formik.handleChange} error={formik.errors.countryR} helperText={formik.errors.countryR}
               />
             </div>
             <div className={classesRegister.divFormRoot}>
               <label htmlFor="email"></label>
-              <TextField
-              onChange={handleInputChangeR}
+              <TextField              
                 id="emailR"
                 name="emailR"
                 type="email"
@@ -460,6 +449,8 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegist
                 placeholder="tuemailderegistro@canal9.com"               
                 variant="outlined"
                 fullWidth
+                onChange={formik.handleChange} error={formik.errors.emailR} helperText={formik.errors.emailR}
+                 
               />
             </div>
             <div className={classesRegister.buttonRoot}>
@@ -548,6 +539,8 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegist
         </div>
       </Grid>
     </Grid>
+
+    
     
     
   );
@@ -555,10 +548,10 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegist
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    userRegister: (inputR) => dispatch(userRegister(inputR)),
+    userRegister: (DatosDelRegister) => dispatch(userRegister(global.datos)),
     userRegisterError: () => dispatch(userRegisterError()),
     getAllUsers: (number) => dispatch(getAllUsers(589)),
-    userLogIn: (input) => dispatch(userLogIn(input)),
+    userLogIn: (input) => dispatch(userLogIn(!input ? input  = global.datos : input)),
     onlineUserError: () => dispatch(onlineUserError())
     
     
