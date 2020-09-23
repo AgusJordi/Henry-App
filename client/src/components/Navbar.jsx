@@ -1,5 +1,4 @@
 import React from "react";
-import SearchIcon from "@material-ui/icons/Search";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import HelpIcon from "@material-ui/icons/Help";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
@@ -11,9 +10,12 @@ import Fade from "@material-ui/core/Fade";
 import Divider from "@material-ui/core/Divider";
 import martin from "../images/martinborchardt.png";
 import { makeStyles } from "@material-ui/core/styles";
-import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { useEffect } from "react";
+import Profile from "./Profile";
+import EditProfile from "./EditProfile";
+import ModifiedPassword from "./ModifiedPassword.jsx";
+
 import {
   getAllUsers,
   userLogIn,
@@ -22,18 +24,18 @@ import {
 } from "../actions";
 
 var lsName = localStorage.getItem("username");
-console.log();
 
-function Navbar({ onlineUser, userLogIn }) {
+function Navbar({ onlineUser, userLogIn, getIdUser, id_user }) {
   useEffect(() => {
     getAllUsers(589); //probando actions
     userLogIn(onlineUser);
   }, []);
 
-  console.log("EL ESTADODDDDD", onlineUser);
-
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+  const [showPerfil, setshowPerfil] = React.useState(false);
+  const [showPerfilUpdate, setshowPerfilUpdate] = React.useState(false);
+  const [showPerfilPassword, setshowPerfilPassword] = React.useState(false);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -50,10 +52,24 @@ function Navbar({ onlineUser, userLogIn }) {
     setAnchorEl(null);
   };
 
+  const handleOpenProfile = () => {
+    setshowPerfil(true);
+    setshowPerfilUpdate(false);
+  };
+  const handleOpenEditProfile = () => {
+    setshowPerfilUpdate(true);
+  };
+  const handleClseProfile = () => {
+    setshowPerfil(false);
+  };
+  const handleOpenPassword = () => {
+    setshowPerfilPassword(true);
+    setshowPerfil(false);
+    setshowPerfilUpdate(false);
+  };
   const useStyles = makeStyles((theme) => ({
     root: {
       display: "flex",
-  
     },
     img: {
       display: "block",
@@ -77,11 +93,11 @@ function Navbar({ onlineUser, userLogIn }) {
       marginLeft: 10,
     },
     fontAwesome: {
-      fontFamily: "Helvetica, Roboto, FontAwesome", 
+      fontFamily: "Helvetica, Roboto, FontAwesome",
       fontSize: "15px",
       padding: "5px",
-      outline: "none"
-    }
+      outline: "none",
+    },
   }));
 
   const classes = useStyles();
@@ -89,18 +105,20 @@ function Navbar({ onlineUser, userLogIn }) {
   return (
     <div className="navbar">
       <div className="navbar_left">
-        <HelpIcon fontSize="large"/>
-        <AccessTimeIcon fontSize="large"/>
+        <HelpIcon fontSize="large" />
+        <AccessTimeIcon fontSize="large" />
       </div>
       <div className="navbar_search" id="esto">
-        {/* <SearchIcon fontSize="large"/> */}
-        <input type="text" placeholder="&#xF002; Buscar en Henry" className={classes.fontAwesome}/>
-        {/* <input className="navbar_search" placeholder="Buscar en Henry" /> */}
+        <input
+          type="text"
+          placeholder="&#xF002; Buscar en Henry"
+          className={classes.fontAwesome}
+        />
       </div>
       <div>
         <img
           src="https://emojis.wiki/emoji-pics/apple/rocket-apple.png"
-          alt=""
+          alt="Cohete"
           className={classes.imgRoot}
         />
       </div>
@@ -110,7 +128,7 @@ function Navbar({ onlineUser, userLogIn }) {
           aria-haspopup="true"
           onClick={handleClick}
         >
-          <AccountCircleIcon fontSize="large"/>
+          <AccountCircleIcon fontSize="large" />
           <span style={{ marginLeft: "10px" }}>
             <large>
               {" "}
@@ -129,18 +147,36 @@ function Navbar({ onlineUser, userLogIn }) {
         >
           <div>
             <img className={classes.img} alt="Martin" src={martin} />
-            <p className={classes.name}>Martin Borchardt</p>
+            <p className={classes.name}>
+              {id_user.name} {id_user.lastName}
+            </p>
             <p className={classes.cohorte}>Cohorte 2</p>
           </div>
           <Divider light />
-          <MenuItem onClick={""}>Ver mi perfil</MenuItem>
+          <MenuItem onClick={handleOpenProfile}>Ver mi perfil</MenuItem>
           <Divider light />
-          <MenuItem onClick={""}>Editar mi perfil</MenuItem>
+          <MenuItem onClick={handleOpenEditProfile}>Editar mi perfil</MenuItem>
           <Divider light />
-          <MenuItem onClick={""}>Cambiar contraseña</MenuItem>
+          <MenuItem onClick={handleOpenPassword}>Cambiar contraseña</MenuItem>
           <Divider light />
           <MenuItem onClick={handleClose}>Cerrar sesión</MenuItem>
         </Menu>
+        <Profile
+          show={setshowPerfil}
+          user={id_user}
+          state={showPerfil}
+          close={handleClseProfile}
+        />
+        {showPerfilUpdate === true ? (
+          <EditProfile show={setshowPerfilUpdate} />
+        ) : (
+          ""
+        )}
+        {showPerfilPassword === true ? (
+          <ModifiedPassword show={setshowPerfilPassword} />
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );
@@ -158,6 +194,7 @@ const mapStateToProps = (state) => {
   return {
     all_users: state.all_users,
     onlineUser: state.onlineUser,
+    id_user: state.id_user,
   };
 };
 

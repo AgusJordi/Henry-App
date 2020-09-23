@@ -14,9 +14,9 @@ import AreaAdmin from "./Crud/AreaAdmin.jsx";
 import PairProgramming from "./users/PairProgramming.jsx";
 import Grid from "@material-ui/core/Grid";
 import {
-  getAllUsers,
   getAllCohortes,
   getAllInstructors,
+  getAllStudents,
 } from "../actions/index";
 import Carrousel from "./Carrousel.jsx";
 
@@ -26,13 +26,27 @@ function Home(props) {
   const dispatch = useDispatch();
   const allUsers = useSelector((state) => state.all_users);
   const allInstructors = useSelector((state) => state.all_instructors);
-  const allCohortes = [];
+  const allCohortes = useSelector((state) => state.all_cohortes);
+  const allStudents = useSelector((state) => state.all_students);
+  const instructoresList = [];
 
   useEffect(() => {
-    dispatch(getAllUsers());
     dispatch(getAllCohortes());
     dispatch(getAllInstructors());
+    dispatch(getAllStudents());
+    console.log("aca", allCohortes);
   }, []);
+  let prueba = false;
+  if (allCohortes.length > 0) {
+    prueba = true;
+  }
+  if (allUsers) {
+    allUsers.map((alumno) => {
+      if (alumno.instructor === true) {
+        instructoresList.push(alumno);
+      }
+    });
+  }
 
   function TabPanel(props) {
     //SETEO QUE DEVUELVE LOS INTEGRANTES DE UN GRUPO Y SU CARD
@@ -72,23 +86,33 @@ function Home(props) {
     prueba: {
       backgroundColor: "yellow",
     },
-    gridContainer:{
+    gridContainer: {
       position: "fixed",
+      overflow: "auto",
       top: "60px",
       left: "240px",
-      maxWidth: "fit-content"
-    }
+      maxWidth: "fit-content",
+    },
   }));
 
   const classes = useStyles();
   const [value, setValue] = useState(0);
   const [idCohorte, setIdCohorte] = useState();
+  const [nameCohorte, setNameCohorte] = useState();
+  const [openModal, setOpenModal] = useState(false);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
   const saveCohorte = (value) => {
-    setIdCohorte(value);
+    setIdCohorte(value.id);
+    setNameCohorte(value.name);
+  };
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
+  const handleCloseModal = () => {
+    setOpenModal(false);
   };
 
   //RENDERISA SEGUN QUE PIDE EL USER
@@ -108,21 +132,32 @@ function Home(props) {
               }}
             >
               <h3 className={classes.tabTitel}>COHORTES</h3>
-              {allCohortes.map((cohorte, index) => {
-                return (
-                  <Tab
-                    label={cohorte.name}
-                    onClick={() => saveCohorte(cohorte)}
-                  />
-                );
-              })}
+
+              {prueba === false ? (
+                <Tab label="No hay cohortes" />
+              ) : (
+                allCohortes.map((cohorte, index) => {
+                  return (
+                    <Tab
+                      label={cohorte.name}
+                      onClick={() => saveCohorte(cohorte)}
+                    />
+                  );
+                })
+              )}
             </Tabs>
           </Grid>
           <Grid xs={10} className={classes.cohorteRoot}>
             {allCohortes.length === 0 ? (
               <Cohorte users={allUsers} cohorte={false} />
             ) : (
-              <Cohorte users={allUsers} cohorte={allCohortes} />
+              <Cohorte
+                users={allUsers}
+                cohorte={allCohortes}
+                cohorteName={nameCohorte}
+                students={allStudents}
+                idCohorte={idCohorte}
+              />
             )}
           </Grid>
         </Grid>
@@ -145,94 +180,24 @@ function Home(props) {
                 }}
               >
                 <h3 className={classes.tabTitel}>INSTRUCTORES</h3>
-                {allUsers.map((alumno, index) => {
+                {instructoresList.map((alumno, index) => {
                   let nombreCompleto = `${alumno.name} ${alumno.lastName}`;
-                  return <Tab label={nombreCompleto} />;
+                  return (
+                    <Tab label={nombreCompleto} onClick={handleOpenModal} />
+                  );
                 })}
               </Tabs>
             </Grid>
             <Grid xs={10}>
-              {allUsers.map((alumno, index) => {
+              {instructoresList.map((alumno, index) => {
                 return (
                   <Fragment>
                     <TabPanel value={value} index={index + 1}>
-                      <Profile user={alumno} />
-                    </TabPanel>
-                  </Fragment>
-                );
-              })}
-            </Grid>
-          </Grid>
-        </Grid>
-      </div>
-    );
-  }
-  if (onSetSelect === "Pm´s") {
-    return (
-      <div>
-        <Grid container className={classes.gridContainer}>
-          <Grid xs={12} container className={classes.tabPanel}>
-            <Grid xs={2} className={classes.tabs}>
-              <Tabs
-                orientation="vertical"
-                variant="scrollable"
-                value={value}
-                onChange={handleChange}
-                classes={{
-                  indicator: classes.prueba,
-                }}
-              >
-                <h3 className={classes.tabTitel}>PM´S</h3>
-                {allUsers.map((alumno, index) => {
-                  let nombreCompleto = `${alumno.name} ${alumno.lastName}`;
-                  return <Tab label={nombreCompleto} />;
-                })}
-              </Tabs>
-            </Grid>
-            <Grid xs={10}>
-              {allUsers.map((alumno, index) => {
-                return (
-                  <Fragment>
-                    <TabPanel value={value} index={index + 1}>
-                      <Profile user={alumno} />
-                    </TabPanel>
-                  </Fragment>
-                );
-              })}
-            </Grid>
-          </Grid>
-        </Grid>
-      </div>
-    );
-  }
-  if (onSetSelect === "Alumnos") {
-    return (
-      <div>
-        <Grid container className={classes.gridContainer}>
-          <Grid xs={12} container className={classes.tabPanel}>
-            <Grid xs={2} className={classes.tabs}>
-              <Tabs
-                orientation="vertical"
-                variant="scrollable"
-                value={value}
-                onChange={handleChange}
-                classes={{
-                  indicator: classes.prueba,
-                }}
-              >
-                <h3 className={classes.tabTitel}>ALUMNOS</h3>
-                {allUsers.map((alumno, index) => {
-                  let nombreCompleto = `${alumno.name} ${alumno.lastName}`;
-                  return <Tab label={nombreCompleto} />;
-                })}
-              </Tabs>
-            </Grid>
-            <Grid xs={10}>
-              {allUsers.map((alumno, index) => {
-                return (
-                  <Fragment>
-                    <TabPanel value={value} index={index + 1}>
-                      <Profile user={alumno} />
+                      <Profile
+                        user={alumno}
+                        state={openModal}
+                        close={handleCloseModal}
+                      />
                     </TabPanel>
                   </Fragment>
                 );
@@ -257,7 +222,7 @@ function Home(props) {
   if (onSetSelect === "Noticias") {
     return (
       <div>
-        <Carrousel className={classes.gridContainer}/>
+        <Carrousel className={classes.gridContainer} />
       </div>
     );
   }
@@ -277,3 +242,4 @@ function Home(props) {
 }
 
 export default Home;
+
