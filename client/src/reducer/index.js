@@ -93,3 +93,4 @@ function registro(data){
 }
 
 export default reducer;
+

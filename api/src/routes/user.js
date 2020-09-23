@@ -21,6 +21,7 @@ server.get("/", (req, res, next) => {
 //Ruta para obtener los users q sean instructores
 server.get("/instructor", (req, res, next) => {
   User.findAll({
+    order: [["id", "ASC"]],
     where: {
       instructor: true
     }
@@ -231,20 +232,20 @@ server.put("/myprofile/:id", async (req, res, next) => {
         res.status(200)
         res.json(usuario)
       }).catch(err => next(err))
-});
+  });
 });
 
 server.put('/:id/passwordReset', (req, res, next) => {
   const { id } = req.params;
-  const { password } =req.body;
+  const { password } = req.body;
   //const salt = crypto.randomBytes(64).toString('hex') Va a servir cuando las rutas esten encryptadas
   //const password = crypto.pbkdf2Sync(req.body.password, salt, 10000, 64, 'sha512').toString('base64')
 
-User.findByPk(id)
+  User.findByPk(id)
     .then((user) => {
       if (user) {
         user.password = password
-  //      user.salt = salt
+        //      user.salt = salt
         return user.save()
       }
     }).then((user) => {
