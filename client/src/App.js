@@ -51,9 +51,12 @@ function App(props) {
       </Router>
       {isAutenticated() === false ? (
         <Route exact path="/login" component={Login} />
+        
       ) : (
         ""
       )}
+      
+       
     </div>
   );
 }
