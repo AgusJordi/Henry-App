@@ -32,6 +32,11 @@ function AlumnoComponent(props) {
     dispatch(getAllStudents());
   }, []);
 
+  let prueba = false;
+
+  if (allCohortes.length > 0) {
+    prueba = true;
+  }
   //busco el cohorte id del user
   // let cohorteUser = null;
   // if (user) {
@@ -113,10 +118,16 @@ function AlumnoComponent(props) {
               <em>None</em>
             </MenuItem>
             {/* MAPEAR LISTA DE cohortes Y DEVOLVER UN MENUITEM X CADA UNO */}
-            {allCohortes.map((cohorte) => {
-              let id = cohorte.id;
-              return <MenuItem value={id}>{cohorte.name}</MenuItem>;
-            })}
+            {prueba ? (
+              allCohortes.map((cohorte) => {
+                let id = cohorte.id;
+                return <MenuItem value={id}>{cohorte.name}</MenuItem>;
+              })
+            ) : (
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+            )}
           </Select>
         </TableCell>
         <TableCell>
@@ -131,10 +142,16 @@ function AlumnoComponent(props) {
               <em>None</em>
             </MenuItem>
             {/* MAPEAR LISTA DE cohortes Y DEVOLVER UN MENUITEM X CADA UNO */}
-            {allCohortes.map((cohorte) => {
-              let id = cohorte.id;
-              return <MenuItem value={id}>{cohorte.name}</MenuItem>;
-            })}
+            {prueba ? (
+              allCohortes.map((cohorte) => {
+                let id = cohorte.id;
+                return <MenuItem value={id}>{cohorte.name}</MenuItem>;
+              })
+            ) : (
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+            )}
           </Select>
         </TableCell>
         <TableCell>
@@ -149,10 +166,16 @@ function AlumnoComponent(props) {
               <em>None</em>
             </MenuItem>
             {/* MAPEAR LISTA DE cohortes Y DEVOLVER UN MENUITEM X CADA UNO */}
-            {allCohortes.map((cohorte) => {
-              let id = cohorte.id;
-              return <MenuItem value={id}>{cohorte.name}</MenuItem>;
-            })}
+            {prueba ? (
+              allCohortes.map((cohorte) => {
+                let id = cohorte.id;
+                return <MenuItem value={id}>{cohorte.name}</MenuItem>;
+              })
+            ) : (
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+            )}
           </Select>
         </TableCell>
         <TableCell align="center">

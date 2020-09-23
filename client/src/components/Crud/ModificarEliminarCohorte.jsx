@@ -18,8 +18,7 @@ const useStyles = makeStyles({
 function ModificarEliminarCohorte() {
   const classes = useStyles();
 
-
-  var allcohortes = useSelector(state => state.all_cohortes);
+  var allcohortes = useSelector((state) => state.all_cohortes);
   /* const [cohortes, setCohortes] = useState([]) */
 
   /* useEffect(() => {
@@ -30,8 +29,10 @@ function ModificarEliminarCohorte() {
       })
   }, [cohortes]) */
 
-
-
+  let prueba = false;
+  if (allcohortes.length > 0) {
+    prueba = true;
+  }
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="customized table">
@@ -44,17 +45,20 @@ function ModificarEliminarCohorte() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {allcohortes.map(ch => {
-            return (
-              <Fragment>
-                <CohorteComponente cohorte={ch} />
-              </Fragment>
-            )
-          })}
-
+          {prueba ? (
+            allcohortes.map((ch) => {
+              return (
+                <Fragment>
+                  <CohorteComponente cohorte={ch} />
+                </Fragment>
+              );
+            })
+          ) : (
+            <h1>no existen cohortes</h1>
+          )}
         </TableBody>
       </Table>
-    </TableContainer >
+    </TableContainer>
   );
 }
 
