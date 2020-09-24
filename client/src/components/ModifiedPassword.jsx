@@ -11,7 +11,7 @@ import { modifiedPassword, getIdUser } from "../actions";
 import { connect } from "react-redux";
 import Swal from "sweetalert2";
 
-function ModifiedPassword(getIdUser, id_user,props) {
+function ModifiedPassword(getIdUser, id_user, props) {
 console.log(props)
   function getModalStyle() {
     return {
@@ -25,9 +25,10 @@ console.log(props)
 
   const [open, setOpen] = React.useState(true);
 
+  
+  
   const handleClose = () => {
     setOpen(false);
-    props.show(false)
   };
 
   var idUser = localStorage.getItem("idUser");
