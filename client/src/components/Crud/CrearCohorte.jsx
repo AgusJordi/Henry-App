@@ -8,8 +8,10 @@ import { createCohorte, createUsersStudents } from "../../actions/index.js";
 import Chip from "./chip.jsx";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
+import { connect } from "react-redux";
 
 function CrearCohorte(props) {
+ 
   const [input, setInput] = useState({
     cohorte: "",
     instructorId: "",
@@ -59,6 +61,7 @@ function CrearCohorte(props) {
   return (
     <div>
       <div>
+        {console.log(props.instructores)}
         <form onSubmit={handleCreateCohorte}>
           <div>
             <TextField
@@ -107,7 +110,7 @@ function CrearCohorte(props) {
                 }}
               >
                 <option aria-label="None" value="" />
-                {props.instructores.map((instructor) => (
+                {props.all_instructors.map((instructor) => (
                   <option value={instructor.id}>
                     {instructor.name + " " + instructor.lastName}
                   </option>
@@ -155,4 +158,11 @@ function CrearCohorte(props) {
     </div>
   );
 }
-export default CrearCohorte;
+
+const mapStateToProps = (state) => {
+  return {
+    all_instructors: state.all_instructors,
+  };
+};
+
+export default connect(mapStateToProps)(CrearCohorte);

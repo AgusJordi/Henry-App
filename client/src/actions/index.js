@@ -11,8 +11,12 @@ export const CREATE_USERS_STUDENTS = "CREATE_USERS_STUDENTS";
 export const GET_ALL_INSTRUCTORS = "GET_ALL_INSTRUCTORS"; 
 export const USER_REGISTER = "USER_REGISTER";
 export const USER_REGISTER_ERROR = "USER_REGISTER_ERROR"; 
-export const GET_ALL_STUDENTS = "GET_ALL_STUDENTS";
+export const GET_ALL_STUDENTS = "GET_ALL_STUDENTS"; 
 export const MODIFIED_USER = "MODIFIED_USER";
+export const GET_ALL_PMS = "GET_ALL_PMS";
+export const GET_ALUMNOS_FROM_COHORTE = "GET_ALUMNOS_FROM_COHORTE";
+
+
  
 
 export function userLogIn(body) {
@@ -113,6 +117,19 @@ export function getAllInstructors() {
   };
 }
 
+export function getAllPms() {
+  return function (dispatch) {
+    return axios
+      .get("http://localhost:4000/users/pms")
+      .then((result) => result.data)
+      .then((data) => {
+        dispatch({
+          type: GET_ALL_PMS,
+          payload: data,
+        });
+      });
+  };
+}
 
 export function modifiedUser (id, data) {
   
@@ -210,3 +227,16 @@ export function getAllStudents() {
   };
 }
 
+export function getAlumnosFromCohorte(id) {
+  return function (dispatch) {
+    return axios
+      .get(`http://localhost:4000/students/cohorte/${id}`)
+      .then((result) => result.data)
+      .then((data) => {
+        dispatch({
+          type: GET_ALUMNOS_FROM_COHORTE,
+          payload: data,
+        });
+      });
+  };
+}
