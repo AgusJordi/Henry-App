@@ -11,7 +11,6 @@ import Select from "@material-ui/core/Select";
 import { connect } from "react-redux";
 
 function CrearCohorte(props) {
- 
   const [input, setInput] = useState({
     cohorte: "",
     instructorId: "",
@@ -39,7 +38,7 @@ function CrearCohorte(props) {
       [e.target.name]: e.target.value
     });*/
     e.preventDefault(); //A TENER EN CUENTA
-    console.log(emails, input, "ACA ESTOY EN COMPONENTE");
+
     createCohorte(input, emails);
     setInputB(inputB);
     swal({
@@ -61,7 +60,6 @@ function CrearCohorte(props) {
   return (
     <div>
       <div>
-        {console.log(props.instructores)}
         <form onSubmit={handleCreateCohorte}>
           <div>
             <TextField

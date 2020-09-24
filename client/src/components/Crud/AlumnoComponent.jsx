@@ -19,50 +19,38 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
-
-import { getAllCohortes, getAllStudents } from "../../actions/index";
+import { getStudentFromUserId } from "../../actions/index";
 function AlumnoComponent(props) {
+  const { user, cohortes } = props;
+
   const dispatch = useDispatch();
-  const allCohortes = useSelector((state) => state.all_cohortes);
-  const allStudents = useSelector((state) => state.all_students);
-  const { user } = props;
+  const studentFromUserId = useSelector((state) => state.student_from_userId);
+  useEffect(() => {
+    dispatch(getStudentFromUserId(user.id));
+  }, []);
+  // console.log("pla", user.id, studentFromUserId);
+  const prueba = cohortes.length > 0;
+  const myPioliStudent = studentFromUserId[user.id];
 
   useEffect(() => {
-    dispatch(getAllCohortes());
-    dispatch(getAllStudents());
-  }, []);
-  //previene que explote si no hay
-  let prueba = false;
-
-  if (allCohortes.length > 0) {
-    prueba = true;
-  }
+    // Aca seteamo lo que faltaba en el estado
+    // setInput()
+  }, [myPioliStudent]);
+  console.log(user.id, myPioliStudent);
   // busco el cohorte id del user
-  let cohorteUser = null;
-  if (user.length > 0) {
-    allStudents.map((student) => {
-      if (student.id === user.id) {
-        allCohortes.map((cohorte) => {
-          if (student.cohorteId === cohorte.id) {
-            cohorteUser = cohorte.name;
-          }
-        });
-      }
-    });
-  }
 
   const [input, setInput] = useState({
-    name: `${user.name}`,
-    lastName: `${user.lastName}`,
-    email: `${user.email}`,
-    cohorte: `${cohorteUser}`,
+    name: user.name,
+    lastName: user.lastName,
+    email: user.email,
+    cohorte: ``,
     group: ``,
     pairProgramming: ``,
-    pm: `${user.pm}`,
-    instructor: `${user.instructor}`,
-    student: `${user.student}`,
+    pm: user.pm,
+    instructor: user.instructor,
+    student: user.student,
   });
-  console.log("desde arafue", input.cohorte);
+
   const handleInputChange = function (e) {
     setInput({
       ...input,
@@ -70,8 +58,7 @@ function AlumnoComponent(props) {
     });
   };
   const handleSelectChange = (e) => {
-    cohorteUser = e.target.value;
-    console.log(cohorteUser, e.target.value);
+    console.log("cambie desdes function");
   };
   const handleSwitchChange = function (e) {
     setInput({
@@ -103,9 +90,7 @@ function AlumnoComponent(props) {
       <TableRow key={user.id}>
         <TableCell align="center">{user.email}</TableCell>
         <TableCell>
-          <InputLabel id="demo-controlled-open-select-label">
-            {input.cohorte}
-          </InputLabel>
+          <InputLabel id="demo-controlled-open-select-label">sarasa</InputLabel>
           <Select
             labelId="selectCohorte"
             id="selectCohorteOp"
@@ -118,7 +103,7 @@ function AlumnoComponent(props) {
             </MenuItem>
             {/* MAPEAR LISTA DE cohortes Y DEVOLVER UN MENUITEM X CADA UNO */}
             {prueba ? (
-              allCohortes.map((cohorte) => {
+              cohortes.map((cohorte) => {
                 let id = cohorte.id;
                 return (
                   <MenuItem value={id} key={id}>

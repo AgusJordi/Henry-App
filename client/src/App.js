@@ -6,7 +6,15 @@ import Navbar from "./components/Navbar.jsx";
 import Profile from "./components/Profile.jsx";
 import EditProfile from "./components/EditProfile.jsx";
 import ModalUsers from "./components/modalUsers.jsx";
-import { getIdUser, getAllUsers, getAllPms, getAllInstructors,  getAllCohortes,  getAllStudents, } from "./actions";
+import {
+  getIdUser,
+  getAllUsers,
+  getAllPms,
+  getAllInstructors,
+  getAllCohortes,
+  getAllStudents,
+  getStudentFromUserId,
+} from "./actions";
 import {
   BrowserRouter as Router,
   Switch,
@@ -32,7 +40,7 @@ function App(props) {
     props.getAllUsers();
     props.getAllPms();
     props.getAllInstructors();
-    props.getAllCohortes()
+    props.getAllCohortes();
     props.getAllStudents();
   }, []);
 
@@ -55,12 +63,9 @@ function App(props) {
       </Router>
       {isAutenticated() === false ? (
         <Route exact path="/login" component={Login} />
-        
       ) : (
         ""
       )}
-      
-       
     </div>
   );
 }

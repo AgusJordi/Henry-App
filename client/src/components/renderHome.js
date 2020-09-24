@@ -38,7 +38,7 @@ function Home(props) {
   //   dispatch(getAllStudents());
   // }, []);
   //LOS DISPATCHS SE HACEN DESDE APP AHORA
-  console.log(allUsers);
+
   let prueba = false;
   if (allCohortes.length > 0) {
     prueba = true;
@@ -223,7 +223,6 @@ function Home(props) {
       <div>
         <Grid container className={classes.gridContainer}>
           <Grid xs={12} container className={classes.tabPanel}>
-            {console.log(allInstructors)}
             <AreaAdmin instructores={allInstructors} pms={allPms} />
           </Grid>
         </Grid>

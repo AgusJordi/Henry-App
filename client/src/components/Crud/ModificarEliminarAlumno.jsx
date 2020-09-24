@@ -9,8 +9,6 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 //ver de eliminar
-import ButtonGroup from "@material-ui/core/ButtonGroup";
-import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -18,16 +16,39 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 // importo componente alumno
 import AlumnoComponent from "./AlumnoComponent";
+//buttons
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+import Button from "@material-ui/core/Button";
+import Box from "@material-ui/core/Box";
 
-const useStyles = makeStyles({
+//style
+const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 650,
   },
-});
+  boxButtons: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  rootButton: {
+    paddingLeft: 15,
+    width: 340,
+    display: "flex",
+    justifyContent: "center",
+  },
+  setTableRowButton: {
+    display: "flex",
+  },
+  prueba: {
+    width: 250,
+  },
+}));
 
 function ModificarEliminarAlumno() {
   const allUsers = useSelector((state) => state.all_users);
-
+  const allCohortes = useSelector((state) => state.all_cohortes);
+  const allStudents = useSelector((state) => state.all_students);
   //manejo estado de dialog
   //resteo de array vacio
   let arrayClear = false;
@@ -41,8 +62,41 @@ function ModificarEliminarAlumno() {
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
+          <TableRow className={classes.setTableRowButton}>
+            <Box className={classes.boxButtons} fullWidth component={"div"}>
+              <Box align="center">
+                Filtrar por:
+                <ButtonGroup
+                  disableElevation
+                  variant="contained"
+                  color="primary"
+                  className={classes.rootButton}
+                >
+                  <Button>Cohorte</Button>
+                  <Button>Grupo</Button>
+                  <Button>Pair Programing</Button>
+                </ButtonGroup>
+              </Box>
+            </Box>
+            <Box className={classes.boxButtons} fullWidth component={"div"}>
+              <Box align="center">
+                Filtrar por estado:
+                <ButtonGroup
+                  disableElevation
+                  variant="contained"
+                  color="primary"
+                  className={classes.rootButton}
+                >
+                  <Button>Habilitados</Button>
+                  <Button>Inhabilitados</Button>
+                </ButtonGroup>
+              </Box>
+            </Box>
+          </TableRow>
           <TableRow>
-            <TableCell align="center">Email</TableCell>
+            <TableCell align="center" className={classes.prueba}>
+              Email
+            </TableCell>
             <TableCell align="center">Cohorte</TableCell>
             <TableCell align="center">Grupo</TableCell>
             <TableCell align="center">Pair Programming</TableCell>
@@ -58,19 +112,15 @@ function ModificarEliminarAlumno() {
           {arrayClear ? (
             allUsers.map((user) => {
               return (
-                <Fragment>
-                  <AlumnoComponent
-                    user={user}
-                    key={user.id}
-                    // open={open}
-                    // closeFunc={handleClose}
-                    // openFunc={handleOpen}
-                  />
-                </Fragment>
+                <AlumnoComponent
+                  user={user}
+                  key={user.id}
+                  cohortes={allCohortes}
+                />
               );
             })
           ) : (
-            <h1>no existes users</h1>
+            <h1>no existen users</h1>
           )}
           {/*Aca se debe cerrar el  map)}}*/}
         </TableBody>

@@ -35,7 +35,6 @@ function CohorteComponente(props) {
     instructor: cohorte.instructor,
     DateA: cohorte.date,
   });
-
   const allinstructors = useSelector((state) => state.all_instructors);
 
   const [open, setOpen] = useState(false);

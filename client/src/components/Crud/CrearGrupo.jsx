@@ -44,7 +44,7 @@ export function CrearGrupo(props) {
   }, [input.cohorteId]);
   // const handleCreateGrupo = function (e) {
   //     e.preventDefault(); //A TENER EN CUENTA
-  //     console.log(emails, input, "ACA ESTOY EN COMPONENTE");
+
   //     createCohorte(input, emails);
   //     setInputB(inputB);
   //     swal({
@@ -86,7 +86,6 @@ export function CrearGrupo(props) {
         // onSubmit={handleCreateGrupo}
         >
           <div>
-            {console.log(props.students_from_cohorte)}
             <ModalUsersCheckbox
               users={props.students_from_cohorte}
               state={openModal}
