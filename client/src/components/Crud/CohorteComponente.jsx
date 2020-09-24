@@ -39,6 +39,13 @@ function CohorteComponente(props) {
 
     const allinstructors = useSelector(state => state.all_instructors);
 
+    /*     allinstructors.forEach(inst => {
+            if (inst === null) {
+    
+            }
+            
+        }); */
+
     const [open, setOpen] = useState(false);
 
 
@@ -69,6 +76,7 @@ function CohorteComponente(props) {
         });
         setOpen(false)
     }
+
 
     return (
         <TableRow key={cohorte.id}>
@@ -126,7 +134,7 @@ function CohorteComponente(props) {
                                     }}
                                 >
                                     <option aria-label="None" value="" />
-                                    {allinstructors.map((instructor) => (
+                                    {allinstructors && allinstructors.map((instructor) => (
                                         <option value={instructor.id}>
                                             {instructor.name + " " + instructor.lastName}
                                         </option>
