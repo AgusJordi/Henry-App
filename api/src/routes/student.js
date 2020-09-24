@@ -128,4 +128,28 @@ server.delete('/delete/:id', (req, res, next) => {
   })
 })
 
+//consultar info de student por userId (cohorte-name y grupo-name)
+server.get("/info/:id", (req, res) => {
+  Student.findOne({
+    where: {
+      userId: req.params.id,
+    },
+    include: [
+      {
+        model: Cohorte, attributes: ["name"]
+      },
+      {
+        model: Group, attributes: ["name"]
+      },
+    ],
+  })
+    .then((students) => {
+      res.status(200).json(students);
+    })
+    .catch(function (err) {
+      res
+        .status(404)
+        .json({ message: "No se obtuvieron los alumnos", data: err });
+    });
+});
 module.exports = server;
