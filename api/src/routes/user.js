@@ -255,6 +255,22 @@ server.put('/passwordReset', (req, res, next) => {
     }).catch(err => next(err))
 })
 
+// PASWORD RESET POR EMAIL
+server.put('/passwordResetEmail', (req, res, next) => { 
+  const { email, password } = req.body;
+  console.log(req.body)  
+
+  User.findOne({ where: { email: email } })
+    .then((user) => {
+      if (user) {
+        user.password = password        
+        return user.save()
+      }
+    }).then((user) => {
+      res.status(200).send(user);
+    }).catch(err => next(err))
+})
+
 
 //SOLICITAR NUEVA CLAVE POR PERDIDA
 server.put('/passwordReques', (req, res, next) => {
