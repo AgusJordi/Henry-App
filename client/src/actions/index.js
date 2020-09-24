@@ -13,6 +13,7 @@ export const USER_REGISTER = "USER_REGISTER";
 export const USER_REGISTER_ERROR = "USER_REGISTER_ERROR"; 
 export const GET_ALL_STUDENTS = "GET_ALL_STUDENTS";
 export const MODIFIED_USER = "MODIFIED_USER";
+export const PASWORD_RESET_EMAIL = 'PASWORD_RESET_EMAIL'
  
 
 export function userLogIn(body) {
@@ -143,6 +144,23 @@ export function modifiedPassword(id, data) {
     data: data
   });
 }
+
+export function passwordResetEmail (body) {  
+  console.log(body, "SOY UNA EL BODYYY PASWORD")  
+  return function(dispatch) {
+    return axios.put(`http://localhost:4000/users/passwordResetEmail`, body )
+      .then(result => result.data)
+      .then(data => {
+        dispatch({
+          type: PASWORD_RESET_EMAIL,
+          payload: body  
+        })
+        console.log("QUE trae el data", data)
+      })
+  }
+}
+
+
 
  
 export function userRegister (body) {
