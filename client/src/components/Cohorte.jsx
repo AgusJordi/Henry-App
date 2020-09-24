@@ -29,7 +29,7 @@ function Cohorte(props) {
   const cohortePms = [];
   const studentsPendientes = [];
 
-  if (students) {
+  if (students.length > 0) {
     students.map((student) => {
       if (student.user === null) {
         return studentsPendientes.push(student);
