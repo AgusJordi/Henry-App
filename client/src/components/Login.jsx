@@ -12,6 +12,7 @@ import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
+import axios from "axios";
 
 
  
@@ -330,11 +331,54 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegist
   const handleClose = () => {
     setOpen(false);
   };
+
+
+
+  var emailPW = function(){
+  Swal.fire({
+    title: 'Ingresa tu email',
+    input: 'email',
+    inputAttributes: {
+      autocapitalize: 'off'
+    },
+    showCancelButton: true,
+    confirmButtonText: 'Enviar',
+    cancelButtonText: 'Cancelar',
+    cancelButtonColor: false,     
+    preConfirm: (email) => {
+     const emailReq =  {"email": email}      
+    
+      return axios.put(`http://localhost:4000/users/passwordReques`, emailReq )
+        .then(response => {
+          console.log('El Response',response)
+          if (!response.data) {
+            throw new Error(response.email)
+          }
+          return response.email
+        })
+        .catch(error => {
+          Swal.showValidationMessage(
+            `Ups! NO encontramos el email`
+          )
+        })
+    },
+    allowOutsideClick: () => !Swal.isLoading()
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire({
+        title: `Listo!`,
+        text: 'Ya te enviamos la clave, revisa tu correo y segui las instrucciones',
+        imageUrl: 'https://www.soyhenry.com/static/rocket-176b443ed273a2a5a6f5cb11d6d33605.png'
+      })
+    }
+  })  
+}
+
+
+
    
   return (
 
-    
-    
     <Grid container component="main" className={classes.root}>
 
 
@@ -542,7 +586,7 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegist
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link href="#" onClick={emailPW} variant="body2">
                   Olvidaste tu contraseña?
                 </Link>
               </Grid>

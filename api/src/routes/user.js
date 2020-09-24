@@ -265,8 +265,9 @@ server.put('/passwordReques', (req, res, next) => {
   User.findOne({ where: { email: email } })
     .then((user) => {
       if (user) {
-        user.password = 'XZ$563!23*/&l%sBV78'
-        //mailerPW.enviar_mail_req_pass()
+        var passEnvio = 'XY4BP1Z6'
+        user.password = passEnvio 
+        mailerPW.enviar_mail_req_pass(passEnvio, user.name, email)
        console.log('OBJETO de USERRRRR',user)
         
         return user.save()
