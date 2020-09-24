@@ -38,12 +38,12 @@ function Home(props) {
   //   dispatch(getAllStudents());
   // }, []);
   //LOS DISPATCHS SE HACEN DESDE APP AHORA
-  
+  console.log(allUsers);
   let prueba = false;
   if (allCohortes.length > 0) {
     prueba = true;
   }
-  if (allUsers) {
+  if (allUsers.length > 0) {
     allUsers.map((alumno) => {
       if (alumno.instructor === true) {
         instructoresList.push(alumno);
@@ -102,12 +102,14 @@ function Home(props) {
   const [value, setValue] = useState(0);
   const [idCohorte, setIdCohorte] = useState();
   const [nameCohorte, setNameCohorte] = useState();
+  const [instr, setInstru] = useState();
   const [openModal, setOpenModal] = useState(false);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
   const saveCohorte = (value) => {
+    setInstru(value.instructor.name);
     setIdCohorte(value.id);
     setNameCohorte(value.name);
   };
@@ -160,6 +162,7 @@ function Home(props) {
                 cohorteName={nameCohorte}
                 students={allStudents}
                 idCohorte={idCohorte}
+                instructor={instr}
               />
             )}
           </Grid>
@@ -183,12 +186,16 @@ function Home(props) {
                 }}
               >
                 <h3 className={classes.tabTitel}>INSTRUCTORES</h3>
-                {instructoresList.map((alumno, index) => {
-                  let nombreCompleto = `${alumno.name} ${alumno.lastName}`;
-                  return (
-                    <Tab label={nombreCompleto} onClick={handleOpenModal} />
-                  );
-                })}
+                {instructoresList.length === 0 ? (
+                  <Tab label="No hay instructores" />
+                ) : (
+                  instructoresList.map((alumno, index) => {
+                    let nombreCompleto = `${alumno.name} ${alumno.lastName}`;
+                    return (
+                      <Tab label={nombreCompleto} onClick={handleOpenModal} />
+                    );
+                  })
+                )}
               </Tabs>
             </Grid>
             <Grid xs={10}>
@@ -246,4 +253,3 @@ function Home(props) {
 }
 
 export default Home;
-

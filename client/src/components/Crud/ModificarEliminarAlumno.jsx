@@ -29,7 +29,12 @@ function ModificarEliminarAlumno() {
   const allUsers = useSelector((state) => state.all_users);
 
   //manejo estado de dialog
+  //resteo de array vacio
+  let arrayClear = false;
 
+  if (allUsers.length > 0) {
+    arrayClear = true;
+  }
   const classes = useStyles();
 
   return (
@@ -49,18 +54,24 @@ function ModificarEliminarAlumno() {
           {props.categorias.categorias.map((row) => (
             <TableRow key={row.name}>
           */}
-          {allUsers.map((user) => {
-            return (
-              <Fragment>
-                <AlumnoComponent
-                  user={user}
-                  // open={open}
-                  // closeFunc={handleClose}
-                  // openFunc={handleOpen}
-                />
-              </Fragment>
-            );
-          })}
+
+          {arrayClear ? (
+            allUsers.map((user) => {
+              return (
+                <Fragment>
+                  <AlumnoComponent
+                    user={user}
+                    key={user.id}
+                    // open={open}
+                    // closeFunc={handleClose}
+                    // openFunc={handleOpen}
+                  />
+                </Fragment>
+              );
+            })
+          ) : (
+            <h1>no existes users</h1>
+          )}
           {/*Aca se debe cerrar el  map)}}*/}
         </TableBody>
       </Table>
