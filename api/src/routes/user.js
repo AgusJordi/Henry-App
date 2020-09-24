@@ -1,6 +1,7 @@
 const server = require("express").Router();
 //const bcrypt = require("bcryptjs");
 const mailer = require("../../templates/Registro.js")
+const mailerPW = require("../../templates/RequestPassword.js")
 
 const { User, Student, Cohorte } = require("../db.js");
 
@@ -247,6 +248,27 @@ server.put('/passwordReset', (req, res, next) => {
       if (user) {
         user.password = password
         //      user.salt = salt
+        return user.save()
+      }
+    }).then((user) => {
+      res.status(200).send(user);
+    }).catch(err => next(err))
+})
+
+
+//SOLICITAR NUEVA CLAVE POR PERDIDA
+server.put('/passwordReques', (req, res, next) => {
+   
+  const { email } = req.body;
+  console.log('EL EMAILLLL ',email)
+  
+  User.findOne({ where: { email: email } })
+    .then((user) => {
+      if (user) {
+        user.password = 'XZ$563!23*/&l%sBV78'
+        //mailerPW.enviar_mail_req_pass()
+       console.log('OBJETO de USERRRRR',user)
+        
         return user.save()
       }
     }).then((user) => {
