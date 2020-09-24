@@ -142,9 +142,9 @@ export function modifiedUser(id,data) {
   });
 }
 
-export function modifiedPassword(id, data) {
-  console.log(data, "SOY UNA DAAAAAAAAAAAAATA")
-  var url = `http://localhost:4000/users/${id}/passwordReset`;
+export function modifiedPassword(id,data) {
+  console.log(data, "QUE SOY")
+  var url = `http://localhost:4000/users/passwordReset`;
   axios({
     method: "put",
     url: url,
@@ -152,8 +152,9 @@ export function modifiedPassword(id, data) {
       "Content-Type": "application/json",
     },
     data: data
-  });
-}
+  })
+ }
+
 
  
 export function userRegister (body) {
