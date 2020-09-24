@@ -100,12 +100,20 @@ export default  function ModalUsersCheckbox(props) {
         setInput(inputValue);
     };
 
+    // const [checked, setChecked] = React.useState(false);
     const handleChange = (e) =>{
-  
+        // setChecked(e.target.checked);
+        // if(e.target.checked)
+        // console.log("checkbox en true")
+        // else console.log ("checkbox en false")
+        if(alumnosGrupo.includes(e.target.value)){
+            var filtrados = alumnosGrupo.filter ((alumno)=> alumno !== e.target.value)
+            setAlumnosGrupo(filtrados)
+        }
+        else setAlumnosGrupo(oldAlumnos => [...oldAlumnos, e.target.value])
 
-            setAlumnosGrupo(oldAlumnos => [...oldAlumnos, e.target.value])
-     
     }
+
 
   //filtra cada vez que cambia el input.value
     useEffect(() => {
@@ -138,9 +146,11 @@ export default  function ModalUsersCheckbox(props) {
                 {user.user.name + " " + user.user.lastName}
             </h3>
             <Checkbox 
-                inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} 
+                inputProps={{ 'aria-label': 'secondary checkbox' }} 
                 onChange={(e)=>handleChange(e)}
                 value={user.user.email}
+                // checked={checked}
+                // checked={handleChecked}
             />
             </div>
         );
@@ -154,9 +164,11 @@ export default  function ModalUsersCheckbox(props) {
                     {user.user.email}
                 </h3>
                 <Checkbox 
-                    inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} 
+                    inputProps={{ 'aria-label': 'secondary checkbox' }} 
                     onChange={(e)=>handleChange(e)}
                     value={user.user.email}
+                    // checked={checked}
+                    // checked={handleChecked}
                 />
                 </div>
             );
