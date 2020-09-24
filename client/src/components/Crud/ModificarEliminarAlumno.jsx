@@ -54,6 +54,7 @@ function ModificarEliminarAlumno() {
               <Fragment>
                 <AlumnoComponent
                   user={user}
+                  key={user.id}
                   // open={open}
                   // closeFunc={handleClose}
                   // openFunc={handleOpen}
