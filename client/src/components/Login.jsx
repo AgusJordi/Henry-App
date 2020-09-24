@@ -12,13 +12,13 @@ import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
+import axios from "axios";
 
 
  
 import Modal from "@material-ui/core/Modal";
 import { useFormik, Formik, Form, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
-import { sizing } from "@material-ui/system";
 
 //npm install axios
 //npm install router
@@ -28,7 +28,7 @@ import { sizing } from "@material-ui/system";
 import { NavLink, Redirect, Route, useHistory } from "react-router-dom";
 import { useEffect } from "react";
 import { connect } from "react-redux";
-import { getAllUsers, userLogIn, onlineUserError, userRegister, userRegisterError, modifiedPassword } from "../actions";
+import { getAllUsers, userLogIn, onlineUserError, userRegister, userRegisterError, modifiedPassword, passwordResetEmail } from "../actions";
 import portada from "../images/welcome.png";
 //import Register from "./Register";
 import Swal from "sweetalert2";
@@ -80,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegister, register, userRegisterError }) {
+function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegister, register, userRegisterError, passwordResetEmail }) {
   ////INICIO del del coomponente
 
   useEffect(() => {
@@ -90,9 +90,9 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegist
 
 
   ////////////////////////////////////DEL MODAL/////////////////////////////////////
+ 
 
-   
-
+ 
   function getModalStyle() {
     return {
       display: "flex",
@@ -159,7 +159,6 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegist
    
   //////// VALIDACION DEL REGISTRO CON FORMIK ////
    
-   
   const formik = useFormik({
     initialValues:{
       firstNameR: '',
@@ -197,13 +196,9 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegist
     },
   })
 
-  
-
-
-  console.log('El REGISTERRRRR ', global.datos)
-  console.log('El EStado USERRR ', onlineUser)
-
-   
+  // console.log('El REGISTERRRRR ', global.datos)
+  // console.log('El EStado USERRR ', onlineUser)
+ 
   if(register === 'null'){
      
     Swal.fire({
@@ -273,15 +268,13 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegist
       localStorage.setItem("lastName", onlineUser.lastName);
       localStorage.setItem("username", onlineUser.name);              
       userRegisterError();
-      //window.location = "./home";
+      window.location = "./home";
     })
     
     
 
   }
  
-  
-
   ////////////// End del Modal ///////////
 
   const classes = useStyles();
@@ -297,11 +290,67 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegist
   const [open, setOpen] = useState(false);
   
 
-  const handleSubmit = (e) => {
-    e.preventDefault();    
+  const handleSubmit = (e) => {//////INICIAR SESION
+    e.preventDefault();  
+    if(input.password === 'XY4BP1Z6') return cambioPassword(input.email) 
     userLogIn(input);
 
   };
+
+
+  const cambioPassword = function(emailChangePass){
+    Swal.mixin({
+      input: 'password',
+      confirmButtonText: 'Siguiente &rarr;',
+      showCancelButton: true,
+      progressSteps: ['1', '2'],
+      inputValidator: (value) => {
+        return !value && 'Los campos no pueden estar vacios!'
+      },
+    }).queue([
+      {
+        title: 'Ingresa tu nueva clave ',
+        text: 'Luego inicia sesion con ella'
+      },
+      'Repeti la clave'
+       
+    ]).then((result) => {
+      if (result.value[0] == result.value[1]) {
+        const answers = JSON.stringify(result.value)
+
+      const data = {
+          email: emailChangePass,
+          password: result.value[0]
+        }
+
+        global.dataPE = data
+        passwordResetEmail(data)
+
+        Swal.fire({ 
+          icon: 'success',          
+          title: 'Pasword actualizado con exito!',
+          html: `
+            Ya podes iniciar sesion
+          `,          
+          confirmButtonText: 'Ok!'
+        })
+
+
+
+         console.log(result.value[0], result.value[1])
+         
+      }else{
+        Swal.fire({  
+          icon: 'warning',         
+          title: 'Ups! las claves no coinciden',                 
+          confirmButtonText: 'Ok!'
+        })
+      }
+    })
+  }
+
+
+
   if (onlineUser !== false && onlineUser !== 0) {
     
 
@@ -321,8 +370,6 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegist
     onlineUserError();
   }
 
-  
-
   const handleOpen = () => {
     setOpen(true);
   };
@@ -330,11 +377,91 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegist
   const handleClose = () => {
     setOpen(false);
   };
+
+///////////////////////// RECUPERO DE EMAIL ///////////
+  var emailPW = function(){
+  Swal.fire({
+    title: 'Ingresa tu email',
+    input: 'email',
+    inputAttributes: {
+      autocapitalize: 'off'
+    },
+    showCancelButton: true,
+    confirmButtonText: 'Enviar',
+    cancelButtonText: 'Cancelar',
+    cancelButtonColor: false,     
+    preConfirm: (emailPASS) => {
+     const emailReq =  {"email": emailPASS}      
+    
+      return axios.put(`http://localhost:4000/users/passwordReques`, emailReq )
+        .then(response => {
+          console.log('El Response',response)
+          if (!response.data) {
+            throw new Error(response.email)
+          }
+          return response.email
+        })
+        .catch(error => {
+          Swal.showValidationMessage(
+            `Ups! NO encontramos el email`
+          )
+        })
+    },
+    allowOutsideClick: () => !Swal.isLoading()
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire({
+        title: `Listo!`,
+        text: 'Ya te enviamos la clave, revisa tu correo y segui las instrucciones',
+        imageUrl: 'https://www.soyhenry.com/static/rocket-176b443ed273a2a5a6f5cb11d6d33605.png'
+      })
+    }
+  })  
+}
    
+
+  var emailPW = function(){
+  Swal.fire({
+    title: 'Ingresa tu email',
+    input: 'email',
+    inputAttributes: {
+      autocapitalize: 'off'
+    },
+    showCancelButton: true,
+    confirmButtonText: 'Enviar',
+    cancelButtonText: 'Cancelar',
+    cancelButtonColor: false,     
+    preConfirm: (email) => {
+     const emailReq =  {"email": email}      
+    
+      return axios.put(`http://localhost:4000/users/passwordReques`, emailReq )
+        .then(response => {
+          console.log('El Response',response)
+          if (!response.data) {
+            throw new Error(response.email)
+          }
+          return response.email
+        })
+        .catch(error => {
+          Swal.showValidationMessage(
+            `Ups! NO encontramos el email`
+          )
+        })
+    },
+    allowOutsideClick: () => !Swal.isLoading()
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire({
+        title: `Listo!`,
+        text: 'Ya te enviamos la clave, revisa tu correo y segui las instrucciones',
+        imageUrl: 'https://www.soyhenry.com/static/rocket-176b443ed273a2a5a6f5cb11d6d33605.png'
+      })
+    }
+  })  
+}
+
   return (
 
-    
-    
     <Grid container component="main" className={classes.root}>
 
 
@@ -507,6 +634,7 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegist
           </Typography>
           <form onSubmit={handleSubmit} className={classes.form} noValidate>
             <TextField
+              type='email'
               variant="outlined"
               margin="normal"
               required
@@ -542,7 +670,7 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegist
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link href="#" onClick={emailPW} variant="body2">
                   Olvidaste tu contraseña?
                 </Link>
               </Grid>
@@ -573,7 +701,8 @@ const mapDispatchToProps = (dispatch) => {
     userRegisterError: () => dispatch(userRegisterError()),
     getAllUsers: (number) => dispatch(getAllUsers(589)),
     userLogIn: (input) => dispatch(userLogIn(!input ? input  = global.datos : input)),
-    onlineUserError: () => dispatch(onlineUserError())
+    onlineUserError: () => dispatch(onlineUserError()),
+    passwordResetEmail: (dataPE) => dispatch(passwordResetEmail(global.dataPE)),
     
     
     
