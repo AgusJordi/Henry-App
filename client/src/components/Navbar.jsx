@@ -132,7 +132,7 @@ function Navbar({ onlineUser, userLogIn, getIdUser, id_user }) {
           <span style={{ marginLeft: "10px" }}>
             <large>
               {" "}
-              Hola! <b>{lsName}</b>
+              Hola! <b>{id_user.name}</b>
             </large>
           </span>
         </Button>

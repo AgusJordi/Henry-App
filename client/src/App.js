@@ -6,7 +6,7 @@ import Navbar from "./components/Navbar.jsx";
 import Profile from "./components/Profile.jsx";
 import EditProfile from "./components/EditProfile.jsx";
 import ModalUsers from "./components/modalUsers.jsx";
-import { getIdUser, getAllUsers } from "./actions";
+import { getIdUser, getAllUsers, getAllPms, getAllInstructors,  getAllCohortes,  getAllStudents, } from "./actions";
 import {
   BrowserRouter as Router,
   Switch,
@@ -30,6 +30,10 @@ function App(props) {
   useEffect(() => {
     props.getIdUser(idUser);
     props.getAllUsers();
+    props.getAllPms();
+    props.getAllInstructors();
+    props.getAllCohortes()
+    props.getAllStudents();
   }, []);
 
   const PvRoute = (props) =>
@@ -65,6 +69,10 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getIdUser: (idUser) => dispatch(getIdUser(idUser)),
     getAllUsers: () => dispatch(getAllUsers()),
+    getAllPms: () => dispatch(getAllPms()),
+    getAllInstructors: () => dispatch(getAllInstructors()),
+    getAllStudents: () => dispatch(getAllStudents()),
+    getAllCohortes: () => dispatch(getAllCohortes()),
   };
 };
 
