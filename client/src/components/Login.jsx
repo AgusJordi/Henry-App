@@ -90,6 +90,9 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegist
 
 
   ////////////////////////////////////DEL MODAL/////////////////////////////////////
+ 
+
+ 
   function getModalStyle() {
     return {
       display: "flex",
@@ -156,7 +159,6 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegist
    
   //////// VALIDACION DEL REGISTRO CON FORMIK ////
    
-   
   const formik = useFormik({
     initialValues:{
       firstNameR: '',
@@ -194,10 +196,9 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegist
     },
   })
 
-  console.log('El REGISTERRRRR ', global.datos)
-  console.log('El EStado USERRR ', onlineUser)
-
-   
+  // console.log('El REGISTERRRRR ', global.datos)
+  // console.log('El EStado USERRR ', onlineUser)
+ 
   if(register === 'null'){
      
     Swal.fire({
@@ -267,15 +268,13 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegist
       localStorage.setItem("lastName", onlineUser.lastName);
       localStorage.setItem("username", onlineUser.name);              
       userRegisterError();
-      //window.location = "./home";
+      window.location = "./home";
     })
     
     
 
   }
  
-  
-
   ////////////// End del Modal ///////////
 
   const classes = useStyles();
@@ -371,8 +370,6 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegist
     onlineUserError();
   }
 
-  
-
   const handleOpen = () => {
     setOpen(true);
   };
@@ -381,7 +378,47 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegist
     setOpen(false);
   };
 
-
+///////////////////////// RECUPERO DE EMAIL ///////////
+  var emailPW = function(){
+  Swal.fire({
+    title: 'Ingresa tu email',
+    input: 'email',
+    inputAttributes: {
+      autocapitalize: 'off'
+    },
+    showCancelButton: true,
+    confirmButtonText: 'Enviar',
+    cancelButtonText: 'Cancelar',
+    cancelButtonColor: false,     
+    preConfirm: (emailPASS) => {
+     const emailReq =  {"email": emailPASS}      
+    
+      return axios.put(`http://localhost:4000/users/passwordReques`, emailReq )
+        .then(response => {
+          console.log('El Response',response)
+          if (!response.data) {
+            throw new Error(response.email)
+          }
+          return response.email
+        })
+        .catch(error => {
+          Swal.showValidationMessage(
+            `Ups! NO encontramos el email`
+          )
+        })
+    },
+    allowOutsideClick: () => !Swal.isLoading()
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire({
+        title: `Listo!`,
+        text: 'Ya te enviamos la clave, revisa tu correo y segui las instrucciones',
+        imageUrl: 'https://www.soyhenry.com/static/rocket-176b443ed273a2a5a6f5cb11d6d33605.png'
+      })
+    }
+  })  
+}
+   
 
   var emailPW = function(){
   Swal.fire({

@@ -31,51 +31,48 @@ function AlumnoComponent(props) {
     dispatch(getAllCohortes());
     dispatch(getAllStudents());
   }, []);
-
+  //previene que explote si no hay
   let prueba = false;
 
   if (allCohortes.length > 0) {
     prueba = true;
   }
-  //busco el cohorte id del user
-  // let cohorteUser = null;
-  // if (user) {
-  //   allStudents.map((student) => {
-  //     if (student.user.id === user.id) {
-  //       cohorteUser = student.cohorteId;
-  //       console.log(
-  //         "holi",
-  //         student.user.id,
-  //         "chau",
-  //         user.id,
-  //         "cohorte",
-  //         student.cohorteId,
-  //         "userCohorte",
-  //         cohorteUser
-  //       );
-  //     }
-  //   });
-  // }
-  //open, closeFunc, openFunc
+  // busco el cohorte id del user
+  let cohorteUser = null;
+  if (user.length > 0) {
+    allStudents.map((student) => {
+      if (student.id === user.id) {
+        allCohortes.map((cohorte) => {
+          if (student.cohorteId === cohorte.id) {
+            cohorteUser = cohorte.name;
+          }
+        });
+      }
+    });
+  }
+
   const [input, setInput] = useState({
     name: `${user.name}`,
     lastName: `${user.lastName}`,
     email: `${user.email}`,
-    cohorte: ``,
-    group: `agregar select`,
-    pairProgramming: `agregar select`,
+    cohorte: `${cohorteUser}`,
+    group: ``,
+    pairProgramming: ``,
     pm: `${user.pm}`,
     instructor: `${user.instructor}`,
     student: `${user.student}`,
   });
-
+  console.log("desde arafue", input.cohorte);
   const handleInputChange = function (e) {
     setInput({
       ...input,
       [e.target.name]: e.target.value,
     });
   };
-
+  const handleSelectChange = (e) => {
+    cohorteUser = e.target.value;
+    console.log(cohorteUser, e.target.value);
+  };
   const handleSwitchChange = function (e) {
     setInput({
       ...input,
@@ -101,17 +98,19 @@ function AlumnoComponent(props) {
   }));
   const classes = useStyles();
 
-  console.log("desde componente", allStudents);
   return (
     <Fragment>
       <TableRow key={user.id}>
         <TableCell align="center">{user.email}</TableCell>
         <TableCell>
+          <InputLabel id="demo-controlled-open-select-label">
+            {input.cohorte}
+          </InputLabel>
           <Select
             labelId="selectCohorte"
             id="selectCohorteOp"
-            value={input.cohorte}
-            onChange={handleInputChange}
+            value=""
+            onChange={handleSelectChange}
             fullWidth
           >
             <MenuItem value="">
@@ -121,7 +120,11 @@ function AlumnoComponent(props) {
             {prueba ? (
               allCohortes.map((cohorte) => {
                 let id = cohorte.id;
-                return <MenuItem value={id}>{cohorte.name}</MenuItem>;
+                return (
+                  <MenuItem value={id} key={id}>
+                    {cohorte.name}
+                  </MenuItem>
+                );
               })
             ) : (
               <MenuItem value="">
@@ -132,9 +135,9 @@ function AlumnoComponent(props) {
         </TableCell>
         <TableCell>
           <Select
-            labelId="selectGrupo"
-            id="selectGrupoOp"
-            value={input.grupo}
+            labelId="selectGroup"
+            id="selectGroupOp"
+            value={input.group}
             onChange={handleInputChange}
             fullWidth
           >
@@ -142,7 +145,7 @@ function AlumnoComponent(props) {
               <em>None</em>
             </MenuItem>
             {/* MAPEAR LISTA DE cohortes Y DEVOLVER UN MENUITEM X CADA UNO */}
-            {prueba ? (
+            {/* {prueba ? (
               allCohortes.map((cohorte) => {
                 let id = cohorte.id;
                 return <MenuItem value={id}>{cohorte.name}</MenuItem>;
@@ -151,13 +154,13 @@ function AlumnoComponent(props) {
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-            )}
+            )} */}
           </Select>
         </TableCell>
         <TableCell>
           <Select
-            labelId="selectPairPrograming"
-            id="selectPairProgramingOp"
+            labelId="selectpairProgramming"
+            id="selectpairProgrammingOp"
             value={input.pairProgramming}
             onChange={handleInputChange}
             fullWidth
@@ -166,7 +169,7 @@ function AlumnoComponent(props) {
               <em>None</em>
             </MenuItem>
             {/* MAPEAR LISTA DE cohortes Y DEVOLVER UN MENUITEM X CADA UNO */}
-            {prueba ? (
+            {/* {prueba ? (
               allCohortes.map((cohorte) => {
                 let id = cohorte.id;
                 return <MenuItem value={id}>{cohorte.name}</MenuItem>;
@@ -175,7 +178,7 @@ function AlumnoComponent(props) {
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-            )}
+            )} */}
           </Select>
         </TableCell>
         <TableCell align="center">
