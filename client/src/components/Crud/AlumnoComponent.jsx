@@ -39,7 +39,7 @@ function AlumnoComponent(props) {
   }
   // busco el cohorte id del user
   let cohorteUser = null;
-  if (user) {
+  if (user.length > 0) {
     allStudents.map((student) => {
       if (student.id === user.id) {
         allCohortes.map((cohorte) => {

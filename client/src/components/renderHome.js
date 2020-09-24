@@ -102,12 +102,14 @@ function Home(props) {
   const [value, setValue] = useState(0);
   const [idCohorte, setIdCohorte] = useState();
   const [nameCohorte, setNameCohorte] = useState();
+  const [instr, setInstru] = useState();
   const [openModal, setOpenModal] = useState(false);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
   const saveCohorte = (value) => {
+    setInstru(value.instructor.name);
     setIdCohorte(value.id);
     setNameCohorte(value.name);
   };
@@ -160,6 +162,7 @@ function Home(props) {
                 cohorteName={nameCohorte}
                 students={allStudents}
                 idCohorte={idCohorte}
+                instructor={instr}
               />
             )}
           </Grid>

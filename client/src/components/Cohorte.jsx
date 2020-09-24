@@ -10,20 +10,24 @@ import Profile from "./Profile";
 import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 
-//
-import List from "@material-ui/core/List";
 //select
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import { getAllCohortes } from "../actions";
 //
 
 function Cohorte(props) {
   //seteo cuadrado
 
-  const { users, cohorte, students, idCohorte, cohorteName } = props;
+  const {
+    users,
+    cohorte,
+    students,
+    idCohorte,
+    cohorteName,
+    instructor,
+  } = props;
 
   const cohorteStudents = [];
   const cohortePms = [];
@@ -244,7 +248,7 @@ function Cohorte(props) {
                   </Box>
                   <Box className={classes.setTextBox}>
                     <Typography variant="h5">
-                      INSTRUCTOR: {cohorte.instructor}
+                      INSTRUCTOR: {instructor}
                     </Typography>
                     <Typography variant="h5">
                       FECHA DE INICIO: 06/01/20
