@@ -12,6 +12,7 @@ export const GET_ALL_INSTRUCTORS = "GET_ALL_INSTRUCTORS";
 export const USER_REGISTER = "USER_REGISTER";
 export const USER_REGISTER_ERROR = "USER_REGISTER_ERROR"; 
 export const GET_ALL_STUDENTS = "GET_ALL_STUDENTS";
+export const MODIFIED_USER = "MODIFIED_USER";
  
 
 export function userLogIn(body) {
@@ -113,22 +114,26 @@ export function getAllInstructors() {
 }
 
 
-export function modifiedUser(id, data) {
-  console.log(data, "SOY UNA DAAAAAAAAAAAAATA")
-  var url = `http://localhost:4000/users/myprofile/${id}`;
-  axios({
-    method: "put",
-    url: url,
-    headers: {
-      "Content-Type": "application/json",
-    },
-    data: data,
-  });
+export function modifiedUser (id, data) {
+  
+  console.log('LE MANDO al Action',id, data)
+  
+  return function(dispatch) {
+    return axios.put(`http://localhost:4000/users/myprofile/${id}`, data )
+      .then(result => result.data)
+      .then(data => {
+        dispatch({
+          type: MODIFIED_USER,
+          payload: data  
+        })
+        //console.log("QUE trae el data", data)
+      })
+  }
 }
 
-export function modifiedPassword(id,data) {
-  console.log(data, "QUE SOY")
-  var url = `http://localhost:4000/users/passwordReset`;
+export function modifiedPassword(id, data) {
+  console.log(data, "SOY UNA DAAAAAAAAAAAAATA")
+  var url = `http://localhost:4000/users/${id}/passwordReset`;
   axios({
     method: "put",
     url: url,
@@ -136,9 +141,8 @@ export function modifiedPassword(id,data) {
       "Content-Type": "application/json",
     },
     data: data
-  })
- }
-
+  });
+}
 
  
 export function userRegister (body) {

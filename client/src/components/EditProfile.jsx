@@ -7,6 +7,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import TextField from "@material-ui/core/TextField";
 import { modifiedUser, getIdUser } from "../actions";
 import { connect } from "react-redux";
+import {Redirect} from 'react-router-dom';
 
 
 
@@ -102,7 +103,7 @@ const useStyles = makeStyles((theme) => ({
 
 }));
                       //Action    //estado inicial
- function EditProfile({getIdUser, id_user, show}) {
+ function EditProfile({getIdUser, id_user, show, modifiedUser}) {
   //const { onlineUser } = props;
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
@@ -138,8 +139,9 @@ const useStyles = makeStyles((theme) => ({
 
     const handlemodifiedUser = (e) => {
       e.preventDefault();
-      modifiedUser(idUser,input)
-      window.location.reload()
+      modifiedUser(idUser, input)
+      //window.location.reload()
+     //return <Redirect to="./home" />;
   }
 
   const handleClose = () => {
@@ -251,36 +253,8 @@ const useStyles = makeStyles((theme) => ({
         value={input.gitHubId}
         onChange={handleInputChange}
       />
-      </div>
-      <div className = {classes.inputP}>
-        {/*<TextField
-        autoFocus
-        name="name"
-        margin="dense"
-        label="N° celular"
-        type="text"
-        value={input.name}
-        onChange={handleInputChange}
-      />
-      <TextField
-        autoFocus
-        name="name"
-        margin="dense"
-        label="Linkedin"
-        type="text"
-        value={input.name}
-        onChange={handleInputChange}
-      />*/}
-      </div>
-      {/*<div className = {classes.check}>
-      <Checkbox
-        defaultChecked
-        color="default"
-        inputProps={{ 'aria-label': 'checkbox with default color' }}
-      /> <p>Mostrar mi número</p>
-      </div>*/}
-      </div>
-
+      </div></div>
+       
       <div className = {classes.perfil}>
       <Typography variant="h5" component="h5">
       Foto de perfil
@@ -309,7 +283,8 @@ const useStyles = makeStyles((theme) => ({
 const mapDispatchToProps = (dispatch) => {
   return {
     getIdUser: (idUser) => dispatch(getIdUser(idUser)),
-    modifiedUser: (input) => dispatch(modifiedUser(input)),
+    modifiedUser: (idUser, input) => dispatch(modifiedUser(idUser, input)),
+     
   };
 };
 

@@ -9,6 +9,7 @@ import {
   USER_REGISTER,
   USER_REGISTER_ERROR,
   GET_ALL_STUDENTS,
+  MODIFIED_USER
  
 } from "../actions/index";
 
@@ -32,6 +33,11 @@ const reducer = (state = initialState, action) => {
         all_users: action.payload,
       };
     case GET_ID_USER:
+      return {
+        ...state,
+        id_user: action.payload,
+      };
+      case MODIFIED_USER:
       return {
         ...state,
         id_user: action.payload,
