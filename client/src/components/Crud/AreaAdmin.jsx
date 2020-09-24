@@ -9,6 +9,7 @@ import ModificarEliminarAlumno from "./ModificarEliminarAlumno.jsx";
 import ModificarEliminarCohorte from "./ModificarEliminarCohorte.jsx";
 import ModificarEliminarInstructorPm from "./ModificarEliminarInstructorPm.jsx";
 import CrearCohorte from "./CrearCohorte.jsx";
+import CrearGrupo from "./CrearGrupo.jsx";
 import Box from "@material-ui/core/Box";
 import "./AreaAdmin.css";
 
@@ -28,6 +29,7 @@ function AreaAdmin(props) {
 
   return (
     <div className="principal">
+      {console.log(props.instructores)}
       <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -50,6 +52,18 @@ function AreaAdmin(props) {
         </AccordionSummary>
         <AccordionDetails>
           <CrearCohorte instructores={props.instructores} />
+        </AccordionDetails>
+      </Accordion>
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <Typography className={classes.heading}>Crear Grupo</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <CrearGrupo pms={props.pms} />
         </AccordionDetails>
       </Accordion>
       <Accordion>

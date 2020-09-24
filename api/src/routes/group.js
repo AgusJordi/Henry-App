@@ -56,8 +56,8 @@ server.get('/:id', (req, res, next) => {
 
 server.post('/', (req, res, next) => {
   console.log(req.body)
-  const { name, PM1Id, PM2Id } = req.body;
-  Group.create({ name, PM1Id, PM2Id })
+  const { name, PM1Id, PM2Id, cohorteId } = req.body;
+  Group.create({ name, PM1Id, PM2Id, cohorteId })
     .then((group) => {
       res.send(group);
     })
