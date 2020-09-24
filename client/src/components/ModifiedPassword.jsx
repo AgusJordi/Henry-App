@@ -9,8 +9,9 @@ import { sizing } from "@material-ui/system";
 import { useHistory } from "react-router-dom";
 import { modifiedPassword, getIdUser } from "../actions";
 import { connect } from "react-redux";
+import Swal from "sweetalert2";
 
-function ModifiedPassword(getIdUser, id_user,props) {
+function ModifiedPassword(getIdUser, id_user, props) {
 console.log(props)
   function getModalStyle() {
     return {
@@ -24,9 +25,10 @@ console.log(props)
 
   const [open, setOpen] = React.useState(true);
 
+  
+  
   const handleClose = () => {
     setOpen(false);
-    props.show(false)
   };
 
   var idUser = localStorage.getItem("idUser");
@@ -91,20 +93,34 @@ const formik = useFormik({
     initialValues: {
       id: idUser,
       password: "",
-      //rpassword: "",
+      rpassword: "",
     },
     validationSchema: Yup.object({
-      password: Yup.string().max(5, "Ingresa menos de 5 caracteres"),
-      //rpassword: Yup.string().max(5, "Ingresa menos de 5 caracteres"),
+      password: Yup.string().required('Debe ingresar una contraseña').max(5, "Ingresa menos de 5 caracteres").oneOf([Yup.ref('rpassword')], 'Las contraseñas no son iguales'),
+      rpassword: Yup.string().required('Debe repetir la ingresar una contraseña').max(5, "Ingresa menos de 5 caracteres"),
     }),
     onSubmit:(formData)=>{
     console.log('el Form DATAAAAA',formData,"IDUSEEEEEEEEEEEEEEEEEEEEEEER",idUser); 
     global.datos = formData;
     global.id = idUser;
+    
     modifiedPassword(idUser,formData) 
+    Swal.fire({
+      icon: 'success',
+      title: 'Clave modificada con exito!',
+      showClass: {
+        popup: 'animate__animated animate__fadeInDown'
+      },
+      hideClass: {
+        popup: 'animate__animated animate__fadeOutUp'
+      }
+    })
+
     handleClose();
 
+    
   },
+  
   });
   
 
@@ -126,7 +142,7 @@ const formik = useFormik({
           </h2>
           <form onSubmit = {formik.handleSubmit}>
             <div>
-              <label htmlFor="lastName"></label>
+              <label className={classesRegister.divFormRoot} htmlFor="lastName"></label>
               <TextField
                 id="password"
                 type="password"
@@ -136,7 +152,10 @@ const formik = useFormik({
                 onChange={formik.handleChange} error={formik.errors.password} helperText={formik.errors.password}
                 fullWidth
               />
-              {/*<TextField
+              </div>
+              <div>
+              <label className={classesRegister.divFormRoot} htmlFor="lastName"></label>
+              <TextField
                 id="rpassword"
                 type="password"
                 label="Password"
@@ -144,8 +163,9 @@ const formik = useFormik({
                 variant="outlined"
                 onChange={formik.handleChange} error={formik.errors.password} helperText={formik.errors.password}
                 fullWidth
-              />*/}
-            </div>
+              />
+              </div>
+            
             <div className={classesRegister.buttonRoot}>
               <Button
                 type="submit"
