@@ -266,9 +266,10 @@ server.put("/myprofile/:id", async (req, res, next) => {
   });
 });
 
-server.put('/:id/passwordReset', (req, res, next) => {
-  const { id } = req.params;
-  const { password } = req.body;
+server.put('/passwordReset', (req, res, next) => {
+  //const { id } = req.params;
+  const { id, password } = req.body;
+  console.log(req.body)
   //const salt = crypto.randomBytes(64).toString('hex') Va a servir cuando las rutas esten encryptadas
   //const password = crypto.pbkdf2Sync(req.body.password, salt, 10000, 64, 'sha512').toString('base64')
 

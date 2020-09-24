@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "@material-ui/core/Modal";
 import { Formik, Form, ErrorMessage, Field, useFormik } from "formik";
 import * as Yup from "yup";
@@ -7,10 +7,11 @@ import TextField from "@material-ui/core/TextField";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { sizing } from "@material-ui/system";
 import { useHistory } from "react-router-dom";
+import { modifiedPassword, getIdUser } from "../actions";
 import { connect } from "react-redux";
-import { modifiedPassword } from "../actions";
+import Swal from "sweetalert2";
 
-function ModifiedPassword(props) {
+function ModifiedPassword(getIdUser, id_user, props) {
 console.log(props)
   function getModalStyle() {
     return {
@@ -21,12 +22,16 @@ console.log(props)
     };
   }
 
+
   const [open, setOpen] = React.useState(true);
 
+  
+  
   const handleClose = () => {
     setOpen(false);
-    props.show(false)
   };
+
+  var idUser = localStorage.getItem("idUser");
 
   const useStylesS = makeStyles((theme) => ({
     paperRegister: {
@@ -86,17 +91,36 @@ console.log(props)
 
 const formik = useFormik({
     initialValues: {
+      id: idUser,
       password: "",
+      rpassword: "",
     },
     validationSchema: Yup.object({
-      password: Yup.string().max(15, "Ingresa menos de 15 caracteres"),
+      password: Yup.string().required('Debe ingresar una contraseña').max(5, "Ingresa menos de 5 caracteres").oneOf([Yup.ref('rpassword')], 'Las contraseñas no son iguales'),
+      rpassword: Yup.string().required('Debe repetir la ingresar una contraseña').max(5, "Ingresa menos de 5 caracteres"),
     }),
-    onSubmit: (values, { setSubmitting }) => {
-      setUsers({ values });
-      setSubmitting(false);
-      //modifiedPassword(idUser,input)
-  //  history.replace('/home')
-    },
+    onSubmit:(formData)=>{
+    console.log('el Form DATAAAAA',formData,"IDUSEEEEEEEEEEEEEEEEEEEEEEER",idUser); 
+    global.datos = formData;
+    global.id = idUser;
+    
+    modifiedPassword(idUser,formData) 
+    Swal.fire({
+      icon: 'success',
+      title: 'Clave modificada con exito!',
+      showClass: {
+        popup: 'animate__animated animate__fadeInDown'
+      },
+      hideClass: {
+        popup: 'animate__animated animate__fadeOutUp'
+      }
+    })
+
+    handleClose();
+
+    
+  },
+  
   });
   
 
@@ -116,34 +140,32 @@ const formik = useFormik({
           <h2 id="simple-modal-title" align="center">
             CAMBIAR CONTRASEÑA
           </h2>
-          <form >
+          <form onSubmit = {formik.handleSubmit}>
             <div>
-              <label htmlFor="lastName"></label>
+              <label className={classesRegister.divFormRoot} htmlFor="lastName"></label>
               <TextField
                 id="password"
                 type="password"
-                required
-                {...formik.getFieldProps("password")}
-                error={formik.errors.password}
                 label="Password"
                 placeholder="********"
-                helperText={formik.errors.password}
                 variant="outlined"
+                onChange={formik.handleChange} error={formik.errors.password} helperText={formik.errors.password}
                 fullWidth
               />
+              </div>
+              <div>
+              <label className={classesRegister.divFormRoot} htmlFor="lastName"></label>
               <TextField
-                id="password"
+                id="rpassword"
                 type="password"
-                required
-                {...formik.getFieldProps("password")}
-                error={formik.errors.password}
                 label="Password"
                 placeholder="********"
-                helperText={formik.errors.password}
                 variant="outlined"
+                onChange={formik.handleChange} error={formik.errors.password} helperText={formik.errors.password}
                 fullWidth
               />
-            </div>
+              </div>
+            
             <div className={classesRegister.buttonRoot}>
               <Button
                 type="submit"
@@ -167,111 +189,17 @@ const formik = useFormik({
   );
 }
 
-export default ModifiedPassword;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getIdUser: (idUser) => dispatch(getIdUser(idUser)),
+    modifiedPassword: (datos) => dispatch(modifiedPassword( global.id,global.datos)),
+  };
+};
 
+const mapStateToProps = (state) => {
+  return {
+    id_user: state.id_user
+  };
+};
 
-{/*
-
-function ResetPassword(props) {
-  // const { id } = useParams();
-  const { user } = props;
-  const [input, setInput] = useState({
-    password: '',
-    repassword: ''
-  });
-
-  // const [error, setError] = useState(false); // para activar la letra roja desde material-UI
-  // const [helperText, setHelperText] = useState('');
-
-  let history = useHistory();
-
-  let handleInputChange = (e) => {
-    setInput({
-      ...input,
-      [e.target.name]: e.target.value
-    })
-  }
-
-  const submitLogIn = (e) => {
-    e.preventDefault();
-    modifiedUser(input)
-  }
-
-axios.put(`http://localhost:4000/auth/${id}/passwordReset`,{
-      password: input.password
-    }, { withCredentials: true }).then(res => {
-      console.log(res)
-      history.replace('/home');
-    }).catch(err => {
-      console.log(err)
-    })}else{
-      swal("", "Las contraseñas deben coincidir!")
-    }
-
-
-
-
-
-  const classes = useStyles();
-  return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          *Ingresar su nueva contraseña*
-        </Typography>
-        <form onSubmit={submitLogIn} className={classes.form} noValidate>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Nueva contraseña"
-            type="password"
-            id="password"
-            value={input.password}
-            onChange={handleInputChange}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="repassword"
-            label="Confirme contraseña"
-            type="password"
-            id="repassword"
-            value={input.repassword}
-            onChange={handleInputChange}
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            cambiar contraseña
-          </Button>
-          <Grid container justify="flex-end">
-          </Grid>
-        </form>
-      </div>
-      <Box mt={8}>
-        <Copyright />
-      </Box>
-
-    </Container>
-  );
-}
-
-const mapStateToProps = ({ user }) => ({
-  user
-});
-
-
-export default connect(mapStateToProps, null)(ResetPassword)*/}
+export default connect(mapStateToProps, mapDispatchToProps)(ModifiedPassword);

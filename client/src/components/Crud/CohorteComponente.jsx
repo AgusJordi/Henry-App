@@ -22,175 +22,147 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import swal from "sweetalert";
 
-
 const useStyles = makeStyles({
-    table: {
-        minWidth: 650,
-    },
+  table: {
+    minWidth: 650,
+  },
 });
 function CohorteComponente(props) {
-    const { cohorte } = props
-    const [input, setInput] = useState({
-        id: cohorte.id,
-        cohorte: cohorte.name,
-        instructor: cohorte.instructor,
-        DateA: cohorte.date,
+  const { cohorte } = props;
+  const [input, setInput] = useState({
+    id: cohorte.id,
+    cohorte: cohorte.name,
+    instructor: cohorte.instructor,
+    DateA: cohorte.date,
+  });
+
+  const allinstructors = useSelector((state) => state.all_instructors);
+
+  const [open, setOpen] = useState(false);
+
+  const handleInputChange = function (e) {
+    setInput({
+      ...input,
+      [e.target.name]: e.target.value,
     });
+  };
 
-    const allinstructors = useSelector(state => state.all_instructors);
+  const handleOpen = () => {
+    setOpen(true);
+  };
 
-    /*     allinstructors.forEach(inst => {
-            if (inst === null) {
-    
-            }
-            
-        }); */
+  const handleClose = () => {
+    setOpen(false);
+  };
 
-    const [open, setOpen] = useState(false);
+  const classes = useStyles();
 
+  const handleModifiedCohorte = (e) => {
+    e.preventDefault();
+    modifiedCohorte(input);
+    swal({
+      text: "Se modificó el Cohorte" + input.cohorte,
+      icon: "success",
+      timer: "3000",
+    });
+    setOpen(false);
+  };
 
-    const handleInputChange = function (e) {
-        setInput({
-            ...input,
-            [e.target.name]: e.target.value,
-        });
-    };
-
-    const handleOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
-
-    const classes = useStyles();
-
-    const handleModifiedCohorte = (e) => {
-        e.preventDefault();
-        modifiedCohorte(input)
-        swal({
-            text: "Se modificó el Cohorte" + input.cohorte,
-            icon: "success",
-            timer: "3000",
-        });
-        setOpen(false)
-    }
-
-
-    return (
-        <TableRow key={cohorte.id}>
-            {console.log(props)}
-            {console.log(allinstructors)}
-            <TableCell align="center">{cohorte.name}</TableCell>
-            <TableCell align="center">{cohorte.instructor.name}</TableCell>
-            <TableCell align="center">{cohorte.date}</TableCell>
-            <TableCell align="center">
-                <ButtonGroup disableElevation variant="contained" color="primary">
-                    <Button
-                        size="small"
-                        onClick={handleOpen}
-                    >
-                        Editar
-                    </Button>
-                </ButtonGroup>
-                <Dialog open={open} aria-labelledby="form-dialog-title">
-                    <form onSubmit={handleModifiedCohorte} >
-                        <DialogTitle id="form-dialog-title">
-                            Modificar Cohorte
-                    </DialogTitle>
-                        <DialogContent>
-                            <TextField
-                                autoFocus
-                                name="ID"
-                                margin="dense"
-                                label="ID"
-                                type="text"
-                                fullWidth
-                                value={cohorte.id}
-                                onChange={handleInputChange}
-                            />
-                            <TextField
-                                autoFocus
-                                name="cohorte"
-                                margin="dense"
-                                label="Nombre Cohorte"
-                                type="text"
-                                fullWidth
-                                value={input.cohorte}
-                                onChange={handleInputChange}
-                            />
-                            <FormControl className={classes.formControl}>
-                                <InputLabel htmlFor="instructor-native-simple">
-                                    Instructor
-                            </InputLabel>
-                                <Select
-                                    native
-                                    value={input.instructor}
-                                    onChange={handleInputChange}
-                                    inputProps={{
-                                        name: "instructor",
-                                        id: "instructor-native-simple",
-                                    }}
-                                >
-                                    <option aria-label="None" value="" />
-                                    {allinstructors && allinstructors.map((instructor) => (
-                                        <option value={instructor.id}>
-                                            {instructor.name + " " + instructor.lastName}
-                                        </option>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                            <TextField
-                                autoFocus
-                                name="DateA"
-                                margin="dense"
-                                label="Fecha de inicio"
-                                placeholder="Fecha de inicio"
-                                type="date"
-                                fullWidth
-                                value={input.DateA}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                onChange={handleInputChange}
-                            />
-
-                        </DialogContent>
-                        <div style={{ margin: 8 }}>
-                            <DialogActions>
-                                <Button color="primary" onClick={() => handleClose()}>
-                                    Cerrar
-                            </Button>
-                                <Button
-                                    type="submit"
-                                    variant="contained"
-                                    align="left"
-                                    size="medium"
-                                    color="primary"
-                                >
-                                    Modificar
-                            </Button>
-                            </DialogActions>
-                        </div>
-                    </form>
-                </Dialog>
-                <ButtonGroup
-                    disableElevation
-                    variant="contained"
-                    color="secondary"
+  return (
+    <TableRow key={cohorte.id}>
+      <TableCell align="center">{cohorte.name}</TableCell>
+      <TableCell align="center">{cohorte.instructor.name}</TableCell>
+      <TableCell align="center">{cohorte.date}</TableCell>
+      <TableCell align="center">
+        <ButtonGroup disableElevation variant="contained" color="primary">
+          <Button size="small" onClick={handleOpen}>
+            Editar
+          </Button>
+        </ButtonGroup>
+        <Dialog open={open} aria-labelledby="form-dialog-title">
+          <form onSubmit={handleModifiedCohorte}>
+            <DialogTitle id="form-dialog-title">Modificar Cohorte</DialogTitle>
+            <DialogContent>
+              <TextField
+                autoFocus
+                name="ID"
+                margin="dense"
+                label="ID"
+                type="text"
+                fullWidth
+                value={cohorte.id}
+                onChange={handleInputChange}
+              />
+              <TextField
+                autoFocus
+                name="cohorte"
+                margin="dense"
+                label="Nombre Cohorte"
+                type="text"
+                fullWidth
+                value={input.cohorte}
+                onChange={handleInputChange}
+              />
+              <FormControl className={classes.formControl}>
+                <InputLabel htmlFor="instructor-native-simple">
+                  Instructor
+                </InputLabel>
+                <Select
+                  native
+                  value={input.instructor}
+                  onChange={handleInputChange}
+                  inputProps={{
+                    name: "instructor",
+                    id: "instructor-native-simple",
+                  }}
                 >
-                    <Button
-                        size="small"
-                    >
-                        Eliminar
+                  <option aria-label="None" value="" />
+                  {allinstructors.map((instructor) => (
+                    <option value={instructor.id}>
+                      {instructor.name + " " + instructor.lastName}
+                    </option>
+                  ))}
+                </Select>
+              </FormControl>
+              <TextField
+                autoFocus
+                name="DateA"
+                margin="dense"
+                label="Fecha de inicio"
+                placeholder="Fecha de inicio"
+                type="date"
+                fullWidth
+                value={input.DateA}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                onChange={handleInputChange}
+              />
+            </DialogContent>
+            <div style={{ margin: 8 }}>
+              <DialogActions>
+                <Button color="primary" onClick={() => handleClose()}>
+                  Cerrar
                 </Button>
-                </ButtonGroup>
-
-            </TableCell>
-        </TableRow >
-    )
+                <Button
+                  type="submit"
+                  variant="contained"
+                  align="left"
+                  size="medium"
+                  color="primary"
+                >
+                  Modificar
+                </Button>
+              </DialogActions>
+            </div>
+          </form>
+        </Dialog>
+        <ButtonGroup disableElevation variant="contained" color="secondary">
+          <Button size="small">Eliminar</Button>
+        </ButtonGroup>
+      </TableCell>
+    </TableRow>
+  );
 }
-
 
 export default CohorteComponente;

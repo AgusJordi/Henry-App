@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef } from "react"; 
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -28,7 +28,7 @@ import { sizing } from "@material-ui/system";
 import { NavLink, Redirect, Route, useHistory } from "react-router-dom";
 import { useEffect } from "react";
 import { connect } from "react-redux";
-import { getAllUsers, userLogIn, onlineUserError, userRegister, userRegisterError } from "../actions";
+import { getAllUsers, userLogIn, onlineUserError, userRegister, userRegisterError, modifiedPassword } from "../actions";
 import portada from "../images/welcome.png";
 //import Register from "./Register";
 import Swal from "sweetalert2";
@@ -165,6 +165,7 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegist
       firstNameR: '',
       lastNameR: '',
       passwordR: '',
+      passworRepeatdR: '',
       cityR: '',
       provinceR: '',
       countryR: '',
@@ -180,18 +181,24 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegist
       cityR: Yup.string().required("La Ciudad no puede quedar vacio"),
       provinceR: Yup.string().required("La Provincia no puede quedar vacio"),
       emailR: Yup.string().email('Esto no es un Email').required("El Email no puede quedar vacio"),
-      passwordR: Yup.string().required("El Password no puede quedar vacio")
+      passwordR: Yup.string().required("El Password no puede quedar vacio").oneOf([Yup.ref('passworRepeatdR')], 'Las contraseñas no son iguales'),
+      passworRepeatdR: Yup.string().required("El Password no puede quedar vacio")
 
     }),
+
+
     
     onSubmit:(formData)=>{
       console.log('el Form DATAAAAA',formData); 
       global.datos = formData;
       userRegister(formData)
       handleClose()
-      
+      modifiedPassword(formData)
     },
   })
+
+  
+
 
   console.log('El REGISTERRRRR ', global.datos)
   console.log('El EStado USERRR ', onlineUser)
@@ -392,7 +399,21 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegist
                 variant="outlined"
                 fullWidth
                 onChange={formik.handleChange} error={formik.errors.passwordR} helperText={formik.errors.passwordR}
-                 
+                
+              />
+            </div>
+            <div className={classesRegister.divFormRoot}>
+              <label htmlFor="lastName"></label>
+              <TextField              
+                id="passworRepeatdR"
+                name="passworRepeatdR"
+                type="password"
+                required                
+                label="Password"
+                placeholder="********"               
+                variant="outlined"
+                fullWidth
+                onChange={formik.handleChange} error={formik.errors.passworRepeatdR} helperText={formik.errors.passworRepeatdR}
                 
               />
             </div>
@@ -553,6 +574,7 @@ const mapDispatchToProps = (dispatch) => {
     getAllUsers: (number) => dispatch(getAllUsers(589)),
     userLogIn: (input) => dispatch(userLogIn(!input ? input  = global.datos : input)),
     onlineUserError: () => dispatch(onlineUserError())
+    
     
     
   };
