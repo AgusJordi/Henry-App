@@ -1,6 +1,7 @@
 const server = require("express").Router();
 //const bcrypt = require("bcryptjs");
 const mailer = require("../../templates/Registro.js")
+const mailerPW = require("../../templates/RequestPassword.js")
 
 const { User, Student, Cohorte } = require("../db.js");
 
@@ -247,6 +248,44 @@ server.put('/passwordReset', (req, res, next) => {
       if (user) {
         user.password = password
         //      user.salt = salt
+        return user.save()
+      }
+    }).then((user) => {
+      res.status(200).send(user);
+    }).catch(err => next(err))
+})
+
+// PASWORD RESET POR EMAIL
+server.put('/passwordResetEmail', (req, res, next) => { 
+  const { email, password } = req.body;
+  console.log(req.body)  
+
+  User.findOne({ where: { email: email } })
+    .then((user) => {
+      if (user) {
+        user.password = password        
+        return user.save()
+      }
+    }).then((user) => {
+      res.status(200).send(user);
+    }).catch(err => next(err))
+})
+
+
+//SOLICITAR NUEVA CLAVE POR PERDIDA
+server.put('/passwordReques', (req, res, next) => {
+   
+  const { email } = req.body;
+  console.log('EL EMAILLLL ',email)
+  
+  User.findOne({ where: { email: email } })
+    .then((user) => {
+      if (user) {
+        var passEnvio = 'XY4BP1Z6'
+        user.password = passEnvio 
+        mailerPW.enviar_mail_req_pass(passEnvio, user.name, email)
+       console.log('OBJETO de USERRRRR',user)
+        
         return user.save()
       }
     }).then((user) => {

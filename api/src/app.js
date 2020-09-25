@@ -4,7 +4,7 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const cors = require("cors");
-const { User } = require("./db.js")
+const { User, Cohorte, Group } = require("./db.js")
 const routes = require("./routes/index.js");
 const passport = require('passport');
 const Strategy = require('passport-local').Strategy;
@@ -133,6 +133,142 @@ res.send(req.user)
 
 server.use("/", routes);
 
+server.post('/usuarios', async(req, res) => {
+  const admin = User.create({
+    "email": "admin@gmail.com",
+    "password": 1234,
+    "name": "admin",
+    "lastname" : "Cofounder",
+    "admin": true,
+    "status": "habilitado",
+    "student": false,
+    "instructor": true
+  })
+
+  const instructor = User.create({
+    "email": "instructor@gmail.com",
+    "password": 1234,
+    "name": "Emi",
+    "lastname" : "Chequer",
+    "admin": false,
+    "status": "habilitado",
+    "student": false,
+    "instructor": true,
+    "pm": true
+  })
+
+  const pm = User.create({
+    "email": "pm@gmail.com",
+    "password": 1234,
+    "name": "Oliver",
+    "lastname" : "Balfour",
+    "admin": false,
+    "status": "habilitado",
+    "student": false,
+    "instructor": true,
+    "pm": true
+  })
+  
+  const pmyalumno = User.create({
+    "email": "pmyalumno@gmail.com",
+    "password": 1234,
+    "name": "Victoria",
+    "lastname" : "Henry",
+    "admin": false,
+    "status": "habilitado",
+    "student": true,
+    "instructor": false,
+    "pm": true
+  })
+  
+  const alum = User.create({
+    "email": "student@gmail.com",
+    "password": 1234,
+    "name": "Henrys",
+    "lastname" : "It",
+    "admin": false,
+    "status": "habilitado",
+    "student": true,
+    "instructor": false,
+  })
+
+  const alum1 = User.create({
+    "email": "student1@gmail.com",
+    "password": 1234,
+    "name": "Henrys",
+    "lastname" : "It",
+    "admin": false,
+    "status": "habilitado",
+    "student": true,
+    "instructor": false
+  })
+
+  const alum2 = User.create({
+    "email": "student2@gmail.com",
+    "password": 1234,
+    "name": "Henrys",
+    "lastname" : "It",
+    "admin": false,
+    "status": "habilitado",
+    "student": true,
+    "instructor": false
+  })
+
+  const alum3 = User.create({
+    "email": "student3@gmail.com",
+    "password": 1234,
+    "name": "Henrys",
+    "lastname" : "It",
+    "admin": false,
+    "status": "habilitado",
+    "student": true,
+    "instructor": false
+  })
+
+  const alum4 = User.create({
+    "email": "student4@gmail.com",
+    "password": 1234,
+    "name": "Henrys",
+    "lastname" : "It",
+    "admin": false,
+    "status": "habilitado",
+    "student": true,
+    "instructor": false
+  })
+
+  const alum5 = User.create({
+    "email": "student5@gmail.com",
+    "password": 1234,
+    "name": "Henrys",
+    "lastname" : "It",
+    "admin": false,
+    "status": "habilitado",
+    "student": true,
+    "instructor": false
+  })
+
+  const alum6 = User.create({
+    "email": "student6@gmail.com",
+    "password": 1234,
+    "name": "Henrys",
+    "lastname" : "It",
+    "admin": false,
+    "status": "habilitado",
+    "student": true,
+    "instructor": false
+  })
+})
+server.post('/cohor', async(req, res) => {
+  const cohorte1 = Cohorte.create({
+    "name": "webft01",
+    "instructorId": 3
+  })
+  const cohorte2 = Cohorte.create({
+    "name": "webft02",
+    "instructorId": 4 
+  })
+})
+
 // Error catching endware.
 server.use((err, req, res, next) => {
   // eslint-disable-line no-unused-vars
@@ -141,6 +277,8 @@ server.use((err, req, res, next) => {
   console.error(err);
   res.status(status).send(message);
 });
+
+
 
 module.exports = server;
 
