@@ -1,13 +1,24 @@
 import React from "react";
 import "./chip.css";
+import { connect } from "react-redux";
 
-export default class Chip extends React.Component {
+export class Chip extends React.Component {
 
   state = {
     items: [],
     value: "",
-    error: null
+    error: null,
   };
+
+  componentDidUpdate(prevProps) {
+    // Uso tipico (no olvides de comparar las props):
+    if (this.props.estado !== prevProps.estado && this.props.estado===true) {
+      this.setState({
+        items:[]
+      })
+      this.props.borrar(false)
+    }
+  }
 
   handleKeyDown = evt => {
     if (["Enter", "Tab", ","].includes(evt.key)) {
@@ -112,3 +123,11 @@ export default class Chip extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    all_users: state.all_users,
+  };
+};
+
+export default connect(mapStateToProps)(Chip);
