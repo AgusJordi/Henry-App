@@ -133,17 +133,8 @@ res.send(req.user)
 
 server.use("/", routes);
 
-// Error catching endware.
-server.use((err, req, res, next) => {
-  // eslint-disable-line no-unused-vars
-  const status = err.status || 500;
-  const message = err.message || err;
-  console.error(err);
-  res.status(status).send(message);
-});
-
-server.post('/', async (req, res) => {
-  let admin = User.create({
+server.post('/usuarios', async(req, res) => {
+  const admin = User.create({
     "email": "admin@gmail.com",
     "password": 1234,
     "name": "admin",
@@ -152,8 +143,9 @@ server.post('/', async (req, res) => {
     "status": "habilitado",
     "student": false,
     "instructor": true
-  });
-  let instructor = User.create({
+  })
+
+  const instructor = User.create({
     "email": "instructor@gmail.com",
     "password": 1234,
     "name": "Emi",
@@ -161,9 +153,11 @@ server.post('/', async (req, res) => {
     "admin": false,
     "status": "habilitado",
     "student": false,
-    "instructor": true
-  });
-  let pm = User.create({
+    "instructor": true,
+    "pm": true
+  })
+
+  const pm = User.create({
     "email": "pm@gmail.com",
     "password": 1234,
     "name": "Oliver",
@@ -173,8 +167,9 @@ server.post('/', async (req, res) => {
     "student": false,
     "instructor": true,
     "pm": true
-  });
-  let pmyalumno = User.create({
+  })
+  
+  const pmyalumno = User.create({
     "email": "pmyalumno@gmail.com",
     "password": 1234,
     "name": "Victoria",
@@ -184,23 +179,8 @@ server.post('/', async (req, res) => {
     "student": true,
     "instructor": false,
     "pm": true
-  });
-  const cohorte1 = Cohorte.create({
-    "name": "webft05",
-    "date": "01-10-2020",
-    "instructorId": 9
-  });
-  const cohorte2 = Cohorte.create({
-    "name": "webft06",
-    "date": "01-11-2020",
-    "instructorId": 4
-  });
-  const grupopp = Group.create({
-    "name" : "ftbartylisa5",
-    "PM1Id": 4,
-    "PM2Id": 5,
-    "cohorteId":1
-})
+  })
+  
   const alum = User.create({
     "email": "student@gmail.com",
     "password": 1234,
@@ -210,7 +190,8 @@ server.post('/', async (req, res) => {
     "status": "habilitado",
     "student": true,
     "instructor": false,
-  });
+  })
+
   const alum1 = User.create({
     "email": "student1@gmail.com",
     "password": 1234,
@@ -220,7 +201,8 @@ server.post('/', async (req, res) => {
     "status": "habilitado",
     "student": true,
     "instructor": false
-  });
+  })
+
   const alum2 = User.create({
     "email": "student2@gmail.com",
     "password": 1234,
@@ -230,7 +212,8 @@ server.post('/', async (req, res) => {
     "status": "habilitado",
     "student": true,
     "instructor": false
-  });
+  })
+
   const alum3 = User.create({
     "email": "student3@gmail.com",
     "password": 1234,
@@ -240,7 +223,8 @@ server.post('/', async (req, res) => {
     "status": "habilitado",
     "student": true,
     "instructor": false
-  });
+  })
+
   const alum4 = User.create({
     "email": "student4@gmail.com",
     "password": 1234,
@@ -250,7 +234,8 @@ server.post('/', async (req, res) => {
     "status": "habilitado",
     "student": true,
     "instructor": false
-  });
+  })
+
   const alum5 = User.create({
     "email": "student5@gmail.com",
     "password": 1234,
@@ -260,7 +245,8 @@ server.post('/', async (req, res) => {
     "status": "habilitado",
     "student": true,
     "instructor": false
-  });
+  })
+
   const alum6 = User.create({
     "email": "student6@gmail.com",
     "password": 1234,
@@ -270,15 +256,29 @@ server.post('/', async (req, res) => {
     "status": "habilitado",
     "student": true,
     "instructor": false
-  });
-  /*const student7 = Student.create({
-    "userId": 
-    "cohorteId": 
-    "groupPP": 
-    "groupId": 
-  })*/
-
+  })
 })
+server.post('/cohor', async(req, res) => {
+  const cohorte1 = Cohorte.create({
+    "name": "webft01",
+    "instructorId": 3
+  })
+  const cohorte2 = Cohorte.create({
+    "name": "webft02",
+    "instructorId": 4 
+  })
+})
+
+// Error catching endware.
+server.use((err, req, res, next) => {
+  // eslint-disable-line no-unused-vars
+  const status = err.status || 500;
+  const message = err.message || err;
+  console.error(err);
+  res.status(status).send(message);
+});
+
+
 
 module.exports = server;
 
