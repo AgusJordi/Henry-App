@@ -15,7 +15,7 @@ import { useEffect } from "react";
 import Profile from "./Profile";
 import EditProfile from "./EditProfile";
 import ModifiedPassword from "./ModifiedPassword.jsx";
-import { getAllUsers, userLogIn, onlineUserError, onlineUser, setearUsuarios, setearCohorte } from "../actions/index.js";
+import { getAllUsers, userLogIn, onlineUserError, onlineUser, setearUsuarios, setearCohorte, setearGroups } from "../actions/index.js";
 import axios from "axios";
 import {Link} from "react-router-dom";
 
@@ -67,6 +67,7 @@ function Navbar({ onlineUser, userLogIn, getIdUser, id_user }) {
       e.preventDefault();
       setearUsuarios();
       setearCohorte()
+      setearGroups()
   }
 
   //ESTA ES NUESTRA ACTION QUE PUEDE HACERSE UNA CONSTANTE PARA ESE ICONO

@@ -271,3 +271,9 @@ export function setearCohorte(e) {
     .then((res) => { res.status('Ok') })
     .catch(err => console.log(err));
 };
+
+export function setearGroups(e) {
+  axios.post("http://localhost:4000/gruposhard")
+    .then((res) => { res.status('Ok') })
+    .catch(err => console.log(err));
+};

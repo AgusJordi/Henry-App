@@ -169,11 +169,59 @@ server.post('/usuarios', async(req, res) => {
     "pm": true
   })
   
-  const pmyalumno = User.create({
+  const pmyalumno1 = User.create({
     "email": "pmyalumno@gmail.com",
     "password": 1234,
     "name": "Victoria",
     "lastname" : "Henry",
+    "admin": false,
+    "status": "habilitado",
+    "student": true,
+    "instructor": false,
+    "pm": true
+  })
+
+  const pmyalumno2 = User.create({
+    "email": "pmyalumno2@gmail.com",
+    "password": 1234,
+    "name": "Carlos",
+    "lastname" : "Merge",
+    "admin": false,
+    "status": "habilitado",
+    "student": true,
+    "instructor": false,
+    "pm": true
+  })
+
+  const pmyalumno3 = User.create({
+    "email": "alpm@gmail.com",
+    "password": 1234,
+    "name": "Sergio",
+    "lastname" : "Furrer",
+    "admin": false,
+    "status": "habilitado",
+    "student": true,
+    "instructor": false,
+    "pm": true
+  })
+
+  const pmyalumno4 = User.create({
+    "email": "dario1@gmail.com",
+    "password": 1234,
+    "name": "Dario",
+    "lastname" : "Lotus",
+    "admin": false,
+    "status": "habilitado",
+    "student": true,
+    "instructor": false,
+    "pm": true
+  })
+
+  const pmyalumno5 = User.create({
+    "email": "clavedesol@gmail.com",
+    "password": 1234,
+    "name": "Soledad",
+    "lastname" : "Solitaria",
     "admin": false,
     "status": "habilitado",
     "student": true,
@@ -268,6 +316,25 @@ server.post('/cohor', async(req, res) => {
     "instructorId": 4 
   })
 })
+
+///////////// GROUOS //////////
+
+server.post('/gruposhard', async(req, res) => {
+  const group1 = Group.create({
+    "name" : "HenryGroup01",
+    "PM1Id": 4,
+    "PM2Id": 5,
+    "cohorteId":1
+  })
+
+  const group2 = Group.create({
+    "name" : "HenryGroup02",
+    "PM1Id": 6,
+    "PM2Id": 7,
+    "cohorteId":2
+  })
+
+ })
 
 // Error catching endware.
 server.use((err, req, res, next) => {
