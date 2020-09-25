@@ -8,11 +8,12 @@ import {
   GET_ALL_INSTRUCTORS,
   USER_REGISTER,
   USER_REGISTER_ERROR,
-  GET_ALL_STUDENTS, 
+  GET_ALL_STUDENTS,
   MODIFIED_USER,
   GET_ALL_PMS,
   GET_ALUMNOS_FROM_COHORTE,
- 
+  MODIFIED_COHORTE,
+
 } from "../actions/index";
 
 const initialState = {
@@ -23,8 +24,8 @@ const initialState = {
   all_instructors: [],
   register: 0,
   all_students: [],
-  all_pms:[],
-  students_from_cohorte:[],
+  all_pms: [],
+  students_from_cohorte: [],
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -38,7 +39,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         id_user: action.payload,
       };
-      case MODIFIED_USER:
+    case MODIFIED_USER:
       return {
         ...state,
         id_user: action.payload,
@@ -54,17 +55,17 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         onlineUser: false,
-      }; 
-      case USER_REGISTER:
+      };
+    case USER_REGISTER:
       return {
         ...state,
         register: registro(action.payload)
       };
-      case USER_REGISTER_ERROR:
+    case USER_REGISTER_ERROR:
       return {
         ...state,
         register: 0,
-      };        
+      };
 
     case GET_ALL_COHORTES:
       return {
@@ -101,12 +102,12 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-function registro(data){
-  if(data === false){
+function registro(data) {
+  if (data === false) {
     return false
-  }else if(data === null){
+  } else if (data === null) {
     return 'null'
-  }else{
+  } else {
     return true
   }
 

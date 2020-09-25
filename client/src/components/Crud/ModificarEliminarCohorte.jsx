@@ -54,8 +54,8 @@ function ModificarEliminarCohorte() {
               );
             })
           ) : (
-            <h1>no existen cohortes</h1>
-          )}
+              <h4>no existen cohortes</h4>
+            )}
         </TableBody>
       </Table>
     </TableContainer>
