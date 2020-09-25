@@ -4,7 +4,7 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const cors = require("cors");
-const { User, Cohorte, Group } = require("./db.js")
+const { User, Cohorte, Group, Student } = require("./db.js")
 const routes = require("./routes/index.js");
 const passport = require('passport');
 const Strategy = require('passport-local').Strategy;
@@ -169,11 +169,59 @@ server.post('/usuarios', async(req, res) => {
     "pm": true
   })
   
-  const pmyalumno = User.create({
+  const pmyalumno1 = User.create({
     "email": "pmyalumno@gmail.com",
     "password": 1234,
     "name": "Victoria",
     "lastname" : "Henry",
+    "admin": false,
+    "status": "habilitado",
+    "student": true,
+    "instructor": false,
+    "pm": true
+  })
+
+  const pmyalumno2 = User.create({
+    "email": "pmyalumno2@gmail.com",
+    "password": 1234,
+    "name": "Carlos",
+    "lastname" : "Merge",
+    "admin": false,
+    "status": "habilitado",
+    "student": true,
+    "instructor": false,
+    "pm": true
+  })
+
+  const pmyalumno3 = User.create({
+    "email": "alpm@gmail.com",
+    "password": 1234,
+    "name": "Sergio",
+    "lastname" : "Furrer",
+    "admin": false,
+    "status": "habilitado",
+    "student": true,
+    "instructor": false,
+    "pm": true
+  })
+
+  const pmyalumno4 = User.create({
+    "email": "dario1@gmail.com",
+    "password": 1234,
+    "name": "Dario",
+    "lastname" : "Lotus",
+    "admin": false,
+    "status": "habilitado",
+    "student": true,
+    "instructor": false,
+    "pm": true
+  })
+
+  const pmyalumno5 = User.create({
+    "email": "clavedesol@gmail.com",
+    "password": 1234,
+    "name": "Soledad",
+    "lastname" : "Solitaria",
     "admin": false,
     "status": "habilitado",
     "student": true,
@@ -268,6 +316,90 @@ server.post('/cohor', async(req, res) => {
     "instructorId": 4 
   })
 })
+
+///////////// CREAR GROUOS //////////
+
+server.post('/gruposhard', async(req, res) => {
+  const group1 = Group.create({
+    "name" : "HenryGroup01",
+    "PM1Id": 4,
+    "PM2Id": 5,
+    "cohorteId":1
+  })
+
+  const group2 = Group.create({
+    "name" : "HenryGroup02",
+    "PM1Id": 6,
+    "PM2Id": 7,
+    "cohorteId":2
+  })
+
+ })
+ 
+
+ //////// CREAR ESTUDIANTES
+ server.post('/studentshard', async(req, res) => {
+  const student1 = Student.create({
+    
+    "groupPP" : null,
+    'userId': 1,    
+    "cohorteId": 1,
+    "groupId": 1,
+  })
+  
+  const student2 = Student.create({
+    "groupPP" : null,
+    'userId': 2,     
+    "cohorteId": 1,
+    "groupId": 1,     
+  })
+
+  const student3 = Student.create({
+    "groupPP" : null,
+    'userId': 3,     
+    "cohorteId": 1,
+    "groupId": 1,     
+  })
+  const student4 = Student.create({
+    "groupPP" : null,
+    'userId': 4,     
+    "cohorteId": 1,
+    "groupId": 1,     
+  })
+
+  const student5 = Student.create({
+    "groupPP" : null,
+    'userId': 5,    
+    "cohorteId": 2,
+    "groupId": 2,
+  })
+
+  const student6 = Student.create({
+    "groupPP" : null,
+    'userId': 6,     
+    "cohorteId": 2,
+    "groupId": 2,     
+  })
+
+  const student7 = Student.create({
+    "groupPP" : null,
+    'userId': 7,     
+    "cohorteId": 2,
+    "groupId": 2,     
+  })
+  const student8 = Student.create({
+    "groupPP" : null,
+    'userId': 8,     
+    "cohorteId": 2,
+    "groupId": 2,     
+  })
+
+  
+
+ })
+
+ 
+  
 
 // Error catching endware.
 server.use((err, req, res, next) => {
