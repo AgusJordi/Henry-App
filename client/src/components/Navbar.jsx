@@ -15,13 +15,9 @@ import { useEffect } from "react";
 import Profile from "./Profile";
 import EditProfile from "./EditProfile";
 import ModifiedPassword from "./ModifiedPassword.jsx";
-
-import {
-  getAllUsers,
-  userLogIn,
-  onlineUserError,
-  onlineUser,
-} from "../actions";
+import { getAllUsers, userLogIn, onlineUserError, onlineUser, setearUsuarios, setearCohorte } from "../actions/index.js";
+import axios from "axios";
+import {Link} from "react-router-dom";
 
 var lsName = localStorage.getItem("username");
 
@@ -67,6 +63,13 @@ function Navbar({ onlineUser, userLogIn, getIdUser, id_user }) {
     setshowPerfil(false);
     setshowPerfilUpdate(false);
   };
+  const creationUser = (e) => {
+      e.preventDefault();
+      setearUsuarios();
+      setearCohorte()
+  }
+
+  //ESTA ES NUESTRA ACTION QUE PUEDE HACERSE UNA CONSTANTE PARA ESE ICONO
   const useStyles = makeStyles((theme) => ({
     root: {
       display: "flex",
@@ -102,10 +105,13 @@ function Navbar({ onlineUser, userLogIn, getIdUser, id_user }) {
 
   const classes = useStyles();
 
+
   return (
     <div className="navbar">
       <div className="navbar_left">
+      <Link onClick={creationUser} style={{ textDecoration: 'none' }} to="/">
         <HelpIcon fontSize="large" />
+      </Link>
         <AccessTimeIcon fontSize="large" />
       </div>
       <div className="navbar_search" id="esto">

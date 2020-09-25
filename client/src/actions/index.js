@@ -12,11 +12,13 @@ export const GET_ALL_INSTRUCTORS = "GET_ALL_INSTRUCTORS";
 export const USER_REGISTER = "USER_REGISTER";
 export const USER_REGISTER_ERROR = "USER_REGISTER_ERROR"; 
 export const GET_ALL_STUDENTS = "GET_ALL_STUDENTS"; 
-export const MODIFIED_USER = "MODIFIED_USER";
+export const MODIFIED_USER = "MODIFIED_USER"; 
+export const PASWORD_RESET_EMAIL = 'PASWORD_RESET_EMAIL' 
 export const GET_ALL_PMS = "GET_ALL_PMS";
 export const GET_ALUMNOS_FROM_COHORTE = "GET_ALUMNOS_FROM_COHORTE";
 
 
+ 
  
 
 export function userLogIn(body) {
@@ -150,7 +152,7 @@ export function modifiedUser (id, data) {
 
 export function modifiedPassword(id, data) {
   console.log(data, "SOY UNA DAAAAAAAAAAAAATA")
-  var url = `http://localhost:4000/users/${id}/passwordReset`;
+  var url = `http://localhost:4000/users/passwordReset`;
   axios({
     method: "put",
     url: url,
@@ -160,6 +162,23 @@ export function modifiedPassword(id, data) {
     data: data
   });
 }
+
+export function passwordResetEmail (body) {  
+  console.log(body, "SOY UNA EL BODYYY PASWORD")  
+  return function(dispatch) {
+    return axios.put(`http://localhost:4000/users/passwordResetEmail`, body )
+      .then(result => result.data)
+      .then(data => {
+        dispatch({
+          type: PASWORD_RESET_EMAIL,
+          payload: body  
+        })
+        console.log("QUE trae el data", data)
+      })
+  }
+}
+
+
 
  
 export function userRegister (body) {
@@ -240,3 +259,15 @@ export function getAlumnosFromCohorte(id) {
       });
   };
 }
+
+export function setearUsuarios(e) {
+  axios.post("http://localhost:4000/usuarios")
+    .then((res) => { res.status('Ok') })
+    .catch(err => console.log(err));
+};
+
+export function setearCohorte(e) {
+  axios.post("http://localhost:4000/cohor")
+    .then((res) => { res.status('Ok') })
+    .catch(err => console.log(err));
+};
