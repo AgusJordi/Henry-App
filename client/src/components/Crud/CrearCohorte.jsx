@@ -34,20 +34,6 @@ function CrearCohorte(props) {
     });
   };
 
-  // const exist = function (email){
-  //   all_users.includes
-
-  // }
-  // const filterEmails = function (emails){
-  //   var existentes = []
-  //   for (let i=0; i<emails.length; i++){
-  //     if(all_users.includes(email[i])){
-  //       existentes.push(email[i])
-  //     }
-  //   }
-
-  //   const existentes = emails.filter ((email) => email.exist()===true)
-
   var existentes = []
   // }
     const filtrar = (emails, usuarios) => {
@@ -64,16 +50,10 @@ function CrearCohorte(props) {
     setPrueba(true)
   }
   const handleCreateCohorte = function (e) {
-    /*setInput({
-      ...input,
-      [e.target.name]: e.target.value
-    });*/
-    e.preventDefault(); //A TENER EN CUENTA
+    e.preventDefault(); 
     console.log(emails, input, "ACA ESTOY EN COMPONENTE");
-    //filtrar los emails-->devolver un array de los emails que ya existen en all_users
-    filtrar (emails, props.all_users)
-    //si ese array contiene aunque sea un elemento, mandar alert con un mensaje y el contenido de ese array
-    if(existentes.length>0){
+    filtrar (emails, props.all_users)    //filtrar los emails-->devolver un array de los emails que ya existen en all_users
+    if(existentes.length>0){  //si ese array contiene aunque sea un elemento, mandar alert con un mensaje y el contenido de ese array
       swal ({
         title: 'Oops...',
         text: "Los siguientes emails ya se encuentran en uso: " + existentes,
@@ -83,7 +63,7 @@ function CrearCohorte(props) {
       existentes = []
       return
     }
-    //si no contiene ningun elemento puede avanzar con crearCohorte
+    //si no contiene ningun elemento en "existentes" puede avanzar con crearCohorte
     createCohorte(input, emails);
     setInputB(inputB);
     swal({
@@ -97,7 +77,6 @@ function CrearCohorte(props) {
       DateA: "",
     })
     borrarChips()
-    //funcion que ponga en true
   };
 
   const useStyles = makeStyles((theme) => ({

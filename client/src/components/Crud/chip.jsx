@@ -11,7 +11,6 @@ export class Chip extends React.Component {
   };
 
   componentDidUpdate(prevProps) {
-    // Uso tipico (no olvides de comparar las props):
     if (this.props.estado !== prevProps.estado && this.props.estado===true) {
       this.setState({
         items:[]
