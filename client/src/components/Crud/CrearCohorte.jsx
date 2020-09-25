@@ -19,6 +19,7 @@ function CrearCohorte(props) {
   });
 
   const [emails, setEmails] = useState([]);
+  const [prueba, setPrueba] = useState(false);
 
   const [inputB, setInputB] = useState({
     cohorte: "",
@@ -33,13 +34,36 @@ function CrearCohorte(props) {
     });
   };
 
+  var existentes = []
+  // }
+    const filtrar = (emails, usuarios) => {
+    for (let i=0; i<emails.length; i++){
+      for(let j=0; j<usuarios.length; j++){
+        if( emails[i] === usuarios[j].email){
+          existentes.push(emails[i])
+        }
+      }
+    }
+    return existentes
+  }
+  const borrarChips = () =>{
+    setPrueba(true)
+  }
   const handleCreateCohorte = function (e) {
-    /*setInput({
-      ...input,
-      [e.target.name]: e.target.value
-    });*/
-    e.preventDefault(); //A TENER EN CUENTA
+    e.preventDefault(); 
     console.log(emails, input, "ACA ESTOY EN COMPONENTE");
+    filtrar (emails, props.all_users)    //filtrar los emails-->devolver un array de los emails que ya existen en all_users
+    if(existentes.length>0){  //si ese array contiene aunque sea un elemento, mandar alert con un mensaje y el contenido de ese array
+      swal ({
+        title: 'Oops...',
+        text: "Los siguientes emails ya se encuentran en uso: " + existentes,
+        icon: 'error',
+        timer: "3000",
+      })
+      existentes = []
+      return
+    }
+    //si no contiene ningun elemento en "existentes" puede avanzar con crearCohorte
     createCohorte(input, emails);
     setInputB(inputB);
     swal({
@@ -47,6 +71,12 @@ function CrearCohorte(props) {
       icon: "success",
       timer: "3000",
     });
+    setInput({
+      cohorte: "",
+      instructorId: "",
+      DateA: "",
+    })
+    borrarChips()
   };
 
   const useStyles = makeStyles((theme) => ({
@@ -81,26 +111,12 @@ function CrearCohorte(props) {
               }}
               onChange={handleInputChange}
             />
-            {/* <TextField
-              name="instructor"
-              type="text"
-              id="standard-full-width"
-              label="Instructor"
-              style={{ margin: 8 }}
-              value={input.instructor}
-              placeholder="instructor"
-              fullWidth
-              margin="normal"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              onChange={handleInputChange}
-            /> */}
             <FormControl className={classes.formControl}>
               <InputLabel htmlFor="instructor-native-simple">
                 Instructor
               </InputLabel>
               <Select
+                required
                 native
                 value={input.instructorId}
                 onChange={handleInputChange}
@@ -115,14 +131,11 @@ function CrearCohorte(props) {
                     {instructor.name + " " + instructor.lastName}
                   </option>
                 ))}
-                {/* <option aria-label="None" value="" />
-                  <option value={1}>1</option>
-                  <option value={2}>2</option>
-                  <option value={3}>3</option> */}
               </Select>
             </FormControl>
 
             <TextField
+              required
               name="DateA"
               type="date"
               id="standard-full-width"
@@ -138,7 +151,7 @@ function CrearCohorte(props) {
               onChange={handleInputChange}
             />
 
-            <Chip onChange={setEmails} />
+            <Chip onChange={setEmails} borrar={setPrueba} estado={prueba} />
 
             <div>
               <br />
@@ -162,6 +175,7 @@ function CrearCohorte(props) {
 const mapStateToProps = (state) => {
   return {
     all_instructors: state.all_instructors,
+    all_users: state.all_users,
   };
 };
 
