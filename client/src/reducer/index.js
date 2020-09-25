@@ -97,12 +97,6 @@ const reducer = (state = initialState, action) => {
         students_from_cohorte: action.payload,
       };
 
-    case MODIFIED_COHORTE:
-      return {
-        ...state,
-        all_cohortes: action.payload
-      };
-
     default:
       return state;
   }
