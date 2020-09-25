@@ -259,3 +259,15 @@ export function getAlumnosFromCohorte(id) {
       });
   };
 }
+
+export function setearUsuarios(e) {
+  axios.post("http://localhost:4000/usuarios")
+    .then((res) => { res.status('Ok') })
+    .catch(err => console.log(err));
+};
+
+export function setearCohorte(e) {
+  axios.post("http://localhost:4000/cohor")
+    .then((res) => { res.status('Ok') })
+    .catch(err => console.log(err));
+};
