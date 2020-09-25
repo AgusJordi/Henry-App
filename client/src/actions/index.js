@@ -277,3 +277,9 @@ export function setearGroups(e) {
     .then((res) => { res.status('Ok') })
     .catch(err => console.log(err));
 };
+
+export function setearStudents(e) {
+  axios.post("http://localhost:4000/studentshard")
+    .then((res) => { res.status('Ok') })
+    .catch(err => console.log(err));
+};

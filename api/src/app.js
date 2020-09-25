@@ -4,7 +4,7 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const cors = require("cors");
-const { User, Cohorte, Group } = require("./db.js")
+const { User, Cohorte, Group, Student } = require("./db.js")
 const routes = require("./routes/index.js");
 const passport = require('passport');
 const Strategy = require('passport-local').Strategy;
@@ -317,7 +317,7 @@ server.post('/cohor', async(req, res) => {
   })
 })
 
-///////////// GROUOS //////////
+///////////// CREAR GROUOS //////////
 
 server.post('/gruposhard', async(req, res) => {
   const group1 = Group.create({
@@ -335,6 +335,71 @@ server.post('/gruposhard', async(req, res) => {
   })
 
  })
+ 
+
+ //////// CREAR ESTUDIANTES
+ server.post('/studentshard', async(req, res) => {
+  const student1 = Student.create({
+    
+    "groupPP" : null,
+    'userId': 1,    
+    "cohorteId": 1,
+    "groupId": 1,
+  })
+  
+  const student2 = Student.create({
+    "groupPP" : null,
+    'userId': 2,     
+    "cohorteId": 1,
+    "groupId": 1,     
+  })
+
+  const student3 = Student.create({
+    "groupPP" : null,
+    'userId': 3,     
+    "cohorteId": 1,
+    "groupId": 1,     
+  })
+  const student4 = Student.create({
+    "groupPP" : null,
+    'userId': 4,     
+    "cohorteId": 1,
+    "groupId": 1,     
+  })
+
+  const student5 = Student.create({
+    "groupPP" : null,
+    'userId': 5,    
+    "cohorteId": 2,
+    "groupId": 2,
+  })
+
+  const student6 = Student.create({
+    "groupPP" : null,
+    'userId': 6,     
+    "cohorteId": 2,
+    "groupId": 2,     
+  })
+
+  const student7 = Student.create({
+    "groupPP" : null,
+    'userId': 7,     
+    "cohorteId": 2,
+    "groupId": 2,     
+  })
+  const student8 = Student.create({
+    "groupPP" : null,
+    'userId': 8,     
+    "cohorteId": 2,
+    "groupId": 2,     
+  })
+
+  
+
+ })
+
+ 
+  
 
 // Error catching endware.
 server.use((err, req, res, next) => {
