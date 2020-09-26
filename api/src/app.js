@@ -309,10 +309,12 @@ server.post('/usuarios', async (req, res) => {
 })
 server.post('/cohor', async (req, res) => {
   const cohorte1 = Cohorte.create({
-    "instructorId": 3
+    "date": "09-12-2020",
+    "instructorId": 2
   })
   const cohorte2 = Cohorte.create({
-    "instructorId": 4
+    "date": "09-20-2020",
+    "instructorId": 3
   })
 })
 
