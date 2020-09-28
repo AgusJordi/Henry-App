@@ -9,36 +9,40 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import CohorteComponente from "./CohorteComponente";
+import { connect } from "react-redux";
+import { getAllCohortes } from "../../actions/index.js";
 
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
   },
 });
-function ModificarEliminarCohorte() {
+function ModificarEliminarCohorte({getAllCohortes}) {
   const classes = useStyles();
 
   var allcohortes = useSelector((state) => state.all_cohortes);
   /* const [cohortes, setCohortes] = useState([]) */
 
-  /* useEffect(() => {
-    fetch("http://localhost:4000/cohorte")
-      .then((response) => response.json())
-      .then((chs) => {
-        setCohortes(chs)
-      })
-  }, [cohortes]) */
+ useEffect(() => {
+  getAllCohortes()
+  }, []) 
+
+  const ver = (e)=>{
+    getAllCohortes()
+     
+  }
 
   let prueba = false;
   if (allcohortes.length > 0) {
     prueba = true;
   }
+  console.log(allcohortes)
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <TableCell align="center">Cohorte</TableCell>
+            <TableCell align="center" onClick={ver}>Cohorte </TableCell>
             <TableCell align="center">Instructor</TableCell>
             <TableCell align="center">Fecha de inicio</TableCell>
             <TableCell align="center">Opciones</TableCell>
@@ -61,5 +65,21 @@ function ModificarEliminarCohorte() {
     </TableContainer>
   );
 }
+const mapDispatchToProps = (dispatch) => {
+   
+  return {
+    getAllCohortes: () => dispatch(getAllCohortes()),
+    
+     
+  };
+};
 
-export default ModificarEliminarCohorte;
+const mapStateToProps = (state) => {
+  return {
+    all_cohortes: state.all_cohortes
+    
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ModificarEliminarCohorte);
+//export default ModificarEliminarCohorte;
