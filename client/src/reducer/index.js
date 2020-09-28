@@ -12,7 +12,9 @@ import {
   MODIFIED_USER,
   GET_ALL_PMS,
   GET_ALUMNOS_FROM_COHORTE,
-  MODIFIED_COHORTE,
+ 
+  GET_MODIF_COHORTE
+ 
 
 } from "../actions/index";
 
@@ -49,6 +51,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         onlineUser: action.payload,
+      };
+      case GET_MODIF_COHORTE:
+      return {
+        ...state,
+        all_cohortes: action.payload,
       };
 
     case ONLINE_USER_ERROR:

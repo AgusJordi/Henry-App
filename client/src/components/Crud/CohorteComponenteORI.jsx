@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { modifiedCohorte } from "../../actions/index.js";
 import axios from "axios";
 import Table from "@material-ui/core/Table";
 import { makeStyles } from "@material-ui/core/styles";
@@ -20,9 +21,6 @@ import { FormControl } from "@material-ui/core";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import swal from "sweetalert";
-import Swal from 'sweetalert2'
-import { connect } from "react-redux";
-import { modifiedCohorte, getAllCohortes  } from "../../actions/index.js";
 
 const useStyles = makeStyles({
   table: {
@@ -39,8 +37,6 @@ function CohorteComponente(props) {
   });
 
   const allinstructors = useSelector((state) => state.all_instructors);
-  
-  
 
   const [open, setOpen] = useState(false);
 
@@ -63,32 +59,12 @@ function CohorteComponente(props) {
 
   const handleModifiedCohorte = (e) => {
     e.preventDefault();
-    
-     var cohorteX ={
-        id: input.id,
-        name: input.cohorte,
-        instructorId: input.instructor,
-        date: input.DateA
-    }
- 
-    props.modifiedCohorte(cohorteX)
-     
-    Swal.fire({
-      title: 'Bien',
-      text: "Modificaste el cohorte! " + input.cohorte,
-      icon: 'success',
-      showCancelButton: false,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Ok'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        
-        props.getAllCohortes()
-      }
-    })
-
-    
+    modifiedCohorte(input);
+    swal({
+      text: "Se modificó el Cohorte" + input.cohorte,
+      icon: "success",
+      timer: "3000",
+    });
     setOpen(false);
   };
 
@@ -129,10 +105,10 @@ function CohorteComponente(props) {
               />
               <FormControl className={classes.formControl}>
                 <InputLabel htmlFor="instructor-native-simple">
-                  Elegir Instructor
+                  Instructor
                 </InputLabel>
                 <Select
-                  native                  
+                  native
                   value={input.instructor}
                   onChange={handleInputChange}
                   inputProps={{
@@ -140,7 +116,7 @@ function CohorteComponente(props) {
                     id: "instructor-native-simple",
                   }}
                 >
-                  <option aria-label="None"/>
+                  <option aria-label="None" value="" />
                   {allinstructors.map((instructor) => (
                     <option value={instructor.id}>
                       {instructor.name + " " + instructor.lastName}
@@ -188,27 +164,5 @@ function CohorteComponente(props) {
     </TableRow>
   );
 }
-const mapDispatchToProps = (dispatch) => {
-  var cohorte ={
-      id: 1,
-      name: "WEB2020",
-      instructorId: 4,
-      date: "2020-11-11"
-  }
-  return {
-    modifiedCohorte: (cohorte) => dispatch(modifiedCohorte(cohorte)),
-    getAllCohortes: () => dispatch(getAllCohortes()) 
-    
-     
-  };
-};
 
-const mapStateToProps = (state) => {
-  return {
-    all_cohortes: state.all_cohortes
-    
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(CohorteComponente);
- 
+export default CohorteComponente;
