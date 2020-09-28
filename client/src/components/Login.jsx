@@ -84,7 +84,7 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegist
   ////INICIO del del coomponente
 
   useEffect(() => {
-    getAllUsers(589); //probando actions   
+    getAllUsers(589); //probando actions
     
   }, []);
 
