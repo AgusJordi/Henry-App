@@ -99,6 +99,7 @@ export function getIdUser(id) {
           type: GET_ID_USER,
           payload: data,
         });
+         
       });
   };
 }

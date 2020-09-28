@@ -27,10 +27,6 @@ function ModificarEliminarCohorte({getAllCohortes}) {
   getAllCohortes()
   }, []) 
 
-  const ver = (e)=>{
-    getAllCohortes()
-     
-  }
 
   let prueba = false;
   if (allcohortes.length > 0) {
@@ -42,7 +38,7 @@ function ModificarEliminarCohorte({getAllCohortes}) {
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <TableCell align="center" onClick={ver}>Cohorte </TableCell>
+            <TableCell align="center">Cohorte </TableCell>
             <TableCell align="center">Instructor</TableCell>
             <TableCell align="center">Fecha de inicio</TableCell>
             <TableCell align="center">Opciones</TableCell>
