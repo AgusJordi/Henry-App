@@ -10,11 +10,38 @@ const { User, Student, Cohorte } = require("../db.js");
 server.get("/", (req, res, next) => {
   User.findAll()
     .then((users) => {
-      console.log(users);
       if (users && users.length === 0) {
         return res.send({ message: "No hay usuarios" });
       }
       res.send(users);
+    })
+    .catch((err) => next(err));
+});
+
+server.get("/usandSt/:id", (req, res, next) => {
+  User.findAll({
+    where: {
+      id: req.params.id
+    },
+    include: [
+      {
+        model: Student,
+        as: "Student",
+        attributes: ['cohorteId'],
+      },
+      {
+        model: Cohorte,
+        as: "Name Cohorte",
+        attributes: ['name']
+      }
+    ]
+  })
+    .then((user) => {
+      console.log(user);
+      if (user && user.length === 0) {
+        return res.send({ message: "No hay usuarios" });
+      }
+      res.send(user);
     })
     .catch((err) => next(err));
 });
@@ -48,9 +75,13 @@ server.get("/pms", (req, res, next) => {
 
 //Ruta para crear usuario y alumno solo con mail de forma masiva.
 server.post("/add", (req, res, next) => {
-  const { name, date, instructorId } = req.body.cohorte;
+  let { name, date, instructorId } = req.body.cohorte;
   var mails = req.body.emails
   console.log("BODY POST MASS", req.body)
+  if (instructorId === '') {
+    instructorId = 1
+  }
+  console.log(instructorId)
   Cohorte.create({ name, date, instructorId })
     .then(cohorte => {
       for (var i = 0; i < mails.length; i++) {
@@ -173,27 +204,27 @@ server.put("/", async (req, res, next) => {
     googleId,
     gitHubId } = req.body;
   const correo = req.body.email;
-  
-  
+
+
   try {
     //Valido que el usuario exista
     const user = await User.findOne({ where: { email: correo } });
-    const  libre = await  User.findOne( { where: { email: correo, status: 'inhabilitado'} });
-    const   ocupado = await  User.findOne( { where: { email: correo, status: 'habilitado'} });
+    const libre = await User.findOne({ where: { email: correo, status: 'inhabilitado' } });
+    const ocupado = await User.findOne({ where: { email: correo, status: 'habilitado' } });
 
-     
-     if(ocupado){
-      console.log('El MAIL ESTA OCUPADO', ocupado) 
+
+    if (ocupado) {
+      console.log('El MAIL ESTA OCUPADO', ocupado)
       return res.send('null')//SI no existe el eamil
-    
-     }
-     
-    
-    if (!user ) {
+
+    }
+
+
+    if (!user) {
       return res.send(false)//SI no existe el eamil
     }
-     
-    
+
+
     //actualizo el usuario con los campos enviados por body (si alguno no existe no lo actualiza)
     const updated = await user.update({
       name: name,
