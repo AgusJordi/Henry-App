@@ -9,9 +9,9 @@ server.get("/", (req, res, next) => {
       {
         model: User,
         as: "instructor",
-        attributes: ['name']
-      }
-    ]
+        attributes: ["name"],
+      },
+    ],
   })
     .then((cohortes) => {
       if (cohortes.length === 0) {
@@ -22,24 +22,24 @@ server.get("/", (req, res, next) => {
     .catch((error) => next(error));
 });
 
-server.get('/:id', (req, res, next) => {
+server.get("/:id", (req, res, next) => {
   Cohorte.findAll({
     where: {
-      id: req.params.id
+      id: req.params.id,
     },
     include: [
       {
         model: User,
         as: "instructor",
-        attributes: ['name']
-      }
-    ]
+        attributes: ["name"],
+      },
+    ],
   })
-    .then(chFound => {
+    .then((chFound) => {
       res.json(chFound);
     })
-    .catch(next)
-})
+    .catch(next);
+});
 
 server.post("/", (req, res, next) => {
   const { name, date, instructorId } = req.body; //falta date
@@ -67,16 +67,15 @@ server.delete("/:id", (req, res, next) => {
 
 server.put("/:id", async (req, res, next) => {
   const idCohorte = req.params.id;
-  console.log(req.body)
+  console.log(req.body);
   const { name, instructorId, date } = req.body;
 
   try {
-    const cohorte = await Cohorte.findOne(
-      {
-        where: {
-          id: idCohorte
-        }
-      });
+    const cohorte = await Cohorte.findOne({
+      where: {
+        id: idCohorte,
+      },
+    });
     if (!cohorte) {
       return res.send({
         message: `No se encontro el Cohorte: ${idCohorte}`,
@@ -85,7 +84,7 @@ server.put("/:id", async (req, res, next) => {
     const cohorteUpdate = await cohorte.update({
       name: name,
       instructorId: instructorId,
-      date: date
+      date: date,
     });
     return res.send(cohorteUpdate);
   } catch (error) {
@@ -93,4 +92,15 @@ server.put("/:id", async (req, res, next) => {
   }
 });
 
+server.get("/instructor/:id", (req, res, next) => {
+  Cohorte.findAll({
+    where: {
+      instructorId: req.params.id,
+    },
+  })
+    .then((chFound) => {
+      res.json(chFound);
+    })
+    .catch(next);
+});
 module.exports = server;

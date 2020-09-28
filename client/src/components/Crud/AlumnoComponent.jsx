@@ -20,29 +20,40 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import { getStudentFromUserId } from "../../actions/index";
+//button icon
+import IconButton from "@material-ui/core/IconButton";
+import DeleteIcon from "@material-ui/icons/Delete";
+import AddCircleTwoToneIcon from "@material-ui/icons/AddCircleTwoTone";
+import { green } from "@material-ui/core/colors";
+//action
+import { modifiedUser, modifiedStudent } from "../../actions/index";
+
 function AlumnoComponent(props) {
-  const { user, cohortes } = props;
+  const { user, cohortes, grupos, cohortesInst } = props;
 
   const dispatch = useDispatch();
   const studentFromUserId = useSelector((state) => state.student_from_userId);
+
   useEffect(() => {
-    dispatch(getStudentFromUserId(user.id));
+    if (user.student === true) {
+      dispatch(getStudentFromUserId(user.id));
+    }
   }, []);
-  // console.log("pla", user.id, studentFromUserId);
-  const prueba = cohortes.length > 0;
+
   const myPioliStudent = studentFromUserId[user.id];
 
   useEffect(() => {
-    // Aca seteamo lo que faltaba en el estado
-    // setInput()
+    if (myPioliStudent) {
+      setCohorteName(myPioliStudent.cohorte.name);
+      setGroupName(myPioliStudent.group);
+      setStudentId(myPioliStudent.id);
+    }
   }, [myPioliStudent]);
-  console.log(user.id, myPioliStudent);
-  // busco el cohorte id del user
+
+  const cohorteTrue = cohortes.length > 0;
+  const gruposTrue = grupos.length > 0;
 
   const [input, setInput] = useState({
-    name: user.name,
-    lastName: user.lastName,
-    email: user.email,
     cohorte: ``,
     group: ``,
     pairProgramming: ``,
@@ -50,6 +61,25 @@ function AlumnoComponent(props) {
     instructor: user.instructor,
     student: user.student,
   });
+  //estados iniciales del user
+  const [cohorteName, setCohorteName] = useState("");
+  const [grupoName, setGroupName] = useState("");
+  const [studentId, setStudentId] = useState("");
+  //estado inicial de instructor
+
+  const [cohorteInstructor, setCohorteInstructor] = useState(cohortesInst);
+  //funciones para eliminar/ agregar cohortes de instructor
+  const deleteCohorte = (id) => {
+    const newCohortes = cohorteInstructor.filter((item) => item.id !== id);
+    setCohorteInstructor(newCohortes);
+  };
+  const addNewCohorte = (valor) => {
+    setCohorteInstructor((cohorteInstructor) => [...cohorteInstructor, valor]);
+  };
+
+  // estados que cambia el user
+  const [selectCohorte, setSelectCohorte] = useState("");
+  const [selectGrupo, setSelectGrupo] = useState("");
 
   const handleInputChange = function (e) {
     setInput({
@@ -57,15 +87,24 @@ function AlumnoComponent(props) {
       [e.target.name]: e.target.value,
     });
   };
-  const handleSelectChange = (e) => {
-    console.log("cambie desdes function");
+  //funciones change de select
+  const handleChangeCohorte = (e) => {
+    input.cohorte = e.target.value;
+    setSelectCohorte(e.target.value);
   };
+
+  const handleChangeGrupo = (e) => {
+    input.group = e.target.value;
+    setSelectGrupo(e.target.value);
+  };
+  //funcion que cambia el valor de los switch
   const handleSwitchChange = function (e) {
     setInput({
       ...input,
       [e.target.name]: e.target.checked,
     });
   };
+  //open/clese modal editar
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
@@ -75,12 +114,62 @@ function AlumnoComponent(props) {
   const handleClose = () => {
     setOpen(false);
   };
+
+  //open/close modal instructor cohorte
+  const [openIn, setOpenIn] = useState(false);
+
+  const handleOpenIn = () => {
+    setOpenIn(true);
+  };
+
+  const handleCloseIn = () => {
+    setOpenIn(false);
+  };
+
+  //funcion update
+  const editUser = (id, data) => {
+    dispatch(modifiedUser(id, data));
+    console.log("click");
+  };
+  const editStudent = (id, data) => {
+    dispatch(modifiedStudent(id, data));
+    console.log("click stu");
+  };
   //style
   const useStyles = makeStyles((theme) => ({
     switchRoot: {
       display: "flex",
       justifyContent: "space-between",
       marginTop: 22,
+    },
+    buttonEnviar: {
+      backgroundColor: "#6BAD24",
+      "&:hover": {
+        backgroundColor: "#629E21",
+      },
+    },
+    buttonMas: {
+      textAlignLast: "center",
+    },
+    rootChips: {
+      display: "flex",
+      justifyContent: "center",
+      flexWrap: "wrap",
+      listStyle: "none",
+      padding: theme.spacing(0.5),
+      margin: 0,
+    },
+    chip: {
+      margin: theme.spacing(0.5),
+    },
+    cohoActual: {
+      display: "flex",
+    },
+    addCohorte: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      borderBottom: `1px solid ${theme.palette.divider}`,
     },
   }));
   const classes = useStyles();
@@ -89,57 +178,125 @@ function AlumnoComponent(props) {
     <Fragment>
       <TableRow key={user.id}>
         <TableCell align="center">{user.email}</TableCell>
+        {user.instructor ? (
+          <TableCell className={classes.buttonMas}>
+            <ButtonGroup disableElevation variant="contained" color="primary">
+              <Button
+                size="large"
+                onClick={handleOpenIn} /*onClick con la props*/
+                fullWidth
+              >
+                ...Mas
+              </Button>
+            </ButtonGroup>
+            <Dialog open={openIn} aria-labelledby="form-dialog-title">
+              <DialogTitle id="form-dialog-title">
+                Cohortes Actuales
+              </DialogTitle>
+              <DialogContent className={classes.cohoActual}>
+                {cohorteInstructor.map((cohorte) => {
+                  return (
+                    <div>
+                      {cohorte.name}
+                      <IconButton aria-label="delete" color="secondary">
+                        <DeleteIcon onClick={() => deleteCohorte(cohorte.id)} />
+                      </IconButton>
+                    </div>
+                  );
+                })}
+              </DialogContent>
+              <DialogTitle id="form-dialog-title">Agregar Cohortes</DialogTitle>
+              <DialogContent>
+                {cohortes.map((cohorte) => {
+                  return (
+                    <div className={classes.addCohorte}>
+                      {cohorte.name}
+                      <IconButton
+                        aria-label="add"
+                        style={{ color: green[500] }}
+                      >
+                        <AddCircleTwoToneIcon
+                          onClick={() => addNewCohorte(cohorte)}
+                        />
+                      </IconButton>
+                    </div>
+                  );
+                })}
+              </DialogContent>
+              <div style={{ margin: 8 }}>
+                <DialogActions>
+                  <Button color="primary" onClick={handleCloseIn}>
+                    Cerrar
+                  </Button>
+                  <Button
+                    type="submit"
+                    /*el onclick de actualizar debe ir con el actions*/
+                    color="primary"
+                    onClick={() => {
+                      editStudent(user.id, input);
+                    }}
+                  >
+                    Modificar
+                  </Button>
+                </DialogActions>
+              </div>
+            </Dialog>
+          </TableCell>
+        ) : (
+          <TableCell>
+            <InputLabel id="demo-controlled-open-select-label">
+              {cohorteName}
+            </InputLabel>
+            <Select
+              labelId="selectCohorte"
+              id="selectCohorteOp"
+              value={selectCohorte}
+              onChange={handleChangeCohorte}
+              fullWidth
+            >
+              {/* MAPEAR LISTA DE cohortes Y DEVOLVER UN MENUITEM X CADA UNO */}
+              {cohorteTrue ? (
+                cohortes.map((cohorte) => {
+                  let id = cohorte.id;
+                  return (
+                    <MenuItem value={id} key={id}>
+                      {cohorte.name}
+                    </MenuItem>
+                  );
+                })
+              ) : (
+                <MenuItem value="">
+                  <em>no existen array</em>
+                </MenuItem>
+              )}
+            </Select>
+          </TableCell>
+        )}
         <TableCell>
-          <InputLabel id="demo-controlled-open-select-label">sarasa</InputLabel>
+          <InputLabel id="demo-controlled-open-select-label">
+            {grupoName ? grupoName : "Namegrupo afk"}
+          </InputLabel>
           <Select
-            labelId="selectCohorte"
-            id="selectCohorteOp"
-            value=""
-            onChange={handleSelectChange}
+            labelId="selectGroup"
+            id="selectGroupOp"
+            value={selectGrupo}
+            onChange={handleChangeGrupo}
             fullWidth
           >
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
             {/* MAPEAR LISTA DE cohortes Y DEVOLVER UN MENUITEM X CADA UNO */}
-            {prueba ? (
-              cohortes.map((cohorte) => {
-                let id = cohorte.id;
-                return (
-                  <MenuItem value={id} key={id}>
-                    {cohorte.name}
-                  </MenuItem>
-                );
+            {gruposTrue ? (
+              grupos.map((grupo) => {
+                let id = grupo.id;
+                return <MenuItem value={id}>{grupo.name}</MenuItem>;
               })
             ) : (
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
             )}
-          </Select>
-        </TableCell>
-        <TableCell>
-          <Select
-            labelId="selectGroup"
-            id="selectGroupOp"
-            value={input.group}
-            onChange={handleInputChange}
-            fullWidth
-          >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            {/* MAPEAR LISTA DE cohortes Y DEVOLVER UN MENUITEM X CADA UNO */}
-            {/* {prueba ? (
-              allCohortes.map((cohorte) => {
-                let id = cohorte.id;
-                return <MenuItem value={id}>{cohorte.name}</MenuItem>;
-              })
-            ) : (
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-            )} */}
           </Select>
         </TableCell>
         <TableCell>
@@ -169,43 +326,12 @@ function AlumnoComponent(props) {
         <TableCell align="center">
           <ButtonGroup disableElevation variant="contained" color="primary">
             <Button size="small" onClick={handleOpen} /*onClick con la props*/>
-              Editar
+              Permisos
             </Button>
           </ButtonGroup>
           <Dialog open={open} aria-labelledby="form-dialog-title">
             <DialogTitle id="form-dialog-title">Modificar Usuario</DialogTitle>
             <DialogContent>
-              <TextField
-                autoFocus
-                name="name"
-                margin="dense"
-                label="Nombre"
-                type="text"
-                fullWidth
-                value={input.name}
-                onChange={handleInputChange}
-              />
-              <TextField
-                autoFocus
-                name="lastName"
-                margin="dense"
-                label="Apellido"
-                type="text"
-                fullWidth
-                value={input.lastName}
-                onChange={handleInputChange}
-              />
-              <TextField
-                autoFocus
-                name="email"
-                margin="dense"
-                label="Email"
-                type="text"
-                fullWidth
-                value={input.email}
-                onChange={handleInputChange}
-              />
-
               <FormGroup row className={classes.switchRoot}>
                 <FormControlLabel
                   control={
@@ -273,24 +399,31 @@ function AlumnoComponent(props) {
                   type="submit"
                   /*el onclick de actualizar debe ir con el actions*/
                   color="primary"
+                  onClick={() => editUser(user.id, input)}
                 >
                   Modificar
                 </Button>
               </DialogActions>
             </div>
           </Dialog>
-          <ButtonGroup disableElevation variant="contained" color="secondary">
+          <ButtonGroup disableElevation variant="contained">
             <Button
               size="small" /* El onclick debe ir con el actions para no perderse*/
+              color="primary"
+              className={classes.buttonEnviar}
+              onClick={() => {
+                editStudent(myPioliStudent.id, input);
+              }}
+            >
+              Confirmar
+            </Button>
+            <Button
+              size="small" /* El onclick debe ir con el actions para no perderse*/
+              color="secondary"
             >
               Eliminar
             </Button>
           </ButtonGroup>
-          <ButtonGroup
-            disableElevation
-            variant="contained"
-            color="primary"
-          ></ButtonGroup>
         </TableCell>
       </TableRow>
     </Fragment>

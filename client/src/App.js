@@ -14,6 +14,8 @@ import {
   getAllCohortes,
   getAllStudents,
   getStudentFromUserId,
+  getAllGroups,
+  getCohortesByUserId,
 } from "./actions";
 import {
   BrowserRouter as Router,
@@ -42,6 +44,8 @@ function App(props) {
     props.getAllInstructors();
     props.getAllCohortes();
     props.getAllStudents();
+    props.getAllGroups();
+    props.getCohortesByUserId();
   }, []);
 
   const PvRoute = (props) =>
@@ -78,6 +82,8 @@ const mapDispatchToProps = (dispatch) => {
     getAllInstructors: () => dispatch(getAllInstructors()),
     getAllStudents: () => dispatch(getAllStudents()),
     getAllCohortes: () => dispatch(getAllCohortes()),
+    getAllGroups: (id) => dispatch(getAllGroups(id)),
+    getCohortesByUserId: (id) => dispatch(getCohortesByUserId(id)),
   };
 };
 

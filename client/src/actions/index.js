@@ -13,9 +13,12 @@ export const USER_REGISTER = "USER_REGISTER";
 export const USER_REGISTER_ERROR = "USER_REGISTER_ERROR";
 export const GET_ALL_STUDENTS = "GET_ALL_STUDENTS";
 export const MODIFIED_USER = "MODIFIED_USER";
+export const MODIFIED_STUDENT = "MODIFIED_STUDENT";
 export const GET_ALL_PMS = "GET_ALL_PMS";
 export const GET_ALUMNOS_FROM_COHORTE = "GET_ALUMNOS_FROM_COHORTE";
 export const GET_STUDENT_FROM_USERID = "GET_STUDENT_FROM_USERID";
+export const GET_ALL_GROUPS = "GET_ALL_GROUPS";
+export const GET_COHORTES_BY_USERID = "GET_COHORTES_BY_USERID";
 
 export function userLogIn(body) {
   return function (dispatch) {
@@ -146,6 +149,23 @@ export function modifiedUser(id, data) {
   };
 }
 
+export function modifiedStudent(id, data) {
+  console.log("LE MANDO al Action", id, data);
+
+  return function (dispatch) {
+    return axios
+      .put(`http://localhost:4000/students/${id}`, data)
+      .then((result) => result.data)
+      .then((data) => {
+        dispatch({
+          type: MODIFIED_STUDENT,
+          payload: data,
+        });
+        //console.log("QUE trae el data", data)
+      });
+  };
+}
+
 export function modifiedPassword(id, data) {
   console.log(data, "SOY UNA DAAAAAAAAAAAAATA");
   var url = `http://localhost:4000/users/${id}/passwordReset`;
@@ -245,6 +265,45 @@ export function getStudentFromUserId(id) {
       .then((data) => {
         dispatch({
           type: GET_STUDENT_FROM_USERID,
+          payload: data,
+        });
+      });
+  };
+}
+
+export function getAllGroups(id) {
+  return function (dispatch) {
+    if (id) {
+      return axios
+        .get(`http://localhost:4000/grupos/${id}`)
+        .then((res) => res.data)
+        .then((data) => {
+          dispatch({
+            type: GET_ALL_GROUPS,
+            payload: data,
+          });
+        });
+    }
+    return axios
+      .get(`http://localhost:4000/grupos/`)
+      .then((res) => res.data)
+      .then((data) => {
+        dispatch({
+          type: GET_ALL_GROUPS,
+          payload: data,
+        });
+      });
+  };
+}
+
+export function getCohortesByUserId(id) {
+  return function (dispatch) {
+    return axios
+      .get(`http://localhost:4000/cohorte/instructor/${id}`)
+      .then((res) => res.data)
+      .then((data) => {
+        dispatch({
+          type: GET_COHORTES_BY_USERID,
           payload: data,
         });
       });

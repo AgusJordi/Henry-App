@@ -10,9 +10,12 @@ import {
   USER_REGISTER_ERROR,
   GET_ALL_STUDENTS,
   MODIFIED_USER,
+  MODIFIED_STUDENT,
   GET_ALL_PMS,
   GET_ALUMNOS_FROM_COHORTE,
   GET_STUDENT_FROM_USERID,
+  GET_ALL_GROUPS,
+  GET_COHORTES_BY_USERID,
 } from "../actions/index";
 
 const initialState = {
@@ -26,6 +29,8 @@ const initialState = {
   all_pms: [],
   students_from_cohorte: [],
   student_from_userId: {},
+  all_groups: [],
+  all_cohortes_by_userId: [],
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -43,6 +48,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         id_user: action.payload,
+      };
+    case MODIFIED_STUDENT:
+      return {
+        ...state,
+        id_student: action.payload,
       };
 
     case USER_LOGIN:
@@ -97,9 +107,23 @@ const reducer = (state = initialState, action) => {
         students_from_cohorte: action.payload,
       };
 
+    case GET_ALL_GROUPS:
+      return {
+        ...state,
+        all_groups: action.payload,
+      };
+
+    case GET_COHORTES_BY_USERID:
+      return {
+        ...state,
+        all_cohortes_by_userId: [
+          ...state.all_cohortes_by_userId,
+          ...action.payload,
+        ],
+      };
+
     case GET_STUDENT_FROM_USERID: {
       const { payload } = action;
-
       if (!payload) return state;
 
       return {

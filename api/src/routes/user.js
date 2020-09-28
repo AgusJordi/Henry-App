@@ -1,6 +1,6 @@
 const server = require("express").Router();
 //const bcrypt = require("bcryptjs");
-const mailer = require("../../templates/Registro.js")
+const mailer = require("../../templates/Registro.js");
 
 const { User, Student, Cohorte } = require("../db.js");
 
@@ -23,53 +23,50 @@ server.get("/instructor", (req, res, next) => {
   User.findAll({
     order: [["id", "ASC"]],
     where: {
-      instructor: true
-    }
+      instructor: true,
+    },
   })
-    .then(inst => {
-      res.send(inst)
+    .then((inst) => {
+      res.send(inst);
     })
     .catch(next);
-})
+});
 
 //Ruta para obtener los users q sean pm's
 server.get("/pms", (req, res, next) => {
   User.findAll({
     where: {
-      pm: true
-    }
+      pm: true,
+    },
   })
-    .then(pm => {
-      res.send(pm)
+    .then((pm) => {
+      res.send(pm);
     })
     .catch(next);
-})
+});
 
 //Ruta para crear usuario y alumno solo con mail de forma masiva.
 server.post("/add", (req, res, next) => {
   const { name, date, instructorId } = req.body.cohorte;
-  var mails = req.body.emails
-  console.log("BODY POST MASS", req.body)
-  Cohorte.create({ name, date, instructorId })
-    .then(cohorte => {
-      for (var i = 0; i < mails.length; i++) {
-        User.create({
-          email: mails[i]
-        })
-          .then(user => {
-            console.log(user)
-            mailer.enviar_mail("Henry", user.dataValues.email)
-            Student.create({
-              userId: user.dataValues.id,
-              cohorteId: cohorte.dataValues.id
-            })
-          })
-      }
-    })
+  var mails = req.body.emails;
+  console.log("BODY POST MASS", req.body);
+  Cohorte.create({ name, date, instructorId }).then((cohorte) => {
+    for (var i = 0; i < mails.length; i++) {
+      User.create({
+        email: mails[i],
+      }).then((user) => {
+        console.log(user);
+        mailer.enviar_mail("Henry", user.dataValues.email);
+        Student.create({
+          userId: user.dataValues.id,
+          cohorteId: cohorte.dataValues.id,
+        });
+      });
+    }
+  });
 
-  res.send("Se creó usuario y alumno")
-})
-
+  res.send("Se creó usuario y alumno");
+});
 
 //Ruta crear usuario
 server.post("/", (req, res, next) => {
@@ -86,7 +83,7 @@ server.post("/", (req, res, next) => {
     status,
     student,
     instructor,
-    pm
+    pm,
   } = req.body;
   console.log(email, lastname, email, password);
 
@@ -105,13 +102,12 @@ server.post("/", (req, res, next) => {
       status: status,
       student: student,
       instructor: instructor,
-      pm: pm
+      pm: pm,
     };
     User.create(newUser)
       .then((user) => {
-        mailer.enviar_mail(newUser.name, newUser.email)
+        mailer.enviar_mail(newUser.name, newUser.email);
         return res.send(user.dataValues);
-
       })
       .catch((error) => {
         //Mandamos el error al error endware
@@ -170,29 +166,29 @@ server.put("/", async (req, res, next) => {
     instructor,
     admin,
     googleId,
-    gitHubId } = req.body;
+    gitHubId,
+  } = req.body;
   const correo = req.body.email;
-  
-  
+
   try {
     //Valido que el usuario exista
     const user = await User.findOne({ where: { email: correo } });
-    const  libre = await  User.findOne( { where: { email: correo, status: 'inhabilitado'} });
-    const   ocupado = await  User.findOne( { where: { email: correo, status: 'habilitado'} });
+    const libre = await User.findOne({
+      where: { email: correo, status: "inhabilitado" },
+    });
+    const ocupado = await User.findOne({
+      where: { email: correo, status: "habilitado" },
+    });
 
-     
-     if(ocupado){
-      console.log('El MAIL ESTA OCUPADO', ocupado) 
-      return res.send('null')//SI no existe el eamil
-    
-     }
-     
-    
-    if (!user ) {
-      return res.send(false)//SI no existe el eamil
+    if (ocupado) {
+      console.log("El MAIL ESTA OCUPADO", ocupado);
+      return res.send("null"); //SI no existe el eamil
     }
-     
-    
+
+    if (!user) {
+      return res.send(false); //SI no existe el eamil
+    }
+
     //actualizo el usuario con los campos enviados por body (si alguno no existe no lo actualiza)
     const updated = await user.update({
       name: name,
@@ -208,7 +204,7 @@ server.put("/", async (req, res, next) => {
       instructor: instructor,
       admin: admin,
       googleId: googleId,
-      gitHubId: gitHubId
+      gitHubId: gitHubId,
     });
 
     //envio el usuario actualizado
@@ -223,35 +219,39 @@ server.put("/myprofile/:id", async (req, res, next) => {
   const userUp = req.body;
   User.findOne({
     where: {
-      id: req.params.id
-    }
-  }).then(user => {
-    user.update(userUp)
-      .then(usuario => {
-        usuario.save()
-        res.status(200)
-        res.json(usuario)
-      }).catch(err => next(err))
+      id: req.params.id,
+    },
+  }).then((user) => {
+    user
+      .update(userUp)
+      .then((usuario) => {
+        usuario.save();
+        res.status(200);
+        res.json(usuario);
+      })
+      .catch((err) => next(err));
   });
 });
 
-server.put('/passwordReset', (req, res, next) => {
+server.put("/passwordReset", (req, res, next) => {
   //const { id } = req.params;
   const { id, password } = req.body;
-  console.log(req.body)
+  console.log(req.body);
   //const salt = crypto.randomBytes(64).toString('hex') Va a servir cuando las rutas esten encryptadas
   //const password = crypto.pbkdf2Sync(req.body.password, salt, 10000, 64, 'sha512').toString('base64')
 
   User.findByPk(id)
     .then((user) => {
       if (user) {
-        user.password = password
+        user.password = password;
         //      user.salt = salt
-        return user.save()
+        return user.save();
       }
-    }).then((user) => {
+    })
+    .then((user) => {
       res.status(200).send(user);
-    }).catch(err => next(err))
-})
+    })
+    .catch((err) => next(err));
+});
 
 module.exports = server;

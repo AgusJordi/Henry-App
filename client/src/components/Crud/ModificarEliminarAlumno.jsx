@@ -39,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
   setTableRowButton: {
     display: "flex",
+    maxWidth: 350,
   },
   prueba: {
     width: 250,
@@ -49,13 +50,11 @@ function ModificarEliminarAlumno() {
   const allUsers = useSelector((state) => state.all_users);
   const allCohortes = useSelector((state) => state.all_cohortes);
   const allStudents = useSelector((state) => state.all_students);
+  const allGroups = useSelector((state) => state.all_groups);
   //manejo estado de dialog
   //resteo de array vacio
-  let arrayClear = false;
+  let arrayClear = allUsers.length > 0;
 
-  if (allUsers.length > 0) {
-    arrayClear = true;
-  }
   const classes = useStyles();
 
   return (
@@ -89,6 +88,7 @@ function ModificarEliminarAlumno() {
                 >
                   <Button>Habilitados</Button>
                   <Button>Inhabilitados</Button>
+                  <Button>Instructor</Button>
                 </ButtonGroup>
               </Box>
             </Box>
@@ -116,6 +116,14 @@ function ModificarEliminarAlumno() {
                   user={user}
                   key={user.id}
                   cohortes={allCohortes}
+                  cohortesInst={
+                    user.instructor
+                      ? allCohortes.filter(
+                          (cohorte) => cohorte.instructorId === user.id
+                        )
+                      : []
+                  }
+                  grupos={allGroups}
                 />
               );
             })
