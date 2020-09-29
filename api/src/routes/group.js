@@ -84,14 +84,14 @@ server.put("/:name", async (req, res, next) => {
   const { name, description } = req.body;
 
   try {
-    const group = await Cohorte.findOne({ where: { name: nameGroup } });
+    const group = await User.findOne({ where: { id: id } });
     if (!group) {
       return res.send({
-        message: `No se encontro el Grupo: ${nameGroup}`,
+        message: ``,
       });
     }
-    const groupUpdate = await group.update({
-      name: name,
+    const studentUpdate = await student.update({
+      cohorteId: cohorteId,
       description: description,
     });
     return res.send(groupUpdate);
@@ -101,3 +101,6 @@ server.put("/:name", async (req, res, next) => {
 });
 
 module.exports = server; 
+
+
+
