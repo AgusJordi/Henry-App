@@ -59,9 +59,6 @@ function ModificarEliminarAlumno() {
   //manejo estado de dialog
   //resteo de array vacio
   let arrayClear = allUsers.length > 0;
-  useEffect(() => {
-    console.log("pla", allCohortes);
-  }, [allCohortes]);
 
   const classes = useStyles();
 

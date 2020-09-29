@@ -58,7 +58,7 @@ function AlumnoComponent(props) {
 
   useEffect(() => {
     if (myPioliStudent) {
-      setCohorteName(myPioliStudent.cohorte.name);
+      setCohorteName(myPioliStudent.cohorteId);
       setGroupName(myPioliStudent.group);
       setStudentId(myPioliStudent.id);
       setCohorteIdStu(myPioliStudent.cohorteId);
@@ -232,7 +232,6 @@ function AlumnoComponent(props) {
   //funcion update
   const editUser = (id, data) => {
     dispatch(modifiedUser(id, data));
-    console.log("click");
   };
   const editStudent = (id, data) => {
     Swal.fire({
@@ -331,11 +330,11 @@ function AlumnoComponent(props) {
         <TableCell align="center">
           {user.instructor
             ? "Instructor"
-            : user.pm
-            ? user.student
+            : user.student
+            ? user.pm
               ? "Estudiante/Pm"
-              : "No tiene estado"
-            : "Pm"}
+              : "Estudiante"
+            : "No tiene estado"}
         </TableCell>
         {user.instructor ? (
           <TableCell className={classes.buttonMas}>
