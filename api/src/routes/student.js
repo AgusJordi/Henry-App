@@ -99,22 +99,25 @@ server.get("/grupo/:id", (req, res) => {
     });
 });
 
-//editar información del alumno
-server.put("/:id", (req, res, next) => {
-  let studentUp = req.body;
-  Student.findOne({
-    where: {
-      id: req.params.id,
-    },
-  }).then((studentFound) => {
-    studentFound.update(studentUp).then((newStu) => {
-      newStu.save();
-      res.status(200);
-      res.json(newStu);
+server.put("/:id", async (req, res, next) => {
+  const id = req.params.id;
+  const { cohorteId, groupId, groupPP } = req.body;
+  try {
+    const student = await Student.findOne({ where: { id: id } });
+    if (!student)
+      return res.send({
+        message: `no se encontro usuario`,
+      });
+    const studentUpdate = await student.update({
+      cohorteId: cohorteId,
+      groupId: groupId,
+      groupPP: groupPP,
     });
-  });
+    return res.send(studentUpdate);
+  } catch (error) {
+    next(error);
+  }
 });
-
 //eliminar un alumno
 server.delete("/delete/:id", (req, res, next) => {
   Student.destroy({

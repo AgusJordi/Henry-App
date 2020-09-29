@@ -19,6 +19,8 @@ export const GET_ALUMNOS_FROM_COHORTE = "GET_ALUMNOS_FROM_COHORTE";
 export const GET_STUDENT_FROM_USERID = "GET_STUDENT_FROM_USERID";
 export const GET_ALL_GROUPS = "GET_ALL_GROUPS";
 export const GET_COHORTES_BY_USERID = "GET_COHORTES_BY_USERID";
+export const MODIFIED_COHORTE_INSTRUCTOR = "MODIFIED_COHORTE_INSTRUCTOR";
+export const DELETE_USER_BY_ID = "DELETE_USER_BY_ID";
 
 export function userLogIn(body) {
   return function (dispatch) {
@@ -166,6 +168,22 @@ export function modifiedStudent(id, data) {
   };
 }
 
+export function modifiedCohorteInstructor(id, data) {
+  console.log("LE MANDO al Action", id, data);
+
+  return function (dispatch) {
+    return axios
+      .put(`http://localhost:4000/cohorte/${id}`, data)
+      .then((result) => result.data)
+      .then((data) => {
+        dispatch({
+          type: MODIFIED_COHORTE_INSTRUCTOR,
+          payload: data,
+        });
+      });
+  };
+}
+
 export function modifiedPassword(id, data) {
   console.log(data, "SOY UNA DAAAAAAAAAAAAATA");
   var url = `http://localhost:4000/users/${id}/passwordReset`;
@@ -304,6 +322,20 @@ export function getCohortesByUserId(id) {
       .then((data) => {
         dispatch({
           type: GET_COHORTES_BY_USERID,
+          payload: data,
+        });
+      });
+  };
+}
+
+export function deleteUserById(id) {
+  return function (dispatch) {
+    return axios
+      .delete(`http://localhost:4000/users/${id}`)
+      .then((res) => res.data)
+      .then((data) => {
+        dispatch({
+          type: DELETE_USER_BY_ID,
           payload: data,
         });
       });

@@ -16,6 +16,8 @@ import {
   GET_STUDENT_FROM_USERID,
   GET_ALL_GROUPS,
   GET_COHORTES_BY_USERID,
+  MODIFIED_COHORTE_INSTRUCTOR,
+  DELETE_USER_BY_ID,
 } from "../actions/index";
 
 const initialState = {
@@ -122,6 +124,12 @@ const reducer = (state = initialState, action) => {
         ],
       };
 
+    case DELETE_USER_BY_ID:
+      return {
+        ...state,
+        all_users: action.payload,
+      };
+
     case GET_STUDENT_FROM_USERID: {
       const { payload } = action;
       if (!payload) return state;
@@ -132,6 +140,29 @@ const reducer = (state = initialState, action) => {
           ...state.student_from_userId,
           [action.payload.userId]: action.payload,
         },
+      };
+    }
+
+    case MODIFIED_COHORTE_INSTRUCTOR: {
+      // return {
+      //   ...state,
+      //   all_cohortes: [state.all_cohortes, action.payload],
+      // };
+      return {
+        ...state,
+        all_cohortes: [
+          ...state.all_cohortes.map((elem) => {
+            if (elem.id == action.payload.id) {
+              return {
+                ...elem,
+                instructorId: action.payload.instructorId,
+                date: action.payload.date,
+              };
+            } else {
+              return elem;
+            }
+          }),
+        ],
       };
     }
 

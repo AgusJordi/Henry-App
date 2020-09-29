@@ -68,7 +68,7 @@ server.delete("/:id", (req, res, next) => {
 server.put("/:id", async (req, res, next) => {
   const idCohorte = req.params.id;
   console.log(req.body);
-  const { name, instructorId, date } = req.body;
+  const { instructorId, date } = req.body;
 
   try {
     const cohorte = await Cohorte.findOne({
@@ -82,7 +82,6 @@ server.put("/:id", async (req, res, next) => {
       });
     }
     const cohorteUpdate = await cohorte.update({
-      name: name,
       instructorId: instructorId,
       date: date,
     });

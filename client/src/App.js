@@ -16,6 +16,7 @@ import {
   getStudentFromUserId,
   getAllGroups,
   getCohortesByUserId,
+  deleteUserById,
 } from "./actions";
 import {
   BrowserRouter as Router,
@@ -46,6 +47,7 @@ function App(props) {
     props.getAllStudents();
     props.getAllGroups();
     props.getCohortesByUserId();
+    props.deleteUserById();
   }, []);
 
   const PvRoute = (props) =>
@@ -84,6 +86,7 @@ const mapDispatchToProps = (dispatch) => {
     getAllCohortes: () => dispatch(getAllCohortes()),
     getAllGroups: (id) => dispatch(getAllGroups(id)),
     getCohortesByUserId: (id) => dispatch(getCohortesByUserId(id)),
+    deleteUserById: (id) => dispatch(deleteUserById(id)),
   };
 };
 

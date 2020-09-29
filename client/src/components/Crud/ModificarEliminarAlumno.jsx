@@ -20,6 +20,10 @@ import AlumnoComponent from "./AlumnoComponent";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
+//select
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
 
 //style
 const useStyles = makeStyles((theme) => ({
@@ -51,9 +55,13 @@ function ModificarEliminarAlumno() {
   const allCohortes = useSelector((state) => state.all_cohortes);
   const allStudents = useSelector((state) => state.all_students);
   const allGroups = useSelector((state) => state.all_groups);
+  const allInstructors = useSelector((state) => state.all_instructors);
   //manejo estado de dialog
   //resteo de array vacio
   let arrayClear = allUsers.length > 0;
+  useEffect(() => {
+    console.log("pla", allCohortes);
+  }, [allCohortes]);
 
   const classes = useStyles();
 
@@ -65,16 +73,57 @@ function ModificarEliminarAlumno() {
             <Box className={classes.boxButtons} fullWidth component={"div"}>
               <Box align="center">
                 Filtrar por:
+                <TableCell>
+                  <InputLabel id="demo-controlled-open-select-label">
+                    Cohortes
+                  </InputLabel>
+                  <Select
+                    labelId="selectpairProgramming"
+                    id="selectpairProgrammingOp"
+                    value=""
+                    fullWidth
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                  </Select>
+                </TableCell>
+                <TableCell>
+                  <InputLabel id="demo-controlled-open-select-label">
+                    Grupos
+                  </InputLabel>
+                  <Select
+                    labelId="selectpairProgramming"
+                    id="selectpairProgrammingOp"
+                    value=""
+                    fullWidth
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                  </Select>
+                </TableCell>
+                <TableCell>
+                  <InputLabel id="demo-controlled-open-select-label">
+                    Pair Programing
+                  </InputLabel>
+                  <Select
+                    labelId="selectpairProgramming"
+                    id="selectpairProgrammingOp"
+                    value=""
+                    fullWidth
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                  </Select>
+                </TableCell>
                 <ButtonGroup
                   disableElevation
                   variant="contained"
                   color="primary"
                   className={classes.rootButton}
-                >
-                  <Button>Cohorte</Button>
-                  <Button>Grupo</Button>
-                  <Button>Pair Programing</Button>
-                </ButtonGroup>
+                ></ButtonGroup>
               </Box>
             </Box>
             <Box className={classes.boxButtons} fullWidth component={"div"}>
@@ -97,9 +146,11 @@ function ModificarEliminarAlumno() {
             <TableCell align="center" className={classes.prueba}>
               Email
             </TableCell>
+            <TableCell align="center">Estado</TableCell>
             <TableCell align="center">Cohorte</TableCell>
-            <TableCell align="center">Grupo</TableCell>
+            <TableCell align="center">Grupo de estudiante</TableCell>
             <TableCell align="center">Pair Programming</TableCell>
+
             <TableCell align="center">Opciones</TableCell>
           </TableRow>
         </TableHead>
@@ -117,12 +168,13 @@ function ModificarEliminarAlumno() {
                   key={user.id}
                   cohortes={allCohortes}
                   cohortesInst={
-                    user.instructor
+                    user.instructor && allCohortes
                       ? allCohortes.filter(
                           (cohorte) => cohorte.instructorId === user.id
                         )
                       : []
                   }
+                  instructores={allInstructors}
                   grupos={allGroups}
                 />
               );
