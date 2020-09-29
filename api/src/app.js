@@ -8,7 +8,7 @@ const { User, Cohorte, Group, Student } = require("./db.js")
 const routes = require("./routes/index.js");
 const passport = require('passport');
 const Strategy = require('passport-local').Strategy;
-const bcrypt = require("bcryptjs");
+const crypto = require('crypto');
 
 var db = require("./db.js");
 
@@ -29,14 +29,13 @@ passport.use(new Strategy(
           console.log("NO ENCUENTRA EL USUARIO")
           return done(null, false);
         }
-        if (password !== user.password) {//comparar con contraseña
-          console.log("NO PASA LA CONTRASEÑA")
-          return done(null, false);
-        }
-
-        console.log("ENCUENTRA EL USUARIO", user.dataValues)
-        return done(null, user.dataValues);
-      })
+        const passwordKey = crypto.pbkdf2Sync(password, user.salt, 10000, 64, 'sha512').toString('base64');
+      if (passwordKey !== user.password) {
+        return done(null, false, { status: 'error', message: 'Contraseña incorrecta' });
+      }
+      //Esta es la funcion que va a mantener la sesion en la cookie, para poder usarlo en la app
+      return done(null, user.dataValues, { status: 'ok' });
+    })
       .catch(err => {
         return done(err);
       })
@@ -135,23 +134,23 @@ server.get("/login",
 
 server.use("/", routes);
 
-server.post('/usuarios', async (req, res) => {
-  const admin = User.create({
+server.post('/usuarios', async(req, res) => {
+  const admin = User.create({  //id: 1
     "email": "admin@gmail.com",
     "password": 1234,
     "name": "admin",
-    "lastname": "Cofounder",
+    "lastName" : "Cofounder",
     "admin": true,
     "status": "habilitado",
     "student": false,
     "instructor": true
   })
 
-  const instructor = User.create({
+  const instructor = User.create({ //id: 2
     "email": "instructor@gmail.com",
     "password": 1234,
     "name": "Emi",
-    "lastname": "Chequer",
+    "lastName" : "Chequer",
     "admin": false,
     "status": "habilitado",
     "student": false,
@@ -159,23 +158,23 @@ server.post('/usuarios', async (req, res) => {
     "pm": true
   })
 
-  const pm = User.create({
+  const pm = User.create({ //id: 3
     "email": "pm@gmail.com",
     "password": 1234,
     "name": "Oliver",
-    "lastname": "Balfour",
+    "lastName" : "Balfour",
     "admin": false,
     "status": "habilitado",
     "student": false,
     "instructor": true,
     "pm": true
   })
-
-  const pmyalumno1 = User.create({
+  
+  const pmyalumno1 = User.create({ //id: 4
     "email": "pmyalumno@gmail.com",
     "password": 1234,
     "name": "Victoria",
-    "lastname": "Henry",
+    "lastName" : "Henry",
     "admin": false,
     "status": "habilitado",
     "student": true,
@@ -183,11 +182,11 @@ server.post('/usuarios', async (req, res) => {
     "pm": true
   })
 
-  const pmyalumno2 = User.create({
+  const pmyalumno2 = User.create({ //id: 5
     "email": "pmyalumno2@gmail.com",
     "password": 1234,
     "name": "Carlos",
-    "lastname": "Merge",
+    "lastName" : "Merge",
     "admin": false,
     "status": "habilitado",
     "student": true,
@@ -195,11 +194,11 @@ server.post('/usuarios', async (req, res) => {
     "pm": true
   })
 
-  const pmyalumno3 = User.create({
+  const pmyalumno3 = User.create({ //id: 6
     "email": "alpm@gmail.com",
     "password": 1234,
     "name": "Sergio",
-    "lastname": "Furrer",
+    "lastName" : "Furrer",
     "admin": false,
     "status": "habilitado",
     "student": true,
@@ -207,11 +206,11 @@ server.post('/usuarios', async (req, res) => {
     "pm": true
   })
 
-  const pmyalumno4 = User.create({
+  const pmyalumno4 = User.create({ //id: 7
     "email": "dario1@gmail.com",
     "password": 1234,
     "name": "Dario",
-    "lastname": "Lotus",
+    "lastName" : "Lotus",
     "admin": false,
     "status": "habilitado",
     "student": true,
@@ -219,11 +218,11 @@ server.post('/usuarios', async (req, res) => {
     "pm": true
   })
 
-  const pmyalumno5 = User.create({
+  const pmyalumno5 = User.create({ //id: 8
     "email": "clavedesol@gmail.com",
     "password": 1234,
     "name": "Soledad",
-    "lastname": "Solitaria",
+    "lastName" : "Solitaria",
     "admin": false,
     "status": "habilitado",
     "student": true,
@@ -231,82 +230,130 @@ server.post('/usuarios', async (req, res) => {
     "pm": true
   })
 
-  const alum = User.create({
+
+  const alum = User.create({ //id: 9
     "email": "student@gmail.com",
     "password": 1234,
     "name": "Henrys",
-    "lastname": "It",
+    "lastName" : "It",
     "admin": false,
     "status": "habilitado",
     "student": true,
     "instructor": false,
   })
 
-  const alum1 = User.create({
+  const alum1 = User.create({ //id: 10
     "email": "student1@gmail.com",
     "password": 1234,
     "name": "Henrys",
-    "lastname": "It",
+    "lastName" : "It",
     "admin": false,
     "status": "habilitado",
     "student": true,
     "instructor": false
   })
 
-  const alum2 = User.create({
+  const alum2 = User.create({ //id: 11
     "email": "student2@gmail.com",
     "password": 1234,
     "name": "Henrys",
-    "lastname": "It",
+    "lastName" : "It",
     "admin": false,
     "status": "habilitado",
     "student": true,
     "instructor": false
   })
 
-  const alum3 = User.create({
+  const alum3 = User.create({ //id: 12
     "email": "student3@gmail.com",
     "password": 1234,
     "name": "Henrys",
-    "lastname": "It",
+    "lastName" : "It",
     "admin": false,
     "status": "habilitado",
     "student": true,
     "instructor": false
   })
 
-  const alum4 = User.create({
+  const alum4 = User.create({ //id: 13
     "email": "student4@gmail.com",
     "password": 1234,
     "name": "Henrys",
-    "lastname": "It",
+    "lastName" : "It",
     "admin": false,
     "status": "habilitado",
     "student": true,
     "instructor": false
   })
 
-  const alum5 = User.create({
+  const alum5 = User.create({ //id: 14
     "email": "student5@gmail.com",
     "password": 1234,
     "name": "Henrys",
-    "lastname": "It",
+    "lastName" : "It",
     "admin": false,
     "status": "habilitado",
     "student": true,
     "instructor": false
   })
 
-  const alum6 = User.create({
+
+  const alum6 = User.create({ //id: 15
     "email": "student6@gmail.com",
     "password": 1234,
     "name": "Henrys",
-    "lastname": "It",
+    "lastName" : "It",
     "admin": false,
     "status": "habilitado",
     "student": true,
     "instructor": false
   })
+
+  const prueba1 = User.create({ //id: 16
+    "email": "prueba1@gmail.com",
+    "password": 1234,
+    "name": "Henrys",
+    "lastName" : "It",
+    "admin": false,
+    "status": "inhabilitado",
+    "student": true,
+    "instructor": false
+  })
+  
+  const prueba2 = User.create({ //id: 17
+    "email": "prueba2@gmail.com",
+    "password": 1234,
+    "name": "Henrys",
+    "lastName" : "It",
+    "admin": false,
+    "status": "inhabilitado",
+    "student": true,
+    "instructor": false
+  })
+  
+  const prueba3 = User.create({ //id: 18
+    "email": "prueba3@gmail.com",
+    "password": 1234,
+    "name": "Henrys",
+    "lastName" : "It",
+    "admin": false,
+    "status": "inhabilitado",
+    "student": true,
+    "instructor": false
+  })
+  
+  const prueba4 = User.create({ //id: 19
+    "email": "prueba4@gmail.com",
+    "password": 1234,
+    "name": "Henrys",
+    "lastName" : "It",
+    "admin": false,
+    "status": "inhabilitado",
+    "student": true,
+    "instructor": false
+  })
+  
+
 })
 server.post('/cohor', async (req, res) => {
   const cohorte1 = Cohorte.create({
@@ -319,18 +366,18 @@ server.post('/cohor', async (req, res) => {
   })
 })
 
-///////////// CREAR GROUOS //////////
+///////////// CREAR GRUPOS //////////
 
-server.post('/gruposhard', async (req, res) => {
+server.post('/gruposhard', async(req, res) => { //grupo 1 (cohorte1)
   const group1 = Group.create({
-    "name": "HenryGroup01",
+    // "name" : "HenryGroup01",
     "PM1Id": 4,
     "PM2Id": 5,
     "cohorteId": 1
   })
 
-  const group2 = Group.create({
-    "name": "HenryGroup02",
+  const group2 = Group.create({   //grupo 2 (cohorte2)
+    // "name" : "HenryGroup02",
     "PM1Id": 6,
     "PM2Id": 7,
     "cohorteId": 2
@@ -339,67 +386,81 @@ server.post('/gruposhard', async (req, res) => {
 })
 
 
-//////// CREAR ESTUDIANTES
-server.post('/studentshard', async (req, res) => {
-  const student1 = Student.create({
+ //////// CREAR ESTUDIANTES
+ server.post('/studentshard', async(req, res) => {
 
-    "groupPP": null,
-    'userId': 1,
+  const student1 = await Student.create({   
+    "groupPP" : null,
+    'userId': 9,    
+    "cohorteId": 1,
+    "groupId": 1,
+  })
+  
+  const student2 = await Student.create({
+    "groupPP" : null,
+    'userId': 10,     
     "cohorteId": 1,
     "groupId": 1,
   })
 
-  const student2 = Student.create({
-    "groupPP": null,
-    'userId': 2,
+  const student3 = await Student.create({
+    "groupPP" : null,
+    'userId': 11,     
+    "cohorteId": 1,
+    "groupId": 1,
+  })
+  const student4 = await Student.create({
+    "groupPP" : null,
+    'userId': 12,     
     "cohorteId": 1,
     "groupId": 1,
   })
 
-  const student3 = Student.create({
-    "groupPP": null,
-    'userId': 3,
+  const student5 = await Student.create({
+    "groupPP" : null,
+    'userId': 13,    
+    "cohorteId": 2,
+    "groupId": 2,
+  })
+
+  const student6 = await Student.create({
+    "groupPP" : null,
+    'userId': 14,     
+    "cohorteId": 2,
+    "groupId": 2,
+  })
+
+  const student7 = await Student.create({
+    "groupPP" : null,
+    'userId': 15,     
+    "cohorteId": 2,
+    "groupId": 2,
+  })
+  const student8 = await Student.create({
+    "groupPP" : null,
+    'userId': 16,     
+    "cohorteId": 2,
+    "groupId": 2,
+  })
+  const student9 = await Student.create({ //vicky
+    "groupPP" : null,
+    'userId': 17,     
+    "cohorteId": 2,
+    "groupId": 2,     
+  })
+  const student10 = await Student.create({ //vicky
+    "groupPP" : null,
+    'userId': 18,     
     "cohorteId": 1,
-    "groupId": 1,
+    "groupId": 1,     
   })
-  const student4 = Student.create({
-    "groupPP": null,
-    'userId': 4,
+  const student11 = await Student.create({ //vicky
+    "groupPP" : null,
+    'userId': 19,     
     "cohorteId": 1,
-    "groupId": 1,
+    "groupId": 1,     
   })
-
-  const student5 = Student.create({
-    "groupPP": null,
-    'userId': 5,
-    "cohorteId": 2,
-    "groupId": 2,
-  })
-
-  const student6 = Student.create({
-    "groupPP": null,
-    'userId': 6,
-    "cohorteId": 2,
-    "groupId": 2,
-  })
-
-  const student7 = Student.create({
-    "groupPP": null,
-    'userId': 7,
-    "cohorteId": 2,
-    "groupId": 2,
-  })
-  const student8 = Student.create({
-    "groupPP": null,
-    'userId': 8,
-    "cohorteId": 2,
-    "groupId": 2,
-  })
-
-
-
-})
-
+ })
 
 
 

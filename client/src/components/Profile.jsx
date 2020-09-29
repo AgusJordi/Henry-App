@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Profile(props) {
-  const { user, state, close } = props;
+  const { user, state, close } = props; 
 
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
@@ -59,7 +59,7 @@ export default function Profile(props) {
               {" "}
               {user.name} {user.lastName}
             </h1>
-            <img className={classes.img} src={martin} />
+            <img className={classes.img} src={user.image} />
             <p>
               {user.province}, {user.country}
             </p>
