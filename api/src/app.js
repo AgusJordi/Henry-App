@@ -8,6 +8,7 @@ const { User, Cohorte, Group, Student } = require("./db.js")
 const routes = require("./routes/index.js");
 const passport = require('passport');
 const Strategy = require('passport-local').Strategy;
+const bcrypt = require("bcryptjs");
 
 var db = require("./db.js");
 
