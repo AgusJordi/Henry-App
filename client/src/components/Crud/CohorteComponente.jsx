@@ -22,7 +22,7 @@ import Select from "@material-ui/core/Select";
 import swal from "sweetalert";
 import Swal from 'sweetalert2'
 import { connect } from "react-redux";
-import { modifiedCohorte, getAllCohortes  } from "../../actions/index.js";
+import { modifiedCohorte, getAllCohortes, deleteCohorte } from "../../actions/index.js";
 
 const useStyles = makeStyles({
   table: {
@@ -39,8 +39,8 @@ function CohorteComponente(props) {
   });
 
   const allinstructors = useSelector((state) => state.all_instructors);
-  
-  
+
+
 
   const [open, setOpen] = useState(false);
 
@@ -63,16 +63,16 @@ function CohorteComponente(props) {
 
   const handleModifiedCohorte = (e) => {
     e.preventDefault();
-    
-     var cohorteX ={
-        id: input.id,
-        name: input.cohorte,
-        instructorId: input.instructor,
-        date: input.DateA
+
+    var cohorteX = {
+      id: input.id,
+      name: input.cohorte,
+      instructorId: input.instructor,
+      date: input.DateA
     }
- 
+
     props.modifiedCohorte(cohorteX)
-     
+
     Swal.fire({
       title: 'Bien',
       text: "Modificaste el cohorte! " + input.cohorte,
@@ -83,14 +83,33 @@ function CohorteComponente(props) {
       confirmButtonText: 'Ok'
     }).then((result) => {
       if (result.isConfirmed) {
-        
+
         props.getAllCohortes()
       }
     })
 
-    
+
     setOpen(false);
   };
+
+  var borrarCohorte = function () {
+    /* e.preventDefault(); */
+    console.log("entre al handle DEL", cohorte.id)
+    Swal.fire({
+      title: 'Seguro que quieres eliminar?',
+      showDenyButton: true,
+      confirmButtonText: `Eliminar`,
+      denyButtonText: `Cancelar`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteCohorte(cohorte.id)
+        Swal.fire('Se eliminó el Cohorte ' + cohorte.name, '', 'success')
+        window.location.reload()
+      } else if (result.isDenied) {
+        Swal.fire('No se eliminó el Cohorte', '', 'info')
+      }
+    })
+  }
 
   return (
     <TableRow key={cohorte.id}>
@@ -124,7 +143,7 @@ function CohorteComponente(props) {
                 label="Nombre Cohorte"
                 type="text"
                 fullWidth
-                value={input.cohorte}
+                value={cohorte.name}
                 onChange={handleInputChange}
               />
               <FormControl className={classes.formControl}>
@@ -132,7 +151,7 @@ function CohorteComponente(props) {
                   Elegir Instructor
                 </InputLabel>
                 <Select
-                  native                  
+                  native
                   value={input.instructor}
                   onChange={handleInputChange}
                   inputProps={{
@@ -140,7 +159,7 @@ function CohorteComponente(props) {
                     id: "instructor-native-simple",
                   }}
                 >
-                  <option aria-label="None"/>
+                  <option aria-label="None" />
                   {allinstructors.map((instructor) => (
                     <option value={instructor.id}>
                       {instructor.name + " " + instructor.lastName}
@@ -182,33 +201,32 @@ function CohorteComponente(props) {
           </form>
         </Dialog>
         <ButtonGroup disableElevation variant="contained" color="secondary">
-          <Button size="small">Eliminar</Button>
+          <Button size="small" onClick={borrarCohorte} > Eliminar</Button>
         </ButtonGroup>
       </TableCell>
     </TableRow>
   );
 }
 const mapDispatchToProps = (dispatch) => {
-  var cohorte ={
-      id: 1,
-      name: "WEB2020",
-      instructorId: 4,
-      date: "2020-11-11"
+  var cohorte = {
+    id: 1,
+    name: "WEB2020",
+    instructorId: 4,
+    date: "2020-11-11"
   }
   return {
     modifiedCohorte: (cohorte) => dispatch(modifiedCohorte(cohorte)),
-    getAllCohortes: () => dispatch(getAllCohortes()) 
-    
-     
+    getAllCohortes: () => dispatch(getAllCohortes()),
+    deleteCohorte: () => dispatch(deleteCohorte())
+
   };
 };
 
 const mapStateToProps = (state) => {
   return {
     all_cohortes: state.all_cohortes
-    
+
   };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CohorteComponente);
- 

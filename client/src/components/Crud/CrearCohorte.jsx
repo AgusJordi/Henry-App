@@ -11,7 +11,7 @@ import Select from "@material-ui/core/Select";
 import { connect } from "react-redux";
 
 function CrearCohorte(props) {
- 
+
   const [input, setInput] = useState({
     cohorte: "",
     instructorId: "",
@@ -36,25 +36,25 @@ function CrearCohorte(props) {
 
   var existentes = []
   // }
-    const filtrar = (emails, usuarios) => {
-    for (let i=0; i<emails.length; i++){
-      for(let j=0; j<usuarios.length; j++){
-        if( emails[i] === usuarios[j].email){
+  const filtrar = (emails, usuarios) => {
+    for (let i = 0; i < emails.length; i++) {
+      for (let j = 0; j < usuarios.length; j++) {
+        if (emails[i] === usuarios[j].email) {
           existentes.push(emails[i])
         }
       }
     }
     return existentes
   }
-  const borrarChips = () =>{
+  const borrarChips = () => {
     setPrueba(true)
   }
   const handleCreateCohorte = function (e) {
-    e.preventDefault(); 
+    e.preventDefault();
     console.log(emails, input, "ACA ESTOY EN COMPONENTE");
-    filtrar (emails, props.all_users)    //filtrar los emails-->devolver un array de los emails que ya existen en all_users
-    if(existentes.length>0){  //si ese array contiene aunque sea un elemento, mandar alert con un mensaje y el contenido de ese array
-      swal ({
+    filtrar(emails, props.all_users)    //filtrar los emails-->devolver un array de los emails que ya existen en all_users
+    if (existentes.length > 0) {  //si ese array contiene aunque sea un elemento, mandar alert con un mensaje y el contenido de ese array
+      swal({
         title: 'Oops...',
         text: "Los siguientes emails ya se encuentran en uso: " + existentes,
         icon: 'error',
@@ -94,7 +94,7 @@ function CrearCohorte(props) {
         {console.log(props.instructores)}
         <form onSubmit={handleCreateCohorte}>
           <div>
-            <TextField
+            {/* <TextField
               required
               name="cohorte"
               type="text"
@@ -110,7 +110,7 @@ function CrearCohorte(props) {
                 shrink: true,
               }}
               onChange={handleInputChange}
-            />
+            /> */}
             <FormControl className={classes.formControl}>
               <InputLabel htmlFor="instructor-native-simple">
                 Instructor

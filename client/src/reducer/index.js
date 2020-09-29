@@ -15,6 +15,7 @@ import {
   GET_MODIF_COHORTE,
   GET_ALL_GROUPS,
   MODIFIED_GROUPS,
+  DELETE_COHORTE,
 
 } from "../actions/index";
 
@@ -115,6 +116,11 @@ const reducer = (state = initialState, action) => {
         all_groups: action.payload,
       };
 
+    case DELETE_COHORTE:
+      return {
+        ...state,
+        all_cohortes: state.all_cohortes.filter(ch => ch.id !== action.payload.id)
+      };
     default:
       return state;
   }

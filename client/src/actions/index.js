@@ -19,6 +19,7 @@ export const GET_ALUMNOS_FROM_COHORTE = "GET_ALUMNOS_FROM_COHORTE";
 export const GET_MODIF_COHORTE = "GET_MODIF_COHORTE";
 export const GET_ALL_GROUPS = "GET_ALL_GROUPS"
 export const MODIFIED_GROUPS = "MODIFIED_GROUPS"
+export const DELETE_COHORTE = "DELETE_COHORTE"
 
 
 export function userLogIn(body) {
@@ -308,4 +309,36 @@ export function modifiedGroup(group) {
         console.log("QUE trae el data", data)
       })
   }
+}
+
+export function deleteCohorte(id) {
+  console.log(id);
+  var url = `http://localhost:4000/cohorte/${id}`;
+
+  axios({
+    method: "delete",
+    url: url,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: {
+      id,
+    },
+  })
+}
+
+export function deleteGroup(id) {
+  console.log(id);
+  var url = `http://localhost:4000/grupos/${id}`;
+
+  axios({
+    method: "delete",
+    url: url,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: {
+      id,
+    },
+  })
 }
