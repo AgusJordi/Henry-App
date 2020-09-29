@@ -8,6 +8,7 @@ const { User, Cohorte, Group, Student } = require("./db.js")
 const routes = require("./routes/index.js");
 const passport = require('passport');
 const Strategy = require('passport-local').Strategy;
+const crypto = require('crypto');
 
 var db = require("./db.js");
 
@@ -28,14 +29,13 @@ passport.use(new Strategy(
           console.log("NO ENCUENTRA EL USUARIO")
           return done(null, false);
         }
-        if (password !== user.password) {//comparar con contraseña
-          console.log("NO PASA LA CONTRASEÑA")
-          return done(null, false);
-        }
-
-        console.log("ENCUENTRA EL USUARIO", user.dataValues)
-        return done(null, user.dataValues);
-      })
+        const passwordKey = crypto.pbkdf2Sync(password, user.salt, 10000, 64, 'sha512').toString('base64');
+      if (passwordKey !== user.password) {
+        return done(null, false, { status: 'error', message: 'Contraseña incorrecta' });
+      }
+      //Esta es la funcion que va a mantener la sesion en la cookie, para poder usarlo en la app
+      return done(null, user.dataValues, { status: 'ok' });
+    })
       .catch(err => {
         return done(err);
       })

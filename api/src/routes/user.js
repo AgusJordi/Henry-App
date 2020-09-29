@@ -2,6 +2,7 @@ const server = require("express").Router();
 //const bcrypt = require("bcryptjs");
 const mailer = require("../../templates/Registro.js")
 const mailerPW = require("../../templates/RequestPassword.js")
+const crypto = require('crypto');
 
 const { User, Student, Cohorte } = require("../db.js");
 
@@ -105,11 +106,12 @@ server.post("/add", (req, res, next) => {
 
 //Ruta crear usuario
 server.post("/", (req, res, next) => {
+  const salt = crypto.randomBytes(64).toString('hex');
+  const password = crypto.pbkdf2Sync(req.body.password, salt, 10000, 64, 'sha512').toString('base64');
   const {
     email,
     name,
     lastname,
-    password,
     city,
     province,
     country,
@@ -123,7 +125,6 @@ server.post("/", (req, res, next) => {
   console.log(email, lastname, email, password);
 
   if (name && lastname && email) {
-    //bcrypt.genSalt(10, (err, hash) => {
     const newUser = {
       email: email,
       name: name,
@@ -137,7 +138,8 @@ server.post("/", (req, res, next) => {
       status: status,
       student: student,
       instructor: instructor,
-      pm: pm
+      pm: pm,
+      salt: salt
     };
     User.create(newUser)
       .then((user) => {
@@ -269,16 +271,15 @@ server.put("/myprofile/:id", async (req, res, next) => {
 
 server.put('/passwordReset', (req, res, next) => {
   //const { id } = req.params;
-  const { id, password } = req.body;
-  console.log(req.body)
-  //const salt = crypto.randomBytes(64).toString('hex') Va a servir cuando las rutas esten encryptadas
-  //const password = crypto.pbkdf2Sync(req.body.password, salt, 10000, 64, 'sha512').toString('base64')
+  const { id } = req.body;
+  const salt = crypto.randomBytes(64).toString('hex')
+  const password = crypto.pbkdf2Sync(req.body.password, salt, 10000, 64, 'sha512').toString('base64')
 
   User.findByPk(id)
     .then((user) => {
       if (user) {
         user.password = password
-        //      user.salt = salt
+        user.salt = salt
         return user.save()
       }
     }).then((user) => {
