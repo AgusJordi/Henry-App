@@ -60,7 +60,7 @@ function AreaAdmin(props) {
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <Typography className={classes.heading}>Crear Grupo</Typography>
+          <Typography className={classes.heading}>Crear Grupos</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <CrearGrupo pms={props.pms} />
