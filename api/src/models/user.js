@@ -41,6 +41,11 @@ module.exports = (sequelize) => {
       allowNull: true,
     },
 
+    salt: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+
     city: {
       type: DataTypes.STRING,
       allowNull: true,
@@ -79,12 +84,21 @@ module.exports = (sequelize) => {
       defaultValue: false
     },
 
+    image: {
+      type: DataTypes.TEXT,
+      defaultValue: 'https://www.ibm.com/blogs/systems/mx-es/wp-content/themes/ibmDigitalDesign/assets/img/anonymous.jpg'
+    },
+      
     googleId: {
       type: DataTypes.STRING,
       allowNull: true,
     },
 
     gitHubId: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    image: {
       type: DataTypes.STRING,
       allowNull: true,
     },

@@ -1,6 +1,8 @@
 const server = require("express").Router();
-//const bcrypt = require("bcryptjs");
+const bcrypt = require("bcryptjs");
 const mailer = require("../../templates/Registro.js");
+const mailerPW = require("../../templates/RequestPassword.js");
+const crypto = require("crypto");
 
 const { User, Student, Cohorte } = require("../db.js");
 
@@ -9,11 +11,38 @@ const { User, Student, Cohorte } = require("../db.js");
 server.get("/", (req, res, next) => {
   User.findAll()
     .then((users) => {
-      console.log(users);
       if (users && users.length === 0) {
         return res.send({ message: "No hay usuarios" });
       }
       res.send(users);
+    })
+    .catch((err) => next(err));
+});
+
+server.get("/usandSt/:id", (req, res, next) => {
+  User.findAll({
+    where: {
+      id: req.params.id,
+    },
+    include: [
+      {
+        model: Student,
+        as: "Student",
+        attributes: ["cohorteId"],
+      },
+      {
+        model: Cohorte,
+        as: "Name Cohorte",
+        attributes: ["name"],
+      },
+    ],
+  })
+    .then((user) => {
+      console.log(user);
+      if (user && user.length === 0) {
+        return res.send({ message: "No hay usuarios" });
+      }
+      res.send(user);
     })
     .catch((err) => next(err));
 });
@@ -47,9 +76,13 @@ server.get("/pms", (req, res, next) => {
 
 //Ruta para crear usuario y alumno solo con mail de forma masiva.
 server.post("/add", (req, res, next) => {
-  const { name, date, instructorId } = req.body.cohorte;
+  let { name, date, instructorId } = req.body.cohorte;
   var mails = req.body.emails;
   console.log("BODY POST MASS", req.body);
+  if (instructorId === "") {
+    instructorId = 1;
+  }
+  console.log(instructorId);
   Cohorte.create({ name, date, instructorId }).then((cohorte) => {
     for (var i = 0; i < mails.length; i++) {
       User.create({
@@ -70,11 +103,14 @@ server.post("/add", (req, res, next) => {
 
 //Ruta crear usuario
 server.post("/", (req, res, next) => {
+  const salt = crypto.randomBytes(64).toString("hex");
+  const password = crypto
+    .pbkdf2Sync(req.body.password, salt, 10000, 64, "sha512")
+    .toString("base64");
   const {
     email,
     name,
     lastname,
-    password,
     city,
     province,
     country,
@@ -82,13 +118,13 @@ server.post("/", (req, res, next) => {
     admin,
     status,
     student,
+    image,
     instructor,
     pm,
   } = req.body;
   console.log(email, lastname, email, password);
 
   if (name && lastname && email) {
-    //bcrypt.genSalt(10, (err, hash) => {
     const newUser = {
       email: email,
       name: name,
@@ -101,8 +137,10 @@ server.post("/", (req, res, next) => {
       admin: admin,
       status: status,
       student: student,
+      image: image,
       instructor: instructor,
       pm: pm,
+      salt: salt,
     };
     User.create(newUser)
       .then((user) => {
@@ -113,7 +151,6 @@ server.post("/", (req, res, next) => {
         //Mandamos el error al error endware
         next(error);
       });
-    //});
   } else {
     return res.send({ message: "Faltan campos obligatorios" });
   }
@@ -165,6 +202,7 @@ server.put("/", async (req, res, next) => {
     pm,
     instructor,
     admin,
+    image,
     googleId,
     gitHubId,
   } = req.body;
@@ -203,6 +241,7 @@ server.put("/", async (req, res, next) => {
       pm: pm,
       instructor: instructor,
       admin: admin,
+      image: image,
       googleId: googleId,
       gitHubId: gitHubId,
     });
@@ -235,16 +274,70 @@ server.put("/myprofile/:id", async (req, res, next) => {
 
 server.put("/passwordReset", (req, res, next) => {
   //const { id } = req.params;
-  const { id, password } = req.body;
-  console.log(req.body);
-  //const salt = crypto.randomBytes(64).toString('hex') Va a servir cuando las rutas esten encryptadas
-  //const password = crypto.pbkdf2Sync(req.body.password, salt, 10000, 64, 'sha512').toString('base64')
+  const { id } = req.body;
+  const salt = crypto.randomBytes(64).toString("hex");
+  const password = crypto
+    .pbkdf2Sync(req.body.password, salt, 10000, 64, "sha512")
+    .toString("base64");
 
   User.findByPk(id)
     .then((user) => {
       if (user) {
         user.password = password;
-        //      user.salt = salt
+        user.salt = salt;
+        return user.save();
+      }
+    })
+    .then((user) => {
+      res.status(200).send(user);
+    })
+    .catch((err) => next(err));
+});
+
+// PASWORD RESET POR EMAIL
+server.put("/passwordResetEmail", (req, res, next) => {
+  const { email, password } = req.body;
+
+  const salt = crypto.randomBytes(64).toString("hex");
+  const passwordResetEmail = crypto
+    .pbkdf2Sync(password, salt, 10000, 64, "sha512")
+    .toString("base64");
+  console.log(email, passwordResetEmail);
+
+  User.findOne({ where: { email: email } })
+    .then((user) => {
+      if (user) {
+        user.password = passwordResetEmail;
+        user.salt = salt;
+        return user.save();
+      }
+    })
+    .then((user) => {
+      res.status(200).send(user);
+    })
+    .catch((err) => next(err));
+});
+
+//SOLICITAR NUEVA CLAVE POR PERDIDA
+server.put("/passwordReques", (req, res, next) => {
+  const salt = crypto.randomBytes(64).toString("hex");
+  const password = crypto
+    .pbkdf2Sync("XY4BP1Z6", salt, 10000, 64, "sha512")
+    .toString("base64");
+
+  const { email } = req.body;
+  console.log("EL EMAILLLL ", email);
+
+  User.findOne({ where: { email: email } })
+    .then((user) => {
+      if (user) {
+        var passEnvio = "XY4BP1Z6";
+        user.password = passEnvio;
+        user.salt = salt;
+
+        mailerPW.enviar_mail_req_pass(passEnvio, user.name, email);
+        console.log("OBJETO de USERRRRR", user);
+
         return user.save();
       }
     })

@@ -43,7 +43,7 @@ server.get("/:id", (req, res, next) => {
 
 server.post("/", (req, res, next) => {
   const { name, date, instructorId } = req.body; //falta date
-  console.log(req.body, "SOY UN BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACK");
+
   Cohorte.create({ name, date, instructorId }) //falta date
     .then((cohorte) => {
       res.send(cohorte);
@@ -67,8 +67,9 @@ server.delete("/:id", (req, res, next) => {
 
 server.put("/:id", async (req, res, next) => {
   const idCohorte = req.params.id;
+  console.log(idCohorte);
   console.log(req.body);
-  const { instructorId, date } = req.body;
+  const { name, instructorId, date } = req.body;
 
   try {
     const cohorte = await Cohorte.findOne({

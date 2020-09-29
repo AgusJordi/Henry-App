@@ -14,10 +14,12 @@ import {
   GET_ALL_PMS,
   GET_ALUMNOS_FROM_COHORTE,
   GET_STUDENT_FROM_USERID,
-  GET_ALL_GROUPS,
   GET_COHORTES_BY_USERID,
   MODIFIED_COHORTE_INSTRUCTOR,
   DELETE_USER_BY_ID,
+  GET_MODIF_COHORTE,
+  GET_ALL_GROUPS,
+  MODIFIED_GROUPS,
 } from "../actions/index";
 
 const initialState = {
@@ -61,6 +63,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         onlineUser: action.payload,
+      };
+    case GET_MODIF_COHORTE:
+      return {
+        ...state,
+        all_cohortes: action.payload,
       };
 
     case ONLINE_USER_ERROR:
@@ -107,6 +114,16 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         students_from_cohorte: action.payload,
+      };
+    case GET_ALL_GROUPS:
+      return {
+        ...state,
+        all_groups: action.payload,
+      };
+    case MODIFIED_GROUPS:
+      return {
+        ...state,
+        all_groups: action.payload,
       };
 
     case GET_ALL_GROUPS:

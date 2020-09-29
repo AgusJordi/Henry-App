@@ -12,6 +12,11 @@ import ListItemText from "@material-ui/core/ListItemText";
 import logo from "../images/henry-logo.png";
 import RenderHome from "./renderHome";
 import Carrousel from "./Carrousel.jsx";
+import {setearUsuarios, setearCohorte, setearGroups, setearStudents} from "../actions/index"
+
+
+
+
 
 const drawerWidth = 240;
 
@@ -46,8 +51,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ClippedDrawer() {
+export default function ClippedDrawer(user, props) {
+
+  const creationUser = (e) => {
+    e.preventDefault();
+    setearUsuarios();
+    setearCohorte()
+    setearGroups()
+    setearStudents()
+}
+
+
   const classes = useStyles();
+
+  console.log('PROPS del SIDEBAR', user.user.name)
+
+  
 
   //INTENTO
   const [click, setClick] = useState(false);
@@ -62,6 +81,7 @@ export default function ClippedDrawer() {
 
   return (
     <div className={classes.root}>
+      
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}></AppBar>
       <Drawer
@@ -74,14 +94,17 @@ export default function ClippedDrawer() {
         <img className={classes.img} src={logo} alt="" />
         <Toolbar />
         <div className={classes.drawerContainer}>
+
+        {user.user && user.user.student &&( 
+        
           <List>
             {[
-              "Herramientas",
+              //"Herramientas",
               "Noticias",
-              "Cohortes",
-              "Instructores",
-
-              "PairProgramming",
+              "My cohorte",
+              //"Cohortes",
+              //"Instructores",
+              "Pair Programming",
             ].map((text, index) => (
               <ListItem button key={text}>
                 <ListItemText
@@ -89,18 +112,44 @@ export default function ClippedDrawer() {
                   onClick={() => onClickSelect({ text })}
                 />
               </ListItem>
+              
             ))}
           </List>
-          <Divider />
+          )}
+           {user.user && user.user.admin &&(
+         <List>
+          {[
+            "Herramientas",
+            "Noticias",
+            "Cohortes",
+            "Instructores",
+            "My cohorte",
+            //"PairProgramming",             
+          ].map((text, index) => (
+            <ListItem button key={text}>
+              <ListItemText
+                primary={text}
+                onClick={() => onClickSelect({ text })}
+              />
+             
+            </ListItem>
+            
+          ))}
+          
+          <ListItem>
+            <ListItemText>
+               <Link onClick={creationUser} style={{ textDecoration: 'none' }} to="/">
+                 CARGA DB
+              </Link> 
+            </ListItemText>
+          </ListItem>           
+          </List>
 
-          {/* <List>
-            {['All mail', 'Trash', 'Spam'].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
-          </List> */}
+            )}   
+              
+          <Divider />
+            
+          
         </div>
       </Drawer>
       {click ? <RenderHome onSetSelect={buttonSet} /> : <Carrousel />}

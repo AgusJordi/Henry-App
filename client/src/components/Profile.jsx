@@ -1,4 +1,4 @@
-import martin from "../images/martinborchardt.png";
+// import martin from "../images/martinborchardt.png";
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Profile(props) {
-  const { user, state, close } = props;
+  const { user, state, close } = props; 
 
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
@@ -59,7 +59,7 @@ export default function Profile(props) {
               {" "}
               {user.name} {user.lastName}
             </h1>
-            <img className={classes.img} src={martin} />
+            <img className={classes.img} src={user.image ? user.image : 'https://camo.githubusercontent.com/f8ea5eab7494f955e90f60abc1d13f2ce2c2e540/68747470733a2f2f662e636c6f75642e6769746875622e636f6d2f6173736574732f323037383234352f3235393331332f35653833313336322d386362612d313165322d383435332d6536626439353663383961342e706e67'} />
             <p>
               {user.province}, {user.country}
             </p>
