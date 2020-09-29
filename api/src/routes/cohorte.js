@@ -43,7 +43,7 @@ server.get('/:id', (req, res, next) => {
 
 server.post("/", (req, res, next) => {
   const { name, date, instructorId } = req.body; //falta date
- 
+
   Cohorte.create({ name, date, instructorId }) //falta date
     .then((cohorte) => {
       res.send(cohorte);
@@ -52,6 +52,7 @@ server.post("/", (req, res, next) => {
 });
 
 server.delete("/:id", (req, res, next) => {
+  console.log(req.params.id)
   const id = req.params.id;
   Cohorte.destroy({ where: { id: id } })
     .then((num) => {
@@ -77,7 +78,7 @@ server.put("/:id", async (req, res, next) => {
         where: {
           id: idCohorte
         }
-        
+
       });
     if (!cohorte) {
       return res.send({
