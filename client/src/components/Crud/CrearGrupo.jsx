@@ -4,33 +4,22 @@ import TextField from "@material-ui/core/TextField";
 import swal from "sweetalert";
 import { FormControl } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { createCohorte, createUsersStudents } from "../../actions/index.js";
-import Chip from "./chip.jsx";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import { connect } from "react-redux";
-import ModalUsersCheckbox from "../ModalUsersCheckbox.jsx";
 import { getAlumnosFromCohorte } from "../../actions/index.js";
+import axios from "axios";
+
 
 export function CrearGrupo(props) {
-  //recibe pms por props
-  const { all_cohortes } = props;
+
+  const { all_cohortes, students_from_cohorte } = props;
   const [input, setInput] = useState({
     cohorteId: "",
-    grupo: "",
-    PM1Id: "",
-    PM2Id: "",
+    usuariosHabilitados: students_from_cohorte,
+    cantidadGrupos: "",
   });
-  // const [alumnos, setAlumnos] = useState([]);
 
-  const [inputB, setInputB] = useState({
-    cohorte: "",
-    instructor: "",
-    DateA: "",
-  });
-  // const [modalUser, setModalUser] = useState([]);
-  const [openModal, setOpenModal] = useState(false);
-  // const [alumnos, setAlumnos]= useState(props.students_from_cohorte);
   const handleInputChange = function (e) {
     setInput({
       ...input,
@@ -38,21 +27,66 @@ export function CrearGrupo(props) {
     });
   };
 
+  //Trae los alumnos x cohorte cuando cambia el select de cohorte
   useEffect(() => {
     props.getAlumnosFromCohorte(input.cohorteId);
-    // setAlumnos (props.students_from_cohorte)
+    setInput({
+      ...input,
+      cantidadGrupos: "",
+    });
   }, [input.cohorteId]);
-  // const handleCreateGrupo = function (e) {
-  //     e.preventDefault(); //A TENER EN CUENTA
-  //     console.log(emails, input, "ACA ESTOY EN COMPONENTE");
-  //     createCohorte(input, emails);
-  //     setInputB(inputB);
-  //     swal({
-  //     text: "Se creó el Grupo " + input.grupo,
-  //     icon: "success",
-  //     timer: "3000",
-  //     });
-  // };
+
+  //Setea los usuarios habilitados cuando cambia el estado en redux
+  var activos=[]
+  useEffect(() => {
+    filtrarActivos(students_from_cohorte)
+    setInput({
+      ...input,
+      usuariosHabilitados: activos,
+    });
+  }, [students_from_cohorte]);
+
+  const filtrarActivos = (students) =>{
+    activos= students.filter((student)=>student.user.status==="habilitado")
+    return activos
+  }; 
+  
+  const division = (usuarios, grupos) =>{
+    var resultado = Math.floor (usuarios.length/Number(grupos))
+    return resultado
+  }
+
+  const createGrupo = (input) =>{
+    var url = "http://localhost:4000/grupos/add";
+    axios({
+      method: "post",
+      url: url,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: {
+        cohorteId: Number(input.cohorteId),
+        cantidadGrupos: input.cantidadGrupos,
+        usuariosHabilitados: input.usuariosHabilitados,
+      },
+    });
+  }
+  
+  const handleCreateGrupo = function (e) {
+      e.preventDefault(); 
+      createGrupo(input);
+      swal({
+      text: "Se han creado " + input.cantidadGrupos + " grupos" ,
+      icon: "success",
+      timer: "3000",
+      });
+      setInput({
+        ...input,
+        cohorteId: "",
+        cantidadGrupos: "",
+        usuariosHabilitados: []
+      })
+  };
 
   //reviso si array esta vacio
   let arrayClear = false;
@@ -60,15 +94,6 @@ export function CrearGrupo(props) {
   if (all_cohortes.length > 0) {
     arrayClear = true;
   }
-
-  const handleOpenModal = () => {
-    setOpenModal(true);
-    // setModalUser(value);
-  };
-
-  const handleCloseModal = () => {
-    setOpenModal(false);
-  };
 
   const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -83,24 +108,19 @@ export function CrearGrupo(props) {
     <div>
       <div>
         <form
-        // onSubmit={handleCreateGrupo}
+        onSubmit={e => handleCreateGrupo(e)}
         >
           <div>
-            {console.log(props.students_from_cohorte)}
-            <ModalUsersCheckbox
-              users={props.students_from_cohorte}
-              state={openModal}
-              close={handleCloseModal}
-            />
             <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="cohorte-native-simple">Cohorte</InputLabel>
+              <InputLabel htmlFor="cohorte-simple-select-label">Cohorte</InputLabel>
               <Select
+                required
                 native
                 value={input.cohorteId}
                 onChange={handleInputChange}
                 inputProps={{
                   name: "cohorteId",
-                  id: "cohorte-native-simple",
+                  id: "cohorte-simple-select",
                 }}
               >
                 <option aria-label="None" value="" />
@@ -113,71 +133,34 @@ export function CrearGrupo(props) {
                 )}
               </Select>
             </FormControl>
-
-            <TextField
-              required
-              name="grupo"
-              type="text"
-              id="standard-full-width"
-              label="Nombre Grupo"
-              helperText="Ej: sofi-pablo"
-              style={{ margin: 8 }}
-              placeholder="Ingrese nombre del grupo"
-              fullWidth
-              value={input.grupo}
-              margin="normal"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              onChange={handleInputChange}
-            />
             <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="pm1-native-simple">Pm 1</InputLabel>
-              <Select
-                native
-                value={input.PM1Id}
+              <TextField
+                required
+                id="standard-number"
+                value={input.cantidadGrupos}
                 onChange={handleInputChange}
-                inputProps={{
-                  name: "PM1Id",
-                  id: "pm1-native-simple",
+                label= "Cantidad de grupos"
+                type="number"
+                min="1"
+                name= "cantidadGrupos"
+                InputProps={{ 
+                  inputProps: { min: 1, max: input.usuariosHabilitados.length },         
                 }}
-              >
-                <option aria-label="None" value="" />
-                {props.all_pms.map((pm) => (
-                  <option value={pm.id}>{pm.name + " " + pm.lastName}</option>
-                ))}
-              </Select>
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
             </FormControl>
 
-            <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="pm2-native-simple">Pm 2</InputLabel>
-              <Select
-                native
-                value={input.PM2Id}
-                onChange={handleInputChange}
-                inputProps={{
-                  name: "PM2Id",
-                  id: "pm2-native-simple",
-                }}
-              >
-                <option aria-label="None" value="" />
-                {props.all_pms.map((pm) => (
-                  <option value={pm.id}>{pm.name + " " + pm.lastName}</option>
-                ))}
-              </Select>
-            </FormControl>
-            <div>
-              <a
-                className={classes.a}
-                href="#"
-                onClick={() => handleOpenModal()}
-              >
-                Seleccionar alumnos
-              </a>
-            </div>
+            {/* No te asustes! Acá solo hacemos las cuentas para adaptar el mensaje al resultado de la división. */}
 
-            {/* <Chip onChange={setEmails} /> */}
-
+            {input.usuariosHabilitados.length ? 
+            <p>Hay {input.usuariosHabilitados.length} alumnos activos en este cohorte </p>
+            :"" }
+            {input.usuariosHabilitados.length !== 1 && input.cohorteId !== "" && input.cantidadGrupos !== "" ? 
+            <p>Se creara {input.cantidadGrupos} {input.cantidadGrupos!=="1"? "grupos" : "grupo"} con {input.usuariosHabilitados.length%input.cantidadGrupos !==0? " alrededor de ": " "} {division(input.usuariosHabilitados,input.cantidadGrupos)} 
+            {division(input.usuariosHabilitados,input.cantidadGrupos) > 1? " alumnos" : " alumno"} en cada grupo </p>:"" }
+          
             <div>
               <br />
               <Button
@@ -187,7 +170,7 @@ export function CrearGrupo(props) {
                 size="medium"
                 color="primary"
               >
-                CREAR GRUPO
+                CREAR GRUPOS
               </Button>
             </div>
           </div>
