@@ -8,30 +8,31 @@ const { User, Cohorte, Group, Student } = require("./db.js")
 const routes = require("./routes/index.js");
 const passport = require('passport');
 const Strategy = require('passport-local').Strategy;
- 
+
 var db = require("./db.js");
- 
+
 console.log(db.User.name)
 
 
 passport.use(new Strategy(
   {
-  usernameField: 'email',
-  passwordField: 'password'
+    usernameField: 'email',
+    passwordField: 'password'
   },
-  function(username, password, done, info) {
-    console.log('DBDBDBDBD', username, password )
-    db.User.findOne({ where: {email: username}})
-    
+  function (username, password, done, info) {
+    console.log('DBDBDBDBD', username, password)
+    db.User.findOne({ where: { email: username } })
+
       .then(user => {
         if (!user) {
           console.log("NO ENCUENTRA EL USUARIO")
-          return done(null, false);        }
+          return done(null, false);
+        }
         if (password !== user.password) {//comparar con contraseña
           console.log("NO PASA LA CONTRASEÑA")
           return done(null, false);
         }
-         
+
         console.log("ENCUENTRA EL USUARIO", user.dataValues)
         return done(null, user.dataValues);
       })
@@ -41,29 +42,29 @@ passport.use(new Strategy(
   }));
 
 
-  passport.serializeUser(function(user, done) {
-    done(null, user.id);
-  });
-  
-  passport.deserializeUser(function(id, done) {
-    db.User.findOne({ where: { id } })
-      .then(user => {
-        done(null, user.dataValues);
-      })
-      .catch(err => {
-        return done(err);
-      })
-  });
-  
-  const server = express();
-  
-  server.use(require('express-session')({
-    secret: 'secret',
-    resave: false,
-    saveUninitialized: false
-  }));
+passport.serializeUser(function (user, done) {
+  done(null, user.id);
+});
 
-  server.name = "API";
+passport.deserializeUser(function (id, done) {
+  db.User.findOne({ where: { id } })
+    .then(user => {
+      done(null, user.dataValues);
+    })
+    .catch(err => {
+      return done(err);
+    })
+});
+
+const server = express();
+
+server.use(require('express-session')({
+  secret: 'secret',
+  resave: false,
+  saveUninitialized: false
+}));
+
+server.name = "API";
 
 server.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 server.use(bodyParser.json({ limit: "50mb" }));
@@ -88,15 +89,15 @@ server.use((req, res, next) => {
   console.log("User!", req.user);
   next();
 });
- 
 
 
-server.post("/login", (req, res, next) => { 
+
+server.post("/login", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
-    if (err) { return next(err); }    
+    if (err) { return next(err); }
     if (!user) {
       return res.send(user);
-      
+
     }
     req.logIn(user, (err) => {
       if (err) {
@@ -108,25 +109,25 @@ server.post("/login", (req, res, next) => {
 })
 
 function isAuthenticated(req, res, next) {
-  if(req.isAuthenticated()){
+  if (req.isAuthenticated()) {
     next();
   }
-  else{
+  else {
     res.send(false);
   }
 }
 
 server.get("/logout", (req, res) => {
-req.logout();
-res.send("Ok!")
+  req.logout();
+  res.send("Ok!")
 });
 
 
 server.get("/login",
-isAuthenticated,
-(req, res) => {
-res.send(req.user)
-});
+  isAuthenticated,
+  (req, res) => {
+    res.send(req.user)
+  });
 
 ////////////////////END./ EXPRESS ////////////////
 
@@ -354,37 +355,36 @@ server.post('/usuarios', async(req, res) => {
   
 
 })
-
-server.post('/cohor', async(req, res) => {
+server.post('/cohor', async (req, res) => {
   const cohorte1 = Cohorte.create({
-    "name": "webft01",
+    "date": "09-12-2020",
     "instructorId": 2
   })
   const cohorte2 = Cohorte.create({
-    "name": "webft02",
-    "instructorId": 3 
+    "date": "09-20-2020",
+    "instructorId": 3
   })
 })
 
-///////////// CREAR GROUOS //////////
+///////////// CREAR GRUPOS //////////
 
 server.post('/gruposhard', async(req, res) => { //grupo 1 (cohorte1)
   const group1 = Group.create({
     // "name" : "HenryGroup01",
     "PM1Id": 4,
     "PM2Id": 5,
-    "cohorteId":1
+    "cohorteId": 1
   })
 
   const group2 = Group.create({   //grupo 2 (cohorte2)
     // "name" : "HenryGroup02",
     "PM1Id": 6,
     "PM2Id": 7,
-    "cohorteId":2
+    "cohorteId": 2
   })
 
- })
- 
+})
+
 
  //////// CREAR ESTUDIANTES
  server.post('/studentshard', async(req, res) => {
@@ -400,20 +400,20 @@ server.post('/gruposhard', async(req, res) => { //grupo 1 (cohorte1)
     "groupPP" : null,
     'userId': 10,     
     "cohorteId": 1,
-    "groupId": 1,     
+    "groupId": 1,
   })
 
   const student3 = await Student.create({
     "groupPP" : null,
     'userId': 11,     
     "cohorteId": 1,
-    "groupId": 1,     
+    "groupId": 1,
   })
   const student4 = await Student.create({
     "groupPP" : null,
     'userId': 12,     
     "cohorteId": 1,
-    "groupId": 1,     
+    "groupId": 1,
   })
 
   const student5 = await Student.create({
@@ -427,20 +427,20 @@ server.post('/gruposhard', async(req, res) => { //grupo 1 (cohorte1)
     "groupPP" : null,
     'userId': 14,     
     "cohorteId": 2,
-    "groupId": 2,     
+    "groupId": 2,
   })
 
   const student7 = await Student.create({
     "groupPP" : null,
     'userId': 15,     
     "cohorteId": 2,
-    "groupId": 2,     
+    "groupId": 2,
   })
   const student8 = await Student.create({
     "groupPP" : null,
     'userId': 16,     
     "cohorteId": 2,
-    "groupId": 2,     
+    "groupId": 2,
   })
   const student9 = await Student.create({ //vicky
     "groupPP" : null,

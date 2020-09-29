@@ -16,10 +16,8 @@ export const MODIFIED_USER = "MODIFIED_USER";
 export const PASWORD_RESET_EMAIL = 'PASWORD_RESET_EMAIL' 
 export const GET_ALL_PMS = "GET_ALL_PMS";
 export const GET_ALUMNOS_FROM_COHORTE = "GET_ALUMNOS_FROM_COHORTE";
+export const GET_MODIF_COHORTE = "GET_MODIF_COHORTE";
 
-
- 
- 
 
 export function userLogIn(body) {
   return function (dispatch) {
@@ -101,6 +99,7 @@ export function getIdUser(id) {
           type: GET_ID_USER,
           payload: data,
         });
+         
       });
   };
 }
@@ -214,21 +213,19 @@ export function userRegisterError() {
   };
 }
  
-export function modifiedCohorte(cohorte) {
-  console.log(cohorte, "SOY COHORTE")
-  var url = `http://localhost:4000/cohorte/${cohorte.id}`;
-  axios({
-    method: "put",
-    url: url,
-    headers: {
-      "Content-Type": "application/json",
-    },
-    data: {
-      name: cohorte.cohorte,
-      instructorId: cohorte.instructor,
-      date: cohorte.DateA,
-    }
-  });
+export function modifiedCohorte (cohorte) {
+  console.log('El COHOORRRTEEEE ',cohorte)
+return function(dispatch) {
+  return axios.put(`http://localhost:4000/cohorte/${cohorte.id}`, cohorte )
+    .then(result => result.data)
+    .then(data => {
+      dispatch({
+        type: GET_MODIF_COHORTE,
+        payload: data  
+      })
+      console.log("QUE trae el data", data)
+    })
+}
 }
 
 export function getAllStudents() {
