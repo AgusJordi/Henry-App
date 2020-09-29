@@ -1,4 +1,4 @@
-import martin from "../images/martinborchardt.png";
+// import martin from "../images/martinborchardt.png";
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
@@ -59,7 +59,7 @@ export default function Profile(props) {
               {" "}
               {user.name} {user.lastName}
             </h1>
-            <img className={classes.img} src={martin} />
+            <img className={classes.img} src={user.image} />
             <p>
               {user.province}, {user.country}
             </p>

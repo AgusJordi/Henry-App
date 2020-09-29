@@ -43,7 +43,7 @@ server.get('/:id', (req, res, next) => {
 
 server.post("/", (req, res, next) => {
   const { name, date, instructorId } = req.body; //falta date
-  console.log(req.body, "SOY UN BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACK");
+ 
   Cohorte.create({ name, date, instructorId }) //falta date
     .then((cohorte) => {
       res.send(cohorte);

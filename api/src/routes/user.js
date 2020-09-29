@@ -119,6 +119,7 @@ server.post("/", (req, res, next) => {
     admin,
     status,
     student,
+    image,
     instructor,
     pm
   } = req.body;
@@ -137,6 +138,7 @@ server.post("/", (req, res, next) => {
       admin: admin,
       status: status,
       student: student,
+      image: image,
       instructor: instructor,
       pm: pm,
       salt: salt
@@ -203,6 +205,7 @@ server.put("/", async (req, res, next) => {
     pm,
     instructor,
     admin,
+    image,
     googleId,
     gitHubId } = req.body;
   const correo = req.body.email;
@@ -241,6 +244,7 @@ server.put("/", async (req, res, next) => {
       pm: pm,
       instructor: instructor,
       admin: admin,
+      image: image,
       googleId: googleId,
       gitHubId: gitHubId
     });

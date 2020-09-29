@@ -84,6 +84,20 @@ server.put("/:id", async (req, res, next) => {
   console.log(req.body)
   const { PM1Id, PM2Id } = req.body;
 
+
+  try {
+    const group = await User.findOne({ where: { id: id } });
+    if (!group) {
+      return res.send({
+        message: ``,
+      });
+    }
+    const studentUpdate = await student.update({
+      cohorteId: cohorteId,
+      description: description,
+    });
+    return res.send(groupUpdate);
+
   Group.findOne({
     where: {
       id: idGroup
@@ -141,6 +155,7 @@ server.post('/add', async (req, res, next) => {
 
     res.sendStatus(200)
 
+
   } catch (error) {
     res.sendStatus(400)
     console.log(error)
@@ -148,7 +163,7 @@ server.post('/add', async (req, res, next) => {
 });
 
 
-
-
-
 module.exports = server; 
+
+
+
