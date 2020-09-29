@@ -232,7 +232,9 @@ function AlumnoComponent(props) {
   //funcion update
   const editUser = (id, data) => {
     dispatch(modifiedUser(id, data));
-  };
+    history.push("/");
+    window.location.reload();
+  }; //test
   const editStudent = (id, data) => {
     Swal.fire({
       title: "¿Desea generar los cambios?",
