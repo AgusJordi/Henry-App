@@ -234,7 +234,7 @@ function AlumnoComponent(props) {
     dispatch(modifiedUser(id, data));
     history.push("/");
     window.location.reload();
-  };
+  }; //test
   const editStudent = (id, data) => {
     Swal.fire({
       title: "¿Desea generar los cambios?",
