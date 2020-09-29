@@ -10,12 +10,16 @@ import {
   USER_REGISTER_ERROR,
   GET_ALL_STUDENTS,
   MODIFIED_USER,
+  MODIFIED_STUDENT,
   GET_ALL_PMS,
   GET_ALUMNOS_FROM_COHORTE,
+  GET_STUDENT_FROM_USERID,
+  GET_COHORTES_BY_USERID,
+  MODIFIED_COHORTE_INSTRUCTOR,
+  DELETE_USER_BY_ID,
   GET_MODIF_COHORTE,
   GET_ALL_GROUPS,
   MODIFIED_GROUPS,
-
 } from "../actions/index";
 
 const initialState = {
@@ -28,7 +32,9 @@ const initialState = {
   all_students: [],
   all_pms: [],
   students_from_cohorte: [],
+  student_from_userId: {},
   all_groups: [],
+  all_cohortes_by_userId: [],
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -46,6 +52,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         id_user: action.payload,
+      };
+    case MODIFIED_STUDENT:
+      return {
+        ...state,
+        id_student: action.payload,
       };
 
     case USER_LOGIN:
@@ -67,7 +78,7 @@ const reducer = (state = initialState, action) => {
     case USER_REGISTER:
       return {
         ...state,
-        register: registro(action.payload)
+        register: registro(action.payload),
       };
     case USER_REGISTER_ERROR:
       return {
@@ -115,6 +126,63 @@ const reducer = (state = initialState, action) => {
         all_groups: action.payload,
       };
 
+    case GET_ALL_GROUPS:
+      return {
+        ...state,
+        all_groups: action.payload,
+      };
+
+    case GET_COHORTES_BY_USERID:
+      return {
+        ...state,
+        all_cohortes_by_userId: [
+          ...state.all_cohortes_by_userId,
+          ...action.payload,
+        ],
+      };
+
+    case DELETE_USER_BY_ID:
+      return {
+        ...state,
+        all_users: action.payload,
+      };
+
+    case GET_STUDENT_FROM_USERID: {
+      const { payload } = action;
+      if (!payload) return state;
+
+      return {
+        ...state,
+        student_from_userId: {
+          ...state.student_from_userId,
+          [action.payload.userId]: action.payload,
+        },
+      };
+    }
+
+    case MODIFIED_COHORTE_INSTRUCTOR: {
+      // return {
+      //   ...state,
+      //   all_cohortes: [state.all_cohortes, action.payload],
+      // };
+      return {
+        ...state,
+        all_cohortes: [
+          ...state.all_cohortes.map((elem) => {
+            if (elem.id == action.payload.id) {
+              return {
+                ...elem,
+                instructorId: action.payload.instructorId,
+                date: action.payload.date,
+              };
+            } else {
+              return elem;
+            }
+          }),
+        ],
+      };
+    }
+
     default:
       return state;
   }
@@ -122,15 +190,12 @@ const reducer = (state = initialState, action) => {
 
 function registro(data) {
   if (data === false) {
-    return false
+    return false;
   } else if (data === null) {
-    return 'null'
+    return "null";
   } else {
-    return true
+    return true;
   }
-
 }
 
 export default reducer;
-
-

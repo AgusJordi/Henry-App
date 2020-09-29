@@ -30,7 +30,6 @@ function AreaAdmin(props) {
 
   return (
     <div className="principal">
-      {console.log(props.instructores)}
       <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}

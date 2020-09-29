@@ -10,9 +10,7 @@ import { connect } from "react-redux";
 import { getAlumnosFromCohorte } from "../../actions/index.js";
 import axios from "axios";
 
-
 export function CrearGrupo(props) {
-
   const { all_cohortes, students_from_cohorte } = props;
   const [input, setInput] = useState({
     cohorteId: "",
@@ -37,26 +35,28 @@ export function CrearGrupo(props) {
   }, [input.cohorteId]);
 
   //Setea los usuarios habilitados cuando cambia el estado en redux
-  var activos=[]
+  var activos = [];
   useEffect(() => {
-    filtrarActivos(students_from_cohorte)
+    filtrarActivos(students_from_cohorte);
     setInput({
       ...input,
       usuariosHabilitados: activos,
     });
   }, [students_from_cohorte]);
 
-  const filtrarActivos = (students) =>{
-    activos= students.filter((student)=>student.user.status==="habilitado")
-    return activos
-  }; 
-  
-  const division = (usuarios, grupos) =>{
-    var resultado = Math.floor (usuarios.length/Number(grupos))
-    return resultado
-  }
+  const filtrarActivos = (students) => {
+    activos = students.filter(
+      (student) => student.user.status === "habilitado"
+    );
+    return activos;
+  };
 
-  const createGrupo = (input) =>{
+  const division = (usuarios, grupos) => {
+    var resultado = Math.floor(usuarios.length / Number(grupos));
+    return resultado;
+  };
+
+  const createGrupo = (input) => {
     var url = "http://localhost:4000/grupos/add";
     axios({
       method: "post",
@@ -70,22 +70,22 @@ export function CrearGrupo(props) {
         usuariosHabilitados: input.usuariosHabilitados,
       },
     });
-  }
-  
+  };
+
   const handleCreateGrupo = function (e) {
-      e.preventDefault(); 
-      createGrupo(input);
-      swal({
-      text: "Se han creado " + input.cantidadGrupos + " grupos" ,
+    e.preventDefault();
+    createGrupo(input);
+    swal({
+      text: "Se han creado " + input.cantidadGrupos + " grupos",
       icon: "success",
       timer: "3000",
-      });
-      setInput({
-        ...input,
-        cohorteId: "",
-        cantidadGrupos: "",
-        usuariosHabilitados: []
-      })
+    });
+    setInput({
+      ...input,
+      cohorteId: "",
+      cantidadGrupos: "",
+      usuariosHabilitados: [],
+    });
   };
 
   //reviso si array esta vacio
@@ -107,12 +107,12 @@ export function CrearGrupo(props) {
   return (
     <div>
       <div>
-        <form
-        onSubmit={e => handleCreateGrupo(e)}
-        >
+        <form onSubmit={(e) => handleCreateGrupo(e)}>
           <div>
             <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="cohorte-simple-select-label">Cohorte</InputLabel>
+              <InputLabel htmlFor="cohorte-simple-select-label">
+                Cohorte
+              </InputLabel>
               <Select
                 required
                 native
@@ -139,12 +139,12 @@ export function CrearGrupo(props) {
                 id="standard-number"
                 value={input.cantidadGrupos}
                 onChange={handleInputChange}
-                label= "Cantidad de grupos"
+                label="Cantidad de grupos"
                 type="number"
                 min="1"
-                name= "cantidadGrupos"
-                InputProps={{ 
-                  inputProps: { min: 1, max: input.usuariosHabilitados.length },         
+                name="cantidadGrupos"
+                InputProps={{
+                  inputProps: { min: 1, max: input.usuariosHabilitados.length },
                 }}
                 InputLabelProps={{
                   shrink: true,
@@ -154,13 +154,33 @@ export function CrearGrupo(props) {
 
             {/* No te asustes! Acá solo hacemos las cuentas para adaptar el mensaje al resultado de la división. */}
 
-            {input.usuariosHabilitados.length ? 
-            <p>Hay {input.usuariosHabilitados.length} alumnos activos en este cohorte </p>
-            :"" }
-            {input.usuariosHabilitados.length !== 1 && input.cohorteId !== "" && input.cantidadGrupos !== "" ? 
-            <p>Se creara {input.cantidadGrupos} {input.cantidadGrupos!=="1"? "grupos" : "grupo"} con {input.usuariosHabilitados.length%input.cantidadGrupos !==0? " alrededor de ": " "} {division(input.usuariosHabilitados,input.cantidadGrupos)} 
-            {division(input.usuariosHabilitados,input.cantidadGrupos) > 1? " alumnos" : " alumno"} en cada grupo </p>:"" }
-          
+            {input.usuariosHabilitados.length ? (
+              <p>
+                Hay {input.usuariosHabilitados.length} alumnos activos en este
+                cohorte{" "}
+              </p>
+            ) : (
+              ""
+            )}
+            {input.usuariosHabilitados.length !== 1 &&
+            input.cohorteId !== "" &&
+            input.cantidadGrupos !== "" ? (
+              <p>
+                Se creara {input.cantidadGrupos}{" "}
+                {input.cantidadGrupos !== "1" ? "grupos" : "grupo"} con{" "}
+                {input.usuariosHabilitados.length % input.cantidadGrupos !== 0
+                  ? " alrededor de "
+                  : " "}{" "}
+                {division(input.usuariosHabilitados, input.cantidadGrupos)}
+                {division(input.usuariosHabilitados, input.cantidadGrupos) > 1
+                  ? " alumnos"
+                  : " alumno"}{" "}
+                en cada grupo{" "}
+              </p>
+            ) : (
+              ""
+            )}
+
             <div>
               <br />
               <Button
