@@ -79,25 +79,34 @@ server.delete('/', (req, res, next) => {
     .catch((error) => next(error));
 })
 
-server.put("/:name", async (req, res, next) => {
-  const nameGroup = req.params.name;
-  const { name, description } = req.body;
+server.put("/:id", async (req, res, next) => {
+  const idGroup = req.params.id;
+  console.log(req.body)
+  const { PM1Id, PM2Id } = req.body;
 
-  try {
-    const group = await Cohorte.findOne({ where: { name: nameGroup } });
+  Group.findOne({
+    where: {
+      id: idGroup
+    }
+  }).then(group => {
     if (!group) {
       return res.send({
-        message: `No se encontro el Grupo: ${nameGroup}`,
+        message: `No se encontro el Grupo: ${idGroup}`,
       });
     }
-    const groupUpdate = await group.update({
-      name: name,
-      description: description,
-    });
-    return res.send(groupUpdate);
-  } catch (error) {
-    next(error);
-  }
+
+    group.update({
+      PM1Id: PM1Id,
+      PM2Id: PM2Id
+    }).then(groupUp => {
+      groupUp.save()
+      res.status(200)
+      res.json(groupUp)
+    })
+      .catch(error => {
+        next(error);
+      })
+  });
 });
 
 // Ruta para crear grupos de forma masiva y asignar los estudiantes a esos grupos
