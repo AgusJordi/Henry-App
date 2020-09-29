@@ -232,6 +232,8 @@ function AlumnoComponent(props) {
   //funcion update
   const editUser = (id, data) => {
     dispatch(modifiedUser(id, data));
+    history.push("/");
+    window.location.reload();
   };
   const editStudent = (id, data) => {
     Swal.fire({

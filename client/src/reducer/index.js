@@ -35,6 +35,7 @@ const initialState = {
   student_from_userId: {},
   all_groups: [],
   all_cohortes_by_userId: [],
+  modified_user: [],
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -51,7 +52,7 @@ const reducer = (state = initialState, action) => {
     case MODIFIED_USER:
       return {
         ...state,
-        id_user: action.payload,
+        modified_user: action.payload,
       };
     case MODIFIED_STUDENT:
       return {
