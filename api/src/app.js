@@ -10,9 +10,6 @@ const passport = require('passport');
 const Strategy = require('passport-local').Strategy;
 const crypto = require('crypto');
 
-const crypto2 = require('crypto');
-
-
 var db = require("./db.js");
 
 console.log(db.User.name)
@@ -284,10 +281,9 @@ server.post('/usuarios', async(req, res) => {
 
   const alum2 = User.create({ //id: 11
     "email": "student2@gmail.com",
-    "password": passwordInit,
-    "salt": salt,
-    "name": "Lautaro",
-    "lastName" : "Viscovi",
+    "password": 1234,
+    "name": "Henrys",
+    "lastName" : "It",
     "admin": false,
     "status": "habilitado",
     "student": true,

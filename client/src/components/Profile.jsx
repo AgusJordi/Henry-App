@@ -1,4 +1,4 @@
-import martin from "../images/martinborchardt.png";
+// import martin from "../images/martinborchardt.png";
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";

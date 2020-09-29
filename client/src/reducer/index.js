@@ -4,7 +4,7 @@ import {
   USER_LOGIN,
   ONLINE_USER_ERROR,
   GET_ALL_COHORTES,
-  GET_ID_USER, 
+  GET_ID_USER,
   GET_ALL_INSTRUCTORS,
   USER_REGISTER,
   USER_REGISTER_ERROR,
@@ -12,8 +12,9 @@ import {
   MODIFIED_USER,
   GET_ALL_PMS,
   GET_ALUMNOS_FROM_COHORTE,
-  GET_MODIF_COHORTE
- 
+  GET_MODIF_COHORTE,
+  GET_ALL_GROUPS,
+  MODIFIED_GROUPS,
 
 } from "../actions/index";
 
@@ -27,6 +28,7 @@ const initialState = {
   all_students: [],
   all_pms: [],
   students_from_cohorte: [],
+  all_groups: [],
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -51,7 +53,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         onlineUser: action.payload,
       };
-      case GET_MODIF_COHORTE:
+    case GET_MODIF_COHORTE:
       return {
         ...state,
         all_cohortes: action.payload,
@@ -101,6 +103,16 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         students_from_cohorte: action.payload,
+      };
+    case GET_ALL_GROUPS:
+      return {
+        ...state,
+        all_groups: action.payload,
+      };
+    case MODIFIED_GROUPS:
+      return {
+        ...state,
+        all_groups: action.payload,
       };
 
     default:
