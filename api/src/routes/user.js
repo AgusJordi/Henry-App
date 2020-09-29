@@ -1,5 +1,5 @@
 const server = require("express").Router();
-//const bcrypt = require("bcryptjs");
+const bcrypt = require("bcryptjs");
 const mailer = require("../../templates/Registro.js")
 const mailerPW = require("../../templates/RequestPassword.js")
 const crypto = require('crypto');
@@ -121,7 +121,7 @@ server.post("/", (req, res, next) => {
     student,
     image,
     instructor,
-    pm
+    pm,    
   } = req.body;
   console.log(email, lastname, email, password);
 
@@ -141,7 +141,7 @@ server.post("/", (req, res, next) => {
       image: image,
       instructor: instructor,
       pm: pm,
-      salt: salt
+      salt: salt,      
     };
     User.create(newUser)
       .then((user) => {
@@ -153,7 +153,7 @@ server.post("/", (req, res, next) => {
         //Mandamos el error al error endware
         next(error);
       });
-    //});
+    
   } else {
     return res.send({ message: "Faltan campos obligatorios" });
   }
@@ -294,12 +294,16 @@ server.put('/passwordReset', (req, res, next) => {
 // PASWORD RESET POR EMAIL
 server.put('/passwordResetEmail', (req, res, next) => { 
   const { email, password } = req.body;
-  console.log(req.body)  
+  
+  const salt = crypto.randomBytes(64).toString('hex')
+  const passwordResetEmail = crypto.pbkdf2Sync(password, salt, 10000, 64, 'sha512').toString('base64')
+  console.log(email, passwordResetEmail)
 
   User.findOne({ where: { email: email } })
     .then((user) => {
       if (user) {
-        user.password = password        
+        user.password = passwordResetEmail 
+        user.salt = salt    
         return user.save()
       }
     }).then((user) => {
@@ -310,6 +314,8 @@ server.put('/passwordResetEmail', (req, res, next) => {
 
 //SOLICITAR NUEVA CLAVE POR PERDIDA
 server.put('/passwordReques', (req, res, next) => {
+  const salt = crypto.randomBytes(64).toString('hex')
+  const password = crypto.pbkdf2Sync('XY4BP1Z6', salt, 10000, 64, 'sha512').toString('base64')
    
   const { email } = req.body;
   console.log('EL EMAILLLL ',email)
@@ -319,6 +325,9 @@ server.put('/passwordReques', (req, res, next) => {
       if (user) {
         var passEnvio = 'XY4BP1Z6'
         user.password = passEnvio 
+        user.salt = salt
+        
+
         mailerPW.enviar_mail_req_pass(passEnvio, user.name, email)
        console.log('OBJETO de USERRRRR',user)
         

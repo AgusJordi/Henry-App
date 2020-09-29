@@ -315,6 +315,10 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegist
       'Repeti la clave'
        
     ]).then((result) => {
+      if(result.dismiss === "backdrop" || result.dismiss === "cancel" ){
+        return
+      }
+      console.log('el Result',result)
       if (result.value[0] == result.value[1]) {
         const answers = JSON.stringify(result.value)
 
@@ -334,9 +338,7 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegist
           `,          
           confirmButtonText: 'Ok!'
         })
-
-
-
+        
          console.log(result.value[0], result.value[1])
          
       }else{
@@ -347,7 +349,7 @@ function Login({ getAllUsers, userLogIn, onlineUser, onlineUserError, userRegist
         })
       }
     })
-  }
+  }////en functiion
 
 
 

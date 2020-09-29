@@ -135,122 +135,148 @@ server.get("/login",
 server.use("/", routes);
 
 server.post('/usuarios', async(req, res) => {
+  const pass = '1234'
+  const salt = crypto.randomBytes(64).toString('hex');
+  const passwordInit = crypto.pbkdf2Sync(pass, salt, 10000, 64, 'sha512').toString('base64');
+
   const admin = User.create({  //id: 1
     "email": "admin@gmail.com",
-    "password": 1234,
+    "password": passwordInit,
+    "salt": salt,
     "name": "admin",
     "lastName" : "Cofounder",
     "admin": true,
     "status": "habilitado",
     "student": false,
-    "instructor": true
+    "instructor": true,
+    "image": "https://img2.freepng.es/20190706/hpx/kisspng-portable-network-graphics-computer-icons-system-ad-system-administration-database-administrator-png-5d206ab0b91e91.7890932215624055527583.jpg"
+
+    
   })
 
   const instructor = User.create({ //id: 2
     "email": "instructor@gmail.com",
-    "password": 1234,
+    "password": passwordInit,
+    "salt": salt,
     "name": "Emi",
     "lastName" : "Chequer",
     "admin": false,
     "status": "habilitado",
     "student": false,
     "instructor": true,
-    "pm": true
+    "pm": true,
+    "image": "https://ca.slack-edge.com/TPRS7H4PN-UUA4ZMCG2-c61a24a585eb-512"
   })
 
   const pm = User.create({ //id: 3
     "email": "pm@gmail.com",
-    "password": 1234,
+    "password": passwordInit,
+    "salt": salt,
     "name": "Oliver",
     "lastName" : "Balfour",
     "admin": false,
     "status": "habilitado",
     "student": false,
     "instructor": true,
-    "pm": true
+    "pm": true,
+    "image": ""
   })
   
   const pmyalumno1 = User.create({ //id: 4
     "email": "pmyalumno@gmail.com",
-    "password": 1234,
-    "name": "Victoria",
-    "lastName" : "Henry",
+    "password": passwordInit,
+    "salt": salt,
+    "name": "Maria de la Paz",
+    "lastName" : "Casux",
     "admin": false,
     "status": "habilitado",
     "student": true,
     "instructor": false,
-    "pm": true
+    "pm": true,
+    "image": "https://ca.slack-edge.com/TPRS7H4PN-U013QUW30LF-7a68346d2bac-512"
   })
 
   const pmyalumno2 = User.create({ //id: 5
     "email": "pmyalumno2@gmail.com",
-    "password": 1234,
-    "name": "Carlos",
-    "lastName" : "Merge",
+    "password": passwordInit,
+    "salt": salt,
+    "name": "Agustina",
+    "lastName" : "Grimaldi",
     "admin": false,
     "status": "habilitado",
     "student": true,
     "instructor": false,
-    "pm": true
+    "pm": true,
+    "image": "https://ca.slack-edge.com/TPRS7H4PN-U013C65N3EE-94afb08ee1d6-512"
   })
 
   const pmyalumno3 = User.create({ //id: 6
     "email": "alpm@gmail.com",
-    "password": 1234,
-    "name": "Sergio",
-    "lastName" : "Furrer",
+    "password": passwordInit,
+    "salt": salt,
+    "name": "Franco",
+    "lastName" : "Rivadero",
     "admin": false,
     "status": "habilitado",
     "student": true,
     "instructor": false,
-    "pm": true
+    "pm": true,
+    "image": "https://ca.slack-edge.com/TPRS7H4PN-U013P3WT99C-da3702fd4214-512"
   })
 
   const pmyalumno4 = User.create({ //id: 7
     "email": "dario1@gmail.com",
-    "password": 1234,
-    "name": "Dario",
-    "lastName" : "Lotus",
+    "password": passwordInit,
+    "salt": salt,
+    "name": "Lucia",
+    "lastName" : "Gentile",
     "admin": false,
     "status": "habilitado",
     "student": true,
     "instructor": false,
-    "pm": true
+    "pm": true,
+    "image": "https://ca.slack-edge.com/TPRS7H4PN-U012W7S0WD9-b513a9cb3d26-512"
   })
 
   const pmyalumno5 = User.create({ //id: 8
     "email": "clavedesol@gmail.com",
-    "password": 1234,
-    "name": "Soledad",
-    "lastName" : "Solitaria",
+    "password": passwordInit,
+    "salt": salt,
+    "name": "Pamela",
+    "lastName" : "Guevara",
     "admin": false,
     "status": "habilitado",
     "student": true,
     "instructor": false,
-    "pm": true
+    "pm": true,
+    "image": "https://ca.slack-edge.com/TPRS7H4PN-U011NN4710T-5fb3dc24edcb-512"
   })
 
 
   const alum = User.create({ //id: 9
     "email": "student@gmail.com",
-    "password": 1234,
-    "name": "Henrys",
+    "password": passwordInit,
+    "salt": salt,
+    "name": "Julieta",
     "lastName" : "It",
     "admin": false,
-    "status": "habilitado",
+    "status": "Cheruse",
     "student": true,
     "instructor": false,
+    "image": "https://ca.slack-edge.com/TPRS7H4PN-U017N403LS0-bdfc4b9e82d5-512"
   })
 
   const alum1 = User.create({ //id: 10
     "email": "student1@gmail.com",
-    "password": 1234,
-    "name": "Henrys",
-    "lastName" : "It",
+    "password": passwordInit,
+    "salt": salt,
+    "name": "Santiago",
+    "lastName" : "Calisaya",
     "admin": false,
     "status": "habilitado",
     "student": true,
-    "instructor": false
+    "instructor": false,
+    "image": "https://ca.slack-edge.com/TPRS7H4PN-U01BEBXDZCJ-cd3f4f89186a-512"
   })
 
   const alum2 = User.create({ //id: 11
@@ -261,36 +287,42 @@ server.post('/usuarios', async(req, res) => {
     "admin": false,
     "status": "habilitado",
     "student": true,
-    "instructor": false
+    "instructor": false,
+    "image": "https://ca.slack-edge.com/TPRS7H4PN-U011PFSHT5Z-3d88007c066e-512"
   })
 
   const alum3 = User.create({ //id: 12
     "email": "student3@gmail.com",
-    "password": 1234,
-    "name": "Henrys",
-    "lastName" : "It",
+    "password": passwordInit,
+    "salt": salt,
+    "name": "Rodrigo",
+    "lastName" : "Blanca",
     "admin": false,
     "status": "habilitado",
     "student": true,
-    "instructor": false
+    "instructor": false,
+    "image": "https://ca.slack-edge.com/TPRS7H4PN-U01B61MBSES-a32ccae237ec-512"
   })
 
   const alum4 = User.create({ //id: 13
     "email": "student4@gmail.com",
-    "password": 1234,
-    "name": "Henrys",
-    "lastName" : "It",
+    "password": passwordInit,
+    "salt": salt,
+    "name": "Elizer",
+    "lastName" : "Zalazar",
     "admin": false,
     "status": "habilitado",
     "student": true,
-    "instructor": false
+    "instructor": false,
+    "image": "https://ca.slack-edge.com/TPRS7H4PN-U01B2F8BZ7G-c04270f308a9-512"
   })
 
   const alum5 = User.create({ //id: 14
     "email": "student5@gmail.com",
-    "password": 1234,
-    "name": "Henrys",
-    "lastName" : "It",
+    "password": passwordInit,
+    "salt": salt,
+    "name": "Pedro",
+    "lastName" : "Canoero",
     "admin": false,
     "status": "habilitado",
     "student": true,
@@ -300,9 +332,10 @@ server.post('/usuarios', async(req, res) => {
 
   const alum6 = User.create({ //id: 15
     "email": "student6@gmail.com",
-    "password": 1234,
-    "name": "Henrys",
-    "lastName" : "It",
+    "password": passwordInit,
+    "salt": salt,
+    "name": "Carlos",
+    "lastName" : "Garcia",
     "admin": false,
     "status": "habilitado",
     "student": true,
@@ -311,9 +344,10 @@ server.post('/usuarios', async(req, res) => {
 
   const prueba1 = User.create({ //id: 16
     "email": "prueba1@gmail.com",
-    "password": 1234,
-    "name": "Henrys",
-    "lastName" : "It",
+    "password": passwordInit,
+    "salt": salt,
+    "name": "Pablo",
+    "lastName" : "Escobar",
     "admin": false,
     "status": "inhabilitado",
     "student": true,
@@ -322,9 +356,10 @@ server.post('/usuarios', async(req, res) => {
   
   const prueba2 = User.create({ //id: 17
     "email": "prueba2@gmail.com",
-    "password": 1234,
-    "name": "Henrys",
-    "lastName" : "It",
+    "password": passwordInit,
+    "salt": salt,
+    "name": "Sandra",
+    "lastName" : "Willdes",
     "admin": false,
     "status": "inhabilitado",
     "student": true,
@@ -333,9 +368,10 @@ server.post('/usuarios', async(req, res) => {
   
   const prueba3 = User.create({ //id: 18
     "email": "prueba3@gmail.com",
-    "password": 1234,
-    "name": "Henrys",
-    "lastName" : "It",
+    "password": passwordInit,
+    "salt": salt,
+    "name": "Lionel",
+    "lastName" : "Messi",
     "admin": false,
     "status": "inhabilitado",
     "student": true,
@@ -344,9 +380,10 @@ server.post('/usuarios', async(req, res) => {
   
   const prueba4 = User.create({ //id: 19
     "email": "prueba4@gmail.com",
-    "password": 1234,
-    "name": "Henrys",
-    "lastName" : "It",
+    "password": passwordInit,
+    "salt": salt,
+    "name": "Marco",
+    "lastName" : "Lazo",
     "admin": false,
     "status": "inhabilitado",
     "student": true,
