@@ -36,6 +36,8 @@ function App(props) {
     props.getAllStudents();
   }, []);
 
+  console.log('a ver el estado de USER ',props.id_user)
+
   const PvRoute = (props) =>
     isAutenticated() ? <Route {...props} /> : <Redirect to="./login" />;
 
@@ -43,7 +45,9 @@ function App(props) {
     <div>
       <Router>
         <PvRoute path="/" component={Navbar} />
-        <PvRoute path="/" component={Sidebar} />
+        <PvRoute path="/" >
+          <Sidebar user={props.id_user} />
+        </PvRoute>
         <PvRoute exact path="/profile" component={Profile} />
         <PvRoute exact path="/editprofile" component={EditProfile} />
         {/*Ruta provisoria señor*/}

@@ -67,6 +67,7 @@ server.delete("/:id", (req, res, next) => {
 
 server.put("/:id", async (req, res, next) => {
   const idCohorte = req.params.id;
+  console.log(idCohorte)
   console.log(req.body)
   const { name, instructorId, date } = req.body;
 
@@ -76,6 +77,7 @@ server.put("/:id", async (req, res, next) => {
         where: {
           id: idCohorte
         }
+        
       });
     if (!cohorte) {
       return res.send({

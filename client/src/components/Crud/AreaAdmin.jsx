@@ -10,6 +10,7 @@ import ModificarEliminarCohorte from "./ModificarEliminarCohorte.jsx";
 import ModificarEliminarInstructorPm from "./ModificarEliminarInstructorPm.jsx";
 import CrearCohorte from "./CrearCohorte.jsx";
 import CrearGrupo from "./CrearGrupo.jsx";
+import ModificarGrupo from "./ModificarGrupo"
 import Box from "@material-ui/core/Box";
 import "./AreaAdmin.css";
 
@@ -60,7 +61,7 @@ function AreaAdmin(props) {
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <Typography className={classes.heading}>Crear Grupo</Typography>
+          <Typography className={classes.heading}>Crear Grupos</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <CrearGrupo pms={props.pms} />
@@ -73,11 +74,25 @@ function AreaAdmin(props) {
           id="panel1a-header"
         >
           <Typography className={classes.heading}>
-            Modificar/Eliminar Cohorte
+            Modificar Cohortes
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
           <ModificarEliminarCohorte />
+        </AccordionDetails>
+      </Accordion>
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <Typography className={classes.heading}>
+            Modificar Grupos
+          </Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <ModificarGrupo />
         </AccordionDetails>
       </Accordion>
     </div>

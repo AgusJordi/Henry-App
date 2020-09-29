@@ -41,6 +41,11 @@ module.exports = (sequelize) => {
       allowNull: true,
     },
 
+    salt: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+
     city: {
       type: DataTypes.STRING,
       allowNull: true,
