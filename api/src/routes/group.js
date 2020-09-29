@@ -1,6 +1,6 @@
 const server = require("express").Router();
 
-const { Group, User } = require("../db.js");
+const { Group, User, Student } = require("../db.js");
 
 server.get('/', (req, res, next) => {
   Group.findAll({
@@ -108,5 +108,47 @@ server.put("/:id", async (req, res, next) => {
       })
   });
 });
+
+// Ruta para crear grupos de forma masiva y asignar los estudiantes a esos grupos
+
+server.post('/add', async (req, res, next) => {
+  const { cohorteId, cantidadGrupos, usuariosHabilitados } = req.body;
+
+  try{
+    const students = usuariosHabilitados; //array de estudiantes habilitados de ese cohorte
+    const idGroup = []; // id de grupos
+    const cantidadStudents = students.length; //cantidad estudiantes
+  
+    for (let i = 0; i < cantidadGrupos; i++){ 
+      idGroup.push((await Group.create({ cohorteId })).dataValues.id)
+    }
+  
+    for(let i = 0; i < idGroup.length; i++){
+      for(let j = 0; j < Math.floor(cantidadStudents/idGroup.length); j++){ //cuantos estudiantes hay x grupo
+        const al = await Student.findByPk((students.shift()).id)
+        await al.update({groupId: idGroup[i]})
+      }
+    }
+
+    if( students ){ //Caso en que la division tenga resto => Se mete los que sobran en el 1er grupo
+      for ( let i= 0; i<students.length; i++){
+        console.log("ultimo",students)
+        const st= await Student.findByPk((students.shift()).id)
+        console.log( "st", st)
+        await st.update({groupId: idGroup[0]})
+      }
+    }
+
+    res.sendStatus(200)
+
+  } catch (error) {
+    res.sendStatus(400)
+    console.log(error)
+  }
+});
+
+
+
+
 
 module.exports = server; 
