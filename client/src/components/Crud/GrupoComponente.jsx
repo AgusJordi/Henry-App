@@ -29,6 +29,9 @@ const useStyles = makeStyles({
     table: {
         minWidth: 650,
     },
+    p:{
+        display: "block",
+    }
 });
 function GrupoComponente(props) {
     const { group, all_users } = props;
@@ -67,62 +70,74 @@ function GrupoComponente(props) {
     }
 
     const handleConfirm = () =>{
-        console.log("pms:", pm1, pm2)
-        if(pm1===pm2){
+
+        if(pm1!=="" && pm2!==""){
+            if(pm1===pm2){
+                swal ({
+                    title: 'Oops...',
+                    text: "Los PMs de un grupo deben ser usuarios diferentes", 
+                    icon: 'error',
+                    timer: "3000",
+                })
+                return
+            }
+            else {
+                if (esPM(pm1)===false){
+                    var url = `http://localhost:4000/users/myprofile/${pm1}`;
+                    axios({
+                    method: "put",
+                    url: url,
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    data: {
+                        pm: true,
+                    },
+                    });
+                }
+                if (esPM(pm2)===false){
+                    var url = `http://localhost:4000/users/myprofile/${pm2}`;
+                    axios({
+                    method: "put",
+                    url: url,
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    data: {
+                        pm: true,
+                    },
+                    });
+                }
+                var url = `http://localhost:4000/grupos/${input.id}`;
+                    axios({
+                    method: "put",
+                    url: url,
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    data: {
+                        PM1Id: Number(pm1),
+                        PM2Id: Number(pm2),
+                    },
+                    })
+                    .then(()=>{
+                        swal({
+                            text: "Se han asignado PMs al grupo "+ input.grupo ,
+                            icon: "success",
+                            timer: "3000",
+                        });
+                    })
+            }
+            
+        }
+        else {
             swal ({
                 title: 'Oops...',
-                text: "Los PMs de un grupo deben ser usuarios diferentes", 
+                text: "Debe asignar 2 PMs para este grupo", 
                 icon: 'error',
                 timer: "3000",
             })
             return
-        }
-        else {
-            if (esPM(pm1)===false){
-                var url = `http://localhost:4000/users/myprofile/${pm1}`;
-                axios({
-                method: "put",
-                url: url,
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                data: {
-                    pm: true,
-                },
-                });
-            }
-            if (esPM(pm2)===false){
-                var url = `http://localhost:4000/users/myprofile/${pm2}`;
-                axios({
-                method: "put",
-                url: url,
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                data: {
-                    pm: true,
-                },
-                });
-            }
-            var url = `http://localhost:4000/grupos/${input.id}`;
-                axios({
-                method: "put",
-                url: url,
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                data: {
-                    PM1Id: Number(pm1),
-                    PM2Id: Number(pm2),
-                },
-                })
-                .then(()=>{
-                    swal({
-                        text: "Se han asignado PMs al grupo "+ input.grupo ,
-                        icon: "success",
-                        timer: "3000",
-                    });
-                })
         }
     } 
 
@@ -135,7 +150,7 @@ function GrupoComponente(props) {
     }
 
     var borrarGrupo = function () {
-        console.log("entre al handle DEL", group.id)
+
         Swal.fire({
             title: 'Seguro que quieres eliminar?',
             showDenyButton: true,
@@ -161,9 +176,9 @@ function GrupoComponente(props) {
            
             <TableCell align="center">{group.name}</TableCell>
             {pm1!==""? 
-            <TableCell>
+            <TableCell  align="center">
                 <p>{mostrarPm(pm1)}</p> 
-                <a className={classes.a} href="#"  onClick={() => handleOpenModal1()}>Modificar</a>
+                <a href="#"  onClick={() => handleOpenModal1()}>Modificar</a>
             </TableCell>  
             :
             <TableCell align="center">
@@ -171,9 +186,9 @@ function GrupoComponente(props) {
             </TableCell>
             }
             {pm2!==""? 
-            <TableCell>
+            <TableCell  align="center">
                 <p>{mostrarPm(pm2)}</p> 
-                <a className={classes.a} href="#"  onClick={() => handleOpenModal2()}>Modificar</a>
+                <a href="#"  onClick={() => handleOpenModal2()}>Modificar</a>
             </TableCell>  
             :
             <TableCell align="center">
@@ -187,7 +202,7 @@ function GrupoComponente(props) {
                         </Button>
                 </ButtonGroup>
                 <ButtonGroup disableElevation variant="contained" color="secondary">
-                    <Button onClick={borrarGrupo} borrarGruposize="small">Eliminar</Button>
+                    <Button onClick={borrarGrupo} size="small">Eliminar</Button>
                 </ButtonGroup>
             </TableCell>
             {/*  </form> */}
