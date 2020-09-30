@@ -54,10 +54,15 @@ const useStyles = makeStyles((theme) => ({
 export default function ClippedDrawer(user, props) {
 
   const creationUser = (e) => {
-    e.preventDefault();
     setearUsuarios();
+} 
+  const creationCohorte = (e) => {
     setearCohorte()
+}  
+  const creationGroups = (e) => {
     setearGroups()
+}
+  const creationStudents = (e) => {
     setearStudents()
 }
 
@@ -101,7 +106,7 @@ export default function ClippedDrawer(user, props) {
             {[
               //"Herramientas",
               "Noticias",
-              "My cohorte",
+              "Mi cohorte",
               //"Cohortes",
               //"Instructores",
               "Pair Programming",
@@ -123,8 +128,8 @@ export default function ClippedDrawer(user, props) {
             "Noticias",
             "Cohortes",
             "Instructores",
-            "My cohorte",
-            //"PairProgramming",             
+            "Mi cohorte",
+            "Pair Programming",             
           ].map((text, index) => (
             <ListItem button key={text}>
               <ListItemText
@@ -139,7 +144,24 @@ export default function ClippedDrawer(user, props) {
           <ListItem>
             <ListItemText>
                <Link onClick={creationUser} style={{ textDecoration: 'none' }} to="/">
-                 CARGA DB
+               <p>
+                 CARGA USUARIOS
+                 </p>
+              </Link>
+              <Link onClick={creationCohorte} style={{ textDecoration: 'none' }} to="/">
+              <p>
+                 CARGA COHORTES
+                 </p>
+              </Link> 
+              <Link onClick={creationGroups} style={{ textDecoration: 'none' }} to="/">
+              <p>
+                 CARGA GRUPOS
+                 </p>
+              </Link> 
+              <Link onClick={creationStudents} style={{ textDecoration: 'none' }} to="/">
+              <p>
+                 CARGA ESTUDIANTES
+                 </p>
               </Link> 
             </ListItemText>
           </ListItem>           

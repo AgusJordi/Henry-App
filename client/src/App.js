@@ -6,7 +6,20 @@ import Navbar from "./components/Navbar.jsx";
 import Profile from "./components/Profile.jsx";
 import EditProfile from "./components/EditProfile.jsx";
 import ModalUsers from "./components/modalUsers.jsx";
-import {getAllGroups, getAlumnosFromCohorte, getIdUser, getAllUsers, getAllPms, getAllInstructors,  getAllCohortes,  getAllStudents } from "./actions";
+import {
+  getAlumnosFromCohorte,
+  getIdUser,
+  getAllUsers,
+  getAllPms,
+  getAllInstructors,
+  getAllCohortes,
+  getAllStudents,
+  getStudentFromUserId,
+  getAllGroups,
+  getCohortesByUserId,
+  deleteUserById,
+  getCohortesById,
+} from "./actions";
 import {
   BrowserRouter as Router,
   Switch,
@@ -34,11 +47,15 @@ function App(props) {
     props.getAllInstructors();
     props.getAllCohortes();
     props.getAllStudents();
-    props.getAlumnosFromCohorte(idUser);
     props.getAllGroups();
+    props.getCohortesByUserId();
+    props.deleteUserById();
+    props.getCohortesById();
+    props.getAlumnosFromCohorte(idUser);
   }, []);
 
- 
+  console.log("a ver el estado de USER ", props.id_user);
+
   const PvRoute = (props) =>
     isAutenticated() ? <Route {...props} /> : <Redirect to="./login" />;
 
@@ -46,7 +63,7 @@ function App(props) {
     <div>
       <Router>
         <PvRoute path="/" component={Navbar} />
-        <PvRoute path="/" >
+        <PvRoute path="/">
           <Sidebar user={props.id_user} />
         </PvRoute>
         <PvRoute exact path="/profile" component={Profile} />
@@ -60,12 +77,9 @@ function App(props) {
       </Router>
       {isAutenticated() === false ? (
         <Route exact path="/login" component={Login} />
-        
       ) : (
         ""
       )}
-      
-       
     </div>
   );
 }
@@ -78,8 +92,11 @@ const mapDispatchToProps = (dispatch) => {
     getAllInstructors: () => dispatch(getAllInstructors()),
     getAllStudents: () => dispatch(getAllStudents()),
     getAllCohortes: () => dispatch(getAllCohortes()),
+    getAllGroups: (id) => dispatch(getAllGroups(id)),
+    getCohortesByUserId: (id) => dispatch(getCohortesByUserId(id)),
+    deleteUserById: (id) => dispatch(deleteUserById(id)),
+    getCohortesById: (id) => dispatch(getCohortesById(id)),
     getAlumnosFromCohorte: (idUser) => dispatch(getAlumnosFromCohorte(idUser)),
-    getAllGroups: () => dispatch(getAllGroups())
   };
 };
 

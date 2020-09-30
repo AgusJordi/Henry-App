@@ -9,7 +9,7 @@ import "./PairProgramming.css";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Avatar from "@material-ui/core/Avatar";
-import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
+import InfoIcon from '@material-ui/icons/Info';
 import List from "@material-ui/core/List";
 import martin from "../../images/martinborchardt.png";
 import Modal from "@material-ui/core/Modal";
@@ -19,12 +19,16 @@ import { getAllGroups, userLogIn, getAlumnosFromCohorte, getAllStudents, getAllC
 import Cohorte from "../Cohorte";
 import Alumnos from "../modalUsers";
 import Usersgroup from "../modalUsersGroup";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 
  
 
 
 
 const useStyles = makeStyles((theme) => ({
+  container: {
+    borderRadius: "30px",
+  },
   root2: {
     flexGrow: 2,
   },
@@ -47,43 +51,68 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     fontSize: 24,
+    margin: "25px",
   },
   icon: {
-    fontSize: 72,
+    marginTop: "30px",
+    fontSize: 70,
+
+  },
+  icon2: {
+    marginTop: "50px",
+    fontSize: 70,
+
   },
   pos: {
     marginBottom: 12,
   },
   containerAlumnos: {
     width: "100%",
-
     overflow: "auto",
-
     maxHeight: "95%",
-
     padding: 5,
   },
   boxl: {
     padding: 20,
     justifyContent: "space-evenly",
     width: "100%",
-    backgroundColor: "rgb(249, 231, 159)",
+    backgroundColor: "rgb(255, 255, 222)",
     overflow: "auto",
+    borderRadius: "0 0 0 30px",
   },
   boxr: {
     marginTop: "25%",
-
     padding: 20,
-
     justifyContent: "space-evenly",
-
     width: "100%",
   },
   botones:{
     margin: 5,
     marginTop: 20
-  }
+  },
 
+  boxtitulo:{
+    borderRadius: "0 0 30px 0",
+    width: "100%",
+	  backgroundColor: "rgb(255, 255, 200)",
+  },
+  miembros:{
+    marginBottom: "90px"
+  },
+  a:{
+    margin: "15px",
+  },
+  box2: {
+    backgroundColor: "black",
+    borderRadius: "30px",
+    marginTop: "20px",
+    marginLeft: "30px",
+    width: "90%",
+    height: "80%",
+  },
+  div:{
+    marginTop: "50px"
+  }
 }));
 
  function Mycohorte(props) {
@@ -189,8 +218,9 @@ const useStyles = makeStyles((theme) => ({
   //console.log('que salio de l MAPPP', usersA)
   const classes = useStyles();
   return (
-    <React.Fragment>
-      <div className="box2">
+
+    <React.Fragment className={classes.container} >
+      <div className={classes.box2}>
         <div className="boxt">
         {showAlumnos === true ?
         <Alumnos
@@ -213,38 +243,45 @@ const useStyles = makeStyles((theme) => ({
             bgcolor="text.primary"
             gutterBottom
           >
-            MI COHORTE {nameCohorte}
+            Mi Cohorte {nameCohorte}
           </Typography>
         </div>
 
         <div className="boxs">
           
           <div className={classes.boxl}>
-            <ErrorOutlineIcon className={classes.icon} />
-            <Typography variant="h5" component="h2">
+            <InfoIcon className={classes.icon} />
+            <div className={classes.div}>
+            <Typography className={classes.a} variant="h5" component="h2">
               INSTRUCTOR: {nombreInstructor}
             </Typography>
-            <Typography variant="h5" component="h2">
+            <Typography className={classes.a} variant="h5" component="h2">
               FECHA DE INICIO: {fechaInicio}
             </Typography>
-            <Typography variant="h5" component="h2">
-              {nombrePM1 ? 'MI PM1: ' + nombrePM1 : ''}
+            <Typography className={classes.a} variant="h5" component="h2">
+            {nombrePM1 ? 'MI PM1: ' + nombrePM1 : ''}
             </Typography>
-            <Typography variant="h5" component="h2">
+            <Typography className={classes.a} variant="h5" component="h2">
             {nombrePM2 ? 'MI PM2: ' + nombrePM2 : ''}
             </Typography>
-            <Typography variant="h5" component="h2">
+            <Typography className={classes.a} variant="h5" component="h2">
               GRUPO N° {idMyGroup}
             </Typography>
-             
-            <Button className={classes.botones} onClick={handleOpenAlumnos} variant="contained" color="primary">
-              ver alumnos del cohorte
-            </Button>
-            
-            <Button className={classes.botones} onClick={handleOpenAlumnos2} variant="contained" color="secondary">
-              Ver alumnos de mi grupo
-            </Button>
-          
+            </div>
+          </div>
+
+          <div className={classes.boxtitulo}>
+            <div className={classes.miembros}>
+              <AccountCircleIcon className={classes.icon2} />
+              {/* <Typography variant="h3" component="h1">
+                Miembros
+              </Typography> */}
+            </div>
+            <div>
+            <Typography className={classes.a} variant="h5"><a className={classes.a} href="#">Ver todos los miembros del cohorte</a></Typography>
+            <Typography className={classes.a}  variant="h5"><a className={classes.a} href="#">Ver todos los miembros de mi grupo</a></Typography>
+
+            </div>
           </div>
         </div>
       </div>     

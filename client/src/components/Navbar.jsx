@@ -8,7 +8,6 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Fade from "@material-ui/core/Fade";
 import Divider from "@material-ui/core/Divider";
-import martin from "../images/martinborchardt.png";
 import { makeStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
 import { useEffect } from "react";
@@ -18,10 +17,11 @@ import ModifiedPassword from "./ModifiedPassword.jsx";
 import { getAllUsers, userLogIn, onlineUserError, onlineUser } from "../actions/index.js";
 import axios from "axios";
 import {Link} from "react-router-dom";
+import ModalSearchBar from "./ModalSearchBar";
 
 var lsName = localStorage.getItem("username");
 
-function Navbar({ onlineUser, userLogIn, getIdUser, id_user }) {
+function Navbar({ onlineUser, userLogIn, getIdUser, id_user, all_users }) {
   useEffect(() => {
     getAllUsers(589); //probando actions
     userLogIn(onlineUser);
@@ -32,6 +32,8 @@ function Navbar({ onlineUser, userLogIn, getIdUser, id_user }) {
   const [showPerfil, setshowPerfil] = React.useState(false);
   const [showPerfilUpdate, setshowPerfilUpdate] = React.useState(false);
   const [showPerfilPassword, setshowPerfilPassword] = React.useState(false);
+  const [showModalSearch, setShowModalSearch] = React.useState(false);
+  const [input, setInput] = React.useState("");
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -63,7 +65,9 @@ function Navbar({ onlineUser, userLogIn, getIdUser, id_user }) {
     setshowPerfil(false);
     setshowPerfilUpdate(false);
   };
-  
+  const handleOpenModalSearch = () => {
+    setShowModalSearch(true);
+  };
 
   //ESTA ES NUESTRA ACTION QUE PUEDE HACERSE UNA CONSTANTE PARA ESE ICONO
   const useStyles = makeStyles((theme) => ({
@@ -100,7 +104,15 @@ function Navbar({ onlineUser, userLogIn, getIdUser, id_user }) {
   }));
 
   const classes = useStyles();
-
+  // var searchInput= document.getElementById('#search_input')
+  //   searchInput.click(function(e) {
+  //     alert('clicked');
+  //   });
+  // const myFunc = ( ) =>{
+    
+  // }
+  // document.getElementById("search_input").onclick = function() {
+  //   alert ("tocaste el input")}
 
   return (
     <div className="navbar">
@@ -109,7 +121,10 @@ function Navbar({ onlineUser, userLogIn, getIdUser, id_user }) {
       </div>
       <div className="navbar_search" id="esto">
         <input
+          id="search_input"
           type="text"
+          // onChange={handleOpenModalSearch}
+          onClick={()=>handleOpenModalSearch()}
           placeholder="&#xF002; Buscar en Henry"
           className={classes.fontAwesome}
         />
@@ -145,7 +160,7 @@ function Navbar({ onlineUser, userLogIn, getIdUser, id_user }) {
           TransitionComponent={Fade}
         >
           <div>
-            <img className={classes.img} alt="Martin" src={id_user.image ? id_user.image : 'https://camo.githubusercontent.com/f8ea5eab7494f955e90f60abc1d13f2ce2c2e540/68747470733a2f2f662e636c6f75642e6769746875622e636f6d2f6173736574732f323037383234352f3235393331332f35653833313336322d386362612d313165322d383435332d6536626439353663383961342e706e67'} />
+            <img className={classes.img} src={id_user.image} />
             <p className={classes.name}>
               {id_user.name} {id_user.lastName}
             </p>
@@ -177,6 +192,11 @@ function Navbar({ onlineUser, userLogIn, getIdUser, id_user }) {
         ) : (
           ""
         )}
+           {showModalSearch === true ? (
+          <ModalSearchBar show={setShowModalSearch} users={all_users}/>
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );
@@ -187,6 +207,7 @@ const mapDispatchToProps = (dispatch) => {
     getAllUsers: (number) => dispatch(getAllUsers(589)),
     userLogIn: (input) => dispatch(userLogIn(input)),
     onlineUserError: () => dispatch(onlineUserError()),
+    
   };
 };
 

@@ -1,18 +1,17 @@
 const server = require("express").Router();
 const { Student, Cohorte, User, Group } = require("../db.js");
 
-
 //Ruta general http://localhost:4000/students
 
 //crear alumno
 server.post("/", (req, res, next) => {
-  let userId = req.body.userId
+  let userId = req.body.userId;
   Student.create({
-    userId: userId
-  }).then(student => {
-    return res.send(student)
-  })
-})
+    userId: userId,
+  }).then((student) => {
+    return res.send(student);
+  });
+});
 
 //consultar por todos los alumnos
 server.get("/", (req, res, next) => {
@@ -34,10 +33,10 @@ server.get("/", (req, res, next) => {
 });
 
 //consultar por la información de un alumno
-server.get('/:id', (req, res, next) => {
+server.get("/:id", (req, res, next) => {
   Student.findAll({
     where: {
-      id: req.params.id
+      id: req.params.id,
     },
     include: [
       {
@@ -45,11 +44,11 @@ server.get('/:id', (req, res, next) => {
       },
     ],
   })
-    .then(studentFound => {
+    .then((studentFound) => {
       res.json(studentFound);
     })
-    .catch(next)
-})
+    .catch(next);
+});
 
 //consultar por los alumnos de determinado cohorte
 server.get("/cohorte/:id", (req, res) => {
@@ -59,10 +58,12 @@ server.get("/cohorte/:id", (req, res) => {
     },
     include: [
       {
-        model: User, attributes: ["name", "lastName", "email", "status"]
+        model: User,
+        attributes: ["name", "lastName", "email", "status"],
       },
       {
-        model: Cohorte, attributes: ["name"]
+        model: Cohorte,
+        attributes: ["name"],
       },
     ],
   })
@@ -99,35 +100,36 @@ server.get("/grupo/:id", (req, res) => {
     });
 });
 
-
-//editar información del alumno
-server.put('/:id', (req, res, next) => {
-  let studentUp = req.body
-  Student.findOne({
-    where: {
-      id: req.params.id
-    }
-  }).then(studentFound => {
-    studentFound.update(studentUp)
-      .then(newStu => {
-        newStu.save()
-        res.status(200)
-        res.json(newStu)
-      })
-  })
-})
-
+server.put("/:id", async (req, res, next) => {
+  const id = req.params.id;
+  const { cohorteId, groupId, groupPP } = req.body;
+  try {
+    const student = await Student.findOne({ where: { id: id } });
+    if (!student)
+      return res.send({
+        message: `no se encontro usuario`,
+      });
+    const studentUpdate = await student.update({
+      cohorteId: cohorteId,
+      groupId: groupId,
+      groupPP: groupPP,
+    });
+    return res.send(studentUpdate);
+  } catch (error) {
+    next(error);
+  }
+});
 //eliminar un alumno
-server.delete('/delete/:id', (req, res, next) => {
+server.delete("/delete/:id", (req, res, next) => {
   Student.destroy({
     where: {
-      id: req.params.id
-    }
+      id: req.params.id,
+    },
   }).then(() => {
-    res.status(200)
-    res.send("Alumno eliminado")
-  })
-})
+    res.status(200);
+    res.send("Alumno eliminado");
+  });
+});
 
 //consultar info de student por userId (cohorte-name y grupo-name)
 server.get("/info/:id", (req, res) => {
@@ -137,10 +139,10 @@ server.get("/info/:id", (req, res) => {
     },
     include: [
       {
-        model: Cohorte, attributes: ["name"]
+        model: Cohorte,
       },
       {
-        model: Group, attributes: ["name"]
+        model: Group,
       },
     ],
   })
@@ -153,4 +155,5 @@ server.get("/info/:id", (req, res) => {
         .json({ message: "No se obtuvieron los alumnos", data: err });
     });
 });
+
 module.exports = server;

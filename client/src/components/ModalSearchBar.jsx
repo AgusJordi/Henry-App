@@ -1,9 +1,9 @@
-// import martin from "../images/martinborchardt.png";
+import martin from "../images/martinborchardt.png";
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Profile from "./Profile";
-
+import Divider from "@material-ui/core/Divider";
 function rand() {
   return Math.round(Math.random() * 20) - 10;
 }
@@ -22,7 +22,7 @@ function getModalStyle() {
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: "absolute",
-    width: 400,
+    width: "auto",
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
     borderRadius: "20px",
@@ -30,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     display: "flex",
     outline: "none",
+
   },
   img: {
     borderRadius: "50px",
@@ -43,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "15px",
     padding: "5px",
     outline: "none",
-    width: "-webkit-fill-available",
+    width: "300px",
     marginBottom: "10px",
     "&:focus": {
       outline: "auto",
@@ -56,17 +57,23 @@ const useStyles = makeStyles((theme) => ({
   users: {
     overflow: "auto",
     maxHeight: "360px",
+    width: "400px",
+    margin: "15px"
   },
   h3: {
     "&:hover": {
       cursor: "pointer",
     },
   },
+  input:{
+    display: "flex",
+    justifyContent: "center",
+    margin: "15px",
+  }
 }));
 
 export default function ModalUsers(props) {
   const { users } = props;
-   
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(true);
@@ -90,7 +97,8 @@ export default function ModalUsers(props) {
 
   const handleClose = () => {
     setOpen(false);
-    // props.show(false); //pasarle desde el componente padre una funcion show por props
+    props.show(false); 
+    //pasarle desde el componente padre una funcion show por props
   };
 
   // setea el input
@@ -125,7 +133,7 @@ export default function ModalUsers(props) {
 
       return (
         <div className={classes.divs}>
-          <img className={classes.img} src={user.image}/>
+          <img className={classes.img} src={user.image ? user.image : 'https://camo.githubusercontent.com/f8ea5eab7494f955e90f60abc1d13f2ce2c2e540/68747470733a2f2f662e636c6f75642e6769746875622e636f6d2f6173736574732f323037383234352f3235393331332f35653833313336322d386362612d313165322d383435332d6536626439353663383961342e706e67'} />
           <h3 className={classes.h3} onClick={() => handleOpenModal(user)}>
             {" "}
             {user.name + " " + user.lastName}
@@ -157,18 +165,19 @@ export default function ModalUsers(props) {
       >
         <div style={modalStyle} className={classes.paper}>
           <div className={classes.div}>
-            <h1> {contarActivos(miembros)} miembros en Cohorte 2 </h1>
+            {/* <h1> {contarActivos(miembros)} miembros en Cohorte 2 </h1> */}
             <div className={classes.input}>
               <input
                 type="text"
                 placeholder="Search"
                 value={input}
                 onChange={onChange}
-                placeholder="                  &#xF002; Buscar miembros"
+                placeholder="   &#xF002; Buscar miembros dentro de Henry"
                 className={classes.fontAwesome}
               />
             </div>
-            <div className={classes.users}>{listaFiltrados}</div>
+            <Divider light />
+            {listaFiltrados.length>0?<div className={classes.users}>{listaFiltrados}</div>:<p>No se encontraron usuarios que coincidan con la búsqueda</p>}
           </div>
         </div>
       </Modal>
