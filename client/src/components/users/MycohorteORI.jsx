@@ -9,7 +9,7 @@ import "./PairProgramming.css";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Avatar from "@material-ui/core/Avatar";
-import InfoIcon from '@material-ui/icons/Info';
+import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
 import List from "@material-ui/core/List";
 import martin from "../../images/martinborchardt.png";
 import Modal from "@material-ui/core/Modal";
@@ -17,18 +17,23 @@ import Profile from "../Profile.jsx";
 import { connect } from "react-redux";
 import { getAllGroups, userLogIn, getAlumnosFromCohorte, getAllStudents, getAllCohortes } from "../../actions/index.js";
 import Cohorte from "../Cohorte";
-import Alumnos from "../modalUsers";
-import Usersgroup from "../modalUsersGroup";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 
- 
+function rand() {
+  return Math.round(Math.random() * 20) - 10;
+}
 
+function getModalStyle() {
+  const top = 50 + rand();
+  const left = 50 + rand();
 
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`,
+  };
+}
 
 const useStyles = makeStyles((theme) => ({
-  container: {
-    borderRadius: "30px",
-  },
   root2: {
     flexGrow: 2,
   },
@@ -51,89 +56,41 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     fontSize: 24,
-    margin: "25px",
   },
   icon: {
-    marginTop: "30px",
-    fontSize: 70,
-
-  },
-  icon2: {
-    marginTop: "50px",
-    fontSize: 70,
-
+    fontSize: 72,
   },
   pos: {
     marginBottom: 12,
   },
   containerAlumnos: {
     width: "100%",
+
     overflow: "auto",
+
     maxHeight: "95%",
+
     padding: 5,
   },
   boxl: {
     padding: 20,
     justifyContent: "space-evenly",
     width: "100%",
-    backgroundColor: "rgb(255, 255, 222)",
+    backgroundColor: "rgb(249, 231, 159)",
     overflow: "auto",
-    borderRadius: "0 0 0 30px",
   },
   boxr: {
     marginTop: "25%",
-    padding: 20,
-    justifyContent: "space-evenly",
-    width: "100%",
-  },
-  botones:{
-    margin: 5,
-    marginTop: 20
-  },
 
-  boxtitulo:{
-    borderRadius: "0 0 30px 0",
+    padding: 20,
+
+    justifyContent: "space-evenly",
+
     width: "100%",
-	  backgroundColor: "rgb(255, 255, 200)",
   },
-  miembros:{
-    marginBottom: "90px"
-  },
-  a:{
-    margin: "15px",
-  },
-  box2: {
-    backgroundColor: "black",
-    borderRadius: "30px",
-    marginTop: "20px",
-    marginLeft: "30px",
-    width: "90%",
-    height: "80%",
-  },
-  div:{
-    marginTop: "50px"
-  }
 }));
 
  function Mycohorte(props) {
-
-  const [showAlumnos, setshowAlumnos] = React.useState(false);
-  
-  const handleOpenAlumnos = () => {
-    setshowAlumnos(true);
-  };
-  const handleCloseAlumnos = () => {
-    setshowAlumnos(false);
-  };
-
-  const [showAlumnos2, setshowAlumnos2] = React.useState(false);
-  
-  const handleOpenAlumnos2 = () => {
-    setshowAlumnos2(true);
-  };
-  const handleCloseAlumnos2 = () => {
-    setshowAlumnos2(false);
-  };
 
   useEffect(() => {      
     //  getAllUsers();
@@ -147,16 +104,16 @@ const useStyles = makeStyles((theme) => ({
   const { users } = props;
   const { id_user } = props; //Todos Mis datos
   const  students  = props.all_students
-  const myCohorte = props.students_from_cohorte;
+  const myCohorte= props.students_from_cohorte;
   const groups = props.all_groups  
   const  cohortes  = props.all_cohortes;//todos los cohortes
   global.myID = id_user.id //Este es el ID del USER LOGUEADO, My ID
 
-   //console.log('TODOS LOS GRUPOS ', groups)
+  // console.log('TODOS LOS GRUPOS ', groups)
   // console.log('TODOS LOS USUARIOS ', users)
-  //console.log('TODOS LOS COHORTES ', cohortes)
-   //console.log('TODOS LOS ESTUDIANTES ', students) // id de mi COHORTE
-   //console.log('TODOS LOS DEL COHORTE ', myCohorte)//Todos LOS USERSDEL DE MI COHORTE
+  // console.log('TODOS LOS COHORTES ', cohortes)
+  // console.log('TODOS LOS ESTUDIANTES ', students) // id de mi COHORTE
+  // console.log('TODOS LOS DEL COHORTE ', myCohorte)//Todos LOS USERSDEL DE MI COHORTE
   // console.log('My COHORTESSS ', id_user) //TODO mis datos
 
   for (let i = 0; i < students.length; i++) {
@@ -176,7 +133,10 @@ const useStyles = makeStyles((theme) => ({
     if(users[i].id === idInstructorCohorte){
       var nombreInstructor = users[i].name +' '+ users[i].lastName        
       }
-    
+    if(users[i].id === pmId1){
+      var nombrePM = users[i].name +' '+ users[i].lastName        
+      } 
+      
   }
   for (let i = 0; i < groups.length; i++) {
     if(groups[i].id === idMyGroup){
@@ -196,98 +156,168 @@ const useStyles = makeStyles((theme) => ({
   }
 
 
-  var miGrupo = students.filter(elem=>
-    elem.groupId === idMyGroup
-  )
-     
-  var userMyGroup = miGrupo.map((elem)=>{
-    return elem.user 
-  })
-   
 
-   
-  var miCohorte = students.filter(elem=>
-    elem.cohorteId === idDelCohorte
-  )
-
-  
-  var compasCohortes = miCohorte.map((elem)=>{
-    return elem.user 
-  })
-
-  //console.log('que salio de l MAPPP', usersA)
   const classes = useStyles();
-  return (
+  const [modalStyle] = React.useState(getModalStyle);
+  const [open, setOpen] = React.useState(true);
+  const [miembros, setMiembros] = React.useState(users);
+  const [filtrados, setFiltrados] = React.useState(users);
+  const [input, setInput] = React.useState("");
+  const [openModal, setOpenModal] = useState(false);
+  const [modalUser, setModalUser] = useState([]);
 
-    <React.Fragment className={classes.container} >
-      <div className={classes.box2}>
+  let arrayClear = false;
+
+  if (props.length > 0) {
+    arrayClear = true;
+  }
+  const handleOpenModal = (value) => {
+    setOpenModal(true);
+    setModalUser(value);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    // props.show(false); //pasarle desde el componente padre una funcion show por props
+  };
+
+  // setea el input
+  const onChange = (event) => {
+    const inputValue = event.target.value.toLowerCase();
+    setInput(inputValue);
+  };
+
+  useEffect(() => {
+    filterList();
+  }, [input]);
+
+  const filterList = () => {
+    let users = miembros;
+    let q = input;
+    if (arrayClear === false) {
+      return setFiltrados("No hay usuarios");
+    }
+    users = users.filter(function (user) {
+      if (user.name !== null || user.lastName !== null) {
+        return (
+          user.name.toLowerCase().indexOf(q) !== -1 ||
+          user.lastName.toLowerCase().indexOf(q) !== -1
+        ); // returns true or false
+      } else return false;
+    });
+    setFiltrados(users);
+  };
+
+  if (arrayClear) {
+    const listaFiltrados = filtrados.map((user) => {
+      if (user.name !== null || user.lastName !== null) {
+        return (
+          <div className={classes.divs}>
+            <img className={classes.img} src={martin} />
+            <h3 className={classes.h3} onClick={() => handleOpenModal(user)}>
+              {" "}
+              {user.name + " " + user.lastName}
+            </h3>
+          </div>
+        );
+      }
+    });
+  }
+
+  const contarActivos = (miembros) => {
+    var suma = 0;
+    for (let i = 0; i < miembros.length; i++) {
+      if (miembros[i].name !== null || miembros[i].lastName !== null) {
+        suma = suma + 1;
+      }
+    }
+    return suma;
+  };
+
+  return (
+    <React.Fragment>
+      <div className="box2">
         <div className="boxt">
-        {showAlumnos === true ?
-        <Alumnos
-          show={setshowAlumnos}
-          users={userMyGroup}
-          state={showAlumnos}
-          close={handleCloseAlumnos}
-        />
-        : ''}
-        {showAlumnos2 === true ?
-        <Usersgroup
-          show={setshowAlumnos2}
-          users={compasCohortes}
-          state={showAlumnos2}
-          close={handleCloseAlumnos2}
-        />
-        : ''}
           <Typography
             className={classes.title}
             bgcolor="text.primary"
             gutterBottom
           >
-            Mi Cohorte {nameCohorte}
+            MI COHORTE {nameCohorte}
           </Typography>
         </div>
 
         <div className="boxs">
-          
+          <Profile
+            user={modalUser}
+            state={openModal}
+            close={handleCloseModal}
+          />
           <div className={classes.boxl}>
-            <InfoIcon className={classes.icon} />
-            <div className={classes.div}>
-            <Typography className={classes.a} variant="h5" component="h2">
+            <ErrorOutlineIcon className={classes.icon} />
+            <Typography variant="h5" component="h2">
               INSTRUCTOR: {nombreInstructor}
             </Typography>
-            <Typography className={classes.a} variant="h5" component="h2">
+            <Typography variant="h5" component="h2">
               FECHA DE INICIO: {fechaInicio}
             </Typography>
-            <Typography className={classes.a} variant="h5" component="h2">
-            {nombrePM1 ? 'MI PM1: ' + nombrePM1 : ''}
+            <Typography variant="h5" component="h2">
+              {nombrePM1 ? 'MI PM1: ' + nombrePM1 : ''}
             </Typography>
-            <Typography className={classes.a} variant="h5" component="h2">
+            <Typography variant="h5" component="h2">
             {nombrePM2 ? 'MI PM2: ' + nombrePM2 : ''}
             </Typography>
-            <Typography className={classes.a} variant="h5" component="h2">
+            <Typography variant="h5" component="h2">
               GRUPO N° {idMyGroup}
             </Typography>
-            </div>
           </div>
 
-          <div className={classes.boxtitulo}>
-            <div className={classes.miembros}>
-              <AccountCircleIcon className={classes.icon2} />
-              {/* <Typography variant="h3" component="h1">
-                Miembros
-              </Typography> */}
-            </div>
+          <div className="boxtitulo">
             <div>
-            <Typography className={classes.a} variant="h5"><a className={classes.a} href="#">Ver todos los miembros del cohorte</a></Typography>
-            <Typography className={classes.a}  variant="h5"><a className={classes.a} href="#">Ver todos los miembros de mi grupo</a></Typography>
-
+              <Typography variant="h3" component="h1">
+                Miembros
+              </Typography>
             </div>
+            <List className={classes.containerAlumnos}>
+              {/* {arrayClear ? (
+                users.map((user) => {
+                  console.log("da", user);
+                  let nombreCompleto = `${user.name} ${user.lastName}`;
+                  let id = user.id;
+                  return (
+                    <Fragment>
+                      <ul
+                        className={classes.boxr}
+                        onClick={() => handleOpenModal(user)}
+                      >
+                      <Typography variant="h4">Ver todos los miembros del cohorte</Typography>
+                      <Typography variant="h4">Ver todos los miembros de mi grupo</Typography>
+                      </ul>
+                    </Fragment>
+                  );
+                })
+              ) : (
+                <p>No existen users</p>
+              )} */}
+               <Fragment>
+                  <ul
+                    className={classes.boxr}
+                    onClick={() => handleOpenModal()}
+                  >
+                  <Typography variant="h4">Ver todos los miembros del cohorte</Typography>
+                  <Typography variant="h4">Ver todos los miembros de mi grupo</Typography>
+                  </ul>
+                </Fragment>
+            </List>
+            
           </div>
         </div>
-      </div>     
-        
+      </div>
     </React.Fragment>
-
   );
 }
 const mapDispatchToProps = (dispatch) => {

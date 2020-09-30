@@ -20,6 +20,8 @@ server.get("/", (req, res, next) => {
 });
 
 server.get("/usandSt/:id", (req, res, next) => {
+  console.log('', req.params.id)
+
   User.findAll({
     where: {
       id: req.params.id,

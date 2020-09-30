@@ -7,6 +7,7 @@ import Profile from "./components/Profile.jsx";
 import EditProfile from "./components/EditProfile.jsx";
 import ModalUsers from "./components/modalUsers.jsx";
 import {
+  getAlumnosFromCohorte,
   getIdUser,
   getAllUsers,
   getAllPms,
@@ -50,6 +51,7 @@ function App(props) {
     props.getCohortesByUserId();
     props.deleteUserById();
     props.getCohortesById();
+    props.getAlumnosFromCohorte(idUser);
   }, []);
 
   console.log("a ver el estado de USER ", props.id_user);
@@ -94,6 +96,7 @@ const mapDispatchToProps = (dispatch) => {
     getCohortesByUserId: (id) => dispatch(getCohortesByUserId(id)),
     deleteUserById: (id) => dispatch(deleteUserById(id)),
     getCohortesById: (id) => dispatch(getCohortesById(id)),
+    getAlumnosFromCohorte: (idUser) => dispatch(getAlumnosFromCohorte(idUser)),
   };
 };
 
@@ -101,6 +104,8 @@ const mapStateToProps = (state) => {
   return {
     id_user: state.id_user,
     all_users: state.all_users,
+    all_students: state.all_students,
+    all_groups: state.all_groups
   };
 };
 
