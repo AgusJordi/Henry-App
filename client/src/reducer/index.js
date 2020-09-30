@@ -21,6 +21,7 @@ import {
   GET_ALL_GROUPS,
   MODIFIED_GROUPS,
   GET_COHORTES_BY_ID,
+  DELETE_STUDENT_BY_ID,
 } from "../actions/index";
 
 const initialState = {
@@ -160,6 +161,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         cohorte_by_id: action.payload,
+      };
+    case DELETE_STUDENT_BY_ID:
+      return {
+        ...state,
+        all_students: action.payload,
       };
 
     case MODIFIED_COHORTE_INSTRUCTOR: {

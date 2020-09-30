@@ -26,6 +26,7 @@ export const GET_MODIF_COHORTE = "GET_MODIF_COHORTE";
 export const MODIFIED_GROUPS = "MODIFIED_GROUPS";
 export const GET_COHORTES_BY_ID = "GET_COHORTES_BY_ID";
 export const DELETE_COHORTE = "DELETE_COHORTE";
+export const DELETE_STUDENT_BY_ID = "DELETE_STUDENT_BY_ID";
 
 export function userLogIn(body) {
   return function (dispatch) {
@@ -453,4 +454,18 @@ export function deleteGroup(id) {
       id,
     },
   });
+}
+
+export function deleteSetudentById(id) {
+  return function (dispatch) {
+    return axios
+      .delete(`http://localhost:4000/students/delete/${id}`)
+      .then((res) => res.data)
+      .then((data) => {
+        dispatch({
+          type: DELETE_STUDENT_BY_ID,
+          payload: data,
+        });
+      });
+  };
 }
