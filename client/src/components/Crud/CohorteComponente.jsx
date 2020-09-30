@@ -37,7 +37,6 @@ function CohorteComponente(props) {
     instructor: cohorte.instructor,
     DateA: cohorte.date,
   });
-
   const allinstructors = useSelector((state) => state.all_instructors);
 
 
@@ -114,7 +113,9 @@ function CohorteComponente(props) {
   return (
     <TableRow key={cohorte.id}>
       <TableCell align="center">{cohorte.name}</TableCell>
-      <TableCell align="center">{cohorte.instructor.name}</TableCell>
+      <TableCell align="center">
+        {cohorte.instructor ? cohorte.instructor.name : "No tiene instructor"}
+      </TableCell>
       <TableCell align="center">{cohorte.date}</TableCell>
       <TableCell align="center">
         <ButtonGroup disableElevation variant="contained" color="primary">

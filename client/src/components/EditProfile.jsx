@@ -283,11 +283,12 @@ function EditProfile({ getIdUser, id_user, show, modifiedUser }) {
                 <Typography variant="h5" component="h5">
                   Foto de perfil
       </Typography>
-                <img className={classes.img} src={id_user.image}/>
-                <span>Subir imagen</span>
-                <input className={classes.button} type="file" onChange={handleInputChange} onChange={onChange} />
-                <a className={classes.link} >
-                  Eliminar imagen
+      <img className={classes.img} src={id_user.image ? id_user.image : 'https://camo.githubusercontent.com/f8ea5eab7494f955e90f60abc1d13f2ce2c2e540/68747470733a2f2f662e636c6f75642e6769746875622e636f6d2f6173736574732f323037383234352f3235393331332f35653833313336322d386362612d313165322d383435332d6536626439353663383961342e706e67'}/>
+      <button className = {classes.button} >
+        Subir imagen
+      </button>
+      <a className = {classes.link} >
+        Eliminar imagen
       </a>
                 <div className={classes.botones}>
                   <button onClick={handleClose} className={classes.botones1}>Cancelar</button>

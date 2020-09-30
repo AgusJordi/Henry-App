@@ -9,8 +9,6 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 //ver de eliminar
-import ButtonGroup from "@material-ui/core/ButtonGroup";
-import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -18,34 +16,138 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 // importo componente alumno
 import AlumnoComponent from "./AlumnoComponent";
+//buttons
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+import Button from "@material-ui/core/Button";
+import Box from "@material-ui/core/Box";
+//select
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
 
-const useStyles = makeStyles({
+//style
+const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 650,
   },
-});
+  boxButtons: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  rootButton: {
+    paddingLeft: 15,
+    width: 340,
+    display: "flex",
+    justifyContent: "center",
+  },
+  setTableRowButton: {
+    display: "flex",
+    maxWidth: 350,
+  },
+  prueba: {
+    width: 250,
+  },
+}));
 
 function ModificarEliminarAlumno() {
   const allUsers = useSelector((state) => state.all_users);
-
+  const allCohortes = useSelector((state) => state.all_cohortes);
+  const allStudents = useSelector((state) => state.all_students);
+  const allGroups = useSelector((state) => state.all_groups);
+  const allInstructors = useSelector((state) => state.all_instructors);
   //manejo estado de dialog
   //resteo de array vacio
-  let arrayClear = false;
+  let arrayClear = allUsers.length > 0;
 
-  if (allUsers.length > 0) {
-    arrayClear = true;
-  }
   const classes = useStyles();
 
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
+          <TableRow className={classes.setTableRowButton}>
+            <Box className={classes.boxButtons} fullWidth component={"div"}>
+              <Box align="center">
+                Filtrar por:
+                <TableCell>
+                  <InputLabel id="demo-controlled-open-select-label">
+                    Cohortes
+                  </InputLabel>
+                  <Select
+                    labelId="selectpairProgramming"
+                    id="selectpairProgrammingOp"
+                    value=""
+                    fullWidth
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                  </Select>
+                </TableCell>
+                <TableCell>
+                  <InputLabel id="demo-controlled-open-select-label">
+                    Grupos
+                  </InputLabel>
+                  <Select
+                    labelId="selectpairProgramming"
+                    id="selectpairProgrammingOp"
+                    value=""
+                    fullWidth
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                  </Select>
+                </TableCell>
+                <TableCell>
+                  <InputLabel id="demo-controlled-open-select-label">
+                    Pair Programing
+                  </InputLabel>
+                  <Select
+                    labelId="selectpairProgramming"
+                    id="selectpairProgrammingOp"
+                    value=""
+                    fullWidth
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                  </Select>
+                </TableCell>
+                <ButtonGroup
+                  disableElevation
+                  variant="contained"
+                  color="primary"
+                  className={classes.rootButton}
+                ></ButtonGroup>
+              </Box>
+            </Box>
+            <Box className={classes.boxButtons} fullWidth component={"div"}>
+              <Box align="center">
+                Filtrar por estado:
+                <ButtonGroup
+                  disableElevation
+                  variant="contained"
+                  color="primary"
+                  className={classes.rootButton}
+                >
+                  <Button>Habilitados</Button>
+                  <Button>Inhabilitados</Button>
+                  <Button>Instructor</Button>
+                </ButtonGroup>
+              </Box>
+            </Box>
+          </TableRow>
           <TableRow>
-            <TableCell align="center">Email</TableCell>
+            <TableCell align="center" className={classes.prueba}>
+              Email
+            </TableCell>
+            <TableCell align="center">Estado</TableCell>
             <TableCell align="center">Cohorte</TableCell>
-            <TableCell align="center">Grupo</TableCell>
+            <TableCell align="center">Grupo de estudiante</TableCell>
             <TableCell align="center">Pair Programming</TableCell>
+
             <TableCell align="center">Opciones</TableCell>
           </TableRow>
         </TableHead>
@@ -58,19 +160,24 @@ function ModificarEliminarAlumno() {
           {arrayClear ? (
             allUsers.map((user) => {
               return (
-                <Fragment>
-                  <AlumnoComponent
-                    user={user}
-                    key={user.id}
-                    // open={open}
-                    // closeFunc={handleClose}
-                    // openFunc={handleOpen}
-                  />
-                </Fragment>
+                <AlumnoComponent
+                  user={user}
+                  key={user.id}
+                  cohortes={allCohortes}
+                  cohortesInst={
+                    user.instructor && allCohortes
+                      ? allCohortes.filter(
+                          (cohorte) => cohorte.instructorId === user.id
+                        )
+                      : []
+                  }
+                  instructores={allInstructors}
+                  grupos={allGroups}
+                />
               );
             })
           ) : (
-            <h1>no existes users</h1>
+            <h1>no existen users</h1>
           )}
           {/*Aca se debe cerrar el  map)}}*/}
         </TableBody>

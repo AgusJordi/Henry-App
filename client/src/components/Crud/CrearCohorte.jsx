@@ -34,7 +34,7 @@ function CrearCohorte(props) {
     });
   };
 
-  var existentes = []
+  var existentes = [];
   // }
   const filtrar = (emails, usuarios) => {
     for (let i = 0; i < emails.length; i++) {
@@ -57,11 +57,11 @@ function CrearCohorte(props) {
       swal({
         title: 'Oops...',
         text: "Los siguientes emails ya se encuentran en uso: " + existentes,
-        icon: 'error',
+        icon: "error",
         timer: "3000",
-      })
-      existentes = []
-      return
+      });
+      existentes = [];
+      return;
     }
     //si no contiene ningun elemento en "existentes" puede avanzar con crearCohorte
     createCohorte(input, emails);
@@ -75,8 +75,8 @@ function CrearCohorte(props) {
       cohorte: "",
       instructorId: "",
       DateA: "",
-    })
-    borrarChips()
+    });
+    borrarChips();
   };
 
   const useStyles = makeStyles((theme) => ({
@@ -91,7 +91,6 @@ function CrearCohorte(props) {
   return (
     <div>
       <div>
-        {console.log(props.instructores)}
         <form onSubmit={handleCreateCohorte}>
           <div>
             {/* <TextField

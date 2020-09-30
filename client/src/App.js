@@ -6,7 +6,18 @@ import Navbar from "./components/Navbar.jsx";
 import Profile from "./components/Profile.jsx";
 import EditProfile from "./components/EditProfile.jsx";
 import ModalUsers from "./components/modalUsers.jsx";
-import { getIdUser, getAllUsers, getAllPms, getAllInstructors,  getAllCohortes,  getAllStudents, } from "./actions";
+import {
+  getIdUser,
+  getAllUsers,
+  getAllPms,
+  getAllInstructors,
+  getAllCohortes,
+  getAllStudents,
+  getStudentFromUserId,
+  getAllGroups,
+  getCohortesByUserId,
+  deleteUserById,
+} from "./actions";
 import {
   BrowserRouter as Router,
   Switch,
@@ -32,8 +43,11 @@ function App(props) {
     props.getAllUsers();
     props.getAllPms();
     props.getAllInstructors();
-    props.getAllCohortes()
+    props.getAllCohortes();
     props.getAllStudents();
+    props.getAllGroups();
+    props.getCohortesByUserId();
+    props.deleteUserById();
   }, []);
 
   console.log('a ver el estado de USER ',props.id_user)
@@ -59,12 +73,9 @@ function App(props) {
       </Router>
       {isAutenticated() === false ? (
         <Route exact path="/login" component={Login} />
-        
       ) : (
         ""
       )}
-      
-       
     </div>
   );
 }
@@ -77,6 +88,9 @@ const mapDispatchToProps = (dispatch) => {
     getAllInstructors: () => dispatch(getAllInstructors()),
     getAllStudents: () => dispatch(getAllStudents()),
     getAllCohortes: () => dispatch(getAllCohortes()),
+    getAllGroups: (id) => dispatch(getAllGroups(id)),
+    getCohortesByUserId: (id) => dispatch(getCohortesByUserId(id)),
+    deleteUserById: (id) => dispatch(deleteUserById(id)),
   };
 };
 
