@@ -29,6 +29,9 @@ const useStyles = makeStyles({
     table: {
         minWidth: 650,
     },
+    p:{
+        display: "block",
+    }
 });
 function GrupoComponente(props) {
     const { group, all_users } = props;
@@ -161,9 +164,9 @@ function GrupoComponente(props) {
            
             <TableCell align="center">{group.name}</TableCell>
             {pm1!==""? 
-            <TableCell>
+            <TableCell  align="center">
                 <p>{mostrarPm(pm1)}</p> 
-                <a className={classes.a} href="#"  onClick={() => handleOpenModal1()}>Modificar</a>
+                <a href="#"  onClick={() => handleOpenModal1()}>Modificar</a>
             </TableCell>  
             :
             <TableCell align="center">
@@ -171,9 +174,9 @@ function GrupoComponente(props) {
             </TableCell>
             }
             {pm2!==""? 
-            <TableCell>
+            <TableCell  align="center">
                 <p>{mostrarPm(pm2)}</p> 
-                <a className={classes.a} href="#"  onClick={() => handleOpenModal2()}>Modificar</a>
+                <a href="#"  onClick={() => handleOpenModal2()}>Modificar</a>
             </TableCell>  
             :
             <TableCell align="center">
@@ -187,7 +190,7 @@ function GrupoComponente(props) {
                         </Button>
                 </ButtonGroup>
                 <ButtonGroup disableElevation variant="contained" color="secondary">
-                    <Button onClick={borrarGrupo} borrarGruposize="small">Eliminar</Button>
+                    <Button onClick={borrarGrupo} size="small">Eliminar</Button>
                 </ButtonGroup>
             </TableCell>
             {/*  </form> */}

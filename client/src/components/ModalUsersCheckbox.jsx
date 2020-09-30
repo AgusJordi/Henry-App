@@ -54,8 +54,9 @@ const useStyles = makeStyles((theme) => ({
     divs: {
         display: "flex",
         margin: "10px",
+        padding: "5px",
         "&:hover": {
-            backgroundColor: "grey",
+            backgroundColor: "#F3F3F3",
         },
     },
     users: {
