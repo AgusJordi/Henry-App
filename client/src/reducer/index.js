@@ -127,12 +127,6 @@ const reducer = (state = initialState, action) => {
         all_groups: action.payload,
       };
 
-    case GET_ALL_GROUPS:
-      return {
-        ...state,
-        all_groups: action.payload,
-      };
-
     case GET_COHORTES_BY_USERID:
       return {
         ...state,

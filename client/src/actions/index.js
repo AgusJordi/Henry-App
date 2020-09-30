@@ -23,7 +23,8 @@ export const MODIFIED_COHORTE_INSTRUCTOR = "MODIFIED_COHORTE_INSTRUCTOR";
 export const DELETE_USER_BY_ID = "DELETE_USER_BY_ID";
 export const PASWORD_RESET_EMAIL = "PASWORD_RESET_EMAIL";
 export const GET_MODIF_COHORTE = "GET_MODIF_COHORTE";
-export const MODIFIED_GROUPS = "MODIFIED_GROUPS";
+export const MODIFIED_GROUPS = "MODIFIED_GROUPS"
+export const DELETE_COHORTE = "DELETE_COHORTE"
 
 export function userLogIn(body) {
   return function (dispatch) {
@@ -400,9 +401,41 @@ export function modifiedGroup(group) {
       .then((data) => {
         dispatch({
           type: MODIFIED_GROUPS,
-          payload: data,
-        });
-        console.log("QUE trae el data", data);
-      });
-  };
+          payload: data
+        })
+        console.log("QUE trae el data", data)
+      })
+  }
+}
+
+export function deleteCohorte(id) {
+  console.log(id);
+  var url = `http://localhost:4000/cohorte/${id}`;
+
+  axios({
+    method: "delete",
+    url: url,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: {
+      id,
+    },
+  })
+}
+
+export function deleteGroup(id) {
+  console.log(id);
+  var url = `http://localhost:4000/grupos/${id}`;
+
+  axios({
+    method: "delete",
+    url: url,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: {
+      id,
+    },
+  })
 }

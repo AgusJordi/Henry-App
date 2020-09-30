@@ -17,22 +17,22 @@ const useStyles = makeStyles({
     minWidth: 650,
   },
 });
-function ModificarEliminarCohorte({getAllCohortes}) {
+function ModificarEliminarCohorte({ getAllCohortes }) {
   const classes = useStyles();
 
   var allcohortes = useSelector((state) => state.all_cohortes);
   /* const [cohortes, setCohortes] = useState([]) */
 
- useEffect(() => {
-  getAllCohortes()
-  }, []) 
+  useEffect(() => {
+    getAllCohortes()
+  }, [])
 
 
   let prueba = false;
   if (allcohortes.length > 0) {
     prueba = true;
   }
-  console.log(allcohortes)
+  /* console.log(allcohortes) */
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="customized table">
@@ -62,18 +62,18 @@ function ModificarEliminarCohorte({getAllCohortes}) {
   );
 }
 const mapDispatchToProps = (dispatch) => {
-   
+
   return {
     getAllCohortes: () => dispatch(getAllCohortes()),
-    
-     
+
+
   };
 };
 
 const mapStateToProps = (state) => {
   return {
     all_cohortes: state.all_cohortes
-    
+
   };
 };
 

@@ -52,6 +52,7 @@ server.post("/", (req, res, next) => {
 });
 
 server.delete("/:id", (req, res, next) => {
+  console.log(req.params.id)
   const id = req.params.id;
   Cohorte.destroy({ where: { id: id } })
     .then((num) => {
@@ -69,14 +70,16 @@ server.put("/:id", async (req, res, next) => {
   const idCohorte = req.params.id;
   console.log(idCohorte);
   console.log(req.body);
-  const { name, instructorId, date } = req.body;
+  const { instructorId, date } = req.body;
 
   try {
-    const cohorte = await Cohorte.findOne({
-      where: {
-        id: idCohorte,
-      },
-    });
+    const cohorte = await Cohorte.findOne(
+      {
+        where: {
+          id: idCohorte
+        }
+
+      });
     if (!cohorte) {
       return res.send({
         message: `No se encontro el Cohorte: ${idCohorte}`,
