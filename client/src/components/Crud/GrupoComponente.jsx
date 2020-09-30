@@ -23,6 +23,7 @@ import swal from "sweetalert";
 import Swal from 'sweetalert2'
 import { connect } from "react-redux";
 import { modifiedGroup, getAllGroups, deleteGroup } from "../../actions/index.js";
+import ModalUsersCheckbox from "../ModalUsersCheckbox.jsx"
 
 const useStyles = makeStyles({
     table: {
@@ -30,56 +31,110 @@ const useStyles = makeStyles({
     },
 });
 function GrupoComponente(props) {
-    const { group } = props;
+    const { group, all_users } = props;
     const [input, setInput] = useState({
         id: group.id,
         grupo: group.name,
-        pm1: group.PM1Id,
-        pm2: group.PM2Id,
     });
-
-
-    const [open, setOpen] = useState(false);
-
-    const handleInputChange = function (e) {
-        setInput({
-            ...input,
-            [e.target.name]: e.target.value,
-        });
-    };
-
+    const [pm1, setPm1] = useState("");
+    const [pm2, setPm2] = useState("");
+    const [showModal1, setShowModal1] = useState(false);
+    const [showModal2, setShowModal2] = useState(false);
     const classes = useStyles();
+    
 
-    const handleModifiedGroup = (e) => {
-        e.preventDefault();
-
-        var groupX = {
-            id: input.id,
-            name: input.grupo,
-            PM1Id: input.pm1,
-            PM2Id: input.pm2
-        }
-
-        props.modifiedGroup(groupX)
-
-        Swal.fire({
-            title: 'Bien',
-            text: "Modificaste el grupo! " + input.grupo,
-            icon: 'success',
-            showCancelButton: false,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Ok'
-        }).then((result) => {
-            if (result.isConfirmed) {
-
-                props.getAllGroups()
-            }
-        })
+    const handleOpenModal1 = () => {
+        setShowModal1(true);
+        setShowModal2(false);
     };
+    
+    const handleOpenModal2 = () => {
+        setShowModal2(true);
+        setShowModal1(false);
+    };
+
+    const mostrarPm = (pmId) => {
+        var pm = all_users.filter ((user)=> user.id===Number(pmId))[0]
+        return pm.name + " " + pm.lastName
+    }
+
+    const setearPm1 = (value) => {
+        setPm1(value)
+    }
+
+    const setearPm2 = (value) => {
+        setPm2(value)
+    }
+
+    const handleConfirm = () =>{
+        console.log("pms:", pm1, pm2)
+        if(pm1===pm2){
+            swal ({
+                title: 'Oops...',
+                text: "Los PMs de un grupo deben ser usuarios diferentes", 
+                icon: 'error',
+                timer: "3000",
+            })
+            return
+        }
+        else {
+            if (esPM(pm1)===false){
+                var url = `http://localhost:4000/users/myprofile/${pm1}`;
+                axios({
+                method: "put",
+                url: url,
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                data: {
+                    pm: true,
+                },
+                });
+            }
+            if (esPM(pm2)===false){
+                var url = `http://localhost:4000/users/myprofile/${pm2}`;
+                axios({
+                method: "put",
+                url: url,
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                data: {
+                    pm: true,
+                },
+                });
+            }
+            var url = `http://localhost:4000/grupos/${input.id}`;
+                axios({
+                method: "put",
+                url: url,
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                data: {
+                    PM1Id: Number(pm1),
+                    PM2Id: Number(pm2),
+                },
+                })
+                .then(()=>{
+                    swal({
+                        text: "Se han asignado PMs al grupo "+ input.grupo ,
+                        icon: "success",
+                        timer: "3000",
+                    });
+                })
+        }
+    } 
+
+    const esPM = (pmId) =>{
+        var pm = all_users.filter ((user)=> user.id===Number(pmId))[0]
+        if (pm.pm ===true) {
+            return true
+        }
+        return false
+    }
 
     var borrarGrupo = function () {
-        /* e.preventDefault(); */
         console.log("entre al handle DEL", group.id)
         Swal.fire({
             title: 'Seguro que quieres eliminar?',
@@ -100,12 +155,34 @@ function GrupoComponente(props) {
     return (
         <TableRow key={group.id}>
             {/* <form onSubmit={handleModifiedGroup}> */}
+            {showModal1===true? <ModalUsersCheckbox  key={group.name+"1"} users={all_users} show={setShowModal1} setearPm={setearPm1} />:""}
+            {showModal2===true? <ModalUsersCheckbox  key={group.name+"2"} users={all_users} show={setShowModal2} setearPm={setearPm2} />: ""}
+           
+           
             <TableCell align="center">{group.name}</TableCell>
-            <TableCell align="center">Seleccioná PM1 </TableCell>
-            <TableCell align="center">Seleccioná PM2</TableCell>
+            {pm1!==""? 
+            <TableCell>
+                <p>{mostrarPm(pm1)}</p> 
+                <a className={classes.a} href="#"  onClick={() => handleOpenModal1()}>Modificar</a>
+            </TableCell>  
+            :
+            <TableCell align="center">
+                <a className={classes.a} href="#"  onClick={() => handleOpenModal1()}>Seleccionar PM</a>
+            </TableCell>
+            }
+            {pm2!==""? 
+            <TableCell>
+                <p>{mostrarPm(pm2)}</p> 
+                <a className={classes.a} href="#"  onClick={() => handleOpenModal2()}>Modificar</a>
+            </TableCell>  
+            :
+            <TableCell align="center">
+                <a className={classes.a} href="#"  onClick={() => handleOpenModal2()}>Seleccionar PM</a>
+            </TableCell>
+            }
             <TableCell align="center">
                 <ButtonGroup disableElevation variant="contained" color="primary">
-                    <Button size="small" type="submit">
+                    <Button onClick={()=>handleConfirm()} size="small" type="submit">
                         Confirmar
                         </Button>
                 </ButtonGroup>
@@ -127,7 +204,8 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
     return {
-        all_groups: state.all_groups
+        all_groups: state.all_groups,
+        all_users: state.all_users
     };
 };
 
