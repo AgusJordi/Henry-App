@@ -23,8 +23,9 @@ export const MODIFIED_COHORTE_INSTRUCTOR = "MODIFIED_COHORTE_INSTRUCTOR";
 export const DELETE_USER_BY_ID = "DELETE_USER_BY_ID";
 export const PASWORD_RESET_EMAIL = "PASWORD_RESET_EMAIL";
 export const GET_MODIF_COHORTE = "GET_MODIF_COHORTE";
-export const MODIFIED_GROUPS = "MODIFIED_GROUPS"
-export const DELETE_COHORTE = "DELETE_COHORTE"
+export const MODIFIED_GROUPS = "MODIFIED_GROUPS";
+export const GET_COHORTES_BY_ID = "GET_COHORTES_BY_ID";
+export const DELETE_COHORTE = "DELETE_COHORTE";
 
 export function userLogIn(body) {
   return function (dispatch) {
@@ -62,11 +63,25 @@ export function getAllUsers() {
 export function getAllCohortes() {
   return function (dispatch) {
     return axios
-      .get("http://localhost:4000/cohorte")
+      .get(`http://localhost:4000/cohorte`)
       .then((result) => result.data)
       .then((data) => {
         dispatch({
           type: GET_ALL_COHORTES,
+          payload: data,
+        });
+      });
+  };
+}
+
+export function getCohortesById(id) {
+  return function (dispatch) {
+    return axios
+      .get(`http://localhost:4000/cohorte/${id}`)
+      .then((result) => result.data)
+      .then((data) => {
+        dispatch({
+          type: GET_COHORTES_BY_ID,
           payload: data,
         });
       });
@@ -401,11 +416,11 @@ export function modifiedGroup(group) {
       .then((data) => {
         dispatch({
           type: MODIFIED_GROUPS,
-          payload: data
-        })
-        console.log("QUE trae el data", data)
-      })
-  }
+          payload: data,
+        });
+        console.log("QUE trae el data", data);
+      });
+  };
 }
 
 export function deleteCohorte(id) {
@@ -421,7 +436,7 @@ export function deleteCohorte(id) {
     data: {
       id,
     },
-  })
+  });
 }
 
 export function deleteGroup(id) {
@@ -437,5 +452,5 @@ export function deleteGroup(id) {
     data: {
       id,
     },
-  })
+  });
 }

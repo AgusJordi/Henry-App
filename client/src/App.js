@@ -17,6 +17,7 @@ import {
   getAllGroups,
   getCohortesByUserId,
   deleteUserById,
+  getCohortesById,
 } from "./actions";
 import {
   BrowserRouter as Router,
@@ -48,9 +49,10 @@ function App(props) {
     props.getAllGroups();
     props.getCohortesByUserId();
     props.deleteUserById();
+    props.getCohortesById();
   }, []);
 
-  console.log('a ver el estado de USER ',props.id_user)
+  console.log("a ver el estado de USER ", props.id_user);
 
   const PvRoute = (props) =>
     isAutenticated() ? <Route {...props} /> : <Redirect to="./login" />;
@@ -59,7 +61,7 @@ function App(props) {
     <div>
       <Router>
         <PvRoute path="/" component={Navbar} />
-        <PvRoute path="/" >
+        <PvRoute path="/">
           <Sidebar user={props.id_user} />
         </PvRoute>
         <PvRoute exact path="/profile" component={Profile} />
@@ -91,6 +93,7 @@ const mapDispatchToProps = (dispatch) => {
     getAllGroups: (id) => dispatch(getAllGroups(id)),
     getCohortesByUserId: (id) => dispatch(getCohortesByUserId(id)),
     deleteUserById: (id) => dispatch(deleteUserById(id)),
+    getCohortesById: (id) => dispatch(getCohortesById(id)),
   };
 };
 
