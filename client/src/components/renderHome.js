@@ -12,6 +12,7 @@ import Profile from "./Profile";
 import Cohorte from "./Cohorte";
 import AreaAdmin from "./Crud/AreaAdmin.jsx";
 import PairProgramming from "./users/PairProgramming.jsx";
+import Mycohorte from "./users/Mycohorte.jsx";
 import Grid from "@material-ui/core/Grid";
 import {
   getAllCohortes,
@@ -38,7 +39,7 @@ function Home(props) {
   //   dispatch(getAllStudents());
   // }, []);
   //LOS DISPATCHS SE HACEN DESDE APP AHORA
-  console.log(allUsers);
+
   let prueba = false;
   if (allCohortes.length > 0) {
     prueba = true;
@@ -223,7 +224,6 @@ function Home(props) {
       <div>
         <Grid container className={classes.gridContainer}>
           <Grid xs={12} container className={classes.tabPanel}>
-            {console.log(allInstructors)}
             <AreaAdmin instructores={allInstructors} pms={allPms} />
           </Grid>
         </Grid>
@@ -237,12 +237,23 @@ function Home(props) {
       </div>
     );
   }
-  if (onSetSelect === "PairProgramming") {
+  if (onSetSelect === "Pair Programming") {
     return (
       <div>
         <Grid container className={classes.gridContainer}>
           <Grid xs={12} container className={classes.tabPanel}>
             <PairProgramming users={allUsers} />
+          </Grid>
+        </Grid>
+      </div>
+    );
+  }
+  if (onSetSelect === "My cohorte") {
+    return (
+      <div>
+        <Grid container className={classes.gridContainer}>
+          <Grid xs={12} container className={classes.tabPanel}>
+            <Mycohorte users={allUsers} />
           </Grid>
         </Grid>
       </div>

@@ -22,7 +22,7 @@ import Select from "@material-ui/core/Select";
 import swal from "sweetalert";
 import Swal from 'sweetalert2'
 import { connect } from "react-redux";
-import { modifiedGroup, getAllGroups } from "../../actions/index.js";
+import { modifiedGroup, getAllGroups, deleteGroup } from "../../actions/index.js";
 import ModalUsersCheckbox from "../ModalUsersCheckbox.jsx"
 
 const useStyles = makeStyles({
@@ -53,13 +53,6 @@ function GrupoComponente(props) {
         setShowModal1(false);
     };
 
-    const handleInputChange = function (e) {
-        setInput({
-            ...input,
-            [e.target.name]: e.target.value,
-        });
-    };
-
     const mostrarPm = (pmId) => {
         var pm = all_users.filter ((user)=> user.id===Number(pmId))[0]
         return pm.name + " " + pm.lastName
@@ -74,7 +67,6 @@ function GrupoComponente(props) {
     }
 
     const handleConfirm = () =>{
-        // e.preventDefault(); 
         console.log("pms:", pm1, pm2)
         if(pm1===pm2){
             swal ({
@@ -142,32 +134,23 @@ function GrupoComponente(props) {
         return false
     }
 
-    // const handleModifiedGroup = (e) => {
-    //     e.preventDefault();
-    //     var groupX = {
-    //         id: input.id,
-    //         name: input.grupo,
-    //         PM1Id: input.pm1,
-    //         PM2Id: input.pm2
-    //     }
-
-    //     props.modifiedGroup(groupX)
-
-    //     Swal.fire({
-    //         title: 'Bien',
-    //         text: "Modificaste el grupo! " + input.grupo,
-    //         icon: 'success',
-    //         showCancelButton: false,
-    //         confirmButtonColor: '#3085d6',
-    //         cancelButtonColor: '#d33',
-    //         confirmButtonText: 'Ok'
-    //     }).then((result) => {
-    //         if (result.isConfirmed) {
-
-    //             props.getAllGroups()
-    //         }
-    //     })
-    // };
+    var borrarGrupo = function () {
+        console.log("entre al handle DEL", group.id)
+        Swal.fire({
+            title: 'Seguro que quieres eliminar?',
+            showDenyButton: true,
+            confirmButtonText: `Eliminar`,
+            denyButtonText: `Cancelar`,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteGroup(group.id)
+                Swal.fire('Se eliminó el Grupo ' + group.name, '', 'success')
+                window.location.reload()
+            } else if (result.isDenied) {
+                Swal.fire('No se eliminó el Grupo', '', 'info')
+            }
+        })
+    }
 
     return (
         <TableRow key={group.id}>
@@ -204,7 +187,7 @@ function GrupoComponente(props) {
                         </Button>
                 </ButtonGroup>
                 <ButtonGroup disableElevation variant="contained" color="secondary">
-                    <Button size="small">Eliminar</Button>
+                    <Button onClick={borrarGrupo} borrarGruposize="small">Eliminar</Button>
                 </ButtonGroup>
             </TableCell>
             {/*  </form> */}
@@ -214,7 +197,8 @@ function GrupoComponente(props) {
 const mapDispatchToProps = (dispatch) => {
     return {
         modifiedGroup: (group) => dispatch(modifiedGroup(group)),
-        getAllGroups: () => dispatch(getAllGroups())
+        getAllGroups: () => dispatch(getAllGroups()),
+        deleteGroup: () => dispatch(deleteGroup())
     };
 };
 
