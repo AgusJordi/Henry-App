@@ -139,11 +139,9 @@ server.get("/info/:id", (req, res) => {
     include: [
       {
         model: Cohorte,
-        attributes: ["name"],
       },
       {
         model: Group,
-        attributes: ["name"],
       },
     ],
   })
