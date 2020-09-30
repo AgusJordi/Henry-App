@@ -65,15 +65,17 @@ server.post('/', (req, res, next) => {
 });
 
 
-server.delete('/', (req, res, next) => {
-  const checkName = req.params.name;
-  Group.destroy({ where: { checkName: name } })
+server.delete('/:id', (req, res, next) => {
+  console.log(req.params.id)
+  const id = req.params.id;
+  Group.destroy({ where: { id: id } })
     .then((num) => {
+      console.log(num)
       if (num > 0) {
-        return res.send({ message: `Se elimino el Grupo: ${checkName}` })
+        return res.send({ message: `Se elimino el Grupo: ${id}` })
       }
       return res.send({
-        message: `No se pudo eliminar el Grupo: ${checkName}`,
+        message: `No se pudo eliminar el Grupo: ${id}`,
       })
     })
     .catch((error) => next(error));

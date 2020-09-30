@@ -25,6 +25,7 @@ export const PASWORD_RESET_EMAIL = "PASWORD_RESET_EMAIL";
 export const GET_MODIF_COHORTE = "GET_MODIF_COHORTE";
 export const MODIFIED_GROUPS = "MODIFIED_GROUPS";
 export const GET_COHORTES_BY_ID = "GET_COHORTES_BY_ID";
+export const DELETE_COHORTE = "DELETE_COHORTE";
 
 export function userLogIn(body) {
   return function (dispatch) {
@@ -420,4 +421,36 @@ export function modifiedGroup(group) {
         console.log("QUE trae el data", data);
       });
   };
+}
+
+export function deleteCohorte(id) {
+  console.log(id);
+  var url = `http://localhost:4000/cohorte/${id}`;
+
+  axios({
+    method: "delete",
+    url: url,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: {
+      id,
+    },
+  });
+}
+
+export function deleteGroup(id) {
+  console.log(id);
+  var url = `http://localhost:4000/grupos/${id}`;
+
+  axios({
+    method: "delete",
+    url: url,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: {
+      id,
+    },
+  });
 }
