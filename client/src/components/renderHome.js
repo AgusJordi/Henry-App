@@ -242,13 +242,14 @@ function Home(props) {
       <div>
         <Grid container className={classes.gridContainer}>
           <Grid xs={12} container className={classes.tabPanel}>
-            <PairProgramming users={allUsers} />
+            {/* <PairProgramming users={allUsers} /> */}
+              <PairProgramming/>
           </Grid>
         </Grid>
       </div>
     );
   }
-  if (onSetSelect === "My cohorte") {
+  if (onSetSelect === "Mi cohorte") {
     return (
       <div>
         <Grid container className={classes.gridContainer}>
