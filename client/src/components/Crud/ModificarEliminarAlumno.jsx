@@ -100,21 +100,6 @@ function ModificarEliminarAlumno() {
                     </MenuItem>
                   </Select>
                 </TableCell>
-                <TableCell>
-                  <InputLabel id="demo-controlled-open-select-label">
-                    Pair Programing
-                  </InputLabel>
-                  <Select
-                    labelId="selectpairProgramming"
-                    id="selectpairProgrammingOp"
-                    value=""
-                    fullWidth
-                  >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
-                  </Select>
-                </TableCell>
                 <ButtonGroup
                   disableElevation
                   variant="contained"
@@ -146,7 +131,6 @@ function ModificarEliminarAlumno() {
             <TableCell align="center">Estado</TableCell>
             <TableCell align="center">Cohorte</TableCell>
             <TableCell align="center">Grupo de estudiante</TableCell>
-            <TableCell align="center">Pair Programming</TableCell>
 
             <TableCell align="center">Opciones</TableCell>
           </TableRow>

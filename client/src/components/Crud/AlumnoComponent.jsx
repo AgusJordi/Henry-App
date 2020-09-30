@@ -34,6 +34,7 @@ import {
   modifiedUser,
   modifiedStudent,
   deleteUserById,
+  getCohortesById,
 } from "../../actions/index";
 //alert
 import swal from "sweetalert";
@@ -58,15 +59,18 @@ function AlumnoComponent(props) {
 
   useEffect(() => {
     if (myPioliStudent) {
-      setCohorteName(myPioliStudent.cohorteId);
-      setGroupName(myPioliStudent.group);
+      setCohorteName(myPioliStudent.cohorte.name);
+      if (myPioliStudent.groupId === null) {
+        setGroupName("No tiene grupo");
+      } else {
+        setGroupName(myPioliStudent.group.name);
+      }
+
       setStudentId(myPioliStudent.id);
       setCohorteIdStu(myPioliStudent.cohorteId);
       setGroupIdStu(myPioliStudent.groupId);
-      setGroupPPIdStu(myPioliStudent.groupPP);
     }
   }, [myPioliStudent]);
-
   const cohorteTrue = cohortes.length > 0;
   const gruposTrue = grupos.length > 0;
 
@@ -78,14 +82,16 @@ function AlumnoComponent(props) {
   //set state para input put student
   const [cohorteIdStu, setCohorteIdStu] = useState();
   const [groupIdStu, setGroupIdStu] = useState();
-  const [groupPPIdStu, setGroupPPIdStu] = useState();
 
+  // if (cohorteFromId) {
+  //
+  // }
   //state input student
   const [inputStudent, setInputStudent] = useState({
     cohorteId: cohorteIdStu,
     groupId: groupIdStu,
-    groupPP: groupPPIdStu,
   });
+
   //estados iniciales del user
   const [cohorteName, setCohorteName] = useState("");
   const [grupoName, setGroupName] = useState("");
@@ -93,6 +99,7 @@ function AlumnoComponent(props) {
   //estado inicial de cohorte del instructor
   const [cohorteInstructor, setCohorteInstructor] = useState(cohortesInst);
   //funciones para eliminar/ agregar cohortes de instructor
+  console.log("pla", grupoName);
   const deleteCohorte = (id) => {
     const InstructorNull = { instructorId: null };
     swal({
@@ -142,12 +149,11 @@ function AlumnoComponent(props) {
         },
         dangerMode: true,
       }).then((result) => {
-        console.log(result);
         if (result) {
           cohortesConInst.map((coho) => {
             cohorteUpdate.instructorId = user.id;
             cohorteUpdate.date = coho.date;
-            console.log("si");
+
             return dispatch(modifiedCohorteInstructor(coho.id, cohorteUpdate));
           });
         }
@@ -171,7 +177,6 @@ function AlumnoComponent(props) {
       ...input,
       [e.target.name]: e.target.value,
     });
-    console.log(input);
   };
 
   //funciones change de select
@@ -472,33 +477,6 @@ function AlumnoComponent(props) {
                 )}
               </Select>
             </TableCell>
-            <TableCell>
-              <InputLabel id="demo-controlled-open-select-label">
-                Sin PairPrograming
-              </InputLabel>
-              <Select
-                labelId="selectpairProgramming"
-                id="selectpairProgrammingOp"
-                value={selectGrupoPP}
-                fullWidth
-                disabled
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                {/* MAPEAR LISTA DE cohortes Y DEVOLVER UN MENUITEM X CADA UNO */}
-                {/* {prueba ? (
-             allCohortes.map((cohorte) => {
-               let id = cohorte.id;
-               return <MenuItem value={id}>{cohorte.name}</MenuItem>;
-             })
-           ) : (
-             <MenuItem value="">
-               <em>None</em>
-             </MenuItem>
-           )} */}
-              </Select>
-            </TableCell>
           </Fragment>
         ) : (
           <Fragment>
@@ -527,29 +505,6 @@ function AlumnoComponent(props) {
                     <em>None</em>
                   </MenuItem>
                 )}
-              </Select>
-            </TableCell>
-            <TableCell>
-              <Select
-                labelId="selectpairProgramming"
-                id="selectpairProgrammingOp"
-                value={selectGrupoPP}
-                fullWidth
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                {/* MAPEAR LISTA DE cohortes Y DEVOLVER UN MENUITEM X CADA UNO */}
-                {/* {prueba ? (
-            allCohortes.map((cohorte) => {
-              let id = cohorte.id;
-              return <MenuItem value={id}>{cohorte.name}</MenuItem>;
-            })
-          ) : (
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-          )} */}
               </Select>
             </TableCell>
           </Fragment>

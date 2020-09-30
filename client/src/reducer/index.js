@@ -20,6 +20,7 @@ import {
   GET_MODIF_COHORTE,
   GET_ALL_GROUPS,
   MODIFIED_GROUPS,
+  GET_COHORTES_BY_ID,
 } from "../actions/index";
 
 const initialState = {
@@ -36,6 +37,7 @@ const initialState = {
   all_groups: [],
   all_cohortes_by_userId: [],
   modified_user: [],
+  cohorte_by_id: {},
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -154,6 +156,11 @@ const reducer = (state = initialState, action) => {
         },
       };
     }
+    case GET_COHORTES_BY_ID:
+      return {
+        ...state,
+        cohorte_by_id: action.payload,
+      };
 
     case MODIFIED_COHORTE_INSTRUCTOR: {
       // return {
