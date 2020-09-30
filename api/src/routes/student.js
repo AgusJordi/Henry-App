@@ -76,6 +76,7 @@ server.get("/cohorte/:id", (req, res) => {
     });
 });
 
+
 //consultar por los alumnos de determinado grupo
 server.get("/grupo/:id", (req, res) => {
   Student.findAll({

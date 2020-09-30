@@ -17,11 +17,21 @@ import Profile from "../Profile.jsx";
 import { connect } from "react-redux";
 import { getAllGroups, userLogIn, getAlumnosFromCohorte, getAllStudents, getAllCohortes } from "../../actions/index.js";
 import Cohorte from "../Cohorte";
-import Alumnos from "../modalUsers";
 
- 
+function rand() {
+  return Math.round(Math.random() * 20) - 10;
+}
 
+function getModalStyle() {
+  const top = 50 + rand();
+  const left = 50 + rand();
 
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`,
+  };
+}
 
 const useStyles = makeStyles((theme) => ({
   root2: {
@@ -78,23 +88,9 @@ const useStyles = makeStyles((theme) => ({
 
     width: "100%",
   },
-  botones:{
-    margin: 5,
-    marginTop: 20
-  }
-
 }));
 
  function Mycohorte(props) {
-
-  const [showAlumnos, setshowAlumnos] = React.useState(false);
-  const handleOpenAlumnos = () => {
-    setshowAlumnos(true);
-    
-  };
-  const handleCloseAlumnos = () => {
-    setshowAlumnos(false);
-  };
 
   useEffect(() => {      
     //  getAllUsers();
@@ -108,7 +104,7 @@ const useStyles = makeStyles((theme) => ({
   const { users } = props;
   const { id_user } = props; //Todos Mis datos
   const  students  = props.all_students
-  const myCohorte = props.students_from_cohorte;
+  const myCohorte= props.students_from_cohorte;
   const groups = props.all_groups  
   const  cohortes  = props.all_cohortes;//todos los cohortes
   global.myID = id_user.id //Este es el ID del USER LOGUEADO, My ID
@@ -116,7 +112,7 @@ const useStyles = makeStyles((theme) => ({
   // console.log('TODOS LOS GRUPOS ', groups)
   // console.log('TODOS LOS USUARIOS ', users)
   // console.log('TODOS LOS COHORTES ', cohortes)
-   //console.log('TODOS LOS ESTUDIANTES ', students) // id de mi COHORTE
+  // console.log('TODOS LOS ESTUDIANTES ', students) // id de mi COHORTE
   // console.log('TODOS LOS DEL COHORTE ', myCohorte)//Todos LOS USERSDEL DE MI COHORTE
   // console.log('My COHORTESSS ', id_user) //TODO mis datos
 
@@ -159,23 +155,93 @@ const useStyles = makeStyles((theme) => ({
       
   }
 
-  var usersA = students.map((elem)=>{
 
-    return elem.user 
-  })
 
-  //console.log('que salio de l MAPPP', usersA)
   const classes = useStyles();
+  const [modalStyle] = React.useState(getModalStyle);
+  const [open, setOpen] = React.useState(true);
+  const [miembros, setMiembros] = React.useState(users);
+  const [filtrados, setFiltrados] = React.useState(users);
+  const [input, setInput] = React.useState("");
+  const [openModal, setOpenModal] = useState(false);
+  const [modalUser, setModalUser] = useState([]);
+
+  let arrayClear = false;
+
+  if (props.length > 0) {
+    arrayClear = true;
+  }
+  const handleOpenModal = (value) => {
+    setOpenModal(true);
+    setModalUser(value);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    // props.show(false); //pasarle desde el componente padre una funcion show por props
+  };
+
+  // setea el input
+  const onChange = (event) => {
+    const inputValue = event.target.value.toLowerCase();
+    setInput(inputValue);
+  };
+
+  useEffect(() => {
+    filterList();
+  }, [input]);
+
+  const filterList = () => {
+    let users = miembros;
+    let q = input;
+    if (arrayClear === false) {
+      return setFiltrados("No hay usuarios");
+    }
+    users = users.filter(function (user) {
+      if (user.name !== null || user.lastName !== null) {
+        return (
+          user.name.toLowerCase().indexOf(q) !== -1 ||
+          user.lastName.toLowerCase().indexOf(q) !== -1
+        ); // returns true or false
+      } else return false;
+    });
+    setFiltrados(users);
+  };
+
+  if (arrayClear) {
+    const listaFiltrados = filtrados.map((user) => {
+      if (user.name !== null || user.lastName !== null) {
+        return (
+          <div className={classes.divs}>
+            <img className={classes.img} src={martin} />
+            <h3 className={classes.h3} onClick={() => handleOpenModal(user)}>
+              {" "}
+              {user.name + " " + user.lastName}
+            </h3>
+          </div>
+        );
+      }
+    });
+  }
+
+  const contarActivos = (miembros) => {
+    var suma = 0;
+    for (let i = 0; i < miembros.length; i++) {
+      if (miembros[i].name !== null || miembros[i].lastName !== null) {
+        suma = suma + 1;
+      }
+    }
+    return suma;
+  };
+
   return (
     <React.Fragment>
       <div className="box2">
         <div className="boxt">
-        <Alumnos
-          //show={setshowAlumnos}
-          users={usersA}
-          state={showAlumnos}
-          close={handleCloseAlumnos}
-        />
           <Typography
             className={classes.title}
             bgcolor="text.primary"
@@ -186,7 +252,11 @@ const useStyles = makeStyles((theme) => ({
         </div>
 
         <div className="boxs">
-          
+          <Profile
+            user={modalUser}
+            state={openModal}
+            close={handleCloseModal}
+          />
           <div className={classes.boxl}>
             <ErrorOutlineIcon className={classes.icon} />
             <Typography variant="h5" component="h2">
@@ -204,21 +274,50 @@ const useStyles = makeStyles((theme) => ({
             <Typography variant="h5" component="h2">
               GRUPO N° {idMyGroup}
             </Typography>
-             
-            <Button className={classes.botones} onClick={handleOpenAlumnos} variant="contained" color="primary">
-              ver alumnos del cohorte
-            </Button>
+          </div>
+
+          <div className="boxtitulo">
+            <div>
+              <Typography variant="h3" component="h1">
+                Miembros
+              </Typography>
+            </div>
+            <List className={classes.containerAlumnos}>
+              {/* {arrayClear ? (
+                users.map((user) => {
+                  console.log("da", user);
+                  let nombreCompleto = `${user.name} ${user.lastName}`;
+                  let id = user.id;
+                  return (
+                    <Fragment>
+                      <ul
+                        className={classes.boxr}
+                        onClick={() => handleOpenModal(user)}
+                      >
+                      <Typography variant="h4">Ver todos los miembros del cohorte</Typography>
+                      <Typography variant="h4">Ver todos los miembros de mi grupo</Typography>
+                      </ul>
+                    </Fragment>
+                  );
+                })
+              ) : (
+                <p>No existen users</p>
+              )} */}
+               <Fragment>
+                  <ul
+                    className={classes.boxr}
+                    onClick={() => handleOpenModal()}
+                  >
+                  <Typography variant="h4">Ver todos los miembros del cohorte</Typography>
+                  <Typography variant="h4">Ver todos los miembros de mi grupo</Typography>
+                  </ul>
+                </Fragment>
+            </List>
             
-            <Button className={classes.botones} variant="contained" color="secondary">
-              Ver alumnos de mi grupo
-            </Button>
-          
           </div>
         </div>
-      </div>     
-        
+      </div>
     </React.Fragment>
-
   );
 }
 const mapDispatchToProps = (dispatch) => {

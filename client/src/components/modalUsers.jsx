@@ -66,6 +66,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ModalUsers(props) {
   const { users } = props;
+   
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(true);

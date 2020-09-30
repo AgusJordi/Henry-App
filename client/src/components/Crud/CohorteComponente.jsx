@@ -92,6 +92,8 @@ function CohorteComponente(props) {
     setOpen(false);
   };
 
+   
+
   return (
     <TableRow key={cohorte.id}>
       <TableCell align="center">{cohorte.name}</TableCell>

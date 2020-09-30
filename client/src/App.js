@@ -6,7 +6,7 @@ import Navbar from "./components/Navbar.jsx";
 import Profile from "./components/Profile.jsx";
 import EditProfile from "./components/EditProfile.jsx";
 import ModalUsers from "./components/modalUsers.jsx";
-import { getIdUser, getAllUsers, getAllPms, getAllInstructors,  getAllCohortes,  getAllStudents, } from "./actions";
+import {getAllGroups, getAlumnosFromCohorte, getIdUser, getAllUsers, getAllPms, getAllInstructors,  getAllCohortes,  getAllStudents } from "./actions";
 import {
   BrowserRouter as Router,
   Switch,
@@ -32,12 +32,13 @@ function App(props) {
     props.getAllUsers();
     props.getAllPms();
     props.getAllInstructors();
-    props.getAllCohortes()
+    props.getAllCohortes();
     props.getAllStudents();
+    props.getAlumnosFromCohorte(idUser);
+    props.getAllGroups();
   }, []);
 
-  console.log('a ver el estado de USER ',props.id_user)
-
+ 
   const PvRoute = (props) =>
     isAutenticated() ? <Route {...props} /> : <Redirect to="./login" />;
 
@@ -77,6 +78,8 @@ const mapDispatchToProps = (dispatch) => {
     getAllInstructors: () => dispatch(getAllInstructors()),
     getAllStudents: () => dispatch(getAllStudents()),
     getAllCohortes: () => dispatch(getAllCohortes()),
+    getAlumnosFromCohorte: (idUser) => dispatch(getAlumnosFromCohorte(idUser)),
+    getAllGroups: () => dispatch(getAllGroups())
   };
 };
 
@@ -84,6 +87,8 @@ const mapStateToProps = (state) => {
   return {
     id_user: state.id_user,
     all_users: state.all_users,
+    all_students: state.all_students,
+    all_groups: state.all_groups
   };
 };
 
