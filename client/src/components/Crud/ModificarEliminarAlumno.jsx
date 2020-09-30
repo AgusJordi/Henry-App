@@ -66,64 +66,6 @@ function ModificarEliminarAlumno() {
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
-          <TableRow className={classes.setTableRowButton}>
-            <Box className={classes.boxButtons} fullWidth component={"div"}>
-              <Box align="center">
-                Filtrar por:
-                <TableCell>
-                  <InputLabel id="demo-controlled-open-select-label">
-                    Cohortes
-                  </InputLabel>
-                  <Select
-                    labelId="selectpairProgramming"
-                    id="selectpairProgrammingOp"
-                    value=""
-                    fullWidth
-                  >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
-                  </Select>
-                </TableCell>
-                <TableCell>
-                  <InputLabel id="demo-controlled-open-select-label">
-                    Grupos
-                  </InputLabel>
-                  <Select
-                    labelId="selectpairProgramming"
-                    id="selectpairProgrammingOp"
-                    value=""
-                    fullWidth
-                  >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
-                  </Select>
-                </TableCell>
-                <ButtonGroup
-                  disableElevation
-                  variant="contained"
-                  color="primary"
-                  className={classes.rootButton}
-                ></ButtonGroup>
-              </Box>
-            </Box>
-            <Box className={classes.boxButtons} fullWidth component={"div"}>
-              <Box align="center">
-                Filtrar por estado:
-                <ButtonGroup
-                  disableElevation
-                  variant="contained"
-                  color="primary"
-                  className={classes.rootButton}
-                >
-                  <Button>Habilitados</Button>
-                  <Button>Inhabilitados</Button>
-                  <Button>Instructor</Button>
-                </ButtonGroup>
-              </Box>
-            </Box>
-          </TableRow>
           <TableRow>
             <TableCell align="center" className={classes.prueba}>
               Email
