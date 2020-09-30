@@ -68,9 +68,10 @@ const useStyles = makeStyles((theme) => ({
         cursor: "pointer",
         },
     },
-    // button:{
-    //     width: "100px"
-    // },
+    p:{
+        color: "red",
+        
+    },
     div:{
         display:"flex",
         flexDirection: "column"
@@ -207,7 +208,7 @@ export default  function ModalUsersCheckbox(props) {
             <div className={classes.div}>
                 <h1> Selecciona 1 PM</h1>
                 {/* {pm!==""? <h4>{}</h4>} */}
-                <p> Si el alumno aún no es PM, al confirmar se modificará su estado a PM</p>
+                <p className={classes.p}> Si el alumno aún no es PM, al confirmar se modificará su estado a PM</p>
                 <div className={classes.input}>
                 <input
                     type="text"

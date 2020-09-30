@@ -70,62 +70,74 @@ function GrupoComponente(props) {
     }
 
     const handleConfirm = () =>{
-        console.log("pms:", pm1, pm2)
-        if(pm1===pm2){
+
+        if(pm1!=="" && pm2!==""){
+            if(pm1===pm2){
+                swal ({
+                    title: 'Oops...',
+                    text: "Los PMs de un grupo deben ser usuarios diferentes", 
+                    icon: 'error',
+                    timer: "3000",
+                })
+                return
+            }
+            else {
+                if (esPM(pm1)===false){
+                    var url = `http://localhost:4000/users/myprofile/${pm1}`;
+                    axios({
+                    method: "put",
+                    url: url,
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    data: {
+                        pm: true,
+                    },
+                    });
+                }
+                if (esPM(pm2)===false){
+                    var url = `http://localhost:4000/users/myprofile/${pm2}`;
+                    axios({
+                    method: "put",
+                    url: url,
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    data: {
+                        pm: true,
+                    },
+                    });
+                }
+                var url = `http://localhost:4000/grupos/${input.id}`;
+                    axios({
+                    method: "put",
+                    url: url,
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    data: {
+                        PM1Id: Number(pm1),
+                        PM2Id: Number(pm2),
+                    },
+                    })
+                    .then(()=>{
+                        swal({
+                            text: "Se han asignado PMs al grupo "+ input.grupo ,
+                            icon: "success",
+                            timer: "3000",
+                        });
+                    })
+            }
+            
+        }
+        else {
             swal ({
                 title: 'Oops...',
-                text: "Los PMs de un grupo deben ser usuarios diferentes", 
+                text: "Debe asignar 2 PMs para este grupo", 
                 icon: 'error',
                 timer: "3000",
             })
             return
-        }
-        else {
-            if (esPM(pm1)===false){
-                var url = `http://localhost:4000/users/myprofile/${pm1}`;
-                axios({
-                method: "put",
-                url: url,
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                data: {
-                    pm: true,
-                },
-                });
-            }
-            if (esPM(pm2)===false){
-                var url = `http://localhost:4000/users/myprofile/${pm2}`;
-                axios({
-                method: "put",
-                url: url,
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                data: {
-                    pm: true,
-                },
-                });
-            }
-            var url = `http://localhost:4000/grupos/${input.id}`;
-                axios({
-                method: "put",
-                url: url,
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                data: {
-                    PM1Id: Number(pm1),
-                    PM2Id: Number(pm2),
-                },
-                })
-                .then(()=>{
-                    swal({
-                        text: "Se han asignado PMs al grupo "+ input.grupo ,
-                        icon: "success",
-                        timer: "3000",
-                    });
-                })
         }
     } 
 
@@ -138,7 +150,7 @@ function GrupoComponente(props) {
     }
 
     var borrarGrupo = function () {
-        console.log("entre al handle DEL", group.id)
+
         Swal.fire({
             title: 'Seguro que quieres eliminar?',
             showDenyButton: true,
