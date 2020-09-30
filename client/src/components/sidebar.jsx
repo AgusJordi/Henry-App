@@ -128,8 +128,8 @@ export default function ClippedDrawer(user, props) {
             "Noticias",
             "Cohortes",
             "Instructores",
-            "Mi cohorte",
-            "Pair Programming",             
+            // "Mi cohorte",
+            // "Pair Programming",             
           ].map((text, index) => (
             <ListItem button key={text}>
               <ListItemText
