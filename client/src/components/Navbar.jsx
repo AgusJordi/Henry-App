@@ -161,6 +161,7 @@ function Navbar({ onlineUser, userLogIn, getIdUser, id_user }) {
           <MenuItem onClick={handleClose}>Cerrar sesión</MenuItem>
         </Menu>
         <Profile
+        
           show={setshowPerfil}
           user={id_user}
           state={showPerfil}

@@ -18,6 +18,7 @@ import { connect } from "react-redux";
 import { getAllGroups, userLogIn, getAlumnosFromCohorte, getAllStudents, getAllCohortes } from "../../actions/index.js";
 import Cohorte from "../Cohorte";
 import Alumnos from "../modalUsers";
+import Usersgroup from "../modalUsersGroup";
 
  
 
@@ -88,12 +89,21 @@ const useStyles = makeStyles((theme) => ({
  function Mycohorte(props) {
 
   const [showAlumnos, setshowAlumnos] = React.useState(false);
+  
   const handleOpenAlumnos = () => {
     setshowAlumnos(true);
-    
   };
   const handleCloseAlumnos = () => {
     setshowAlumnos(false);
+  };
+
+  const [showAlumnos2, setshowAlumnos2] = React.useState(false);
+  
+  const handleOpenAlumnos2 = () => {
+    setshowAlumnos2(true);
+  };
+  const handleCloseAlumnos2 = () => {
+    setshowAlumnos2(false);
   };
 
   useEffect(() => {      
@@ -113,11 +123,11 @@ const useStyles = makeStyles((theme) => ({
   const  cohortes  = props.all_cohortes;//todos los cohortes
   global.myID = id_user.id //Este es el ID del USER LOGUEADO, My ID
 
-  // console.log('TODOS LOS GRUPOS ', groups)
+   //console.log('TODOS LOS GRUPOS ', groups)
   // console.log('TODOS LOS USUARIOS ', users)
-  // console.log('TODOS LOS COHORTES ', cohortes)
+  //console.log('TODOS LOS COHORTES ', cohortes)
    //console.log('TODOS LOS ESTUDIANTES ', students) // id de mi COHORTE
-  // console.log('TODOS LOS DEL COHORTE ', myCohorte)//Todos LOS USERSDEL DE MI COHORTE
+   //console.log('TODOS LOS DEL COHORTE ', myCohorte)//Todos LOS USERSDEL DE MI COHORTE
   // console.log('My COHORTESSS ', id_user) //TODO mis datos
 
   for (let i = 0; i < students.length; i++) {
@@ -137,10 +147,7 @@ const useStyles = makeStyles((theme) => ({
     if(users[i].id === idInstructorCohorte){
       var nombreInstructor = users[i].name +' '+ users[i].lastName        
       }
-    if(users[i].id === pmId1){
-      var nombrePM = users[i].name +' '+ users[i].lastName        
-      } 
-      
+    
   }
   for (let i = 0; i < groups.length; i++) {
     if(groups[i].id === idMyGroup){
@@ -159,8 +166,23 @@ const useStyles = makeStyles((theme) => ({
       
   }
 
-  var usersA = students.map((elem)=>{
 
+  var miGrupo = students.filter(elem=>
+    elem.groupId === idMyGroup
+  )
+     
+  var userMyGroup = miGrupo.map((elem)=>{
+    return elem.user 
+  })
+   
+
+   
+  var miCohorte = students.filter(elem=>
+    elem.cohorteId === idDelCohorte
+  )
+
+  
+  var compasCohortes = miCohorte.map((elem)=>{
     return elem.user 
   })
 
@@ -170,12 +192,22 @@ const useStyles = makeStyles((theme) => ({
     <React.Fragment>
       <div className="box2">
         <div className="boxt">
+        {showAlumnos === true ?
         <Alumnos
-          //show={setshowAlumnos}
-          users={usersA}
+          show={setshowAlumnos}
+          users={userMyGroup}
           state={showAlumnos}
           close={handleCloseAlumnos}
         />
+        : ''}
+        {showAlumnos2 === true ?
+        <Usersgroup
+          show={setshowAlumnos2}
+          users={compasCohortes}
+          state={showAlumnos2}
+          close={handleCloseAlumnos2}
+        />
+        : ''}
           <Typography
             className={classes.title}
             bgcolor="text.primary"
@@ -209,7 +241,7 @@ const useStyles = makeStyles((theme) => ({
               ver alumnos del cohorte
             </Button>
             
-            <Button className={classes.botones} variant="contained" color="secondary">
+            <Button className={classes.botones} onClick={handleOpenAlumnos2} variant="contained" color="secondary">
               Ver alumnos de mi grupo
             </Button>
           
