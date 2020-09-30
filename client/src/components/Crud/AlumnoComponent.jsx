@@ -35,6 +35,7 @@ import {
   modifiedStudent,
   deleteUserById,
   getCohortesById,
+  deleteSetudentById,
 } from "../../actions/index";
 //alert
 import swal from "sweetalert";
@@ -235,8 +236,13 @@ function AlumnoComponent(props) {
   };
 
   //funcion update
-  const editUser = (id, data) => {
+
+  const editUser = (id, data, studentId) => {
+    if (input.student === false) {
+      dispatch(deleteSetudentById(studentId));
+    }
     dispatch(modifiedUser(id, data));
+
     history.push("/");
     window.location.reload();
   }; //test
@@ -586,7 +592,7 @@ function AlumnoComponent(props) {
                   type="submit"
                   /*el onclick de actualizar debe ir con el actions*/
                   color="primary"
-                  onClick={() => editUser(user.id, input)}
+                  onClick={() => editUser(user.id, input, studentId)}
                 >
                   Modificar
                 </Button>

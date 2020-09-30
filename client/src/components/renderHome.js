@@ -19,6 +19,7 @@ import {
   getAllInstructors,
   getAllStudents,
   getAllPms,
+  getIdUser,
 } from "../actions/index";
 import Carrousel from "./Carrousel.jsx";
 
@@ -31,6 +32,7 @@ function Home(props) {
   const allCohortes = useSelector((state) => state.all_cohortes);
   const allStudents = useSelector((state) => state.all_students);
   const allPms = useSelector((state) => state.all_pms);
+  const allGroups = useSelector((state) => state.all_groups);
   const instructoresList = [];
 
   // useEffect(() => {
@@ -105,12 +107,18 @@ function Home(props) {
   const [nameCohorte, setNameCohorte] = useState();
   const [instr, setInstru] = useState();
   const [openModal, setOpenModal] = useState(false);
+  const [grupoDelCoho, setGrupoDelCoho] = useState([]);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
   const saveCohorte = (value) => {
-    setInstru(value.instructor.name);
+    if (value.instructor === null) {
+      setInstru("No tiene instructor");
+    } else {
+      setInstru(value.instructor.name);
+    }
+    setGrupoDelCoho(allGroups.filter((grupo) => grupo.cohorteId === value.id));
     setIdCohorte(value.id);
     setNameCohorte(value.name);
   };
@@ -164,6 +172,8 @@ function Home(props) {
                 students={allStudents}
                 idCohorte={idCohorte}
                 instructor={instr}
+                gruposDelCohorte={grupoDelCoho}
+                allGroups={allGroups}
               />
             )}
           </Grid>

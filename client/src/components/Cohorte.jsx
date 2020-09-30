@@ -5,7 +5,7 @@ import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import Profile from "./Profile";
 import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
@@ -16,9 +16,11 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 //
+import { getIdUser } from "../actions/index";
 
 function Cohorte(props) {
   //seteo cuadrado
+  const dispatch = useDispatch();
 
   const {
     users,
@@ -27,12 +29,25 @@ function Cohorte(props) {
     idCohorte,
     cohorteName,
     instructor,
+    gruposDelCohorte,
+    allGroups,
   } = props;
 
   const cohorteStudents = [];
   const cohortePms = [];
   const studentsPendientes = [];
 
+  const studentsPmOtroGrupo = [];
+
+  // if (students.length > 0) {
+  //   students.map((stu) => {
+  //     if (idCohorte === stu.cohorteId && stu.user.status === "habilitado" || ) {
+  //       studentsPmOtroGrupo = allGroups.filter(
+  //         (p) => p.cohorteId == stu.cohorteId
+  //       );
+  //     }
+  //   });
+  // }
   if (students.length > 0) {
     students.map((student) => {
       if (student.user === null) {
@@ -46,7 +61,13 @@ function Cohorte(props) {
           cohorteStudents.push(student);
         }
         if (student.user.pm === true) {
-          cohortePms.push(student);
+          allGroups.map((p) => {
+            if (p.cohorteId === student.cohorteId) {
+              studentsPmOtroGrupo.push(student);
+            } else {
+              cohorteStudents.push(student);
+            }
+          });
         }
       }
       if (
@@ -197,7 +218,7 @@ function Cohorte(props) {
   }));
 
   const [value, setValue] = React.useState(0);
-  const [pm, setPm] = React.useState("");
+  const [grupoSelec, setGrupoSelec] = React.useState("");
   const [open, setOpen] = React.useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [modalUser, setModalUser] = useState([]);
@@ -217,9 +238,8 @@ function Cohorte(props) {
   };
   const handleChange = (event, newValue) => {
     setValue(newValue);
-    setPm(event.target.value);
+    setGrupoSelec(event.target.value);
   };
-
   const classes = useStyles();
 
   if (cohorteName === undefined) {
@@ -229,6 +249,27 @@ function Cohorte(props) {
       </div>
     );
   }
+  //guarda info de grupo seleccionado
+  let pmsPorGruSele = gruposDelCohorte.filter(
+    (p) => p.cohorteId === grupoSelec
+  );
+  //guarda pms del grupo seleccionado
+  let pmsNameGruSele = [];
+  if (pmsPorGruSele.length > 0) {
+    pmsPorGruSele.map((pos) => {
+      if (pos.PM1) {
+        pmsNameGruSele.push(pos.PM1);
+      }
+      if (pos.PM2) {
+        pmsNameGruSele.push(pos.PM2);
+      }
+    });
+  }
+
+  let alumnosPorGrupo = cohorteStudents.filter((x) => x.groupId === grupoSelec);
+
+  let pm;
+  console.log("elreturu", pmsNameGruSele);
   if (cohorteName) {
     return (
       <div>
@@ -269,18 +310,71 @@ function Cohorte(props) {
                 <Box className={classes.infoSideBar}>
                   <Box className={classes.setTextBoxInfoSide}>
                     <ButtonGroup className={classes.listOne}>
-                      {cohortePms.length > 0 ? (
-                        cohortePms.map((pm) => {
-                          let nombreCompleto = `${pm.user.name} ${pm.user.lastName}`;
+                      {pmsNameGruSele.length > 0 ? (
+                        pmsNameGruSele.map((p) => {
+                          let userCompleteUno = {
+                            name: p.name,
+                            lastName: p.lastName,
+                            image: p.image,
+                            country: p.country,
+                            province: p.province,
+                            email: p.email,
+                          };
+                          let nameComplete = `${p.name} ${p.lastName}`;
                           return (
-                            <Button
-                              className={classes.styleTextUser}
-                              value={pm.id}
-                              onClick={() => handleOpenModal(pm.user)}
-                              fullWidth="true"
-                            >
-                              {nombreCompleto}
-                            </Button>
+                            <Fragment>
+                              <Button
+                                className={classes.styleTextUser}
+                                value={p.PM1Id}
+                                onClick={() => handleOpenModal(userCompleteUno)}
+                                fullWidth="true"
+                              >
+                                {nameComplete}
+                              </Button>
+                            </Fragment>
+                          );
+                        })
+                      ) : gruposDelCohorte.length > 0 ? (
+                        gruposDelCohorte.map((grupo) => {
+                          //necesitamos nombre y apellido y el grupo solo trae nombre+
+
+                          let pm1name = `${grupo.PM1.name} ${grupo.PM1.lastName}`;
+                          let pm2name = `${grupo.PM2.name} ${grupo.PM2.lastName}`;
+                          let userCompleteUno = {
+                            name: grupo.PM1.name,
+                            lastName: grupo.PM1.lastName,
+                            image: grupo.PM1.image,
+                            country: grupo.PM1.country,
+                            province: grupo.PM1.province,
+                            email: grupo.PM1.email,
+                          };
+                          let userCompleteDos = {
+                            name: grupo.PM2.name,
+                            lastName: grupo.PM2.lastName,
+                            image: grupo.PM2.image,
+                            country: grupo.PM2.country,
+                            province: grupo.PM2.province,
+                            email: grupo.PM2.email,
+                          };
+                          return (
+                            <Fragment>
+                              <Button
+                                className={classes.styleTextUser}
+                                value={grupo.PM1Id}
+                                onClick={() => handleOpenModal(userCompleteUno)}
+                                fullWidth="true"
+                              >
+                                {pm1name}
+                              </Button>
+                              <Button
+                                className={classes.styleTextUser}
+                                value={grupo.PM2Id}
+                                onClick={() => handleOpenModal(userCompleteDos)}
+                                fullWidth="true"
+                              >
+                                {pm2name}
+                              </Button>
+                            </Fragment>
                           );
                         })
                       ) : (
@@ -294,10 +388,10 @@ function Cohorte(props) {
                 <Box className={classes.titleInfo}>
                   <Box className={classes.titelRootIndo}>ALUMNOS</Box>
                   <Box className={classes.prueba}>
-                    <h3 style={{ paddingRight: 15 }}>Filtrar por Pm</h3>
+                    <h3 style={{ paddingRight: 15 }}>Filtrar por Grupo</h3>
                     <FormControl className={classes.formControl}>
                       <InputLabel id="demo-controlled-open-select-label">
-                        Pm`s
+                        Grupo
                       </InputLabel>
                       <Select
                         labelId="demo-controlled-open-select-label"
@@ -305,19 +399,16 @@ function Cohorte(props) {
                         open={open}
                         onClose={handleClose}
                         onOpen={handleOpen}
-                        value={pm}
+                        value={grupoSelec}
                         onChange={handleChange}
                       >
                         <MenuItem value="">
                           <em>None</em>
                         </MenuItem>
                         {/* MAPEAR LISTA DE PMS Y DEVOLVER UN MENUITEM X CADA UNO */}
-                        {cohortePms.map((pm) => {
-                          let nombreCompleto = `${pm.user.name} ${pm.user.lastName}`;
-                          let id = pm.id;
-                          return (
-                            <MenuItem value={id}>{nombreCompleto}</MenuItem>
-                          );
+                        {gruposDelCohorte.map((grupo) => {
+                          let id = grupo.id;
+                          return <MenuItem value={id}>{grupo.name}</MenuItem>;
                         })}
                       </Select>
                     </FormControl>
@@ -326,10 +417,24 @@ function Cohorte(props) {
                 <Box className={classes.bodyInfo}>
                   <Box className={classes.setTextBoxInfoInfo}>
                     <ButtonGroup className={classes.listOneInfo}>
-                      {cohorteStudents.length > 0 ? (
+                      {alumnosPorGrupo.length > 0 ? (
+                        alumnosPorGrupo.map((student) => {
+                          let nombreCompleto = `${student.user.name} ${student.user.lastName}`;
+                          return (
+                            <div>
+                              <Button
+                                className={classes.styleTextUser}
+                                onClick={() => handleOpenModal(student.user)}
+                                fullWidth="true"
+                              >
+                                {nombreCompleto}
+                              </Button>
+                            </div>
+                          );
+                        })
+                      ) : cohorteStudents.length > 0 ? (
                         cohorteStudents.map((student) => {
                           let nombreCompleto = `${student.user.name} ${student.user.lastName}`;
-
                           return (
                             <div>
                               <Button
@@ -345,6 +450,24 @@ function Cohorte(props) {
                       ) : (
                         <h1>NO HAY USUARIOS</h1>
                       )}
+                      {/* {cohorteStudents.length > 0 ? (
+                        cohorteStudents.map((student) => {
+                          let nombreCompleto = `${student.user.name} ${student.user.lastName}`;
+                          return (
+                            <div>
+                              <Button
+                                className={classes.styleTextUser}
+                                onClick={() => handleOpenModal(student.user)}
+                                fullWidth="true"
+                              >
+                                {nombreCompleto}
+                              </Button>
+                            </div>
+                          );
+                        })
+                      ) : (
+                        <h1>NO HAY USUARIOS</h1>
+                      )} */}
                     </ButtonGroup>
                   </Box>
                 </Box>
