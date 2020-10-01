@@ -54,16 +54,25 @@ export default function Profile(props) {
       >
         <div style={modalStyle} className={classes.paper}>
           <div className={classes.div}>
-            <h1>
-              {" "}
-              {user.name} {user.lastName}
-            </h1>
+            {user.name===null? 
+            <div>
+            <h1>{user.email}</h1>
             <img className={classes.img} src={user.image} />
-            <p>
-              {user.province}, {user.country}
-            </p>
-            <p>Email: {user.email}</p>
-            <p>Celular: 1540856398</p>
+            </div>
+            :
+            <div>
+              <h1>
+                {" "}
+                {user.name} {user.lastName}
+              </h1>
+              <img className={classes.img} src={user.image} />
+              {/* <p>
+                {user.province}, {user.country}
+              </p> */}
+              <p>Email: {user.email}</p>
+              <p>Celular: 1540856398</p>
+            </div>
+            }  
           </div>
 
           {/* <h1>Github:{user.email}</h1> */}
