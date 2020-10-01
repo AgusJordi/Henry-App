@@ -41,7 +41,12 @@ function Home(props) {
   //   dispatch(getAllStudents());
   // }, []);
   //LOS DISPATCHS SE HACEN DESDE APP AHORA
-
+  let prFalse = () => {
+    setSa(false);
+  };
+  let prTrue = () => {
+    setSa(true);
+  };
   let prueba = false;
   if (allCohortes.length > 0) {
     prueba = true;
@@ -53,7 +58,7 @@ function Home(props) {
       }
     });
   }
-
+  const [sa, setSa] = useState(false);
   function TabPanel(props) {
     //SETEO QUE DEVUELVE LOS INTEGRANTES DE UN GRUPO Y SU CARD
     const { children, value, index, ...other } = props;
@@ -154,7 +159,7 @@ function Home(props) {
                   return (
                     <Tab
                       label={cohorte.name}
-                      onClick={() => saveCohorte(cohorte)}
+                      onClick={() => (saveCohorte(cohorte), prFalse())}
                     />
                   );
                 })
@@ -174,6 +179,8 @@ function Home(props) {
                 instructor={instr}
                 gruposDelCohorte={grupoDelCoho}
                 allGroups={allGroups}
+                busqueda={sa}
+                func={prTrue}
               />
             )}
           </Grid>
@@ -253,7 +260,7 @@ function Home(props) {
         <Grid container className={classes.gridContainer}>
           <Grid xs={12} container className={classes.tabPanel}>
             {/* <PairProgramming users={allUsers} /> */}
-              <PairProgramming/>
+            <PairProgramming />
           </Grid>
         </Grid>
       </div>

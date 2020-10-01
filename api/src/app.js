@@ -722,366 +722,6 @@ server.post('/usuarios', async(req, res) => {
     "instructor": false,
     "image": "https://ca.slack-edge.com/TPRS7H4PN-U0140MCPXN1-561590012747-512"
   })
-  const alum41 = User.create({ //id: 50
-    "email": "ema@henryapp.com",
-    "password": passwordInit,
-    "salt": salt,
-    "name": "Emanuel",
-    "lastName" : "Sarco",
-    "admin": false,
-    "status": "habilitado",
-    "student": true,
-    "instructor": false,
-    "image": "https://ca.slack-edge.com/TPRS7H4PN-U011PLQM525-f2ae7778f389-512"
-  })
-  const alum42 = User.create({ //id: 51
-    "email": "Eric@henryapp.com",
-    "password": passwordInit,
-    "salt": salt,
-    "name": "Eric",
-    "lastName" : "Gomez",
-    "admin": false,
-    "status": "habilitado",
-    "student": true,
-    "instructor": false,
-    "image": "https://ca.slack-edge.com/TPRS7H4PN-U017N403LS0-bdfc4b9e82d5-512"
-  })
-  const alum43 = User.create({ //id: 52
-    "email": "lean@henryapp.com",
-    "password": passwordInit,
-    "salt": salt,
-    "name": "Leandro",
-    "lastName" : "Alvarez",
-    "admin": false,
-    "status": "habilitado",
-    "student": true,
-    "instructor": false,
-    "image": "https://ca.slack-edge.com/TPRS7H4PN-U014ARXQS3S-35c4fb1ffac1-512"
-  })
-  const alum44 = User.create({ //id: 53
-    "email": "Lara@henryapp.com",
-    "password": passwordInit,
-    "salt": salt,
-    "name": "Lara",
-    "lastName" : "Pontura",
-    "admin": false,
-    "status": "habilitado",
-    "student": true,
-    "instructor": false,
-    "image": "https://ca.slack-edge.com/TPRS7H4PN-U013JE471E1-6558055cf06b-512"
-  })
-  const alum45 = User.create({ //id: 54
-    "email": "leo@henryapp.com",
-    "password": passwordInit,
-    "salt": salt,
-    "name": "Leonardo",
-    "lastName" : "Rufino",
-    "admin": false,
-    "status": "habilitado",
-    "student": true,
-    "instructor": false,
-    "image": "https://ca.slack-edge.com/TPRS7H4PN-U013NFUQVJ6-3fea6ec8458c-512"
-  })
-  const alum46 = User.create({ //id: 55
-    "email": "lucas@henryapp.com",
-    "password": passwordInit,
-    "salt": salt,
-    "name": "Lucas",
-    "lastName" : "Casco",
-    "admin": false,
-    "status": "habilitado",
-    "student": true,
-    "instructor": false,
-    "image": "https://ca.slack-edge.com/TPRS7H4PN-U0120RZHU2C-8dfdc0c93cd0-512"
-  })
-  const alum47 = User.create({ //id: 56
-    "email": "lucca@gmail.com",
-    "password": passwordInit,
-    "salt": salt,
-    "name": "Lucca",
-    "lastName" : "Lipisky",
-    "admin": false,
-    "status": "habilitado",
-    "student": true,
-    "instructor": false,
-    "image": "https://ca.slack-edge.com/TPRS7H4PN-U011KHP9329-3ba91e47f3cf-512"
-  })
-  const alum48 = User.create({ //id: 57
-    "email": "lucia@henryapp.com",
-    "password": passwordInit,
-    "salt": salt,
-    "name": "Lucia",
-    "lastName" : "Gentile",
-    "admin": false,
-    "status": "habilitado",
-    "student": true,
-    "instructor": false,
-    "image": "https://ca.slack-edge.com/TPRS7H4PN-U012W7S0WD9-b513a9cb3d26-512"
-  })
-  const alum49 = User.create({ //id: 58
-    "email": "jcheruse@henryapp.com",
-    "password": passwordInit,
-    "salt": salt,
-    "name": "Julieta",
-    "lastName" : "Cheruse",
-    "admin": false,
-    "status": "habilitado",
-    "student": true,
-    "instructor": false,
-    "image": "https://ca.slack-edge.com/TPRS7H4PN-U017N403LS0-bdfc4b9e82d5-512"
-  })
-  const alum50 = User.create({ //id: 59
-    "email": "lucianoc@henryapp.com",
-    "password": passwordInit,
-    "salt": salt,
-    "name": "Luciano",
-    "lastName" : "Castet",
-    "admin": false,
-    "status": "habilitado",
-    "student": true,
-    "instructor": false,
-    "image": "https://ca.slack-edge.com/TPRS7H4PN-U013PGY52HG-ge53e97eabb7-512"
-  })
-  const alum51 = User.create({ //id: 60
-    "email": "luisd@henryapp.com",
-    "password": passwordInit,
-    "salt": salt,
-    "name": "Luis",
-    "lastName" : "D'Amico",
-    "admin": false,
-    "status": "habilitado",
-    "student": true,
-    "instructor": false,
-    "image": "https://ca.slack-edge.com/TPRS7H4PN-U012S86RYG6-2e4c8bc6fc19-512"
-  })
-  const alum52 = User.create({ //id: 61
-    "email": "luisj@henryapp.com",
-    "password": passwordInit,
-    "salt": salt,
-    "name": "Luis",
-    "lastName" : "Jacobi",
-    "admin": false,
-    "status": "habilitado",
-    "student": true,
-    "instructor": false,
-    "image": "https://ca.slack-edge.com/TPRS7H4PN-U012WFJCY13-121fcc0d41b2-512"
-  })
-  const alum53 = User.create({ //id: 62
-    "email": "mjc@henryapp.com",
-    "password": passwordInit,
-    "salt": salt,
-    "name": "M Angel",
-    "lastName" : "JC",
-    "admin": false,
-    "status": "habilitado",
-    "student": true,
-    "instructor": false,
-    "image": "https://ca.slack-edge.com/TPRS7H4PN-U01450J2MN3-19e45080a974-512"
-  })
-  const alum54 = User.create({ //id: 63
-    "email": "marc@henryapp.com",
-    "password": passwordInit,
-    "salt": salt,
-    "name": "Marcelo",
-    "lastName" : "Britos",
-    "admin": false,
-    "status": "habilitado",
-    "student": true,
-    "instructor": false,
-    "image": "https://ca.slack-edge.com/TPRS7H4PN-U012MSDFRE1-52bf40b31140-512"
-  })
-  const alum55 = User.create({ //id: 64
-    "email": "valle@henryapp.com",
-    "password": passwordInit,
-    "salt": salt,
-    "name": "Marcelo",
-    "lastName" : "Del Valle",
-    "admin": false,
-    "status": "habilitado",
-    "student": true,
-    "instructor": false,
-    "image": "https://ca.slack-edge.com/TPRS7H4PN-U012WQM9MM3-7747935eefe5-512"
-  })
-  const alum56 = User.create({ //id: 65
-    "email": "aliaga@henryapp.com",
-    "password": passwordInit,
-    "salt": salt,
-    "name": "Marcelo",
-    "lastName" : "Aliaga",
-    "admin": false,
-    "status": "habilitado",
-    "student": true,
-    "instructor": false,
-    "image": "https://ca.slack-edge.com/TPRS7H4PN-U013FLK5FRR-baabcf4e4132-512"
-  })
-  const alum57 = User.create({ //id: 66
-    "email": "marcc@henryapp.com",
-    "password": passwordInit,
-    "salt": salt,
-    "name": "Marcelo",
-    "lastName" : "Campana",
-    "admin": false,
-    "status": "habilitado",
-    "student": true,
-    "instructor": false,
-    "image": "https://ca.slack-edge.com/TPRS7H4PN-U013KGK3KM1-305fde5fada3-512"
-  })
-  const alum58 = User.create({ //id: 67
-    "email": "piccato@soyhenry.com",
-    "password": passwordInit,
-    "salt": salt,
-    "name": "Martin",
-    "lastName" : "Piccato",
-    "admin": false,
-    "status": "habilitado",
-    "student": true,
-    "instructor": false,
-    "image": "https://ca.slack-edge.com/TPRS7H4PN-U012NQNUUCT-be4f10a7fbc7-512"
-  })
-  const alum59 = User.create({ //id: 68
-    "email": "student59@gmail.com",
-    "password": passwordInit,
-    "salt": salt,
-    "name": "Julieta",
-    "lastName" : "It",
-    "admin": false,
-    "status": "habilitado",
-    "student": true,
-    "instructor": false,
-    "image": "https://ca.slack-edge.com/TPRS7H4PN-U017N403LS0-bdfc4b9e82d5-512"
-  })
-  const alum60 = User.create({ //id: 69
-    "email": "student60@gmail.com",
-    "password": passwordInit,
-    "salt": salt,
-    "name": "Julieta",
-    "lastName" : "It",
-    "admin": false,
-    "status": "habilitado",
-    "student": true,
-    "instructor": false,
-    "image": "https://ca.slack-edge.com/TPRS7H4PN-U017N403LS0-bdfc4b9e82d5-512"
-  })
-  const alum61 = User.create({ //id: 70
-    "email": "student61@gmail.com",
-    "password": passwordInit,
-    "salt": salt,
-    "name": "Julieta",
-    "lastName" : "It",
-    "admin": false,
-    "status": "habilitado",
-    "student": true,
-    "instructor": false,
-    "image": "https://ca.slack-edge.com/TPRS7H4PN-U017N403LS0-bdfc4b9e82d5-512"
-  })
-  const alum62 = User.create({ //id: 71
-    "email": "student62@gmail.com",
-    "password": passwordInit,
-    "salt": salt,
-    "name": "Julieta",
-    "lastName" : "It",
-    "admin": false,
-    "status": "habilitado",
-    "student": true,
-    "instructor": false,
-    "image": "https://ca.slack-edge.com/TPRS7H4PN-U017N403LS0-bdfc4b9e82d5-512"
-  })
-  const alum63 = User.create({ //id: 72
-    "email": "student63@gmail.com",
-    "password": passwordInit,
-    "salt": salt,
-    "name": "Julieta",
-    "lastName" : "It",
-    "admin": false,
-    "status": "habilitado",
-    "student": true,
-    "instructor": false,
-    "image": "https://ca.slack-edge.com/TPRS7H4PN-U017N403LS0-bdfc4b9e82d5-512"
-  })
-  const alum64 = User.create({ //id: 73
-    "email": "student64@gmail.com",
-    "password": passwordInit,
-    "salt": salt,
-    "name": "Julieta",
-    "lastName" : "It",
-    "admin": false,
-    "status": "habilitado",
-    "student": true,
-    "instructor": false,
-    "image": "https://ca.slack-edge.com/TPRS7H4PN-U017N403LS0-bdfc4b9e82d5-512"
-  })
-  const alum65 = User.create({ //id: 74
-    "email": "student65@gmail.com",
-    "password": passwordInit,
-    "salt": salt,
-    "name": "Julieta",
-    "lastName" : "It",
-    "admin": false,
-    "status": "habilitado",
-    "student": true,
-    "instructor": false,
-    "image": "https://ca.slack-edge.com/TPRS7H4PN-U017N403LS0-bdfc4b9e82d5-512"
-  })
-  const alum66 = User.create({ //id: 75
-    "email": "student66@gmail.com",
-    "password": passwordInit,
-    "salt": salt,
-    "name": "Julieta",
-    "lastName" : "It",
-    "admin": false,
-    "status": "habilitado",
-    "student": true,
-    "instructor": false,
-    "image": "https://ca.slack-edge.com/TPRS7H4PN-U017N403LS0-bdfc4b9e82d5-512"
-  })
-  const alum67 = User.create({ //id: 76
-    "email": "student67@gmail.com",
-    "password": passwordInit,
-    "salt": salt,
-    "name": "Julieta",
-    "lastName" : "It",
-    "admin": false,
-    "status": "habilitado",
-    "student": true,
-    "instructor": false,
-    "image": "https://ca.slack-edge.com/TPRS7H4PN-U017N403LS0-bdfc4b9e82d5-512"
-  })
-  const alum68 = User.create({ //id: 77
-    "email": "student68@gmail.com",
-    "password": passwordInit,
-    "salt": salt,
-    "name": "Julieta",
-    "lastName" : "It",
-    "admin": false,
-    "status": "habilitado",
-    "student": true,
-    "instructor": false,
-    "image": "https://ca.slack-edge.com/TPRS7H4PN-U017N403LS0-bdfc4b9e82d5-512"
-  })
-  const alum69 = User.create({ //id: 78
-    "email": "student69@gmail.com",
-    "password": passwordInit,
-    "salt": salt,
-    "name": "Julieta",
-    "lastName" : "It",
-    "admin": false,
-    "status": "habilitado",
-    "student": true,
-    "instructor": false,
-    "image": "https://ca.slack-edge.com/TPRS7H4PN-U017N403LS0-bdfc4b9e82d5-512"
-  })
-  const alum70 = User.create({ //id: 79
-    "email": "student70@gmail.com",
-    "password": passwordInit,
-    "salt": salt,
-    "name": "Julieta",
-    "lastName" : "It",
-    "admin": false,
-    "status": "habilitado",
-    "student": true,
-    "instructor": false,
-    "image": "https://ca.slack-edge.com/TPRS7H4PN-U017N403LS0-bdfc4b9e82d5-512"
-  })
 })
 
 
@@ -1202,451 +842,196 @@ server.post('/cohor', async (req, res) => {
     "groupPP" : null,
     'userId': 19,     
     "cohorteId": 1,
-    "groupId": 1,     
+    "groupId": 2,     
   })
   const student12 = await Student.create({   
     "groupPP" : null,
     'userId': 20,    
     "cohorteId": 1,
-    "groupId": 1,
+    "groupId": 2,
   })
   
   const student13 = await Student.create({
     "groupPP" : null,
     'userId': 21,     
     "cohorteId": 1,
-    "groupId": 1,
+    "groupId": 2,
   })
 
   const student14 = await Student.create({
     "groupPP" : null,
     'userId': 22,     
     "cohorteId": 1,
-    "groupId": 1,
+    "groupId": 2,
   })
   const student15 = await Student.create({
     "groupPP" : null,
     'userId': 23,     
     "cohorteId": 1,
-    "groupId": 1,
+    "groupId": 2,
   })
 
   const student16 = await Student.create({
     "groupPP" : null,
     'userId': 24,    
     "cohorteId": 1,
-    "groupId": 1,
+    "groupId": 2,
   })
 
   const student17 = await Student.create({
     "groupPP" : null,
     'userId': 25,     
     "cohorteId": 1,
-    "groupId": 1,
+    "groupId": 2,
   })
 
   const student18 = await Student.create({
     "groupPP" : null,
     'userId': 26,     
     "cohorteId": 1,
-    "groupId": 1,
+    "groupId": 2,
   })
   const student19 = await Student.create({
     "groupPP" : null,
     'userId': 27,     
     "cohorteId": 1,
-    "groupId": 1,
+    "groupId": 2,
   })
   const student20 = await Student.create({ //vicky
     "groupPP" : null,
     'userId': 28,     
     "cohorteId": 1,
-    "groupId": 1,     
+    "groupId": 2,     
   })
   const student21 = await Student.create({ //vicky
     "groupPP" : null,
     'userId': 29,     
-    "cohorteId": 1,
-    "groupId": 2,     
+    "cohorteId": 2,
+    "groupId": 3,     
   })
   const student22 = await Student.create({ //vicky
     "groupPP" : null,
     'userId': 30,     
-    "cohorteId": 1,
-    "groupId": 2,     
+    "cohorteId": 2,
+    "groupId": 3,     
   })
   const student23 = await Student.create({   
     "groupPP" : null,
     'userId': 31,    
-    "cohorteId": 1,
-    "groupId": 2,
+    "cohorteId": 2,
+    "groupId": 3,
   })
   
   const student24 = await Student.create({
     "groupPP" : null,
     'userId': 32,     
-    "cohorteId": 1,
-    "groupId": 2,
+    "cohorteId": 2,
+    "groupId": 3,
   })
 
   const student25 = await Student.create({
     "groupPP" : null,
     'userId': 33,     
-    "cohorteId": 1,
-    "groupId": 2,
+    "cohorteId": 2,
+    "groupId": 3,
   })
   const student26 = await Student.create({
     "groupPP" : null,
     'userId': 34,     
-    "cohorteId": 1,
-    "groupId": 2,
+    "cohorteId": 2,
+    "groupId": 3,
   })
 
   const student27 = await Student.create({
     "groupPP" : null,
     'userId': 35,    
-    "cohorteId": 1,
-    "groupId": 2,
+    "cohorteId": 2,
+    "groupId": 3,
   })
 
   const student28 = await Student.create({
     "groupPP" : null,
     'userId': 36,     
-    "cohorteId": 1,
-    "groupId": 2,
+    "cohorteId": 2,
+    "groupId": 3,
   })
 
   const student29 = await Student.create({
     "groupPP" : null,
     'userId': 37,     
-    "cohorteId": 1,
-    "groupId": 2,
+    "cohorteId": 2,
+    "groupId": 3,
   })
   const student30 = await Student.create({
     "groupPP" : null,
     'userId': 38,     
-    "cohorteId": 1,
-    "groupId": 2,
+    "cohorteId": 2,
+    "groupId": 4,
   })
   const student31 = await Student.create({ //vicky
     "groupPP" : null,
     'userId': 39,     
-    "cohorteId": 1,
-    "groupId": 2,     
+    "cohorteId": 2,
+    "groupId": 4,     
   })
   const student32 = await Student.create({ //vicky
     "groupPP" : null,
     'userId': 40,     
-    "cohorteId": 1,
-    "groupId": 2,     
+    "cohorteId": 2,
+    "groupId": 4,     
   })
   const student33 = await Student.create({ //vicky
     "groupPP" : null,
     'userId': 41,     
-    "cohorteId": 1,
-    "groupId": 2,     
+    "cohorteId": 2,
+    "groupId": 4,     
   })
   const student34 = await Student.create({   
     "groupPP" : null,
     'userId': 42,    
-    "cohorteId": 1,
-    "groupId": 2,
+    "cohorteId": 2,
+    "groupId": 4,
   })
   
   const student35 = await Student.create({
     "groupPP" : null,
     'userId': 43,     
-    "cohorteId": 1,
-    "groupId": 2,
+    "cohorteId": 2,
+    "groupId": 4,
   })
 
   const student36 = await Student.create({
     "groupPP" : null,
     'userId': 44,     
-    "cohorteId": 1,
-    "groupId": 2,
+    "cohorteId": 2,
+    "groupId": 4,
   })
   const student37 = await Student.create({
     "groupPP" : null,
     'userId': 45,     
-    "cohorteId": 1,
-    "groupId": 2,
+    "cohorteId": 2,
+    "groupId": 4,
   })
 
   const student38 = await Student.create({
     "groupPP" : null,
     'userId': 46,    
-    "cohorteId": 1,
-    "groupId": 2,
+    "cohorteId": 2,
+    "groupId": 4,
   })
 
   const student39 = await Student.create({
     "groupPP" : null,
     'userId': 47,     
-    "cohorteId": 1,
-    "groupId": 2,
+    "cohorteId": 2,
+    "groupId": 4,
   })
 
   const student40 = await Student.create({
     "groupPP" : null,
     'userId': 48,     
     "cohorteId": 2,
-    "groupId": 3,
-  })
-  const student41 = await Student.create({
-    "groupPP" : null,
-    'userId': 49,     
-    "cohorteId": 2,
-    "groupId": 3,
-  })
-  const student42 = await Student.create({ //vicky
-    "groupPP" : null,
-    'userId': 50,     
-    "cohorteId": 2,
-    "groupId": 3,     
-  })
-  const student43 = await Student.create({ //vicky
-    "groupPP" : null,
-    'userId': 51,     
-    "cohorteId": 2,
-    "groupId": 3,     
-  })
-  const student44 = await Student.create({ //vicky
-    "groupPP" : null,
-    'userId': 52,     
-    "cohorteId": 2,
-    "groupId": 3,     
-  })
-  const student45 = await Student.create({   
-    "groupPP" : null,
-    'userId': 53,    
-    "cohorteId": 2,
-    "groupId": 3,
-  })
-  
-  const student46 = await Student.create({
-    "groupPP" : null,
-    'userId': 54,     
-    "cohorteId": 2,
-    "groupId": 3,
-  })
-
-  const student47 = await Student.create({
-    "groupPP" : null,
-    'userId': 55,     
-    "cohorteId": 2,
-    "groupId": 3,
-  })
-  const student48 = await Student.create({
-    "groupPP" : null,
-    'userId': 56,     
-    "cohorteId": 2,
-    "groupId": 3,
-  })
-
-  const student49 = await Student.create({
-    "groupPP" : null,
-    'userId': 57,    
-    "cohorteId": 2,
-    "groupId": 3,
-  })
-
-  const student50 = await Student.create({
-    "groupPP" : null,
-    'userId': 58,     
-    "cohorteId": 2,
-    "groupId": 3,
-  })
-
-  const student51 = await Student.create({
-    "groupPP" : null,
-    'userId': 59,     
-    "cohorteId": 2,
-    "groupId": 3,
-  })
-  const student52 = await Student.create({
-    "groupPP" : null,
-    'userId': 60,     
-    "cohorteId": 2,
-    "groupId": 3,
-  })
-  const student53 = await Student.create({ //vicky
-    "groupPP" : null,
-    'userId': 61,     
-    "cohorteId": 2,
-    "groupId": 3,     
-  })
-  const student54 = await Student.create({ //vicky
-    "groupPP" : null,
-    'userId': 62,     
-    "cohorteId": 2,
-    "groupId": 3,     
-  })
-  const student55 = await Student.create({ //vicky
-    "groupPP" : null,
-    'userId': 63,     
-    "cohorteId": 2,
-    "groupId": 3,     
-  })
-  const student56 = await Student.create({   
-    "groupPP" : null,
-    'userId': 64,    
-    "cohorteId": 2,
-    "groupId": 3,
-  })
-  
-  const student57 = await Student.create({
-    "groupPP" : null,
-    'userId': 65,     
-    "cohorteId": 2,
-    "groupId": 3,
-  })
-
-  const student58 = await Student.create({
-    "groupPP" : null,
-    'userId': 66,     
-    "cohorteId": 2,
-    "groupId": 3,
-  })
-  const student59 = await Student.create({
-    "groupPP" : null,
-    'userId': 67,     
-    "cohorteId": 2,
-    "groupId": 3,
-  })
-
-  const student60 = await Student.create({
-    "groupPP" : null,
-    'userId': 68,    
-    "cohorteId": 2,
     "groupId": 4,
-  })
-
-  const student61 = await Student.create({
-    "groupPP" : null,
-    'userId': 69,     
-    "cohorteId": 2,
-    "groupId": 4,
-  })
-
-  const student62 = await Student.create({
-    "groupPP" : null,
-    'userId': 70,     
-    "cohorteId": 2,
-    "groupId": 4,
-  })
-  const student63 = await Student.create({
-    "groupPP" : null,
-    'userId': 71,     
-    "cohorteId": 2,
-    "groupId": 4,
-  })
-  const student64 = await Student.create({ //vicky
-    "groupPP" : null,
-    'userId': 72,     
-    "cohorteId": 2,
-    "groupId": 4,     
-  })
-  const student65 = await Student.create({ //vicky
-    "groupPP" : null,
-    'userId': 73,     
-    "cohorteId": 2,
-    "groupId": 4,     
-  })
-  const student66 = await Student.create({ //vicky
-    "groupPP" : null,
-    'userId': 73,     
-    "cohorteId": 2,
-    "groupId": 4,     
-  })
-  const student67 = await Student.create({   
-    "groupPP" : null,
-    'userId': 74,    
-    "cohorteId": 2,
-    "groupId": 4,
-  })
-  
-  const student68 = await Student.create({
-    "groupPP" : null,
-    'userId': 75,     
-    "cohorteId": 2,
-    "groupId": 4,
-  })
-
-  const student69 = await Student.create({
-    "groupPP" : null,
-    'userId': 76,     
-    "cohorteId": 2,
-    "groupId": 4,
-  })
-  const student70 = await Student.create({
-    "groupPP" : null,
-    'userId': 77,     
-    "cohorteId": 2,
-    "groupId": 4,
-  })
-
-  const student71 = await Student.create({
-    "groupPP" : null,
-    'userId': 78,    
-    "cohorteId": 2,
-    "groupId": 4,
-  })
-
-  const student72 = await Student.create({
-    "groupPP" : null,
-    'userId': 79,     
-    "cohorteId": 2,
-    "groupId": 4,
-  })
-
-  const student73 = await Student.create({
-    "groupPP" : null,
-    'userId': 80,     
-    "cohorteId": 2,
-    "groupId": 4,
-  })
-  const student74 = await Student.create({
-    "groupPP" : null,
-    'userId': 81,     
-    "cohorteId": 2,
-    "groupId": 4,
-  })
-  const student75 = await Student.create({ //vicky
-    "groupPP" : null,
-    'userId': 81,     
-    "cohorteId": 2,
-    "groupId": 4,     
-  })
-  const student76 = await Student.create({ //vicky
-    "groupPP" : null,
-    'userId': 82,     
-    "cohorteId": 2,
-    "groupId": 4,     
-  })
-  const student77 = await Student.create({ //vicky
-    "groupPP" : null,
-    'userId': 83,     
-    "cohorteId": 2,
-    "groupId": 4,     
-  })
-  const student78 = await Student.create({ //vicky
-    "groupPP" : null,
-    'userId': 84,     
-    "cohorteId": 2,
-    "groupId": 4,     
-  })
-  const student79 = await Student.create({ //vicky
-    "groupPP" : null,
-    'userId': 85,     
-    "cohorteId": 2,
-    "groupId": 4,     
-  })
-  const student80 = await Student.create({ //vicky
-    "groupPP" : null,
-    'userId': 86,     
-    "cohorteId": 2,
-    "groupId": 4,     
   })
  })
 

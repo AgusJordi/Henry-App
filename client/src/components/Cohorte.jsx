@@ -31,6 +31,8 @@ function Cohorte(props) {
     instructor,
     gruposDelCohorte,
     allGroups,
+    busqueda,
+    func,
   } = props;
 
   const cohorteStudents = [];
@@ -226,6 +228,7 @@ function Cohorte(props) {
     setOpen(false);
   };
 
+  console.log("elreturu", func);
   const handleOpen = () => {
     setOpen(true);
   };
@@ -239,7 +242,9 @@ function Cohorte(props) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
     setGrupoSelec(event.target.value);
+    func();
   };
+
   const classes = useStyles();
 
   if (cohorteName === undefined) {
@@ -250,9 +255,15 @@ function Cohorte(props) {
     );
   }
   //guarda info de grupo seleccionado
-  let pmsPorGruSele = gruposDelCohorte.filter(
-    (p) => p.cohorteId === grupoSelec
-  );
+  let pmsPorGruSele = [];
+  if (gruposDelCohorte) {
+    gruposDelCohorte.map((p) => {
+      if (p.id === grupoSelec) {
+        return pmsPorGruSele.push(p);
+      }
+    });
+  }
+
   //guarda pms del grupo seleccionado
   let pmsNameGruSele = [];
   if (pmsPorGruSele.length > 0) {
@@ -268,8 +279,6 @@ function Cohorte(props) {
 
   let alumnosPorGrupo = cohorteStudents.filter((x) => x.groupId === grupoSelec);
 
-  let pm;
-  console.log("elreturu", pmsNameGruSele);
   if (cohorteName) {
     return (
       <div>
@@ -310,76 +319,90 @@ function Cohorte(props) {
                 <Box className={classes.infoSideBar}>
                   <Box className={classes.setTextBoxInfoSide}>
                     <ButtonGroup className={classes.listOne}>
-                      {pmsNameGruSele.length > 0 ? (
-                        pmsNameGruSele.map((p) => {
-                          let userCompleteUno = {
-                            name: p.name,
-                            lastName: p.lastName,
-                            image: p.image,
-                            country: p.country,
-                            province: p.province,
-                            email: p.email,
-                          };
-                          let nameComplete = `${p.name} ${p.lastName}`;
-                          return (
-                            <Fragment>
-                              <Button
-                                className={classes.styleTextUser}
-                                value={p.PM1Id}
-                                onClick={() => handleOpenModal(userCompleteUno)}
-                                fullWidth="true"
-                              >
-                                {nameComplete}
-                              </Button>
-                            </Fragment>
-                          );
-                        })
+                      {busqueda ? (
+                        pmsNameGruSele.length > 0 ? (
+                          pmsNameGruSele.map((p) => {
+                            let userCompleteUno = {
+                              name: p.name,
+                              lastName: p.lastName,
+                              image: p.image,
+                              country: p.country,
+                              province: p.province,
+                              email: p.email,
+                            };
+                            let nameComplete = `${p.name} ${p.lastName}`;
+                            return (
+                              <Fragment>
+                                <Button
+                                  className={classes.styleTextUser}
+                                  value={p.PM1Id}
+                                  onClick={() =>
+                                    handleOpenModal(userCompleteUno)
+                                  }
+                                  fullWidth="true"
+                                >
+                                  {nameComplete}
+                                </Button>
+                              </Fragment>
+                            );
+                          })
+                        ) : (
+                            <h1>No hay pms</h1>
+                          )
                       ) : gruposDelCohorte.length > 0 ? (
                         gruposDelCohorte.map((grupo) => {
                           //necesitamos nombre y apellido y el grupo solo trae nombre+
+                          if (grupo.PM1 !== null) {
+                            let pm1name = `${grupo.PM1.name} ${grupo.PM1.lastName}`;
+                            let pm2name = `${grupo.PM2.name} ${grupo.PM2.lastName}`;
+                            let userCompleteUno = {
+                              name: grupo.PM1.name,
+                              lastName: grupo.PM1.lastName,
+                              image: grupo.PM1.image,
+                              country: grupo.PM1.country,
+                              province: grupo.PM1.province,
+                              email: grupo.PM1.email,
+                            };
+                            let userCompleteDos = {
+                              name: grupo.PM2.name,
+                              lastName: grupo.PM2.lastName,
+                              image: grupo.PM2.image,
+                              country: grupo.PM2.country,
+                              province: grupo.PM2.province,
+                              email: grupo.PM2.email,
+                            };
 
-                          let pm1name = `${grupo.PM1.name} ${grupo.PM1.lastName}`;
-                          let pm2name = `${grupo.PM2.name} ${grupo.PM2.lastName}`;
-                          let userCompleteUno = {
-                            name: grupo.PM1.name,
-                            lastName: grupo.PM1.lastName,
-                            image: grupo.PM1.image,
-                            country: grupo.PM1.country,
-                            province: grupo.PM1.province,
-                            email: grupo.PM1.email,
-                          };
-                          let userCompleteDos = {
-                            name: grupo.PM2.name,
-                            lastName: grupo.PM2.lastName,
-                            image: grupo.PM2.image,
-                            country: grupo.PM2.country,
-                            province: grupo.PM2.province,
-                            email: grupo.PM2.email,
-                          };
-                          return (
-                            <Fragment>
-                              <Button
-                                className={classes.styleTextUser}
-                                value={grupo.PM1Id}
-                                onClick={() => handleOpenModal(userCompleteUno)}
-                                fullWidth="true"
-                              >
-                                {pm1name}
-                              </Button>
-                              <Button
-                                className={classes.styleTextUser}
-                                value={grupo.PM2Id}
-                                onClick={() => handleOpenModal(userCompleteDos)}
-                                fullWidth="true"
-                              >
-                                {pm2name}
-                              </Button>
-                            </Fragment>
-                          );
+                            return (
+                              <Fragment>
+                                <Button
+                                  className={classes.styleTextUser}
+                                  value={grupo.PM1Id}
+                                  onClick={() =>
+                                    handleOpenModal(userCompleteUno)
+                                  }
+                                  fullWidth="true"
+                                >
+                                  {pm1name}
+                                </Button>
+                                <Button
+                                  className={classes.styleTextUser}
+                                  value={grupo.PM2Id}
+                                  onClick={() =>
+                                    handleOpenModal(userCompleteDos)
+                                  }
+                                  fullWidth="true"
+                                >
+                                  {pm2name}
+                                </Button>
+                              </Fragment>
+                            );
+                          } else {
+                            return null;
+                          }
                         })
                       ) : (
-                        <h1>No hay pms</h1>
-                      )}
+                            <h1>No hay pms</h1>
+                          )}
                     </ButtonGroup>
                   </Box>
                 </Box>
@@ -448,26 +471,9 @@ function Cohorte(props) {
                           );
                         })
                       ) : (
-                        <h1>NO HAY USUARIOS</h1>
-                      )}
-                      {/* {cohorteStudents.length > 0 ? (
-                        cohorteStudents.map((student) => {
-                          let nombreCompleto = `${student.user.name} ${student.user.lastName}`;
-                          return (
-                            <div>
-                              <Button
-                                className={classes.styleTextUser}
-                                onClick={() => handleOpenModal(student.user)}
-                                fullWidth="true"
-                              >
-                                {nombreCompleto}
-                              </Button>
-                            </div>
-                          );
-                        })
-                      ) : (
-                        <h1>NO HAY USUARIOS</h1>
-                      )} */}
+                            <h1>NO HAY USUARIOS</h1>
+                          )}
+
                     </ButtonGroup>
                   </Box>
                 </Box>
