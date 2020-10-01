@@ -17,7 +17,7 @@ import Profile from "../Profile.jsx";
 import { connect } from "react-redux";
 import { getAllGroups, userLogIn, getAlumnosFromCohorte, getAllStudents, getAllCohortes } from "../../actions/index.js";
 import Cohorte from "../Cohorte";
-import Alumnos from "../modalUsers";
+import Alumnos from "../modalUsers2";
 import Usersgroup from "../modalUsersGroup";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 
@@ -121,6 +121,7 @@ const useStyles = makeStyles((theme) => ({
   
   const handleOpenAlumnos = () => {
     setshowAlumnos(true);
+    setshowAlumnos2(false);
   };
   const handleCloseAlumnos = () => {
     setshowAlumnos(false);
@@ -130,6 +131,7 @@ const useStyles = makeStyles((theme) => ({
   
   const handleOpenAlumnos2 = () => {
     setshowAlumnos2(true);
+    setshowAlumnos(false);
   };
   const handleCloseAlumnos2 = () => {
     setshowAlumnos2(false);
@@ -194,11 +196,12 @@ const useStyles = makeStyles((theme) => ({
       } 
       
   }
-
+  console.log(students)
 
   var miGrupo = students.filter(elem=>
     elem.groupId === idMyGroup
   )
+  
      
   var userMyGroup = miGrupo.map((elem)=>{
     return elem.user 
@@ -278,8 +281,8 @@ const useStyles = makeStyles((theme) => ({
               </Typography> */}
             </div>
             <div>
-            <Typography className={classes.a} variant="h5"><a className={classes.a} href="#">Ver todos los miembros del cohorte</a></Typography>
-            <Typography className={classes.a}  variant="h5"><a className={classes.a} href="#">Ver todos los miembros de mi grupo</a></Typography>
+            <Typography className={classes.a} variant="h5"><a onClick={handleOpenAlumnos2} className={classes.a} href="#">Ver todos los miembros del cohorte</a></Typography>
+            <Typography className={classes.a}  variant="h5"><a onClick={handleOpenAlumnos} className={classes.a} href="#">Ver todos los miembros de mi grupo</a></Typography>
 
             </div>
           </div>
