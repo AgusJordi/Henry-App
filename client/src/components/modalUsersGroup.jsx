@@ -157,7 +157,7 @@ export default function ModalUsers(props) {
       >
         <div style={modalStyle} className={classes.paper}>
           <div className={classes.div}>
-            <h1> {contarActivos(miembros)} miembros en Cohorte 2 </h1>
+            <h1> {contarActivos(miembros)} {contarActivos(miembros)>1? "miembros":"miembro"} en tu cohorte </h1>
             <div className={classes.input}>
               <input
                 type="text"
